@@ -1776,6 +1776,7 @@ function submitRueckruf(e) {
 
   const data = {
     _subject: 'Rückrufservice: ' + name.value.trim(),
+    _replyto: 'info@ellerbrock-konferenztechnik.de',
     name: name.value.trim(),
     telefon: phone.value.trim(),
     gewuenschter_tag: day.value.trim() || '-',
@@ -1842,6 +1843,7 @@ function submitContactForm(e) {
 
   const data = {
     _subject: 'Kontaktformular: ' + betreff.value.trim(),
+    _replyto: email.value.trim(),
     name: name.value.trim(),
     email: email.value.trim(),
     firma: firma.value.trim() || '-',
