@@ -467,7 +467,8 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 
 /* ===== CONTACT FORM ===== */
 .contact-form-wrapper { padding: 20px 0 60px; }
-.contact-form-wrapper textarea { resize: vertical; font-family: inherit; }
+.contact-form-wrapper textarea { resize: vertical; font-family: inherit; width: 100%; min-height: 150px; padding: 16px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; background: var(--bg); color: var(--text); line-height: 1.6; transition: border-color 0.3s, box-shadow 0.3s; box-sizing: border-box; }
+.contact-form-wrapper textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(1,86,109,0.12); outline: none; }
 .form-group input.invalid, .form-group textarea.invalid { border-color: #e74c3c; box-shadow: 0 0 0 2px rgba(231,76,60,0.15); }
 
 /* ===== FADE-UP ===== */
@@ -1411,7 +1412,7 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
             <div class="form-group"><label for="kf-phone" data-i18n="kf.phone">Telefon</label><input type="tel" id="kf-phone" placeholder="Ihre Telefonnummer"></div>
           </div>
           <div class="form-group"><label for="kf-betreff" data-i18n="kf.betreff">Betreff *</label><input type="text" id="kf-betreff" placeholder="Betreff Ihrer Nachricht" required></div>
-          <div class="form-group"><label for="kf-msg" data-i18n="kf.msg">Nachricht *</label><textarea id="kf-msg" rows="5" placeholder="Ihre Nachricht an uns..." required></textarea></div>
+          <div class="form-group"><label for="kf-msg" data-i18n="kf.msg">Nachricht *</label><textarea id="kf-msg" rows="6" placeholder="Schreiben Sie uns Ihre Nachricht..." required></textarea></div>
           <div class="form-group" style="flex-direction:row;align-items:center;gap:10px;">
             <input type="checkbox" id="kf-dsgvo" required style="width:auto;margin:0;">
             <label for="kf-dsgvo" style="font-size:0.85rem;color:var(--text-light);cursor:pointer;" data-i18n="kf.dsgvo">Ich habe die <a href="javascript:void(0)" onclick="openPage('datenschutz')" style="color:var(--teal);">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *</label>
