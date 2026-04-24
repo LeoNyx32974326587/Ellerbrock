@@ -1286,13 +1286,15 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
       <div class="callback-form">
         <h3 data-i18n="rueck.form.h">Rückruf anfordern</h3>
         <p class="form-subtitle" data-i18n="rueck.form.sub">Füllen Sie das Formular aus — wir melden uns bei Ihnen.</p>
-        <form onsubmit="event.preventDefault();">
+        <form id="rueckrufForm" onsubmit="submitRueckruf(event);">
           <div class="form-group"><label for="cb-name" data-i18n="rueck.form.name">Name *</label><input type="text" id="cb-name" placeholder="Ihr Name" required></div>
           <div class="form-group"><label for="cb-phone" data-i18n="rueck.form.phone">Telefonnummer *</label><input type="tel" id="cb-phone" placeholder="Ihre Telefonnummer" required></div>
           <div class="form-row">
             <div class="form-group"><label for="cb-day" data-i18n="rueck.form.day">Gewünschter Tag</label><input type="text" id="cb-day" placeholder="z.B. Montag"></div>
             <div class="form-group"><label for="cb-time" data-i18n="rueck.form.time">Gewünschte Uhrzeit</label><input type="text" id="cb-time" placeholder="z.B. 14:00 Uhr"></div>
           </div>
+          <div id="cb-error" style="display:none;background:#fde8e8;color:#e74c3c;padding:12px;border-radius:8px;margin-bottom:12px;font-size:0.9rem;"></div>
+          <div id="cb-success" style="display:none;background:#e8fde8;color:#27ae60;padding:12px;border-radius:8px;margin-bottom:12px;font-size:0.9rem;"></div>
           <button type="submit" class="form-submit" data-i18n="rueck.form.btn">Rückruf anfordern &#8594;</button>
         </form>
       </div>
@@ -1743,6 +1745,66 @@ function declineCookies() {
   setTimeout(() => b.classList.add('hidden'), 500);
 }
 
+
+// ===== CALLBACK FORM (Formspree) =====
+function submitRueckruf(e) {
+  e.preventDefault();
+  const form = document.getElementById('rueckrufForm');
+  const errorEl = document.getElementById('cb-error');
+  const successEl = document.getElementById('cb-success');
+  errorEl.style.display = 'none';
+  successEl.style.display = 'none';
+
+  const name = document.getElementById('cb-name');
+  const phone = document.getElementById('cb-phone');
+  const day = document.getElementById('cb-day');
+  const time = document.getElementById('cb-time');
+
+  let errors = [];
+  if (!name.value.trim()) errors.push('Bitte geben Sie Ihren Namen ein.');
+  if (!phone.value.trim()) errors.push('Bitte geben Sie Ihre Telefonnummer ein.');
+
+  if (errors.length) {
+    errorEl.innerHTML = errors.join('<br>');
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  const submitBtn = form.querySelector('.form-submit');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Wird gesendet...';
+
+  const data = {
+    _subject: 'Rückrufservice: ' + name.value.trim(),
+    name: name.value.trim(),
+    telefon: phone.value.trim(),
+    gewuenschter_tag: day.value.trim() || '-',
+    gewuenschte_uhrzeit: time.value.trim() || '-',
+    _formtype: 'Rückrufservice'
+  };
+
+  fetch('https://formspree.io/f/xkokkdyk', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(r => r.json()).then(result => {
+    if (result.ok || result.next) {
+      successEl.textContent = 'Vielen Dank! Wir rufen Sie so schnell wie möglich zurück.';
+      successEl.style.display = 'block';
+      errorEl.style.display = 'none';
+      form.reset();
+    } else {
+      throw new Error('Formspree error');
+    }
+  }).catch(err => {
+    errorEl.innerHTML = 'Leider ist ein Fehler aufgetreten. Bitte rufen Sie uns direkt an unter +49 6207 9224-0';
+    errorEl.style.display = 'block';
+  }).finally(() => {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Rückruf anfordern \u2192';
+  });
+}
+
 // ===== CONTACT FORM =====
 function submitContactForm(e) {
   e.preventDefault();
@@ -1773,22 +1835,46 @@ function submitContactForm(e) {
     return;
   }
 
-  // Build mailto link as fallback
-  const subject = encodeURIComponent(betreff.value.trim());
-  const body = encodeURIComponent(
-    (currentLang === 'de' ? 'Name: ' : 'Name: ') + name.value.trim() + '\n' +
-    (firma.value.trim() ? (currentLang === 'de' ? 'Firma: ' : 'Company: ') + firma.value.trim() + '\n' : '') +
-    (currentLang === 'de' ? 'E-Mail: ' : 'Email: ') + email.value.trim() + '\n' +
-    (document.getElementById('kf-phone').value.trim() ? (currentLang === 'de' ? 'Telefon: ' : 'Phone: ') + document.getElementById('kf-phone').value.trim() + '\n' : '') +
-    '\n' + msg.value.trim()
-  );
-  window.location.href = 'mailto:info@ellerbrock-konferenztechnik.de?subject=' + subject + '&body=' + body;
+  // Send via Formspree
+  const submitBtn = form.querySelector('.form-submit');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Wird gesendet...';
 
-  successEl.textContent = currentLang === 'de'
-    ? 'Ihr E-Mail-Programm wird geöffnet. Vielen Dank für Ihre Nachricht!'
-    : 'Your email client is opening. Thank you for your message!';
-  successEl.style.display = 'block';
-  errorEl.style.display = 'none';
+  const data = {
+    _subject: 'Kontaktformular: ' + betreff.value.trim(),
+    name: name.value.trim(),
+    email: email.value.trim(),
+    firma: firma.value.trim() || '-',
+    telefon: document.getElementById('kf-phone').value.trim() || '-',
+    betreff: betreff.value.trim(),
+    nachricht: msg.value.trim(),
+    _formtype: 'Kontaktformular'
+  };
+
+  fetch('https://formspree.io/f/xkokkdyk', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(r => r.json()).then(result => {
+    if (result.ok || result.next) {
+      successEl.textContent = currentLang === 'de'
+        ? 'Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet. Wir melden uns in Kürze bei Ihnen.'
+        : 'Thank you! Your message was sent successfully. We will get back to you shortly.';
+      successEl.style.display = 'block';
+      errorEl.style.display = 'none';
+      form.reset();
+    } else {
+      throw new Error('Formspree error');
+    }
+  }).catch(err => {
+    errorEl.innerHTML = currentLang === 'de'
+      ? 'Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder senden Sie uns eine E-Mail an info@ellerbrock-konferenztechnik.de'
+      : 'An error occurred. Please try again or email us at info@ellerbrock-konferenztechnik.de';
+    errorEl.style.display = 'block';
+  }).finally(() => {
+    submitBtn.disabled = false;
+    submitBtn.textContent = currentLang === 'de' ? 'Nachricht senden \u2192' : 'Send Message \u2192';
+  });
 }
 </script>
 
