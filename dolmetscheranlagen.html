@@ -93,9 +93,6 @@ body.dark .stat-block { background: #1c2128; }
 body.dark .footer { background: #010409; }
 body.dark .contact-card, body.dark .sub-card, body.dark .produkt-item,
 body.dark .download-item, body.dark .team-card, body.dark .callback-form { background: var(--bg-alt); border-color: var(--border); }
-body.dark .overlay-topbar { background: rgba(13,17,23,0.97); border-bottom-color: var(--border); }
-body.dark .overlay-topbar .close-btn { background: var(--bg-alt); border-color: var(--border); color: var(--text-light); }
-body.dark .overlay-topbar .close-btn:hover { background: #3d1f1f; color: #f88; border-color: #5a2d2d; }
 body.dark .page-overlay { background: var(--bg); }
 body.dark .content-images img, body.dark .img-gallery img { border-color: var(--border); }
 body.dark .form-group input { background: #1c2128; border-color: var(--border); color: var(--text); }
@@ -308,32 +305,6 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 }
 
 /* Overlay Top Bar */
-.overlay-topbar {
-  position: sticky; top: 0; z-index: 10;
-  background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 24px; height: 64px;
-}
-.overlay-topbar .back-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 0.9rem; font-weight: 600; color: var(--teal);
-  cursor: pointer; border: none; background: none; font-family: inherit;
-  padding: 8px 16px; border-radius: 8px; transition: var(--transition);
-}
-.overlay-topbar .back-btn:hover { background: var(--bg-alt); }
-.overlay-topbar .overlay-title {
-  font-size: 0.95rem; font-weight: 700; color: var(--primary);
-  position: absolute; left: 50%; transform: translateX(-50%);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 50%;
-}
-.overlay-topbar .close-btn {
-  width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border);
-  background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem; color: var(--text-light); transition: var(--transition);
-}
-.overlay-topbar .close-btn:hover { background: #fee; color: #c00; border-color: #fcc; }
-
 /* Overlay Page Hero */
 .overlay-hero {
   padding: 80px 0 50px;
@@ -506,8 +477,7 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
   .produkte-grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .download-grid { grid-template-columns: 1fr; }
-  .overlay-topbar .overlay-title { display: none; }
-  .hero { min-height: auto; padding: 100px 0 60px; }
+.hero { min-height: auto; padding: 100px 0 60px; }
   .hero h1 { font-size: 1.8rem; }
   .hero p { font-size: 1rem; }
   .hero-buttons { flex-direction: column; }
@@ -555,9 +525,6 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
   
 /* ===== SUBPAGE STYLES ===== */
 .subpage { display: block; position: relative; top: 0; left: 0; right: 0; min-height: 100vh; background: var(--bg); padding-top: 72px; }
-.subpage .overlay-topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; background: var(--bg-alt); border-bottom: 1px solid var(--border); position: sticky; top: 72px; z-index: 100; }
-.subpage .overlay-topbar a { text-decoration: none; color: var(--primary); font-weight: 600; }
-.subpage .overlay-topbar .close-btn { background: none; border: none; font-size: 1.5rem; color: var(--text-light); text-decoration: none; }
 </style>
 </head>
 
@@ -593,12 +560,7 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 </nav>
 
 <div class="subpage" id="page-dolmetscheranlagen">
-  <div class="overlay-topbar">
-    <a href="index.html" class="back-btn">&#8592; Zurück</a>
-    <span class="overlay-title" data-i18n="ol.dolm.h1">Dolmetscheranlagen</span>
-    <a href="index.html" class="close-btn">&times;</a>
-  </div>
-  <div class="overlay-hero"><div class="container overlay-hero-content"><h1 data-i18n="ol.dolm.h1">Dolmetscheranlagen</h1><p data-i18n="ol.dolm.p">Simultandolmetschertechnik für internationale Konferenzen — Miete und Verkauf</p></div></div>
+<div class="overlay-hero"><div class="container overlay-hero-content"><h1 data-i18n="ol.dolm.h1">Dolmetscheranlagen</h1><p data-i18n="ol.dolm.p">Simultandolmetschertechnik für internationale Konferenzen — Miete und Verkauf</p></div></div>
   <div class="overlay-content"><div class="container">
     <div class="content-block fade-up">
       <h2>Dolmetscheranlagen mieten</h2>
