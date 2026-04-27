@@ -471,6 +471,11 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 .contact-form-wrapper textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(1,86,109,0.12); outline: none; }
 .form-group input.invalid, .form-group textarea.invalid { border-color: #e74c3c; box-shadow: 0 0 0 2px rgba(231,76,60,0.15); }
 
+
+/* ===== VIDEOGUIDES ===== */
+.videoguides-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.videoguide-card { border-radius: var(--radius); overflow: hidden; background: var(--bg-alt); border: 1px solid var(--border); }
+@media (max-width: 768px) { .videoguides-grid { grid-template-columns: 1fr; } }
 /* ===== FADE-UP ===== */
 .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-up.visible { opacity: 1; transform: translateY(0); }
@@ -568,6 +573,7 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
       <li><a onclick="openPage('produkte')" data-i18n="nav.produkte">Produkte</a></li>
       <li><a onclick="openPage('downloads')" data-i18n="nav.downloads">Downloads</a></li>
       <li><a onclick="openPage('imagefilm')" data-i18n="nav.imagefilm">Imagefilm</a></li>
+      <li><a onclick="openPage('videoguides')">Videoguides</a></li>
       <li><a href="#ueber-uns" onclick="closeAllOverlays(); document.getElementById('navLinks').classList.remove('active');" data-i18n="nav.ueber">Über uns</a></li>
       <li><a href="#kontakt" onclick="closeAllOverlays(); document.getElementById('navLinks').classList.remove('active');" class="nav-cta" data-i18n="nav.kontakt">Kontakt</a></li>
     </ul>
@@ -796,6 +802,7 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
           <li><a onclick="openPage('produkte')" data-i18n="ft.produkte">Unsere Produkte</a></li>
           <li><a onclick="openPage('downloads')" data-i18n="nav.downloads">Downloads</a></li>
           <li><a onclick="openPage('imagefilm')" data-i18n="nav.imagefilm">Imagefilm</a></li>
+      <li><a onclick="openPage('videoguides')">Videoguides</a></li>
           <li><a onclick="openPage('rueckruf')" data-i18n="ft.rueckruf">Rückrufservice</a></li>
         </ul>
       </div>
@@ -1148,6 +1155,42 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
       </div>
     </div>
   </div></div>
+</div>
+
+
+<!-- VIDEOGUIDES -->
+<div class="page-overlay" id="page-videoguides">
+  <div class="overlay-topbar">
+    <button class="back-btn" onclick="closePage('videoguides')" data-i18n="back">&#8592; Zurück</button>
+    <span class="overlay-title">Videoguides</span>
+    <button class="close-btn" onclick="closePage('videoguides')">&times;</button>
+  </div>
+  <div class="overlay-hero"><div class="container overlay-hero-content"><h1>Videoguides</h1><p>Informative Videos rund um Konferenztechnik, Dolmetschen und Veranstaltungstechnik</p></div></div>
+  <div class="overlay-content"><div class="container">
+    <div class="videoguides-grid fade-up">
+      <div class="videoguide-card">
+        <div class="video-container" style="margin:0;max-width:100%;">
+          <iframe src="https://www.youtube-nocookie.com/embed/POKtErpU3eE" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="videoguide-card">
+        <div class="video-container" style="margin:0;max-width:100%;">
+          <iframe src="https://www.youtube-nocookie.com/embed/SmH4jBYSRiA" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="videoguide-card">
+        <div class="video-container" style="margin:0;max-width:100%;">
+          <iframe src="https://www.youtube-nocookie.com/embed/yzmf6RCzJNg" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="videoguide-card">
+        <div class="video-container" style="margin:0;max-width:100%;">
+          <iframe src="https://www.youtube-nocookie.com/embed/FI7m76zP7Cc" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </div></div>
+  <div class="overlay-cta"><div class="container"><h2 class="section-title" style="color:white;">Lassen Sie uns Ihre Veranstaltung planen</h2><p class="section-subtitle" style="color:rgba(255,255,255,0.6);margin-bottom:40px;">Unser Team berät Sie gerne.</p><div class="cta-buttons"><a href="javascript:void(0)" onclick="openPage('kontaktformular')" class="btn btn-primary">&#9993; Kontaktformular</a><a href="javascript:void(0)" onclick="openPage('rueckruf')" class="btn btn-primary" style="background:var(--teal);">&#9742; Rückrufservice</a><a href="mailto:info@ellerbrock-konferenztechnik.de" class="btn btn-outline">&#9993; E-Mail senden</a><a href="tel:+496207922400" class="btn btn-outline">&#9742; +49 6207 9224-0</a></div></div></div>
 </div>
 
 <!-- DOWNLOADS -->
