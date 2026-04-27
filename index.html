@@ -662,42 +662,42 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
       <p class="section-subtitle" data-i18n="srv.sub">Von der Planung bis zum Abbau — wir liefern die passende Technik und den professionellen Support.</p>
     </div>
     <div class="services-grid">
-      <div class="service-card fade-up" href="dolmetscheranlagen.html">
+      <a class="service-card fade-up" href="dolmetscheranlagen.html" style="text-decoration:none;color:inherit;display:block;">
         <div class="service-icon">&#127908;</div>
         <h3 data-i18n="srv.dolm.h">Dolmetscheranlagen</h3>
         <p data-i18n="srv.dolm.p">Simultandolmetscheranlagen für mehrsprachige Konferenzen — drahtlos oder kabelgebunden, mit professionellen Dolmetscherkabinen.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
-      <div class="service-card fade-up" href="ted.html">
+      </a>
+      <a class="service-card fade-up" href="ted.html" style="text-decoration:none;color:inherit;display:block;">
         <div class="service-icon">&#9994;</div>
         <h3 data-i18n="srv.ted.h">Ted-Abstimmsysteme</h3>
         <p data-i18n="srv.ted.p">Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
-      <div class="service-card fade-up" href="fuehrungsanlagen.html">
+      </a>
+      <a class="service-card fade-up" href="fuehrungsanlagen.html" style="text-decoration:none;color:inherit;display:block;">
         <div class="service-icon">&#127911;</div>
         <h3 data-i18n="srv.fuehr.h">Führungsanlagen</h3>
         <p data-i18n="srv.fuehr.p">Drahtlose Personenführungsanlagen für Werksführungen, Museen und Events — kristallklarer Empfang in jeder Umgebung.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
-      <div class="service-card fade-up" href="diskussionssysteme.html">
+      </a>
+      <a class="service-card fade-up" href="diskussionssysteme.html" style="text-decoration:none;color:inherit;display:block;">
         <div class="service-icon">&#128488;</div>
         <h3 data-i18n="srv.disk.h">Diskussionsanlagen</h3>
         <p data-i18n="srv.disk.p">Moderne drahtlose Konferenzsysteme für strukturierte Diskussionen — mit Wortmeldung, Zeitsteuerung und Aufzeichnung.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
-      <div class="service-card fade-up" href="beschallungstechnik.html">
+      </a>
+      <a class="service-card fade-up" href="beschallungstechnik.html" style="text-decoration:none;color:inherit;display:block;">
         <div class="service-icon">&#128266;</div>
         <h3 data-i18n="srv.besch.h">Beschallungstechnik</h3>
         <p data-i18n="srv.besch.p">Professionelle Mikrofon- und Beschallungssysteme für optimale Sprachverständlichkeit bei jeder Veranstaltungsgröße.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
-      <div class="service-card fade-up" href="videotechnik.html">
+      </a>
+      <a class="service-card fade-up" href="videotechnik.html" style="text-decoration:none;color:inherit;display:block;">
         <div class="service-icon">&#128250;</div>
         <h3 data-i18n="srv.vid.h">Video- & Präsentationstechnik</h3>
         <p data-i18n="srv.vid.p">Vom Beamer bis zur Video-Live-Regie — Präsentations- und Videotechnik für einen professionellen Auftritt.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
+      </a>
     </div>
   </div>
 </section>
@@ -1014,7 +1014,7 @@ const T = {
   'ft.impressum': { de: 'Impressum', en: 'Legal Notice' },
   'ft.datenschutz': { de: 'Datenschutz', en: 'Privacy Policy' },
   // Cookie Banner
-  'cookie.text': { de: 'Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten. Weitere Informationen finden Sie in unserer <a href="javascript:void(0)" onclick="openPage(\'datenschutz\')">Datenschutzerklärung</a>.', en: 'This website uses cookies to provide you with the best possible experience. Learn more in our <a href="javascript:void(0)" onclick="openPage(\'datenschutz\')">Privacy Policy</a>.' },
+  'cookie.text': { de: 'Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten. Weitere Informationen finden Sie in unserer <a href="javascript:void(0)" href=\'datenschutz.html\'>Datenschutzerklärung</a>.', en: 'This website uses cookies to provide you with the best possible experience. Learn more in our <a href="javascript:void(0)" href=\'datenschutz.html\'>Privacy Policy</a>.' },
   'cookie.accept': { de: 'Akzeptieren', en: 'Accept' },
   'cookie.decline': { de: 'Ablehnen', en: 'Decline' },
   // Overlay back buttons
@@ -1108,7 +1108,7 @@ const T = {
   'kf.phone': { de: 'Telefon', en: 'Phone' },
   'kf.betreff': { de: 'Betreff *', en: 'Subject *' },
   'kf.msg': { de: 'Nachricht *', en: 'Message *' },
-  'kf.dsgvo': { de: 'Ich habe die <a href="javascript:void(0)" onclick="openPage(\'datenschutz\')" style="color:var(--teal);">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *', en: 'I have read the <a href="javascript:void(0)" onclick="openPage(\'datenschutz\')" style="color:var(--teal);">Privacy Policy</a> and agree to the processing of my data. *' },
+  'kf.dsgvo': { de: 'Ich habe die <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *', en: 'I have read the <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">Privacy Policy</a> and agree to the processing of my data. *' },
   'kf.btn': { de: 'Nachricht senden →', en: 'Send Message →' },
 };
 

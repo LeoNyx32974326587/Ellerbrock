@@ -865,7 +865,7 @@ const T = {
   'ft.impressum': { de: 'Impressum', en: 'Legal Notice' },
   'ft.datenschutz': { de: 'Datenschutz', en: 'Privacy Policy' },
   // Cookie Banner
-  'cookie.text': { de: 'Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten. Weitere Informationen finden Sie in unserer <a href="javascript:void(0)" onclick="openPage(\'datenschutz\')">Datenschutzerklärung</a>.', en: 'This website uses cookies to provide you with the best possible experience. Learn more in our <a href="javascript:void(0)" onclick="openPage(\'datenschutz\')">Privacy Policy</a>.' },
+  'cookie.text': { de: 'Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten. Weitere Informationen finden Sie in unserer <a href="javascript:void(0)" href=\'datenschutz.html\'>Datenschutzerklärung</a>.', en: 'This website uses cookies to provide you with the best possible experience. Learn more in our <a href="javascript:void(0)" href=\'datenschutz.html\'>Privacy Policy</a>.' },
   'cookie.accept': { de: 'Akzeptieren', en: 'Accept' },
   'cookie.decline': { de: 'Ablehnen', en: 'Decline' },
   // Overlay back buttons
@@ -959,7 +959,7 @@ const T = {
   'kf.phone': { de: 'Telefon', en: 'Phone' },
   'kf.betreff': { de: 'Betreff *', en: 'Subject *' },
   'kf.msg': { de: 'Nachricht *', en: 'Message *' },
-  'kf.dsgvo': { de: 'Ich habe die <a href="javascript:void(0)" onclick="openPage(\'datenschutz\')" style="color:var(--teal);">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *', en: 'I have read the <a href="javascript:void(0)" onclick="openPage(\'datenschutz\')" style="color:var(--teal);">Privacy Policy</a> and agree to the processing of my data. *' },
+  'kf.dsgvo': { de: 'Ich habe die <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *', en: 'I have read the <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">Privacy Policy</a> and agree to the processing of my data. *' },
   'kf.btn': { de: 'Nachricht senden →', en: 'Send Message →' },
 };
 
@@ -1153,7 +1153,7 @@ function submitContactForm(e) {
 
 <!-- COOKIE BANNER -->
 <div class="cookie-banner" id="cookieBanner">
-  <p class="cookie-text" data-i18n="cookie.text">Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten. Weitere Informationen finden Sie in unserer <a href="javascript:void(0)" onclick="openPage('datenschutz')">Datenschutzerklärung</a>.</p>
+  <p class="cookie-text" data-i18n="cookie.text">Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten. Weitere Informationen finden Sie in unserer <a href="javascript:void(0)" href="datenschutz.html">Datenschutzerklärung</a>.</p>
   <div class="cookie-buttons">
     <button class="cookie-btn cookie-accept" onclick="acceptCookies()" data-i18n="cookie.accept">Akzeptieren</button>
     <button class="cookie-btn cookie-decline" onclick="declineCookies()" data-i18n="cookie.decline">Ablehnen</button>
