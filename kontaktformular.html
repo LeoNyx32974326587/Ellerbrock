@@ -552,30 +552,35 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
   .overlay-hero { padding: 32px 0; }
   .section-title { font-size: 1.3rem; }
 }
-  </style>
+  
+/* ===== SUBPAGE STYLES ===== */
+.subpage { display: block; position: relative; top: 0; left: 0; right: 0; min-height: 100vh; background: var(--bg); padding-top: 72px; }
+.subpage .overlay-topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; background: var(--bg-alt); border-bottom: 1px solid var(--border); position: sticky; top: 72px; z-index: 100; }
+.subpage .overlay-topbar a { text-decoration: none; color: var(--primary); font-weight: 600; }
+.subpage .overlay-topbar .close-btn { background: none; border: none; font-size: 1.5rem; color: var(--text-light); text-decoration: none; }
+</style>
 </head>
-<body>
 
+<body>
 <!-- ========== PRELOADER ========== -->
 <div class="preloader" id="preloader">
   <img class="preloader-logo" src="https://www.konferenz-technik.de/media/ellerbrock-logo.png" alt="Laden...">
   <div class="preloader-bar"></div>
 </div>
 
-<!-- ========== NAVBAR ========== -->
 <nav class="navbar" id="navbar">
   <div class="container nav-inner">
-    <a class="nav-logo" onclick="closeAllOverlays(); window.scrollTo({top:0,behavior:'smooth'});" style="cursor:pointer;">
+    <a class="nav-logo" href="index.html" style="cursor:pointer;">
       <img src="https://www.konferenz-technik.de/media/ellerbrock-logo.png" alt="Ellerbrock Konferenztechnik Logo">
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#leistungen"  data-i18n="nav.leistungen">Leistungen</a></li>
+      <li><a href="index.html#leistungen" onclick="closeAllOverlays(); document.getElementById('navLinks').classList.remove('active');" data-i18n="nav.leistungen">Leistungen</a></li>
       <li><a href="kauf.html" data-i18n="nav.kauf">Kauf</a></li>
       <li><a href="produkte.html" data-i18n="nav.produkte">Produkte</a></li>
       <li><a href="downloads.html" data-i18n="nav.downloads">Downloads</a></li>
       <li><a href="filme.html">Filme & Guides</a></li>
-      <li><a href="#ueber-uns"  data-i18n="nav.ueber">Über uns</a></li>
-      <li><a href="#kontakt"  class="nav-cta" data-i18n="nav.kontakt">Kontakt</a></li>
+      <li><a href="index.html#ueber-uns" onclick="closeAllOverlays(); document.getElementById('navLinks').classList.remove('active');" data-i18n="nav.ueber">Über uns</a></li>
+      <li><a href="index.html#kontakt" onclick="closeAllOverlays(); document.getElementById('navLinks').classList.remove('active');" class="nav-cta" data-i18n="nav.kontakt">Kontakt</a></li>
     </ul>
     <div class="nav-tools">
       <button class="tool-btn lang-btn" id="langToggle" onclick="toggleLang()" title="Switch language">DE</button>
@@ -587,188 +592,44 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
   </div>
 </nav>
 
-<!-- ========== HERO ========== -->
-<section class="hero" id="top">
-  <div class="hero-bg"><img src="https://www.konferenz-technik.de/media/slider/data1/images/02.jpg" alt="Konferenztechnik im Einsatz" loading="eager"></div>
-  <div class="container hero-content">
-    <div class="hero-badge" data-i18n="hero.badge">&#9679; Ihr Partner seit über 45 Jahren</div>
-    <h1><span data-i18n="hero.h1a">Professionelle </span><span class="gradient-text" data-i18n="hero.h1b">Konferenztechnik</span><span data-i18n="hero.h1c"> für Ihre Veranstaltung</span></h1>
-    <p data-i18n="hero.p">Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.</p>
-    <div class="hero-buttons">
-      <a href="#kontakt" class="btn btn-primary" style="cursor:pointer;" data-i18n="hero.cta1">Jetzt anfragen &#8594;</a>
-      <a href="#leistungen" class="btn btn-outline" data-i18n="hero.cta2">Unsere Leistungen</a>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><strong>45+</strong><span data-i18n="hero.stat1">Jahre Erfahrung</span></div>
-      <div class="hero-stat"><strong>2</strong><span data-i18n="hero.stat2">Standorte</span></div>
-      <div class="hero-stat"><strong>600+</strong><span data-i18n="hero.stat3">Sprechstellen weltweit</span></div>
-    </div>
+<div class="subpage" id="page-kontaktformular">
+  <div class="overlay-topbar">
+    <a href="index.html" class="back-btn">&#8592; Zurück</a>
+    <span class="overlay-title" data-i18n="ol.kf.h1">Kontaktformular</span>
+    <a href="index.html" class="close-btn">&times;</a>
   </div>
-</section>
-
-<!-- ========== TRUST BAR ========== -->
-<section class="brands">
-  <div class="container">
-    <div class="brands-inner">
-      <span class="brand-text">BOSCH</span>
-      <span class="brand-text" style="font-style:italic;letter-spacing:0.08em;">beyerdynamic</span>
-      <span class="brand-text" style="letter-spacing:0.06em;">SENNHEISER</span>
-      <span class="brand-text">Televic</span>
-      <span class="brand-text" style="letter-spacing:0.1em;">BARCO</span>
-      <span class="brand-text" style="font-style:italic;">audipack</span>
-    </div>
-  </div>
-</section>
-
-<!-- ========== REFERENZEN ========== -->
-<section class="referenzen">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-label" data-i18n="ref.label">Referenzen</span>
-      <h2 class="section-title" data-i18n="ref.title">Vertrauen namhafter Kunden</h2>
-      <p class="section-subtitle" data-i18n="ref.sub">Wir betreuen Veranstaltungen für führende Institutionen, Unternehmen und Organisationen.</p>
-    </div>
-    <div class="ref-grid fade-up">
-      <div class="ref-card">
-        <div class="ref-icon">&#127963;</div>
-        <h4 data-i18n="ref.r1h">Bundestag & Landtage</h4>
-        <p data-i18n="ref.r1p">Konferenztechnik für parlamentarische Sitzungen und politische Veranstaltungen</p>
-      </div>
-      <div class="ref-card">
-        <div class="ref-icon">&#127758;</div>
-        <h4 data-i18n="ref.r2h">Internationale Kongresse</h4>
-        <p data-i18n="ref.r2p">Simultandolmetschanlagen für mehrsprachige Großveranstaltungen weltweit</p>
-      </div>
-      <div class="ref-card">
-        <div class="ref-icon">&#127970;</div>
-        <h4 data-i18n="ref.r3h">DAX-Unternehmen</h4>
-        <p data-i18n="ref.r3p">Hauptversammlungen und Vorstandssitzungen mit modernster Konferenztechnik</p>
-      </div>
-      <div class="ref-card">
-        <div class="ref-icon">&#127891;</div>
-        <h4 data-i18n="ref.r4h">Universitäten & Forschung</h4>
-        <p data-i18n="ref.r4p">Technik für wissenschaftliche Symposien, Vorlesungen und Fachkonferenzen</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== LEISTUNGEN ========== -->
-<section class="services" id="leistungen">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-label" data-i18n="srv.label">Unsere Leistungen</span>
-      <h2 class="section-title" data-i18n="srv.title">Alles für Ihre Konferenz</h2>
-      <p class="section-subtitle" data-i18n="srv.sub">Von der Planung bis zum Abbau — wir liefern die passende Technik und den professionellen Support.</p>
-    </div>
-    <div class="services-grid">
-      <div class="service-card fade-up" href="dolmetscheranlagen.html">
-        <div class="service-icon">&#127908;</div>
-        <h3 data-i18n="srv.dolm.h">Dolmetscheranlagen</h3>
-        <p data-i18n="srv.dolm.p">Simultandolmetscheranlagen für mehrsprachige Konferenzen — drahtlos oder kabelgebunden, mit professionellen Dolmetscherkabinen.</p>
-        <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
-      <div class="service-card fade-up" href="ted.html">
-        <div class="service-icon">&#9994;</div>
-        <h3 data-i18n="srv.ted.h">Ted-Abstimmsysteme</h3>
-        <p data-i18n="srv.ted.p">Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse.</p>
-        <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
-      <div class="service-card fade-up" href="fuehrungsanlagen.html">
-        <div class="service-icon">&#127911;</div>
-        <h3 data-i18n="srv.fuehr.h">Führungsanlagen</h3>
-        <p data-i18n="srv.fuehr.p">Drahtlose Personenführungsanlagen für Werksführungen, Museen und Events — kristallklarer Empfang in jeder Umgebung.</p>
-        <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
-      <div class="service-card fade-up" href="diskussionssysteme.html">
-        <div class="service-icon">&#128488;</div>
-        <h3 data-i18n="srv.disk.h">Diskussionsanlagen</h3>
-        <p data-i18n="srv.disk.p">Moderne drahtlose Konferenzsysteme für strukturierte Diskussionen — mit Wortmeldung, Zeitsteuerung und Aufzeichnung.</p>
-        <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
-      <div class="service-card fade-up" href="beschallungstechnik.html">
-        <div class="service-icon">&#128266;</div>
-        <h3 data-i18n="srv.besch.h">Beschallungstechnik</h3>
-        <p data-i18n="srv.besch.p">Professionelle Mikrofon- und Beschallungssysteme für optimale Sprachverständlichkeit bei jeder Veranstaltungsgröße.</p>
-        <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
-      <div class="service-card fade-up" href="videotechnik.html">
-        <div class="service-icon">&#128250;</div>
-        <h3 data-i18n="srv.vid.h">Video- & Präsentationstechnik</h3>
-        <p data-i18n="srv.vid.p">Vom Beamer bis zur Video-Live-Regie — Präsentations- und Videotechnik für einen professionellen Auftritt.</p>
-        <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== ÜBER UNS ========== -->
-<section class="about" id="ueber-uns">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-content fade-up">
-        <span class="section-label" data-i18n="about.label">Über uns</span>
-        <h2 class="section-title" data-i18n="about.title">Erfahrung trifft Innovation</h2>
-        <p class="about-text" data-i18n="about.p1">Seit 1978 ist Ellerbrock Konferenztechnik einer der führenden Anbieter für professionelle Konferenztechnik in Deutschland. Mit Standorten in Abtsteinach und Berlin betreuen wir Veranstaltungen jeder Größe — von der Vorstandssitzung bis zum internationalen Kongress.</p>
-        <p class="about-text" data-i18n="about.p2">Wir bieten Ihnen nicht nur hochwertige Technik zur Miete und zum Kauf, sondern auch einen umfassenden Service: Planung, Aufbau, Betreuung und technischer Support durch unser erfahrenes Team.</p>
-        <div class="about-features">
-          <div class="about-feature"><div class="check">&#10003;</div><span data-i18n="about.f1">Miete & Kauf</span></div>
-          <div class="about-feature"><div class="check">&#10003;</div><span data-i18n="about.f2">Full-Service-Support</span></div>
-          <div class="about-feature"><div class="check">&#10003;</div><span data-i18n="about.f3">Bundesweite Lieferung</span></div>
-          <div class="about-feature"><div class="check">&#10003;</div><span data-i18n="about.f4">Erfahrene Techniker</span></div>
-        </div>
-      </div>
-      <div class="about-visual fade-up">
-        <div class="about-card">
-          <div class="about-card-inner">
-            <div class="stat-block"><strong>45+</strong><span data-i18n="about.s1">Jahre Erfahrung</span></div>
-            <div class="stat-block"><strong>2</strong><span data-i18n="about.s2">Standorte</span></div>
-            <div class="stat-block"><strong>600+</strong><span data-i18n="about.s3">Tischsprechstellen</span></div>
-            <div class="stat-block"><strong>&#8734;</strong><span data-i18n="about.s4">Flexible Lösungen</span></div>
+  <div class="overlay-hero"><div class="container overlay-hero-content"><h1 data-i18n="ol.kf.h1">Kontaktformular</h1><p data-i18n="ol.kf.p">Schreiben Sie uns — wir antworten Ihnen schnellstmöglich</p></div></div>
+  <div class="overlay-content"><div class="container">
+    <div class="contact-form-wrapper fade-up">
+      <div class="callback-form" style="max-width:640px;margin:0 auto;">
+        <h3 data-i18n="kf.h">Nachricht senden</h3>
+        <p class="form-subtitle" data-i18n="kf.sub">Alle mit * markierten Felder sind Pflichtfelder.</p>
+        <form id="contactForm" onsubmit="submitContactForm(event);" novalidate>
+          <div class="form-row">
+            <div class="form-group"><label for="kf-name" data-i18n="kf.name">Name *</label><input type="text" id="kf-name" placeholder="Ihr Name" required></div>
+            <div class="form-group"><label for="kf-firma" data-i18n="kf.firma">Firma</label><input type="text" id="kf-firma" placeholder="Ihre Firma"></div>
           </div>
-        </div>
+          <div class="form-row">
+            <div class="form-group"><label for="kf-email" data-i18n="kf.email">E-Mail *</label><input type="email" id="kf-email" placeholder="Ihre E-Mail-Adresse" required></div>
+            <div class="form-group"><label for="kf-phone" data-i18n="kf.phone">Telefon</label><input type="tel" id="kf-phone" placeholder="Ihre Telefonnummer"></div>
+          </div>
+          <div class="form-group"><label for="kf-betreff" data-i18n="kf.betreff">Betreff *</label><input type="text" id="kf-betreff" placeholder="Betreff Ihrer Nachricht" required></div>
+          <div class="form-group"><label for="kf-msg" data-i18n="kf.msg">Nachricht *</label><textarea id="kf-msg" rows="6" placeholder="Schreiben Sie uns Ihre Nachricht..." required></textarea></div>
+          <div class="form-group" style="flex-direction:row;align-items:center;gap:10px;">
+            <input type="checkbox" id="kf-dsgvo" required style="width:auto;margin:0;">
+            <label for="kf-dsgvo" style="font-size:0.85rem;color:var(--text-light);cursor:pointer;" data-i18n="kf.dsgvo">Ich habe die <a href="datenschutz.html" style="color:var(--teal);">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *</label>
+          </div>
+          <div id="kf-error" style="color:#e74c3c;font-size:0.9rem;margin-bottom:12px;display:none;"></div>
+          <div id="kf-success" style="color:var(--accent);font-size:0.9rem;margin-bottom:12px;display:none;"></div>
+          <button type="submit" class="form-submit" data-i18n="kf.btn">Nachricht senden &#8594;</button>
+        </form>
       </div>
     </div>
-  </div>
-</section>
+  </div></div>
+</div>
 
-<!-- ========== INSTAGRAM GALERIE ========== -->
-<section class="insta-gallery" id="galerie">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-label" data-i18n="insta.label">Einblicke</span>
-      <h2 class="section-title" data-i18n="insta.title">Aktuelles aus unserem Arbeitsalltag</h2>
-      <p class="section-subtitle" data-i18n="insta.sub">Impressionen von Veranstaltungen, Technik-Setups und unserem Team im Einsatz.</p>
-    </div>
-    <div class="fade-up" style="max-width:1080px;margin:0 auto;">
-      <script src="https://elfsightcdn.com/platform.js" async></script>
-      <div class="elfsight-app-2d34f383-6b4b-489f-b20c-d797104d28cd" data-elfsight-app-lazy></div>
-    </div>
-    <div class="section-header" style="margin-bottom:0;margin-top:0;">
-      <a href="https://www.instagram.com/ellerbrockkonferenztechnik/" target="_blank" rel="noopener" class="insta-follow" data-i18n="insta.follow">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        Folgen Sie uns auf Instagram
-      </a>
-    </div>
-  </div>
-</section>
 
-<!-- ========== CTA ========== -->
-<section class="cta-section" id="kontakt">
-  <div class="container fade-up">
-    <span class="section-label" style="color:rgba(255,255,255,0.5);" data-i18n="cta.label">Kontakt</span>
-    <h2 class="section-title" style="color:white;" data-i18n="cta.title">Lassen Sie uns Ihre Veranstaltung planen</h2>
-    <p class="section-subtitle" style="color:rgba(255,255,255,0.6);margin-bottom:40px;" data-i18n="cta.sub">Unser Team berät Sie gerne — ob Miete, Kauf oder technischer Support.</p>
-    <div class="cta-buttons">
-      <a href="kontaktformular.html" class="btn btn-primary" data-i18n="cta.form">&#9993; Kontaktformular</a>
-      <a href="rueckrufservice.html" class="btn btn-primary" style="background:var(--teal);" data-i18n="cta.rueckruf">&#9742; Rückrufservice</a>
-      <a href="mailto:info@ellerbrock-konferenztechnik.de" class="btn btn-outline" data-i18n="cta.email">&#9993; E-Mail senden</a>
-      <a href="tel:+496207922400" class="btn btn-outline" data-i18n="cta.phone">&#9742; +49 6207 9224-0</a>
-    </div>
-  </div>
-</section>
 
-<!-- ========== FOOTER ========== -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
@@ -826,12 +687,6 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
   </div>
 </footer>
 
-
-<!-- =====================================================================
-     OVERLAY PAGES (hidden, shown via JS)
-     ===================================================================== -->
-
-<!-- DOLMETSCHERANLAGEN -->
 <!-- ========== JAVASCRIPT ========== -->
 <script>
 // ===== PRELOADER =====
@@ -1302,12 +1157,14 @@ function submitContactForm(e) {
 
 <!-- COOKIE BANNER -->
 <div class="cookie-banner" id="cookieBanner">
-  <p class="cookie-text" data-i18n="cookie.text">Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten. Weitere Informationen finden Sie in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+  <p class="cookie-text" data-i18n="cookie.text">Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten. Weitere Informationen finden Sie in unserer <a href="javascript:void(0)" onclick="openPage('datenschutz')">Datenschutzerklärung</a>.</p>
   <div class="cookie-buttons">
     <button class="cookie-btn cookie-accept" onclick="acceptCookies()" data-i18n="cookie.accept">Akzeptieren</button>
     <button class="cookie-btn cookie-decline" onclick="declineCookies()" data-i18n="cookie.decline">Ablehnen</button>
   </div>
 </div>
+
+</body>
 
 </body>
 </html>
