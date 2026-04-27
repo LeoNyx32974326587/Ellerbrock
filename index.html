@@ -66,7 +66,6 @@ body {
   color: var(--text); background: var(--bg); line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-body.overlay-open { overflow: hidden; }
 img { max-width: 100%; display: block; }
 
 /* ===== DARK MODE ===== */
@@ -93,11 +92,7 @@ body.dark .stat-block { background: #1c2128; }
 body.dark .footer { background: #010409; }
 body.dark .contact-card, body.dark .sub-card, body.dark .produkt-item,
 body.dark .download-item, body.dark .team-card, body.dark .callback-form { background: var(--bg-alt); border-color: var(--border); }
-body.dark .overlay-topbar { background: rgba(13,17,23,0.97); border-bottom-color: var(--border); }
-body.dark .overlay-topbar .close-btn { background: var(--bg-alt); border-color: var(--border); color: var(--text-light); }
-body.dark .overlay-topbar .close-btn:hover { background: #3d1f1f; color: #f88; border-color: #5a2d2d; }
-body.dark .page-overlay { background: var(--bg); }
-body.dark .content-images img, body.dark .img-gallery img { border-color: var(--border); }
+body.dark body.dark .content-images img, body.dark .img-gallery img { border-color: var(--border); }
 body.dark .form-group input { background: #1c2128; border-color: var(--border); color: var(--text); }
 body.dark .form-group input:focus { border-color: var(--teal); background: var(--bg-alt); }
 body.dark .nav-links.active { background: var(--bg); border-color: var(--border); }
@@ -286,53 +281,6 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 .footer-bottom-links a { color: rgba(255,255,255,0.4); transition: var(--transition); }
 .footer-bottom-links a:hover { color: var(--accent); }
 
-/* ========================================
-   OVERLAY / POPUP PAGES
-   ======================================== */
-.page-overlay {
-  display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0;
-  z-index: 2000; background: var(--bg);
-  overflow-y: auto; overflow-x: hidden;
-  animation: overlayIn 0.4s ease;
-}
-.page-overlay.active { display: block; }
-.page-overlay.closing { animation: overlayOut 0.35s ease forwards; }
-
-@keyframes overlayIn {
-  from { opacity: 0; transform: translateY(40px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes overlayOut {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(40px); }
-}
-
-/* Overlay Top Bar */
-.overlay-topbar {
-  position: sticky; top: 0; z-index: 10;
-  background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 24px; height: 64px;
-}
-.overlay-topbar .back-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 0.9rem; font-weight: 600; color: var(--teal);
-  cursor: pointer; border: none; background: none; font-family: inherit;
-  padding: 8px 16px; border-radius: 8px; transition: var(--transition);
-}
-.overlay-topbar .back-btn:hover { background: var(--bg-alt); }
-.overlay-topbar .overlay-title {
-  font-size: 0.95rem; font-weight: 700; color: var(--primary);
-  position: absolute; left: 50%; transform: translateX(-50%);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 50%;
-}
-.overlay-topbar .close-btn {
-  width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border);
-  background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem; color: var(--text-light); transition: var(--transition);
-}
-.overlay-topbar .close-btn:hover { background: #fee; color: #c00; border-color: #fcc; }
 
 /* Overlay Page Hero */
 .overlay-hero {
@@ -477,6 +425,55 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 .videoguide-card { border-radius: var(--radius); overflow: hidden; background: var(--bg-alt); border: 1px solid var(--border); }
 .videoguide-title { font-size: 1rem; font-weight: 600; color: var(--primary); padding: 16px 16px 12px; margin: 0; }
 @media (max-width: 768px) { .videoguides-grid { grid-template-columns: 1fr; } }
+
+/* ===== ACTIVE NAV LINK ===== */
+.nav-links a.nav-active { color: var(--teal); background: rgba(1,86,109,0.08); }
+
+/* ===== TRUST BAR MARQUEE ===== */
+.brands-inner { overflow: hidden; gap: 0; position: relative; mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent); }
+.brand-track { display: flex; gap: 64px; animation: marquee 25s linear infinite; width: max-content; align-items: center; }
+.brand-track:hover { animation-play-state: paused; }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ===== STAGGERED FADE-IN ===== */
+.fade-up.stagger-1 { transition-delay: 0.1s; }
+.fade-up.stagger-2 { transition-delay: 0.2s; }
+.fade-up.stagger-3 { transition-delay: 0.3s; }
+.fade-up.stagger-4 { transition-delay: 0.4s; }
+.fade-up.stagger-5 { transition-delay: 0.5s; }
+.fade-up.stagger-6 { transition-delay: 0.6s; }
+
+/* ===== HERO PARALLAX ===== */
+.hero-bg { will-change: transform; }
+
+/* ===== STICKY MOBILE CTA ===== */
+.mobile-cta {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 2500;
+  background: rgba(0,34,68,0.97); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  padding: 10px 16px; border-top: 1px solid rgba(255,255,255,0.1);
+}
+.mobile-cta-inner { display: flex; gap: 10px; }
+.mobile-cta a {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 8px; border-radius: 10px; font-size: 0.85rem; font-weight: 600;
+  text-decoration: none; transition: var(--transition);
+}
+.mobile-cta .cta-call { background: var(--accent); color: white; }
+.mobile-cta .cta-mail { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
+@media (max-width: 768px) {
+  .mobile-cta { display: block; }
+  .footer { padding-bottom: 80px; }
+  .cookie-banner { bottom: 60px; }
+}
+
+/* ===== PAGE TRANSITIONS ===== */
+.page-transition { animation: pageIn 0.4s ease-out; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== SERVICE ICON SVG ===== */
+.service-icon svg { stroke: var(--teal); }
+.ref-icon svg { stroke: var(--teal); }
+
 /* ===== FADE-UP ===== */
 .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-up.visible { opacity: 1; transform: translateY(0); }
@@ -506,8 +503,7 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
   .produkte-grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .download-grid { grid-template-columns: 1fr; }
-  .overlay-topbar .overlay-title { display: none; }
-  .hero { min-height: auto; padding: 100px 0 60px; }
+.hero { min-height: auto; padding: 100px 0 60px; }
   .hero h1 { font-size: 1.8rem; }
   .hero p { font-size: 1rem; }
   .hero-buttons { flex-direction: column; }
@@ -536,7 +532,6 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
   .legal-content h2 { font-size: 1.1rem; }
   .legal-content p { font-size: 0.88rem; }
   .contact-info li { font-size: 0.9rem; }
-  .page-overlay { top: 72px; }
   .nav-inner { height: 72px; }
   .nav-logo img { height: 36px; }
   .container { padding: 0 16px; }
@@ -565,7 +560,7 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 <!-- ========== NAVBAR ========== -->
 <nav class="navbar" id="navbar">
   <div class="container nav-inner">
-    <a class="nav-logo" onclick="closeAllOverlays(); window.scrollTo({top:0,behavior:'smooth'});" style="cursor:pointer;">
+    <a class="nav-logo" style="cursor:pointer;">
       <img src="https://www.konferenz-technik.de/media/ellerbrock-logo.png" alt="Ellerbrock Konferenztechnik Logo">
     </a>
     <ul class="nav-links" id="navLinks">
@@ -610,12 +605,20 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 <section class="brands">
   <div class="container">
     <div class="brands-inner">
-      <span class="brand-text">BOSCH</span>
-      <span class="brand-text" style="font-style:italic;letter-spacing:0.08em;">beyerdynamic</span>
-      <span class="brand-text" style="letter-spacing:0.06em;">SENNHEISER</span>
-      <span class="brand-text">Televic</span>
-      <span class="brand-text" style="letter-spacing:0.1em;">BARCO</span>
-      <span class="brand-text" style="font-style:italic;">audipack</span>
+      <div class="brand-track">
+        <span class="brand-text">BOSCH</span>
+        <span class="brand-text" style="font-style:italic;letter-spacing:0.08em;">beyerdynamic</span>
+        <span class="brand-text" style="letter-spacing:0.06em;">SENNHEISER</span>
+        <span class="brand-text">Televic</span>
+        <span class="brand-text" style="letter-spacing:0.1em;">BARCO</span>
+        <span class="brand-text" style="font-style:italic;">audipack</span>
+        <span class="brand-text">BOSCH</span>
+        <span class="brand-text" style="font-style:italic;letter-spacing:0.08em;">beyerdynamic</span>
+        <span class="brand-text" style="letter-spacing:0.06em;">SENNHEISER</span>
+        <span class="brand-text">Televic</span>
+        <span class="brand-text" style="letter-spacing:0.1em;">BARCO</span>
+        <span class="brand-text" style="font-style:italic;">audipack</span>
+      </div>
     </div>
   </div>
 </section>
@@ -630,22 +633,22 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
     </div>
     <div class="ref-grid fade-up">
       <div class="ref-card">
-        <div class="ref-icon">&#127963;</div>
+        <div class="ref-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/><line x1="9" y1="10" x2="9" y2="10"/><line x1="15" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="9" y2="14"/><line x1="15" y1="14" x2="15" y2="14"/></svg></div>
         <h4 data-i18n="ref.r1h">Bundestag & Landtage</h4>
         <p data-i18n="ref.r1p">Konferenztechnik für parlamentarische Sitzungen und politische Veranstaltungen</p>
       </div>
       <div class="ref-card">
-        <div class="ref-icon">&#127758;</div>
+        <div class="ref-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
         <h4 data-i18n="ref.r2h">Internationale Kongresse</h4>
         <p data-i18n="ref.r2p">Simultandolmetschanlagen für mehrsprachige Großveranstaltungen weltweit</p>
       </div>
       <div class="ref-card">
-        <div class="ref-icon">&#127970;</div>
+        <div class="ref-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="18" rx="1"/><path d="M16 8h4a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-4"/><line x1="5" y1="7" x2="12" y2="7"/><line x1="5" y1="11" x2="12" y2="11"/><line x1="5" y1="15" x2="12" y2="15"/></svg></div>
         <h4 data-i18n="ref.r3h">DAX-Unternehmen</h4>
         <p data-i18n="ref.r3p">Hauptversammlungen und Vorstandssitzungen mit modernster Konferenztechnik</p>
       </div>
       <div class="ref-card">
-        <div class="ref-icon">&#127891;</div>
+        <div class="ref-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg></div>
         <h4 data-i18n="ref.r4h">Universitäten & Forschung</h4>
         <p data-i18n="ref.r4p">Technik für wissenschaftliche Symposien, Vorlesungen und Fachkonferenzen</p>
       </div>
@@ -663,37 +666,37 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
     </div>
     <div class="services-grid">
       <a class="service-card fade-up" href="dolmetscheranlagen.html" style="text-decoration:none;color:inherit;display:block;">
-        <div class="service-icon">&#127908;</div>
+        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
         <h3 data-i18n="srv.dolm.h">Dolmetscheranlagen</h3>
         <p data-i18n="srv.dolm.p">Simultandolmetscheranlagen für mehrsprachige Konferenzen — drahtlos oder kabelgebunden, mit professionellen Dolmetscherkabinen.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
       </a>
       <a class="service-card fade-up" href="ted.html" style="text-decoration:none;color:inherit;display:block;">
-        <div class="service-icon">&#9994;</div>
+        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div>
         <h3 data-i18n="srv.ted.h">Ted-Abstimmsysteme</h3>
         <p data-i18n="srv.ted.p">Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
       </a>
       <a class="service-card fade-up" href="fuehrungsanlagen.html" style="text-decoration:none;color:inherit;display:block;">
-        <div class="service-icon">&#127911;</div>
+        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
         <h3 data-i18n="srv.fuehr.h">Führungsanlagen</h3>
         <p data-i18n="srv.fuehr.p">Drahtlose Personenführungsanlagen für Werksführungen, Museen und Events — kristallklarer Empfang in jeder Umgebung.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
       </a>
       <a class="service-card fade-up" href="diskussionssysteme.html" style="text-decoration:none;color:inherit;display:block;">
-        <div class="service-icon">&#128488;</div>
+        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="9" y2="10"/><line x1="12" y1="10" x2="12" y2="10"/><line x1="15" y1="10" x2="15" y2="10"/></svg></div>
         <h3 data-i18n="srv.disk.h">Diskussionsanlagen</h3>
         <p data-i18n="srv.disk.p">Moderne drahtlose Konferenzsysteme für strukturierte Diskussionen — mit Wortmeldung, Zeitsteuerung und Aufzeichnung.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
       </a>
       <a class="service-card fade-up" href="beschallungstechnik.html" style="text-decoration:none;color:inherit;display:block;">
-        <div class="service-icon">&#128266;</div>
+        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div>
         <h3 data-i18n="srv.besch.h">Beschallungstechnik</h3>
         <p data-i18n="srv.besch.p">Professionelle Mikrofon- und Beschallungssysteme für optimale Sprachverständlichkeit bei jeder Veranstaltungsgröße.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
       </a>
       <a class="service-card fade-up" href="videotechnik.html" style="text-decoration:none;color:inherit;display:block;">
-        <div class="service-icon">&#128250;</div>
+        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
         <h3 data-i18n="srv.vid.h">Video- & Präsentationstechnik</h3>
         <p data-i18n="srv.vid.p">Vom Beamer bis zur Video-Live-Regie — Präsentations- und Videotechnik für einen professionellen Auftritt.</p>
         <span class="service-link" data-i18n="srv.more">Mehr erfahren &#8594;</span>
@@ -827,11 +830,6 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 </footer>
 
 
-<!-- =====================================================================
-     OVERLAY PAGES (hidden, shown via JS)
-     ===================================================================== -->
-
-<!-- DOLMETSCHERANLAGEN -->
 <!-- ========== JAVASCRIPT ========== -->
 <script>
 // ===== PRELOADER =====
@@ -853,35 +851,57 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-// ===== OVERLAY PAGES =====
-function openPage(id) {
-  document.getElementById('navLinks').classList.remove('active');
-  document.querySelectorAll('.page-overlay.active').forEach(el => el.classList.remove('active'));
-  const overlay = document.getElementById('page-' + id);
-  if (!overlay) return;
-  overlay.classList.remove('closing');
-  overlay.classList.add('active');
-  overlay.scrollTop = 0;
-  document.body.classList.add('overlay-open');
-  setTimeout(() => {
-    overlay.querySelectorAll('.fade-up').forEach(el => { el.classList.add('visible'); });
-  }, 50);
-}
-function closePage(id) {
-  const overlay = document.getElementById('page-' + id);
-  if (!overlay) return;
-  overlay.classList.add('closing');
-  setTimeout(() => { overlay.classList.remove('active', 'closing'); document.body.classList.remove('overlay-open'); }, 300);
-}
-function closeAllOverlays() {
-  document.getElementById('navLinks').classList.remove('active');
-  document.querySelectorAll('.page-overlay.active').forEach(el => {
-    el.classList.add('closing');
-    setTimeout(() => { el.classList.remove('active', 'closing'); document.body.classList.remove('overlay-open'); }, 300);
+// ===== ACTIVE NAV LINK =====
+(function() {
+  const page = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    const href = a.getAttribute('href');
+    if (href === page || (page === 'index.html' && href && href.startsWith('#'))) return;
+    if (href && (href === page || href.split('#')[0] === page)) {
+      a.classList.add('nav-active');
+    }
   });
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllOverlays(); });
+})();
 
+// ===== HERO PARALLAX =====
+(function() {
+  const heroBg = document.querySelector('.hero-bg');
+  if (!heroBg) return;
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrollY = window.pageYOffset;
+        if (scrollY < window.innerHeight) {
+          heroBg.style.transform = 'translateY(' + (scrollY * 0.35) + 'px)';
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+})();
+
+// ===== STAGGERED FADE-IN =====
+document.querySelectorAll('.services-grid .service-card, .ref-grid .ref-card').forEach((el, i) => {
+  el.classList.add('stagger-' + ((i % 6) + 1));
+});
+
+// ===== PAGE TRANSITION =====
+document.body.classList.add('page-transition');
+document.querySelectorAll('a[href]').forEach(a => {
+  const href = a.getAttribute('href');
+  if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('http') || a.getAttribute('target') === '_blank') return;
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.2s ease';
+    setTimeout(() => { window.location.href = href; }, 200);
+  });
+});
+
+
+// ===== OVERLAY PAGES =====
 // ===== ANIMATED NUMBER COUNTER =====
 function animateCounter(el) {
   const text = el.textContent.trim();
@@ -1152,7 +1172,6 @@ function declineCookies() {
 }
 
 
-
 // ===== CLOSE MOBILE MENU ON OUTSIDE CLICK =====
 document.addEventListener('click', function(e) {
   const nav = document.getElementById('navLinks');
@@ -1306,6 +1325,15 @@ function submitContactForm(e) {
   <div class="cookie-buttons">
     <button class="cookie-btn cookie-accept" onclick="acceptCookies()" data-i18n="cookie.accept">Akzeptieren</button>
     <button class="cookie-btn cookie-decline" onclick="declineCookies()" data-i18n="cookie.decline">Ablehnen</button>
+  </div>
+</div>
+
+
+<!-- ========== MOBILE CTA BAR ========== -->
+<div class="mobile-cta">
+  <div class="mobile-cta-inner">
+    <a href="tel:+496207922400" class="cta-call"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Anrufen</a>
+    <a href="kontaktformular.html" class="cta-mail"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Anfragen</a>
   </div>
 </div>
 
