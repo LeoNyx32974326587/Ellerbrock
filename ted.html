@@ -593,8 +593,13 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html#leistungen" data-i18n="nav.leistungen">Leistungen</a></li>
-      <li><a href="kauf.html" data-i18n="nav.kauf">Kauf</a></li>
-      <li><a href="produkte.html" data-i18n="nav.produkte">Produkte</a></li>
+      <li class="nav-has-dropdown" id="navDropdownProdukte"><a href="javascript:void(0)" onclick="toggleNavDropdownProdukte(event)" data-i18n="nav.produkte">Produkte</a>
+        <ul class="nav-sub">
+          <li><a href="produkte.html"><svg viewBox="0 0 24 24"><path d="M20 7h-4V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v3H4a1 1 0 00-1 1v11a2 2 0 002 2h14a2 2 0 002-2V8a1 1 0 00-1-1zM10 4h4v3h-4V4z"/></svg> <span data-i18n="nav.prod.artikel">Artikel</span></a></li>
+          <li><a href="kauf.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg> <span data-i18n="nav.prod.kauf">Kauf</span></a></li>
+          <li><a href="miete.html"><svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <span data-i18n="nav.prod.miete">Miete</span></a></li>
+        </ul>
+      </li>
       <li><a href="downloads.html" data-i18n="nav.downloads">Downloads</a></li>
       <li><a href="filme.html">Filme & Guides</a></li>
       <li><a href="ueber-uns.html" data-i18n="nav.ueber">Über uns</a></li>
@@ -837,6 +842,29 @@ const T = {
   'nav.leistungen': { de: 'Leistungen', en: 'Services', fr: 'Services', es: 'Servicios', zh: '服务' },
   'nav.kauf': { de: 'Kauf', en: 'Purchase', fr: 'Achat', es: 'Compra', zh: '购买' },
   'nav.produkte': { de: 'Produkte', en: 'Products', fr: 'Produits', es: 'Productos', zh: '产品' },
+  'nav.prod.artikel': { de: 'Artikel', en: 'Products', fr: 'Articles', es: 'Artículos', zh: '产品' },
+  'nav.prod.kauf': { de: 'Kauf', en: 'Purchase', fr: 'Achat', es: 'Compra', zh: '购买' },
+  'nav.prod.miete': { de: 'Miete', en: 'Rental', fr: 'Location', es: 'Alquiler', zh: '租赁' },
+
+  'miete.h1': { de: 'Konferenztechnik mieten', en: 'Rent Conference Technology', fr: 'Louer de la technique de conférence', es: 'Alquilar tecnología de conferencias', zh: '租赁会议技术' },
+  'miete.sub': { de: 'Professionelle Konferenztechnik flexibel zur Miete — inklusive Lieferung, Aufbau und technischer Betreuung', en: 'Professional conference technology for flexible rental — including delivery, setup and technical support', fr: 'Technique de conférence professionnelle en location flexible — livraison, montage et assistance technique inclus', es: 'Tecnología de conferencias profesional en alquiler flexible — incluye entrega, montaje y soporte técnico', zh: '专业会议技术灵活租赁 — 包含配送、搭建和技术支持' },
+  'miete.intro.h': { de: 'Mieten statt kaufen — flexibel und sorgenfrei', en: 'Rent instead of buy — flexible and worry-free', fr: 'Louer plutôt qu\'acheter — flexible et sans souci', es: 'Alquilar en vez de comprar — flexible y sin preocupaciones', zh: '租赁而非购买 — 灵活无忧' },
+  'miete.intro.p': { de: 'Sie benötigen professionelle Konferenztechnik für Ihre Veranstaltung? Bei uns mieten Sie hochwertige Technik zum fairen Preis — inklusive persönlicher Beratung, Lieferung, Aufbau, Betreuung und Abbau. Unser Mietpark umfasst über 600 Sprechstellen, zahlreiche Dolmetscherkabinen und modernste Abstimmsysteme.', en: 'Need professional conference technology for your event? Rent high-quality equipment from us at a fair price — including personal consultation, delivery, setup, support and dismantling. Our rental fleet includes over 600 speaker units, numerous interpreting booths and state-of-the-art voting systems.', fr: 'Besoin de technique de conférence pour votre événement ? Louez chez nous du matériel de haute qualité à prix équitable — conseil, livraison, montage, assistance et démontage inclus.', es: 'Necesita tecnología de conferencias para su evento? Alquile equipos de alta calidad a un precio justo — incluye asesoramiento, entrega, montaje, soporte y desmontaje.', zh: '需要为您的活动提供专业会议技术？我们以合理价格出租高品质设备 — 包含咨询、配送、搭建、支持和拆卸服务。' },
+  'miete.dolm.p': { de: 'Simultandolmetscheranlagen mit Kabinen, Empfängern und Dolmetscherpulten — für mehrsprachige Konferenzen jeder Größe.', en: 'Simultaneous interpreting systems with booths, receivers and consoles — for multilingual conferences of any size.', fr: 'Systèmes d\'interprétation simultanée avec cabines, récepteurs et pupitres — pour des conférences multilingues de toute taille.', es: 'Sistemas de interpretación simultánea con cabinas, receptores y consolas — para conferencias multilingües de cualquier tamaño.', zh: '同声传译系统配备翻译间、接收器和控制台 — 适用于各种规模的多语言会议。' },
+  'miete.ted.p': { de: 'Interaktive Voting-Systeme für Live-Abstimmungen bei Hauptversammlungen, Wahlen und Konferenzen.', en: 'Interactive voting systems for live polls at general meetings, elections and conferences.', fr: 'Systèmes de vote interactifs pour scrutins en direct lors d\'assemblées générales et conférences.', es: 'Sistemas de votación interactivos para votaciones en vivo en juntas generales y conferencias.', zh: '互动投票系统，适用于股东大会、选举和会议的现场投票。' },
+  'miete.fuehr.p': { de: 'Drahtlose Personenführungssysteme für Werksführungen, Museen und Events — kristallklarer Empfang.', en: 'Wireless tour guide systems for factory tours, museums and events — crystal clear reception.', fr: 'Systèmes de guidage sans fil pour visites d\'usines, musées et événements — réception cristalline.', es: 'Sistemas de guía inalámbricos para visitas a fábricas, museos y eventos — recepción nítida.', zh: '无线导览系统，适用于工厂参观、博物馆和活动 — 清晰接收。' },
+  'miete.disk.p': { de: 'Kabellose und kabelgebundene Konferenzsysteme für strukturierte Diskussionen und Sitzungen.', en: 'Wireless and wired conference systems for structured discussions and meetings.', fr: 'Systèmes de conférence sans fil et câblés pour discussions structurées.', es: 'Sistemas de conferencia inalámbricos y por cable para discusiones estructuradas.', zh: '无线和有线会议系统，用于结构化讨论和会议。' },
+  'miete.besch.p': { de: 'Professionelle Mikrofon- und PA-Systeme für optimale Sprachverständlichkeit bei jeder Veranstaltung.', en: 'Professional microphone and PA systems for optimal speech intelligibility at any event.', fr: 'Systèmes de microphones et de sonorisation professionnels pour une intelligibilité optimale.', es: 'Sistemas profesionales de microfonía y sonorización para una inteligibilidad óptima.', zh: '专业麦克风和扩声系统，确保最佳语音清晰度。' },
+  'miete.vid.p': { de: 'Beamer, Leinwände und Video-Live-Regie für einen professionellen Auftritt.', en: 'Projectors, screens and live video direction for a professional appearance.', fr: 'Vidéoprojecteurs, écrans et régie vidéo en direct pour une apparence professionnelle.', es: 'Proyectores, pantallas y dirección de vídeo en vivo para una imagen profesional.', zh: '投影仪、屏幕和视频直播导播，打造专业形象。' },
+  'miete.service.h': { de: 'Unser Miet-Service im Überblick', en: 'Our Rental Service at a Glance', fr: 'Notre service de location en un coup d\'œil', es: 'Nuestro servicio de alquiler de un vistazo', zh: '我们的租赁服务概览' },
+  'miete.srv.beratung': { de: 'Persönliche Beratung', en: 'Personal Consultation', fr: 'Conseil personnalisé', es: 'Asesoramiento personal', zh: '个人咨询' },
+  'miete.srv.beratung.p': { de: 'Individuelle Planung für Ihre Veranstaltung', en: 'Individual planning for your event', fr: 'Planification individuelle pour votre événement', es: 'Planificación individual para su evento', zh: '为您的活动量身定制规划' },
+  'miete.srv.lieferung': { de: 'Lieferung & Aufbau', en: 'Delivery & Setup', fr: 'Livraison & Montage', es: 'Entrega y montaje', zh: '配送与搭建' },
+  'miete.srv.lieferung.p': { de: 'Bundesweite Anlieferung und professioneller Aufbau', en: 'Nationwide delivery and professional setup', fr: 'Livraison nationale et montage professionnel', es: 'Entrega nacional y montaje profesional', zh: '全国配送和专业搭建' },
+  'miete.srv.betreuung': { de: 'Vor-Ort-Betreuung', en: 'On-Site Support', fr: 'Assistance sur place', es: 'Soporte in situ', zh: '现场支持' },
+  'miete.srv.betreuung.p': { de: 'Erfahrene Techniker während Ihrer Veranstaltung', en: 'Experienced technicians during your event', fr: 'Techniciens expérimentés pendant votre événement', es: 'Técnicos experimentados durante su evento', zh: '活动期间经验丰富的技术人员' },
+  'miete.srv.abbau': { de: 'Abbau & Rücktransport', en: 'Dismantling & Return', fr: 'Démontage & Retour', es: 'Desmontaje y devolución', zh: '拆卸与回收' },
+  'miete.srv.abbau.p': { de: 'Sorgloser Komplettservice bis zum Schluss', en: 'Worry-free complete service until the end', fr: 'Service complet sans souci jusqu\'à la fin', es: 'Servicio completo y sin preocupaciones hasta el final', zh: '无忧全程服务直到最后' },
   'nav.downloads': { de: 'Downloads', en: 'Downloads', fr: 'Téléchargements', es: 'Descargas', zh: '下载' },
   'nav.imagefilm': { de: 'Imagefilm', en: 'Company Film', fr: 'Film d\'entreprise', es: 'Vídeo corporativo', zh: '企业宣传片' },
   'nav.ueber': { de: 'Über uns', en: 'About Us', fr: 'À propos', es: 'Sobre nosotros', zh: '关于我们' },
