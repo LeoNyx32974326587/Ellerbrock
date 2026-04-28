@@ -105,7 +105,15 @@ body.dark .nav-links.active { background: var(--bg); border-color: var(--border)
   font-size: 1rem; transition: var(--transition); color: var(--text); position: relative;
 }
 .tool-btn:hover { background: var(--bg-alt); border-color: var(--teal); }
+/* ===== LANGUAGE DROPDOWN ===== */
+.lang-dropdown { position: relative; }
 .lang-btn { width: auto; padding: 0 10px; font-size: 0.75rem; font-weight: 700; font-family: inherit; letter-spacing: 0.03em; }
+.lang-menu { position: absolute; top: calc(100% + 6px); right: 0; background: var(--card); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 140px; padding: 6px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; z-index: 1001; }
+.lang-menu.open { opacity: 1; visibility: visible; transform: translateY(0); }
+.lang-menu button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 16px; border: none; background: transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; color: var(--text); transition: background 0.15s; text-align: left; }
+.lang-menu button:hover { background: var(--bg-alt); }
+.lang-menu button.active { color: var(--teal); font-weight: 600; }
+.lang-menu button .lang-flag { font-size: 1.1rem; }
 @media (max-width: 768px) {
   .nav-tools { margin-left: 0; margin-right: 8px; }
 }
@@ -578,7 +586,16 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
       <li><a href="index.html#kontakt" class="nav-cta" data-i18n="nav.kontakt">Kontakt</a></li>
     </ul>
     <div class="nav-tools">
-      <button class="tool-btn lang-btn" id="langToggle" onclick="toggleLang()" title="Switch language">DE</button>
+      <div class="lang-dropdown">
+        <button class="tool-btn lang-btn" id="langToggle" onclick="toggleLangMenu()" title="Switch language">DE</button>
+        <div class="lang-menu" id="langMenu">
+          <button onclick="setLang('de')" class="active"><span class="lang-flag">🇩🇪</span> Deutsch</button>
+          <button onclick="setLang('en')"><span class="lang-flag">🇬🇧</span> English</button>
+          <button onclick="setLang('fr')"><span class="lang-flag">🇫🇷</span> Français</button>
+          <button onclick="setLang('es')"><span class="lang-flag">🇪🇸</span> Español</button>
+          <button onclick="setLang('zh')"><span class="lang-flag">🇨🇳</span> 中文</button>
+        </div>
+      </div>
       <button class="tool-btn" id="themeToggle" onclick="toggleTheme()" title="Dark/Light Mode">&#9790;</button>
     </div>
     <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('active')">
@@ -806,206 +823,238 @@ function toggleTheme() {
 let currentLang = 'de';
 const T = {
   // Navbar
-  'nav.leistungen': { de: 'Leistungen', en: 'Services' },
-  'nav.kauf': { de: 'Kauf', en: 'Purchase' },
-  'nav.produkte': { de: 'Produkte', en: 'Products' },
-  'nav.downloads': { de: 'Downloads', en: 'Downloads' },
-  'nav.imagefilm': { de: 'Imagefilm', en: 'Company Film' },
-  'nav.ueber': { de: 'Über uns', en: 'About Us' },
-  'nav.kontakt': { de: 'Kontakt', en: 'Contact' },
+  'nav.leistungen': { de: 'Leistungen', en: 'Services', fr: 'Services', es: 'Servicios', zh: '服务' },
+  'nav.kauf': { de: 'Kauf', en: 'Purchase', fr: 'Achat', es: 'Compra', zh: '购买' },
+  'nav.produkte': { de: 'Produkte', en: 'Products', fr: 'Produits', es: 'Productos', zh: '产品' },
+  'nav.downloads': { de: 'Downloads', en: 'Downloads', fr: 'Téléchargements', es: 'Descargas', zh: '下载' },
+  'nav.imagefilm': { de: 'Imagefilm', en: 'Company Film', fr: 'Film d\'entreprise', es: 'Vídeo corporativo', zh: '企业宣传片' },
+  'nav.ueber': { de: 'Über uns', en: 'About Us', fr: 'À propos', es: 'Sobre nosotros', zh: '关于我们' },
+  'nav.kontakt': { de: 'Kontakt', en: 'Contact', fr: 'Contact', es: 'Contacto', zh: '联系我们' },
   // Hero
-  'hero.badge': { de: '● Ihr Partner seit über 45 Jahren', en: '● Your Partner for Over 45 Years' },
-  'hero.h1a': { de: 'Professionelle ', en: 'Professional ' },
-  'hero.h1b': { de: 'Konferenztechnik', en: 'Conference Technology' },
-  'hero.h1c': { de: ' für Ihre Veranstaltung', en: ' for Your Event' },
-  'hero.p': { de: 'Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.', en: 'Interpreting systems, voting systems, tour guide systems and media technology — rental, sales and full-service support from a single source.' },
-  'hero.cta1': { de: 'Jetzt anfragen →', en: 'Get in touch →' },
-  'hero.cta2': { de: 'Unsere Leistungen', en: 'Our Services' },
-  'hero.stat1': { de: 'Jahre Erfahrung', en: 'Years Experience' },
-  'hero.stat2': { de: 'Standorte', en: 'Locations' },
-  'hero.stat3': { de: 'Sprechstellen weltweit', en: 'Speaker Units Worldwide' },
+  'hero.badge': { de: '● Ihr Partner seit über 45 Jahren', en: '● Your Partner for Over 45 Years', fr: '● Votre partenaire depuis plus de 45 ans', es: '● Su socio desde hace más de 45 años', zh: '● 您值得信赖的合作伙伴，超过45年' },
+  'hero.h1a': { de: 'Professionelle ', en: 'Professional ', fr: 'Technique de ', es: 'Tecnología de ', zh: '专业' },
+  'hero.h1b': { de: 'Konferenztechnik', en: 'Conference Technology', fr: 'conférence professionnelle', es: 'conferencias profesional', zh: '会议技术' },
+  'hero.h1c': { de: ' für Ihre Veranstaltung', en: ' for Your Event', fr: ' pour votre événement', es: ' para su evento', zh: '为您的活动服务' },
+  'hero.p': { de: 'Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.', en: 'Interpreting systems, voting systems, tour guide systems and media technology — rental, sales and full-service support from a single source.', fr: 'Systèmes d\'interprétation, systèmes de vote, systèmes de guidage et technique média — location, vente et service complet.', es: 'Sistemas de interpretación, sistemas de votación, sistemas de guía y tecnología multimedia — alquiler, venta y soporte integral.', zh: '同声传译系统、电子表决系统、导览系统和媒体技术 — 租赁、销售和全方位支持服务。' },
+  'hero.cta1': { de: 'Jetzt anfragen →', en: 'Get in touch →', fr: 'Demander un devis →', es: 'Solicitar presupuesto →', zh: '立即咨询 →' },
+  'hero.cta2': { de: 'Unsere Leistungen', en: 'Our Services', fr: 'Nos services', es: 'Nuestros servicios', zh: '我们的服务' },
+  'hero.stat1': { de: 'Jahre Erfahrung', en: 'Years Experience', fr: 'Ans d\'expérience', es: 'Años de experiencia', zh: '年经验' },
+  'hero.stat2': { de: 'Standorte', en: 'Locations', fr: 'Sites', es: 'Sedes', zh: '个办事处' },
+  'hero.stat3': { de: 'Sprechstellen weltweit', en: 'Speaker Units Worldwide', fr: 'Postes de discussion', es: 'Unidades de debate', zh: '个话筒单元' },
   // Services
-  'srv.label': { de: 'Unsere Leistungen', en: 'Our Services' },
-  'srv.title': { de: 'Alles für Ihre Konferenz', en: 'Everything for Your Conference' },
-  'srv.sub': { de: 'Von der Planung bis zum Abbau — wir liefern die passende Technik und den professionellen Support.', en: 'From planning to dismantling — we deliver the right technology and professional support.' },
-  'srv.dolm.h': { de: 'Dolmetscheranlagen', en: 'Interpreting Systems' },
-  'srv.dolm.p': { de: 'Simultandolmetscheranlagen für mehrsprachige Konferenzen — drahtlos oder kabelgebunden, mit professionellen Dolmetscherkabinen.', en: 'Simultaneous interpreting systems for multilingual conferences — wireless or wired, with professional interpreting booths.' },
-  'srv.ted.h': { de: 'Ted-Abstimmsysteme', en: 'Voting Systems' },
-  'srv.ted.p': { de: 'Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse.', en: 'Interactive voting systems for live polls, elections and feedback — easy to use, instant results.' },
-  'srv.fuehr.h': { de: 'Führungsanlagen', en: 'Tour Guide Systems' },
-  'srv.fuehr.p': { de: 'Drahtlose Personenführungsanlagen für Werksführungen, Museen und Events — kristallklarer Empfang in jeder Umgebung.', en: 'Wireless tour guide systems for factory tours, museums and events — crystal clear reception in any environment.' },
-  'srv.disk.h': { de: 'Diskussionsanlagen', en: 'Discussion Systems' },
-  'srv.disk.p': { de: 'Moderne drahtlose Konferenzsysteme für strukturierte Diskussionen — mit Wortmeldung, Zeitsteuerung und Aufzeichnung.', en: 'Modern wireless conference systems for structured discussions — with request-to-speak, time control and recording.' },
-  'srv.besch.h': { de: 'Beschallungstechnik', en: 'PA & Audio Systems' },
-  'srv.besch.p': { de: 'Professionelle Mikrofon- und Beschallungssysteme für optimale Sprachverständlichkeit bei jeder Veranstaltungsgröße.', en: 'Professional microphone and PA systems for optimal speech intelligibility at any event size.' },
-  'srv.vid.h': { de: 'Video- & Präsentationstechnik', en: 'Video & Presentation' },
-  'srv.vid.p': { de: 'Vom Beamer bis zur Video-Live-Regie — Präsentations- und Videotechnik für einen professionellen Auftritt.', en: 'From projectors to live video direction — presentation and video technology for a professional appearance.' },
-  'srv.more': { de: 'Mehr erfahren →', en: 'Learn more →' },
+  'srv.label': { de: 'Unsere Leistungen', en: 'Our Services', fr: 'Nos services', es: 'Nuestros servicios', zh: '我们的服务' },
+  'srv.title': { de: 'Alles für Ihre Konferenz', en: 'Everything for Your Conference', fr: 'Tout pour votre conférence', es: 'Todo para su conferencia', zh: '为您的会议提供一切' },
+  'srv.sub': { de: 'Von der Planung bis zum Abbau — wir liefern die passende Technik und den professionellen Support.', en: 'From planning to dismantling — we deliver the right technology and professional support.', fr: 'De la planification au démontage — nous fournissons la technologie adaptée et un support professionnel.', es: 'Desde la planificación hasta el desmontaje — ofrecemos la tecnología adecuada y soporte profesional.', zh: '从规划到拆卸 — 我们提供合适的技术和专业支持。' },
+  'srv.dolm.h': { de: 'Dolmetscheranlagen', en: 'Interpreting Systems', fr: 'Systèmes d\'interprétation', es: 'Sistemas de interpretación', zh: '同声传译系统' },
+  'srv.dolm.p': { de: 'Simultandolmetscheranlagen für mehrsprachige Konferenzen — drahtlos oder kabelgebunden, mit professionellen Dolmetscherkabinen.', en: 'Simultaneous interpreting systems for multilingual conferences — wireless or wired, with professional interpreting booths.', fr: 'Systèmes d\'interprétation simultanée pour conférences multilingues — sans fil ou câblés, avec cabines professionnelles.', es: 'Sistemas de interpretación simultánea para conferencias multilingües — inalámbricos o por cable, con cabinas profesionales.', zh: '多语言会议同声传译系统 — 无线或有线，配备专业翻译间。' },
+  'srv.ted.h': { de: 'Ted-Abstimmsysteme', en: 'Voting Systems', fr: 'Systèmes de vote', es: 'Sistemas de votación', zh: '电子表决系统' },
+  'srv.ted.p': { de: 'Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse.', en: 'Interactive voting systems for live polls, elections and feedback — easy to use, instant results.', fr: 'Systèmes de vote interactifs pour scrutins en direct, élections et retours — faciles à utiliser, résultats instantanés.', es: 'Sistemas de votación interactivos para encuestas en vivo, elecciones y feedback — fáciles de usar, resultados instantáneos.', zh: '互动投票系统，用于现场投票、选举和反馈 — 操作简便，结果即时显示。' },
+  'srv.fuehr.h': { de: 'Führungsanlagen', en: 'Tour Guide Systems', fr: 'Systèmes de guidage', es: 'Sistemas de guía', zh: '导览系统' },
+  'srv.fuehr.p': { de: 'Drahtlose Personenführungsanlagen für Werksführungen, Museen und Events — kristallklarer Empfang in jeder Umgebung.', en: 'Wireless tour guide systems for factory tours, museums and events — crystal clear reception in any environment.', fr: 'Systèmes de guidage sans fil pour visites d\'usines, musées et événements — réception cristalline dans tout environnement.', es: 'Sistemas de guía inalámbricos para visitas a fábricas, museos y eventos — recepción nítida en cualquier entorno.', zh: '无线导览系统，适用于工厂参观、博物馆和活动 — 任何环境下都能清晰接收。' },
+  'srv.disk.h': { de: 'Diskussionsanlagen', en: 'Discussion Systems', fr: 'Systèmes de discussion', es: 'Sistemas de discusión', zh: '讨论系统' },
+  'srv.disk.p': { de: 'Moderne drahtlose Konferenzsysteme für strukturierte Diskussionen — mit Wortmeldung, Zeitsteuerung und Aufzeichnung.', en: 'Modern wireless conference systems for structured discussions — with request-to-speak, time control and recording.', fr: 'Systèmes de conférence sans fil modernes pour des discussions structurées — avec demande de parole, contrôle du temps et enregistrement.', es: 'Modernos sistemas de conferencia inalámbricos para discusiones estructuradas — con solicitud de palabra, control de tiempo y grabación.', zh: '现代无线会议系统，用于结构化讨论 — 支持发言请求、时间控制和录音。' },
+  'srv.besch.h': { de: 'Beschallungstechnik', en: 'PA & Audio Systems', fr: 'Sonorisation', es: 'Sonorización', zh: '扩声技术' },
+  'srv.besch.p': { de: 'Professionelle Mikrofon- und Beschallungssysteme für optimale Sprachverständlichkeit bei jeder Veranstaltungsgröße.', en: 'Professional microphone and PA systems for optimal speech intelligibility at any event size.', fr: 'Systèmes de microphones et de sonorisation professionnels pour une intelligibilité optimale de la parole.', es: 'Sistemas profesionales de microfonía y sonorización para una inteligibilidad óptima del habla.', zh: '专业麦克风和扩声系统，确保最佳语音清晰度。' },
+  'srv.vid.h': { de: 'Video- & Präsentationstechnik', en: 'Video & Presentation', fr: 'Vidéo & Présentation', es: 'Vídeo y presentación', zh: '视频与演示技术' },
+  'srv.vid.p': { de: 'Vom Beamer bis zur Video-Live-Regie — Präsentations- und Videotechnik für einen professionellen Auftritt.', en: 'From projectors to live video direction — presentation and video technology for a professional appearance.', fr: 'Du vidéoprojecteur à la régie vidéo en direct — technique de présentation et vidéo pour une apparence professionnelle.', es: 'Desde proyectores hasta dirección de vídeo en vivo — tecnología de presentación y vídeo para una imagen profesional.', zh: '从投影仪到视频直播导播 — 专业的演示和视频技术。' },
+  'srv.more': { de: 'Mehr erfahren →', en: 'Learn more →', fr: 'En savoir plus →', es: 'Más información →', zh: '了解更多 →' },
   // About
-  'about.label': { de: 'Über uns', en: 'About Us' },
-  'about.title': { de: 'Erfahrung trifft Innovation', en: 'Experience Meets Innovation' },
-  'about.p1': { de: 'Seit 1978 ist Ellerbrock Konferenztechnik einer der führenden Anbieter für professionelle Konferenztechnik in Deutschland. Mit Standorten in Abtsteinach und Berlin betreuen wir Veranstaltungen jeder Größe — von der Vorstandssitzung bis zum internationalen Kongress.', en: 'Since 1978, Ellerbrock Conference Technology has been one of the leading providers of professional conference technology in Germany. With locations in Abtsteinach and Berlin, we support events of all sizes — from board meetings to international congresses.' },
-  'about.p2': { de: 'Wir bieten Ihnen nicht nur hochwertige Technik zur Miete und zum Kauf, sondern auch einen umfassenden Service: Planung, Aufbau, Betreuung und technischer Support durch unser erfahrenes Team.', en: 'We offer not only high-quality technology for rent and purchase, but also comprehensive service: planning, setup, support and technical assistance from our experienced team.' },
-  'about.f1': { de: 'Miete & Kauf', en: 'Rental & Purchase' },
-  'about.f2': { de: 'Full-Service-Support', en: 'Full-Service Support' },
-  'about.f3': { de: 'Bundesweite Lieferung', en: 'Nationwide Delivery' },
-  'about.f4': { de: 'Erfahrene Techniker', en: 'Experienced Technicians' },
-  'about.s1': { de: 'Jahre Erfahrung', en: 'Years Experience' },
-  'about.s2': { de: 'Standorte', en: 'Locations' },
-  'about.s3': { de: 'Tischsprechstellen', en: 'Desk Units' },
-  'about.s4': { de: 'Flexible Lösungen', en: 'Flexible Solutions' },
+  'about.label': { de: 'Über uns', en: 'About Us', fr: 'À propos', es: 'Sobre nosotros', zh: '关于我们' },
+  'about.title': { de: 'Erfahrung trifft Innovation', en: 'Experience Meets Innovation', fr: 'L\'expérience rencontre l\'innovation', es: 'La experiencia se une a la innovación', zh: '经验与创新的融合' },
+  'about.p1': { de: 'Seit 1978 ist Ellerbrock Konferenztechnik einer der führenden Anbieter für professionelle Konferenztechnik in Deutschland. Mit Standorten in Abtsteinach und Berlin betreuen wir Veranstaltungen jeder Größe — von der Vorstandssitzung bis zum internationalen Kongress.', en: 'Since 1978, Ellerbrock Conference Technology has been one of the leading providers of professional conference technology in Germany. With locations in Abtsteinach and Berlin, we support events of all sizes — from board meetings to international congresses.', fr: 'Depuis 1978, Ellerbrock Konferenztechnik est l\'un des principaux fournisseurs de technique de conférence professionnelle en Allemagne. Avec des sites à Abtsteinach et Berlin, nous accompagnons des événements de toutes tailles.', es: 'Desde 1978, Ellerbrock Konferenztechnik es uno de los principales proveedores de tecnología de conferencias profesional en Alemania. Con sedes en Abtsteinach y Berlín, atendemos eventos de todos los tamaños.', zh: '自1978年以来，Ellerbrock会议技术公司一直是德国领先的专业会议技术供应商之一。我们在Abtsteinach和柏林设有办事处，为各种规模的活动提供服务。' },
+  'about.p2': { de: 'Wir bieten Ihnen nicht nur hochwertige Technik zur Miete und zum Kauf, sondern auch einen umfassenden Service: Planung, Aufbau, Betreuung und technischer Support durch unser erfahrenes Team.', en: 'We offer not only high-quality technology for rent and purchase, but also comprehensive service: planning, setup, support and technical assistance from our experienced team.', fr: 'Nous vous proposons non seulement une technologie de haute qualité en location et à l\'achat, mais aussi un service complet : planification, montage, assistance et support technique.', es: 'Le ofrecemos no solo tecnología de alta calidad en alquiler y venta, sino también un servicio integral: planificación, montaje, asistencia y soporte técnico.', zh: '我们不仅提供高品质的租赁和购买设备，还提供全方位服务：规划、安装、现场支持和技术支持。' },
+  'about.f1': { de: 'Miete & Kauf', en: 'Rental & Purchase', fr: 'Location & Achat', es: 'Alquiler y venta', zh: '租赁与购买' },
+  'about.f2': { de: 'Full-Service-Support', en: 'Full-Service Support', fr: 'Service complet', es: 'Servicio integral', zh: '全方位服务' },
+  'about.f3': { de: 'Bundesweite Lieferung', en: 'Nationwide Delivery', fr: 'Livraison nationale', es: 'Entrega nacional', zh: '全国配送' },
+  'about.f4': { de: 'Erfahrene Techniker', en: 'Experienced Technicians', fr: 'Techniciens expérimentés', es: 'Técnicos experimentados', zh: '经验丰富的技术人员' },
+  'about.s1': { de: 'Jahre Erfahrung', en: 'Years Experience', fr: 'Ans d\'expérience', es: 'Años de experiencia', zh: '年经验' },
+  'about.s2': { de: 'Standorte', en: 'Locations', fr: 'Sites', es: 'Sedes', zh: '个办事处' },
+  'about.s3': { de: 'Tischsprechstellen', en: 'Desk Units', fr: 'Postes de discussion', es: 'Unidades de debate', zh: '个话筒单元' },
+  'about.s4': { de: 'Flexible Lösungen', en: 'Flexible Solutions', fr: 'Solutions flexibles', es: 'Soluciones flexibles', zh: '灵活方案' },
   // Referenzen
-  'ref.label': { de: 'Referenzen', en: 'References' },
-  'ref.title': { de: 'Vertrauen namhafter Kunden', en: 'Trusted by Leading Clients' },
-  'ref.sub': { de: 'Wir betreuen Veranstaltungen für führende Institutionen, Unternehmen und Organisationen.', en: 'We support events for leading institutions, companies and organizations.' },
-  'ref.r1h': { de: 'Bundestag & Landtage', en: 'Parliament & State Assemblies' },
-  'ref.r1p': { de: 'Konferenztechnik für parlamentarische Sitzungen und politische Veranstaltungen', en: 'Conference technology for parliamentary sessions and political events' },
-  'ref.r2h': { de: 'Internationale Kongresse', en: 'International Congresses' },
-  'ref.r2p': { de: 'Simultandolmetschanlagen für mehrsprachige Großveranstaltungen weltweit', en: 'Simultaneous interpreting systems for multilingual large-scale events worldwide' },
-  'ref.r3h': { de: 'DAX-Unternehmen', en: 'Major Corporations' },
-  'ref.r3p': { de: 'Hauptversammlungen und Vorstandssitzungen mit modernster Konferenztechnik', en: 'General meetings and board meetings with state-of-the-art conference technology' },
-  'ref.r4h': { de: 'Universitäten & Forschung', en: 'Universities & Research' },
-  'ref.r4p': { de: 'Technik für wissenschaftliche Symposien, Vorlesungen und Fachkonferenzen', en: 'Technology for scientific symposia, lectures and professional conferences' },
+  'ref.label': { de: 'Referenzen', en: 'References', fr: 'Références', es: 'Referencias', zh: '客户案例' },
+  'ref.title': { de: 'Vertrauen namhafter Kunden', en: 'Trusted by Leading Clients', fr: 'La confiance de clients prestigieux', es: 'La confianza de clientes destacados', zh: '知名客户的信赖' },
+  'ref.sub': { de: 'Wir betreuen Veranstaltungen für führende Institutionen, Unternehmen und Organisationen.', en: 'We support events for leading institutions, companies and organizations.', fr: 'Nous accompagnons des événements pour des institutions, entreprises et organisations de premier plan.', es: 'Atendemos eventos para instituciones, empresas y organizaciones líderes.', zh: '我们为领先的机构、企业和组织提供活动技术支持。' },
+  'ref.r1h': { de: 'Bundestag & Landtage', en: 'Parliament & State Assemblies', fr: 'Bundestag & Parlements', es: 'Parlamento y asambleas', zh: '议会与州议会' },
+  'ref.r1p': { de: 'Konferenztechnik für parlamentarische Sitzungen und politische Veranstaltungen', en: 'Conference technology for parliamentary sessions and political events', fr: 'Technique de conférence pour sessions parlementaires et événements politiques', es: 'Tecnología de conferencias para sesiones parlamentarias y eventos políticos', zh: '为议会会议和政治活动提供会议技术' },
+  'ref.r2h': { de: 'Internationale Kongresse', en: 'International Congresses', fr: 'Congrès internationaux', es: 'Congresos internacionales', zh: '国际会议' },
+  'ref.r2p': { de: 'Simultandolmetschanlagen für mehrsprachige Großveranstaltungen weltweit', en: 'Simultaneous interpreting systems for multilingual large-scale events worldwide', fr: 'Systèmes d\'interprétation simultanée pour grands événements multilingues internationaux', es: 'Sistemas de interpretación simultánea para grandes eventos multilingües internacionales', zh: '为国际多语言大型活动提供同声传译系统' },
+  'ref.r3h': { de: 'DAX-Unternehmen', en: 'Major Corporations', fr: 'Grandes entreprises', es: 'Grandes empresas', zh: 'DAX上市企业' },
+  'ref.r3p': { de: 'Hauptversammlungen und Vorstandssitzungen mit modernster Konferenztechnik', en: 'General meetings and board meetings with state-of-the-art conference technology', fr: 'Assemblées générales et réunions du conseil avec technique de conférence de pointe', es: 'Juntas generales y reuniones de directorio con tecnología de conferencias de última generación', zh: '配备最先进会议技术的股东大会和董事会会议' },
+  'ref.r4h': { de: 'Universitäten & Forschung', en: 'Universities & Research', fr: 'Universités & Recherche', es: 'Universidades e investigación', zh: '大学与科研' },
+  'ref.r4p': { de: 'Technik für wissenschaftliche Symposien, Vorlesungen und Fachkonferenzen', en: 'Technology for scientific symposia, lectures and professional conferences', fr: 'Technique pour symposiums scientifiques, cours et conférences spécialisées', es: 'Tecnología para simposios científicos, conferencias y eventos académicos', zh: '为学术研讨会、讲座和专业会议提供技术支持' },
   // Instagram
-  'insta.label': { de: 'Einblicke', en: 'Insights' },
-  'insta.title': { de: 'Aktuelles aus unserem Arbeitsalltag', en: 'Latest from Our Daily Work' },
-  'insta.sub': { de: 'Impressionen von Veranstaltungen, Technik-Setups und unserem Team im Einsatz.', en: 'Impressions from events, tech setups, and our team in action.' },
-  'insta.follow': { de: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> Folgen Sie uns auf Instagram', en: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> Follow Us on Instagram' },
+  'insta.label': { de: 'Einblicke', en: 'Insights', fr: 'Aperçus', es: 'Impresiones', zh: '动态' },
+  'insta.title': { de: 'Aktuelles aus unserem Arbeitsalltag', en: 'Latest from Our Daily Work', fr: 'Actualités de notre quotidien', es: 'Novedades de nuestro día a día', zh: '我们的日常工作动态' },
+  'insta.sub': { de: 'Impressionen von Veranstaltungen, Technik-Setups und unserem Team im Einsatz.', en: 'Impressions from events, tech setups, and our team in action.', fr: 'Impressions d\'événements, installations techniques et notre équipe en action.', es: 'Impresiones de eventos, montajes técnicos y nuestro equipo en acción.', zh: '活动现场、技术搭建和我们团队的工作剪影。' },
+  'insta.follow': { de: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> Folgen Sie uns auf Instagram', en: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> Follow Us on Instagram', fr: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> Suivez-nous sur Instagram', es: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> Síguenos en Instagram', zh: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> 关注我们的Instagram' },
   // CTA
-  'cta.label': { de: 'Kontakt', en: 'Contact' },
-  'cta.title': { de: 'Lassen Sie uns Ihre Veranstaltung planen', en: 'Let Us Plan Your Event' },
-  'cta.sub': { de: 'Unser Team berät Sie gerne — ob Miete, Kauf oder technischer Support.', en: 'Our team is happy to advise you — whether rental, purchase or technical support.' },
-  'cta.form': { de: '✉ Kontaktformular', en: '✉ Contact Form' },
-  'cta.rueckruf': { de: '☎ Rückrufservice', en: '☎ Callback Service' },
-  'cta.email': { de: '✉ E-Mail senden', en: '✉ Send Email' },
-  'cta.phone': { de: '☎ +49 6207 9224-0', en: '☎ +49 6207 9224-0' },
+  'cta.label': { de: 'Kontakt', en: 'Contact', fr: 'Contact', es: 'Contacto', zh: '联系我们' },
+  'cta.title': { de: 'Lassen Sie uns Ihre Veranstaltung planen', en: 'Let Us Plan Your Event', fr: 'Planifions votre événement ensemble', es: 'Planifiquemos su evento juntos', zh: '让我们为您策划活动' },
+  'cta.sub': { de: 'Unser Team berät Sie gerne — ob Miete, Kauf oder technischer Support.', en: 'Our team is happy to advise you — whether rental, purchase or technical support.', fr: 'Notre équipe vous conseille avec plaisir — location, achat ou support technique.', es: 'Nuestro equipo le asesora con gusto — alquiler, compra o soporte técnico.', zh: '我们的团队随时为您提供咨询 — 无论是租赁、购买还是技术支持。' },
+  'cta.form': { de: '✉ Kontaktformular', en: '✉ Contact Form', fr: '✉ Formulaire de contact', es: '✉ Formulario de contacto', zh: '✉ 联系表单' },
+  'cta.rueckruf': { de: '☎ Rückrufservice', en: '☎ Callback Service', fr: '☎ Service de rappel', es: '☎ Servicio de devolución de llamada', zh: '☎ 回拨服务' },
+  'cta.email': { de: '✉ E-Mail senden', en: '✉ Send Email', fr: '✉ Envoyer un e-mail', es: '✉ Enviar correo', zh: '✉ 发送邮件' },
+  'cta.phone': { de: '☎ +49 6207 9224-0', en: '☎ +49 6207 9224-0', fr: '☎ +49 6207 9224-0', es: '☎ +49 6207 9224-0', zh: '☎ +49 6207 9224-0' },
   // Footer
-  'ft.brand': { de: 'Ihr professioneller Partner für Dolmetschertechnik, Ted-Abstimmsysteme, Personenführungsanlagen und Konferenzanlagen — seit über 45 Jahren.', en: 'Your professional partner for interpreting technology, voting systems, tour guide systems and conference equipment — for over 45 years.' },
-  'ft.miete': { de: 'Miete', en: 'Rental' },
-  'ft.mehr': { de: 'Mehr', en: 'More' },
-  'ft.standorte': { de: 'Standorte', en: 'Locations' },
-  'ft.kaufen': { de: 'Konferenztechnik kaufen', en: 'Purchase Conference Tech' },
-  'ft.produkte': { de: 'Unsere Produkte', en: 'Our Products' },
-  'ft.rueckruf': { de: 'Rückrufservice', en: 'Callback Service' },
-  'ft.impressum': { de: 'Impressum', en: 'Legal Notice' },
-  'ft.datenschutz': { de: 'Datenschutz', en: 'Privacy Policy' },
+  'ft.brand': { de: 'Ihr professioneller Partner für Dolmetschertechnik, Ted-Abstimmsysteme, Personenführungsanlagen und Konferenzanlagen — seit über 45 Jahren.', en: 'Your professional partner for interpreting technology, voting systems, tour guide systems and conference equipment — for over 45 years.', fr: 'Votre partenaire professionnel pour la technique d\'interprétation, les systèmes de vote, les systèmes de guidage et les équipements de conférence — depuis plus de 45 ans.', es: 'Su socio profesional en tecnología de interpretación, sistemas de votación, sistemas de guía y equipos de conferencia — desde hace más de 45 años.', zh: '您的专业合作伙伴，提供同声传译技术、表决系统、导览系统和会议设备 — 超过45年的行业经验。' },
+  'ft.miete': { de: 'Miete', en: 'Rental', fr: 'Location', es: 'Alquiler', zh: '租赁' },
+  'ft.mehr': { de: 'Mehr', en: 'More', fr: 'Plus', es: 'Más', zh: '更多' },
+  'ft.standorte': { de: 'Standorte', en: 'Locations', fr: 'Sites', es: 'Sedes', zh: '办事处' },
+  'ft.kaufen': { de: 'Konferenztechnik kaufen', en: 'Purchase Conference Tech', fr: 'Acheter de la technique', es: 'Comprar tecnología', zh: '购买会议设备' },
+  'ft.produkte': { de: 'Unsere Produkte', en: 'Our Products', fr: 'Nos produits', es: 'Nuestros productos', zh: '我们的产品' },
+  'ft.rueckruf': { de: 'Rückrufservice', en: 'Callback Service', fr: 'Service de rappel', es: 'Servicio de devolución de llamada', zh: '回拨服务' },
+  'ft.impressum': { de: 'Impressum', en: 'Legal Notice', fr: 'Mentions légales', es: 'Aviso legal', zh: '法律声明' },
+  'ft.datenschutz': { de: 'Datenschutz', en: 'Privacy Policy', fr: 'Protection des données', es: 'Protección de datos', zh: '隐私政策' },
   // Cookie Banner
-  'cookie.text': { de: 'Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten. Weitere Informationen finden Sie in unserer <a href="javascript:void(0)" href=\'datenschutz.html\'>Datenschutzerklärung</a>.', en: 'This website uses cookies to provide you with the best possible experience. Learn more in our <a href="javascript:void(0)" href=\'datenschutz.html\'>Privacy Policy</a>.' },
-  'cookie.accept': { de: 'Akzeptieren', en: 'Accept' },
-  'cookie.decline': { de: 'Ablehnen', en: 'Decline' },
+  'cookie.text': { de: 'Diese Website verwendet Cookies, um Ihnen die bestmögliche Erfahrung zu bieten. Weitere Informationen finden Sie in unserer <a href="javascript:void(0)" href=\'datenschutz.html\'>Datenschutzerklärung</a>.', en: 'This website uses cookies to provide you with the best possible experience. Learn more in our <a href="javascript:void(0)" href=\'datenschutz.html\'>Privacy Policy</a>.', fr: 'Ce site utilise des cookies pour vous offrir la meilleure expérience possible. En savoir plus dans notre <a href="javascript:void(0)" href=\'datenschutz.html\'>politique de confidentialité</a>.', es: 'Este sitio web utiliza cookies para ofrecerle la mejor experiencia posible. Más información en nuestra <a href="javascript:void(0)" href=\'datenschutz.html\'>política de privacidad</a>.', zh: '本网站使用Cookie为您提供最佳体验。更多信息请参阅我们的<a href="javascript:void(0)" href=\'datenschutz.html\'>隐私政策</a>。' },
+  'cookie.accept': { de: 'Akzeptieren', en: 'Accept', fr: 'Accepter', es: 'Aceptar', zh: '接受' },
+  'cookie.decline': { de: 'Ablehnen', en: 'Decline', fr: 'Refuser', es: 'Rechazar', zh: '拒绝' },
   // Overlay back buttons
-  'back': { de: '← Zurück', en: '← Back' },
+  'back': { de: '← Zurück', en: '← Back', fr: '← Retour', es: '← Volver', zh: '← 返回' },
   // Overlay pages
-  'ol.dolm.h1': { de: 'Dolmetscheranlagen', en: 'Interpreting Systems' },
-  'ol.dolm.p': { de: 'Simultandolmetschertechnik für internationale Konferenzen — Miete und Verkauf', en: 'Simultaneous interpreting technology for international conferences — rental and sales' },
-  'ol.ted.h1': { de: 'Ted-Abstimmsysteme', en: 'Voting Systems' },
-  'ol.ted.p': { de: 'Interaktive Voting-Systeme für Konferenzen, Hauptversammlungen und Wahlen', en: 'Interactive voting systems for conferences, general meetings and elections' },
-  'ol.fuehr.h1': { de: 'Personen- und Führungsanlagen', en: 'Tour Guide Systems' },
-  'ol.fuehr.p': { de: 'Tourguide-Systeme für Werksführungen, Stadtführungen und Flüsterdolmetschen', en: 'Tour guide systems for factory tours, city tours and whispered interpreting' },
-  'ol.disk.h1': { de: 'Diskussionsanlagen', en: 'Discussion Systems' },
-  'ol.disk.p': { de: 'Kabellose und kabelgebundene Systeme für professionelle Konferenzen', en: 'Wireless and wired systems for professional conferences' },
-  'ol.besch.h1': { de: 'Beschallungs- und Mikrofontechnik', en: 'PA & Microphone Technology' },
-  'ol.besch.p': { de: 'Professionelle Audio-Lösungen für jede Veranstaltungsgröße', en: 'Professional audio solutions for any event size' },
-  'ol.vid.h1': { de: 'Video- und Präsentationstechnik', en: 'Video & Presentation Technology' },
-  'ol.vid.p': { de: 'Vom Beamer bis zur Video-Live-Regie — alles für Ihren professionellen Auftritt', en: 'From projectors to live video production — everything for your professional appearance' },
-  'ol.kauf.h1': { de: 'Konferenztechnik kaufen', en: 'Purchase Conference Technology' },
-  'ol.kauf.p': { de: 'Hochwertige Konferenztechnik zum Kauf — inklusive Beratung, Installation und After-Sales-Service', en: 'High-quality conference technology for purchase — including consultation, installation and after-sales service' },
-  'ol.prod.h1': { de: 'Unsere Produkte & Systeme', en: 'Our Products & Systems' },
-  'ol.prod.p': { de: 'Wir arbeiten ausschließlich mit führenden Herstellern professioneller Konferenztechnik', en: 'We work exclusively with leading manufacturers of professional conference technology' },
-  'ol.img.h1': { de: 'Ellerbrock Konferenztechnik — Imagefilm', en: 'Ellerbrock Conference Technology — Company Film' },
-  'ol.img.p': { de: 'Erleben Sie einen Einblick in unser Tagesgeschäft und unsere Arbeit mit modernster Konferenztechnik', en: 'Experience an insight into our daily business and our work with state-of-the-art conference technology' },
-  'ol.dl.h1': { de: 'Downloads', en: 'Downloads' },
-  'ol.dl.p': { de: 'Broschüren und Informationen über unsere Produkte und Dienstleistungen', en: 'Brochures and information about our products and services' },
-  'ol.kon.h1': { de: 'Kontakt', en: 'Contact' },
-  'ol.kon.p': { de: 'Wir beraten Sie gerne — persönlich, telefonisch oder per E-Mail', en: 'We are happy to advise you — in person, by phone or by email' },
-  'ol.rueck.h1': { de: 'Rückrufservice', en: 'Callback Service' },
-  'ol.rueck.p': { de: 'Wir rufen Sie zurück — persönlich und zeitnah', en: 'We will call you back — personally and promptly' },
+  'ol.dolm.h1': { de: 'Dolmetscheranlagen', en: 'Interpreting Systems', fr: 'Systèmes d\'interprétation', es: 'Sistemas de interpretación', zh: '同声传译系统' },
+  'ol.dolm.p': { de: 'Simultandolmetschertechnik für internationale Konferenzen — Miete und Verkauf', en: 'Simultaneous interpreting technology for international conferences — rental and sales', fr: 'Technique d\'interprétation simultanée pour conférences internationales — location et vente', es: 'Tecnología de interpretación simultánea para conferencias internacionales — alquiler y venta', zh: '国际会议同声传译技术 — 租赁和销售' },
+  'ol.ted.h1': { de: 'Ted-Abstimmsysteme', en: 'Voting Systems', fr: 'Systèmes de vote', es: 'Sistemas de votación', zh: '电子表决系统' },
+  'ol.ted.p': { de: 'Interaktive Voting-Systeme für Konferenzen, Hauptversammlungen und Wahlen', en: 'Interactive voting systems for conferences, general meetings and elections', fr: 'Systèmes de vote interactifs pour conférences, assemblées générales et élections', es: 'Sistemas de votación interactivos para conferencias, juntas generales y elecciones', zh: '互动投票系统，适用于会议、股东大会和选举' },
+  'ol.fuehr.h1': { de: 'Personen- und Führungsanlagen', en: 'Tour Guide Systems', fr: 'Systèmes de guidage', es: 'Sistemas de guía', zh: '导览系统' },
+  'ol.fuehr.p': { de: 'Tourguide-Systeme für Werksführungen, Stadtführungen und Flüsterdolmetschen', en: 'Tour guide systems for factory tours, city tours and whispered interpreting', fr: 'Systèmes de guidage pour visites d\'usines, visites de villes et interprétation chuchotée', es: 'Sistemas de guía para visitas a fábricas, visitas turísticas e interpretación susurrada', zh: '导览系统，适用于工厂参观、城市观光和耳语翻译' },
+  'ol.disk.h1': { de: 'Diskussionsanlagen', en: 'Discussion Systems', fr: 'Systèmes de discussion', es: 'Sistemas de discusión', zh: '讨论系统' },
+  'ol.disk.p': { de: 'Kabellose und kabelgebundene Systeme für professionelle Konferenzen', en: 'Wireless and wired systems for professional conferences', fr: 'Systèmes sans fil et câblés pour conférences professionnelles', es: 'Sistemas inalámbricos y por cable para conferencias profesionales', zh: '适用于专业会议的无线和有线系统' },
+  'ol.besch.h1': { de: 'Beschallungs- und Mikrofontechnik', en: 'PA & Microphone Technology', fr: 'Sonorisation & Microphones', es: 'Sonorización y microfonía', zh: '扩声和麦克风技术' },
+  'ol.besch.p': { de: 'Professionelle Audio-Lösungen für jede Veranstaltungsgröße', en: 'Professional audio solutions for any event size', fr: 'Solutions audio professionnelles pour événements de toute taille', es: 'Soluciones de audio profesionales para eventos de cualquier tamaño', zh: '适用于各种规模活动的专业音频解决方案' },
+  'ol.vid.h1': { de: 'Video- und Präsentationstechnik', en: 'Video & Presentation Technology', fr: 'Vidéo & Présentation', es: 'Vídeo y presentación', zh: '视频与演示技术' },
+  'ol.vid.p': { de: 'Vom Beamer bis zur Video-Live-Regie — alles für Ihren professionellen Auftritt', en: 'From projectors to live video production — everything for your professional appearance', fr: 'Du vidéoprojecteur à la régie vidéo en direct — tout pour votre apparence professionnelle', es: 'Desde proyectores hasta dirección de vídeo en vivo — todo para su imagen profesional', zh: '从投影仪到视频直播导播 — 为您打造专业形象' },
+  'ol.kauf.h1': { de: 'Konferenztechnik kaufen', en: 'Purchase Conference Technology', fr: 'Acheter de la technique de conférence', es: 'Comprar tecnología de conferencias', zh: '购买会议技术' },
+  'ol.kauf.p': { de: 'Hochwertige Konferenztechnik zum Kauf — inklusive Beratung, Installation und After-Sales-Service', en: 'High-quality conference technology for purchase — including consultation, installation and after-sales service', fr: 'Technique de conférence de haute qualité à l\'achat — conseil, installation et service après-vente inclus', es: 'Tecnología de conferencias de alta calidad en venta — incluye asesoramiento, instalación y servicio postventa', zh: '高品质会议技术销售 — 包含咨询、安装和售后服务' },
+  'ol.prod.h1': { de: 'Unsere Produkte & Systeme', en: 'Our Products & Systems', fr: 'Nos produits et systèmes', es: 'Nuestros productos y sistemas', zh: '我们的产品和系统' },
+  'ol.prod.p': { de: 'Wir arbeiten ausschließlich mit führenden Herstellern professioneller Konferenztechnik', en: 'We work exclusively with leading manufacturers of professional conference technology', fr: 'Nous travaillons exclusivement avec les fabricants leaders de technique de conférence professionnelle', es: 'Trabajamos exclusivamente con los fabricantes líderes de tecnología de conferencias profesional', zh: '我们仅与专业会议技术的领先制造商合作' },
+  'ol.img.h1': { de: 'Ellerbrock Konferenztechnik — Imagefilm', en: 'Ellerbrock Conference Technology — Company Film', fr: 'Ellerbrock Konferenztechnik — Film d\'entreprise', es: 'Ellerbrock Konferenztechnik — Vídeo corporativo', zh: 'Ellerbrock会议技术 — 企业宣传片' },
+  'ol.img.p': { de: 'Erleben Sie einen Einblick in unser Tagesgeschäft und unsere Arbeit mit modernster Konferenztechnik', en: 'Experience an insight into our daily business and our work with state-of-the-art conference technology', fr: 'Découvrez un aperçu de notre quotidien et de notre travail avec la technique de conférence de pointe', es: 'Descubra nuestro día a día y nuestro trabajo con tecnología de conferencias de última generación', zh: '了解我们的日常工作以及我们使用最先进会议技术的服务' },
+  'ol.dl.h1': { de: 'Downloads', en: 'Downloads', fr: 'Téléchargements', es: 'Descargas', zh: '下载' },
+  'ol.dl.p': { de: 'Broschüren und Informationen über unsere Produkte und Dienstleistungen', en: 'Brochures and information about our products and services', fr: 'Brochures et informations sur nos produits et services', es: 'Folletos e información sobre nuestros productos y servicios', zh: '关于我们产品和服务的宣传册和资料' },
+  'ol.kon.h1': { de: 'Kontakt', en: 'Contact', fr: 'Contact', es: 'Contacto', zh: '联系我们' },
+  'ol.kon.p': { de: 'Wir beraten Sie gerne — persönlich, telefonisch oder per E-Mail', en: 'We are happy to advise you — in person, by phone or by email', fr: 'Nous vous conseillons avec plaisir — en personne, par téléphone ou par e-mail', es: 'Le asesoramos con gusto — en persona, por teléfono o por correo electrónico', zh: '我们很乐意为您提供咨询 — 面对面、电话或电子邮件' },
+  'ol.rueck.h1': { de: 'Rückrufservice', en: 'Callback Service', fr: 'Service de rappel', es: 'Servicio de devolución de llamada', zh: '回拨服务' },
+  'ol.rueck.p': { de: 'Wir rufen Sie zurück — persönlich und zeitnah', en: 'We will call you back — personally and promptly', fr: 'Nous vous rappelons — personnellement et rapidement', es: 'Le devolvemos la llamada — de forma personal y rápida', zh: '我们会给您回电 — 亲自且及时' },
   // Contact cards
-  'kon.hq': { de: 'Niederlassung Abtsteinach (Hauptsitz)', en: 'Abtsteinach Office (Headquarters)' },
-  'kon.ber': { de: 'Niederlassung Berlin', en: 'Berlin Office' },
+  'kon.hq': { de: 'Niederlassung Abtsteinach (Hauptsitz)', en: 'Abtsteinach Office (Headquarters)', fr: 'Bureau d\'Abtsteinach (Siège)', es: 'Oficina Abtsteinach (Sede)', zh: 'Abtsteinach办事处（总部）' },
+  'kon.ber': { de: 'Niederlassung Berlin', en: 'Berlin Office', fr: 'Bureau de Berlin', es: 'Oficina Berlín', zh: '柏林办事处' },
   // Rückruf
-  'rueck.avail': { de: 'Erreichbar Mo–Fr, 9:00 – 18:00 Uhr', en: 'Available Mon–Fri, 9:00 AM – 6:00 PM' },
-  'rueck.h2': { de: 'Wir sind persönlich für Sie da!', en: 'We Are Personally Here for You!' },
-  'rueck.p1': { de: 'In der Zeit von 9:00 Uhr bis 18:00 Uhr sind wir persönlich für Sie da. Hinterlassen Sie uns Ihren Namen und Ihre Telefonnummer — wir melden uns zeitnah bei Ihnen zurück.', en: 'We are personally available from 9:00 AM to 6:00 PM. Leave us your name and phone number — we will get back to you promptly.' },
-  'rueck.form.h': { de: 'Rückruf anfordern', en: 'Request Callback' },
-  'rueck.form.sub': { de: 'Füllen Sie das Formular aus — wir melden uns bei Ihnen.', en: 'Fill out the form — we will get back to you.' },
-  'rueck.form.name': { de: 'Name *', en: 'Name *' },
-  'rueck.form.phone': { de: 'Telefonnummer *', en: 'Phone Number *' },
-  'rueck.form.day': { de: 'Gewünschter Tag', en: 'Preferred Day' },
-  'rueck.form.time': { de: 'Gewünschte Uhrzeit', en: 'Preferred Time' },
-  'rueck.form.btn': { de: 'Rückruf anfordern →', en: 'Request Callback →' },
+  'rueck.avail': { de: 'Erreichbar Mo–Fr, 9:00 – 18:00 Uhr', en: 'Available Mon–Fri, 9:00 AM – 6:00 PM', fr: 'Disponible Lun–Ven, 9h00 – 18h00', es: 'Disponible Lun–Vie, 9:00 – 18:00', zh: '服务时间：周一至周五，9:00 – 18:00' },
+  'rueck.h2': { de: 'Wir sind persönlich für Sie da!', en: 'We Are Personally Here for You!', fr: 'Nous sommes personnellement à votre disposition !', es: '¡Estamos personalmente a su disposición!', zh: '我们随时为您提供个人服务！' },
+  'rueck.p1': { de: 'In der Zeit von 9:00 Uhr bis 18:00 Uhr sind wir persönlich für Sie da. Hinterlassen Sie uns Ihren Namen und Ihre Telefonnummer — wir melden uns zeitnah bei Ihnen zurück.', en: 'We are personally available from 9:00 AM to 6:00 PM. Leave us your name and phone number — we will get back to you promptly.', fr: 'De 9h00 à 18h00, nous sommes personnellement disponibles. Laissez-nous votre nom et numéro de téléphone — nous vous rappellerons rapidement.', es: 'De 9:00 a 18:00 estamos personalmente disponibles. Déjenos su nombre y número de teléfono — le devolveremos la llamada rápidamente.', zh: '9:00至18:00，我们提供个人服务。请留下您的姓名和电话号码 — 我们会尽快回电。' },
+  'rueck.form.h': { de: 'Rückruf anfordern', en: 'Request Callback', fr: 'Demander un rappel', es: 'Solicitar devolución de llamada', zh: '请求回拨' },
+  'rueck.form.sub': { de: 'Füllen Sie das Formular aus — wir melden uns bei Ihnen.', en: 'Fill out the form — we will get back to you.', fr: 'Remplissez le formulaire — nous vous recontacterons.', es: 'Rellene el formulario — nos pondremos en contacto con usted.', zh: '填写表单 — 我们会联系您。' },
+  'rueck.form.name': { de: 'Name *', en: 'Name *', fr: 'Nom *', es: 'Nombre *', zh: '姓名 *' },
+  'rueck.form.phone': { de: 'Telefonnummer *', en: 'Phone Number *', fr: 'Numéro de téléphone *', es: 'Número de teléfono *', zh: '电话号码 *' },
+  'rueck.form.day': { de: 'Gewünschter Tag', en: 'Preferred Day', fr: 'Jour souhaité', es: 'Día preferido', zh: '希望回拨日期' },
+  'rueck.form.time': { de: 'Gewünschte Uhrzeit', en: 'Preferred Time', fr: 'Heure souhaitée', es: 'Hora preferida', zh: '希望回拨时间' },
+  'rueck.form.btn': { de: 'Rückruf anfordern →', en: 'Request Callback →', fr: 'Demander un rappel →', es: 'Solicitar devolución de llamada →', zh: '请求回拨 →' },
   // Impressum
-  'ol.imp.h1': { de: 'Impressum', en: 'Legal Notice' },
-  'ol.imp.p': { de: 'Angaben gemäß § 5 TMG', en: 'Information according to § 5 TMG' },
-  'imp.anbieter': { de: 'Anbieter', en: 'Provider' },
-  'imp.kontakt': { de: 'Kontakt', en: 'Contact' },
-  'imp.vertr': { de: 'Vertretungsberechtigter', en: 'Authorized Representative' },
-  'imp.ust': { de: 'Umsatzsteuer-ID', en: 'VAT ID' },
-  'imp.ust.p': { de: 'Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz: wird auf Anfrage mitgeteilt.', en: 'VAT identification number according to § 27a of the German VAT Act: available on request.' },
-  'imp.streit': { de: 'Streitschlichtung', en: 'Dispute Resolution' },
-  'imp.streit.p': { de: 'Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: https://ec.europa.eu/consumers/odr/. Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.', en: 'The European Commission provides a platform for online dispute resolution (OS): https://ec.europa.eu/consumers/odr/. We are neither willing nor obliged to participate in dispute resolution proceedings before a consumer arbitration board.' },
-  'imp.haftung.h': { de: 'Haftung für Inhalte', en: 'Liability for Content' },
-  'imp.haftung.p': { de: 'Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.', en: 'As a service provider, we are responsible for our own content on these pages in accordance with § 7 para. 1 TMG. According to §§ 8 to 10 TMG, however, we are not obligated to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity.' },
-  'imp.links.h': { de: 'Haftung für Links', en: 'Liability for Links' },
-  'imp.links.p': { de: 'Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.', en: 'Our website contains links to external third-party websites over whose content we have no influence. Therefore, we cannot accept any liability for this external content. The respective provider or operator of the linked pages is always responsible for their content.' },
-  'imp.urheber.h': { de: 'Urheberrecht', en: 'Copyright' },
-  'imp.urheber.p': { de: 'Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.', en: 'The content and works created by the site operators on these pages are subject to German copyright law. Duplication, processing, distribution and any kind of exploitation outside the limits of copyright require the written consent of the respective author or creator.' },
+  'ol.imp.h1': { de: 'Impressum', en: 'Legal Notice', fr: 'Mentions légales', es: 'Aviso legal', zh: '法律声明' },
+  'ol.imp.p': { de: 'Angaben gemäß § 5 TMG', en: 'Information according to § 5 TMG', fr: 'Informations conformément au § 5 TMG', es: 'Información según § 5 TMG', zh: '根据德国电信媒体法第5条的信息' },
+  'imp.anbieter': { de: 'Anbieter', en: 'Provider', fr: 'Fournisseur', es: 'Proveedor', zh: '提供者' },
+  'imp.kontakt': { de: 'Kontakt', en: 'Contact', fr: 'Contact', es: 'Contacto', zh: '联系方式' },
+  'imp.vertr': { de: 'Vertretungsberechtigter', en: 'Authorized Representative', fr: 'Représentant autorisé', es: 'Representante autorizado', zh: '授权代表' },
+  'imp.ust': { de: 'Umsatzsteuer-ID', en: 'VAT ID', fr: 'N° de TVA', es: 'N° de IVA', zh: '增值税号' },
+  'imp.ust.p': { de: 'Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz: wird auf Anfrage mitgeteilt.', en: 'VAT identification number according to § 27a of the German VAT Act: available on request.', fr: 'Numéro d\'identification TVA conformément au § 27a de la loi sur la TVA : communiqué sur demande.', es: 'Número de identificación fiscal según § 27a de la Ley del IVA: disponible bajo petición.', zh: '根据增值税法第27a条的增值税识别号：应要求提供。' },
+  'imp.streit': { de: 'Streitschlichtung', en: 'Dispute Resolution', fr: 'Règlement des litiges', es: 'Resolución de disputas', zh: '争议解决' },
+  'imp.streit.p': { de: 'Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: https://ec.europa.eu/consumers/odr/. Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.', en: 'The European Commission provides a platform for online dispute resolution (OS): https://ec.europa.eu/consumers/odr/. We are neither willing nor obliged to participate in dispute resolution proceedings before a consumer arbitration board.', fr: 'La Commission européenne met à disposition une plateforme de règlement en ligne des litiges : https://ec.europa.eu/consumers/odr/. Nous ne sommes ni disposés ni obligés de participer à une procédure de règlement des litiges.', es: 'La Comisión Europea pone a disposición una plataforma de resolución de litigios en línea: https://ec.europa.eu/consumers/odr/. No estamos dispuestos ni obligados a participar en procedimientos de resolución de disputas.', zh: '欧盟委员会提供在线争议解决平台：https://ec.europa.eu/consumers/odr/。我们不愿意也没有义务参与消费者仲裁程序。' },
+  'imp.haftung.h': { de: 'Haftung für Inhalte', en: 'Liability for Content', fr: 'Responsabilité du contenu', es: 'Responsabilidad del contenido', zh: '内容责任' },
+  'imp.haftung.p': { de: 'Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.', en: 'As a service provider, we are responsible for our own content on these pages in accordance with § 7 para. 1 TMG. According to §§ 8 to 10 TMG, however, we are not obligated to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity.', fr: 'En tant que fournisseur de services, nous sommes responsables de nos propres contenus sur ces pages conformément au § 7 par. 1 TMG.', es: 'Como proveedor de servicios, somos responsables de nuestro propio contenido en estas páginas de acuerdo con el § 7 párr. 1 TMG.', zh: '作为服务提供商，我们根据德国电信媒体法第7条第1款对本网站上的自有内容负责。' },
+  'imp.links.h': { de: 'Haftung für Links', en: 'Liability for Links', fr: 'Responsabilité des liens', es: 'Responsabilidad de los enlaces', zh: '链接责任' },
+  'imp.links.p': { de: 'Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.', en: 'Our website contains links to external third-party websites over whose content we have no influence. Therefore, we cannot accept any liability for this external content. The respective provider or operator of the linked pages is always responsible for their content.', fr: 'Notre offre contient des liens vers des sites web externes de tiers sur le contenu desquels nous n\'avons aucune influence.', es: 'Nuestra oferta contiene enlaces a sitios web externos de terceros sobre cuyo contenido no tenemos influencia.', zh: '我们的网站包含指向第三方外部网站的链接，我们对其内容没有影响力。' },
+  'imp.urheber.h': { de: 'Urheberrecht', en: 'Copyright', fr: 'Droit d\'auteur', es: 'Derechos de autor', zh: '版权' },
+  'imp.urheber.p': { de: 'Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.', en: 'The content and works created by the site operators on these pages are subject to German copyright law. Duplication, processing, distribution and any kind of exploitation outside the limits of copyright require the written consent of the respective author or creator.', fr: 'Les contenus et œuvres créés par les exploitants de ce site sont soumis au droit d\'auteur allemand.', es: 'Los contenidos y obras creados por los operadores de este sitio están sujetos a la ley de derechos de autor alemana.', zh: '本网站运营者创建的内容和作品受德国版权法保护。' },
   // Datenschutz
-  'ol.ds.h1': { de: 'Datenschutzerklärung', en: 'Privacy Policy' },
-  'ol.ds.p': { de: 'Informationen zum Datenschutz gemäß DSGVO', en: 'Privacy information in accordance with GDPR' },
-  'ds.allg.h': { de: '1. Datenschutz auf einen Blick', en: '1. Privacy at a Glance' },
-  'ds.allg.sub': { de: 'Allgemeine Hinweise', en: 'General Information' },
-  'ds.allg.p': { de: 'Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen.', en: 'The following information provides a simple overview of what happens to your personal data when you visit this website.' },
-  'ds.erfass.h': { de: 'Datenerfassung auf dieser Website', en: 'Data Collection on This Website' },
-  'ds.erfass.p1': { de: 'Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber: Ellerbrock Konferenztechnik, Löhrbacher Str. 38, 69518 Abtsteinach.', en: 'Data processing on this website is carried out by the website operator: Ellerbrock Konferenztechnik, Löhrbacher Str. 38, 69518 Abtsteinach.' },
-  'ds.erfass.p2': { de: 'Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Andere Daten werden automatisch beim Besuch der Website durch unsere IT-Systeme erfasst.', en: 'Your data is collected partly by you providing it to us. Other data is automatically collected by our IT systems when you visit the website.' },
-  'ds.hosting.h': { de: '2. Hosting', en: '2. Hosting' },
-  'ds.hosting.p': { de: 'Diese Website wird bei einem externen Dienstleister gehostet (Hoster). Die personenbezogenen Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert.', en: 'This website is hosted by an external service provider (hoster). The personal data collected on this website is stored on the hoster\'s servers.' },
-  'ds.rechte.h': { de: '3. Ihre Rechte', en: '3. Your Rights' },
-  'ds.rechte.p': { de: 'Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten.', en: 'You have the right at any time to obtain free information about the origin, recipients and purpose of your stored personal data.' },
-  'ds.cookies.h': { de: '4. Cookies', en: '4. Cookies' },
-  'ds.cookies.p': { de: 'Diese Website verwendet Cookies. Wir verwenden keine Tracking- oder Werbe-Cookies.', en: 'This website uses cookies. We do not use tracking or advertising cookies.' },
-  'ds.kontakt.h': { de: '5. Kontaktformular', en: '5. Contact Form' },
-  'ds.kontakt.p': { de: 'Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben zwecks Bearbeitung der Anfrage bei uns gespeichert.', en: 'If you send us inquiries via the contact form, your details will be stored for the purpose of processing the inquiry.' },
-  'ds.ssl.h': { de: '6. SSL-Verschlüsselung', en: '6. SSL Encryption' },
-  'ds.ssl.p': { de: 'Diese Seite nutzt aus Sicherheitsgründen eine SSL-Verschlüsselung.', en: 'This site uses SSL encryption for security reasons.' },
-  'ds.google.h': { de: '7. Google Maps', en: '7. Google Maps' },
-  'ds.google.p': { de: 'Diese Website nutzt Google Maps zur Darstellung von Karten.', en: 'This website uses Google Maps to display maps.' },
-  'ds.youtube.h': { de: '8. YouTube', en: '8. YouTube' },
-  'ds.youtube.p': { de: 'Diese Website bindet Videos der Plattform YouTube ein.', en: 'This website embeds videos from the YouTube platform.' },
+  'ol.ds.h1': { de: 'Datenschutzerklärung', en: 'Privacy Policy', fr: 'Politique de confidentialité', es: 'Política de privacidad', zh: '隐私政策' },
+  'ol.ds.p': { de: 'Informationen zum Datenschutz gemäß DSGVO', en: 'Privacy information in accordance with GDPR', fr: 'Informations sur la protection des données conformément au RGPD', es: 'Información sobre protección de datos según el RGPD', zh: '根据GDPR的数据保护信息' },
+  'ds.allg.h': { de: '1. Datenschutz auf einen Blick', en: '1. Privacy at a Glance', fr: '1. Protection des données en bref', es: '1. Protección de datos de un vistazo', zh: '1. 数据保护概览' },
+  'ds.allg.sub': { de: 'Allgemeine Hinweise', en: 'General Information', fr: 'Informations générales', es: 'Información general', zh: '一般说明' },
+  'ds.allg.p': { de: 'Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen.', en: 'The following information provides a simple overview of what happens to your personal data when you visit this website.', fr: 'Les indications suivantes donnent un aperçu simple de ce qui arrive à vos données personnelles lorsque vous visitez ce site.', es: 'Las siguientes indicaciones ofrecen una visión general de lo que sucede con sus datos personales cuando visita este sitio web.', zh: '以下说明简要概述了您访问本网站时您的个人数据会发生什么。' },
+  'ds.erfass.h': { de: 'Datenerfassung auf dieser Website', en: 'Data Collection on This Website', fr: 'Collecte de données sur ce site', es: 'Recopilación de datos en este sitio', zh: '本网站的数据收集' },
+  'ds.erfass.p1': { de: 'Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber: Ellerbrock Konferenztechnik, Löhrbacher Str. 38, 69518 Abtsteinach.', en: 'Data processing on this website is carried out by the website operator: Ellerbrock Konferenztechnik, Löhrbacher Str. 38, 69518 Abtsteinach.', fr: 'Le traitement des données sur ce site est effectué par l\'exploitant : Ellerbrock Konferenztechnik, Löhrbacher Str. 38, 69518 Abtsteinach.', es: 'El procesamiento de datos en este sitio web es realizado por el operador: Ellerbrock Konferenztechnik, Löhrbacher Str. 38, 69518 Abtsteinach.', zh: '本网站的数据处理由网站运营者执行：Ellerbrock Konferenztechnik, Löhrbacher Str. 38, 69518 Abtsteinach。' },
+  'ds.erfass.p2': { de: 'Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Andere Daten werden automatisch beim Besuch der Website durch unsere IT-Systeme erfasst.', en: 'Your data is collected partly by you providing it to us. Other data is automatically collected by our IT systems when you visit the website.', fr: 'Vos données sont collectées d\'une part par vos communications et d\'autre part automatiquement par nos systèmes informatiques lors de la visite du site.', es: 'Sus datos se recopilan en parte cuando usted nos los proporciona y en parte automáticamente por nuestros sistemas informáticos al visitar el sitio web.', zh: '您的数据一方面通过您提供给我们的信息收集，另一方面在您访问网站时由我们的IT系统自动收集。' },
+  'ds.hosting.h': { de: '2. Hosting', en: '2. Hosting', fr: '2. Hébergement', es: '2. Alojamiento', zh: '2. 托管' },
+  'ds.hosting.p': { de: 'Diese Website wird bei einem externen Dienstleister gehostet (Hoster). Die personenbezogenen Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert.', en: 'This website is hosted by an external service provider (hoster). The personal data collected on this website is stored on the hoster\'s servers.', fr: 'Ce site est hébergé par un prestataire externe. Les données personnelles collectées sont stockées sur les serveurs de l\'hébergeur.', es: 'Este sitio web está alojado por un proveedor de servicios externo. Los datos personales recopilados se almacenan en los servidores del proveedor.', zh: '本网站由外部服务提供商托管。收集的个人数据存储在托管商的服务器上。' },
+  'ds.rechte.h': { de: '3. Ihre Rechte', en: '3. Your Rights', fr: '3. Vos droits', es: '3. Sus derechos', zh: '3. 您的权利' },
+  'ds.rechte.p': { de: 'Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten.', en: 'You have the right at any time to obtain free information about the origin, recipients and purpose of your stored personal data.', fr: 'Vous avez à tout moment le droit d\'obtenir gratuitement des informations sur l\'origine, le destinataire et la finalité de vos données personnelles stockées.', es: 'Usted tiene en todo momento el derecho a obtener información gratuita sobre el origen, destinatario y finalidad de sus datos personales almacenados.', zh: '您有权随时免费获取有关已存储个人数据的来源、接收者和目的的信息。' },
+  'ds.cookies.h': { de: '4. Cookies', en: '4. Cookies', fr: '4. Cookies', es: '4. Cookies', zh: '4. Cookie' },
+  'ds.cookies.p': { de: 'Diese Website verwendet Cookies. Wir verwenden keine Tracking- oder Werbe-Cookies.', en: 'This website uses cookies. We do not use tracking or advertising cookies.', fr: 'Ce site utilise des cookies. Nous n\'utilisons pas de cookies de suivi ou publicitaires.', es: 'Este sitio web utiliza cookies. No utilizamos cookies de seguimiento ni publicitarias.', zh: '本网站使用Cookie。我们不使用跟踪或广告Cookie。' },
+  'ds.kontakt.h': { de: '5. Kontaktformular', en: '5. Contact Form', fr: '5. Formulaire de contact', es: '5. Formulario de contacto', zh: '5. 联系表单' },
+  'ds.kontakt.p': { de: 'Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben zwecks Bearbeitung der Anfrage bei uns gespeichert.', en: 'If you send us inquiries via the contact form, your details will be stored for the purpose of processing the inquiry.', fr: 'Si vous nous envoyez des demandes via le formulaire de contact, vos données seront stockées pour le traitement de la demande.', es: 'Si nos envía consultas a través del formulario de contacto, sus datos serán almacenados para el procesamiento de la consulta.', zh: '如果您通过联系表单向我们发送咨询，您的信息将被存储用于处理咨询。' },
+  'ds.ssl.h': { de: '6. SSL-Verschlüsselung', en: '6. SSL Encryption', fr: '6. Chiffrement SSL', es: '6. Cifrado SSL', zh: '6. SSL加密' },
+  'ds.ssl.p': { de: 'Diese Seite nutzt aus Sicherheitsgründen eine SSL-Verschlüsselung.', en: 'This site uses SSL encryption for security reasons.', fr: 'Ce site utilise le chiffrement SSL pour des raisons de sécurité.', es: 'Este sitio utiliza cifrado SSL por razones de seguridad.', zh: '本网站出于安全原因使用SSL加密。' },
+  'ds.google.h': { de: '7. Google Maps', en: '7. Google Maps', fr: '7. Google Maps', es: '7. Google Maps', zh: '7. Google Maps' },
+  'ds.google.p': { de: 'Diese Website nutzt Google Maps zur Darstellung von Karten.', en: 'This website uses Google Maps to display maps.', fr: 'Ce site utilise Google Maps pour afficher des cartes.', es: 'Este sitio web utiliza Google Maps para mostrar mapas.', zh: '本网站使用Google Maps显示地图。' },
+  'ds.youtube.h': { de: '8. YouTube', en: '8. YouTube', fr: '8. YouTube', es: '8. YouTube', zh: '8. YouTube' },
+  'ds.youtube.p': { de: 'Diese Website bindet Videos der Plattform YouTube ein.', en: 'This website embeds videos from the YouTube platform.', fr: 'Ce site intègre des vidéos de la plateforme YouTube.', es: 'Este sitio web integra vídeos de la plataforma YouTube.', zh: '本网站嵌入了YouTube平台的视频。' },
   // Kontaktformular
-  'ol.kf.h1': { de: 'Kontaktformular', en: 'Contact Form' },
-  'ol.kf.p': { de: 'Schreiben Sie uns — wir antworten Ihnen schnellstmöglich', en: 'Write to us — we will reply as soon as possible' },
-  'kf.h': { de: 'Nachricht senden', en: 'Send Message' },
-  'kf.sub': { de: 'Alle mit * markierten Felder sind Pflichtfelder.', en: 'All fields marked with * are required.' },
-  'kf.name': { de: 'Name *', en: 'Name *' },
-  'kf.firma': { de: 'Firma', en: 'Company' },
-  'kf.email': { de: 'E-Mail *', en: 'Email *' },
-  'kf.phone': { de: 'Telefon', en: 'Phone' },
-  'kf.betreff': { de: 'Betreff *', en: 'Subject *' },
-  'kf.msg': { de: 'Nachricht *', en: 'Message *' },
-  'kf.dsgvo': { de: 'Ich habe die <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *', en: 'I have read the <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">Privacy Policy</a> and agree to the processing of my data. *' },
-  'kf.btn': { de: 'Nachricht senden →', en: 'Send Message →' },
+  'ol.kf.h1': { de: 'Kontaktformular', en: 'Contact Form', fr: 'Formulaire de contact', es: 'Formulario de contacto', zh: '联系表单' },
+  'ol.kf.p': { de: 'Schreiben Sie uns — wir antworten Ihnen schnellstmöglich', en: 'Write to us — we will reply as soon as possible', fr: 'Écrivez-nous — nous vous répondrons dans les plus brefs délais', es: 'Escríbanos — le responderemos lo antes posible', zh: '给我们留言 — 我们会尽快回复' },
+  'kf.h': { de: 'Nachricht senden', en: 'Send Message', fr: 'Envoyer un message', es: 'Enviar mensaje', zh: '发送消息' },
+  'kf.sub': { de: 'Alle mit * markierten Felder sind Pflichtfelder.', en: 'All fields marked with * are required.', fr: 'Tous les champs marqués d\'un * sont obligatoires.', es: 'Todos los campos marcados con * son obligatorios.', zh: '带 * 号的为必填项。' },
+  'kf.name': { de: 'Name *', en: 'Name *', fr: 'Nom *', es: 'Nombre *', zh: '姓名 *' },
+  'kf.firma': { de: 'Firma', en: 'Company', fr: 'Entreprise', es: 'Empresa', zh: '公司' },
+  'kf.email': { de: 'E-Mail *', en: 'Email *', fr: 'E-mail *', es: 'Correo electrónico *', zh: '电子邮件 *' },
+  'kf.phone': { de: 'Telefon', en: 'Phone', fr: 'Téléphone', es: 'Teléfono', zh: '电话' },
+  'kf.betreff': { de: 'Betreff *', en: 'Subject *', fr: 'Objet *', es: 'Asunto *', zh: '主题 *' },
+  'kf.msg': { de: 'Nachricht *', en: 'Message *', fr: 'Message *', es: 'Mensaje *', zh: '留言 *' },
+  'kf.dsgvo': { de: 'Ich habe die <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *', en: 'I have read the <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">Privacy Policy</a> and agree to the processing of my data. *', fr: 'J\'ai lu la <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">politique de confidentialité</a> et j\'accepte le traitement de mes données. *', es: 'He leído la <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">política de privacidad</a> y acepto el procesamiento de mis datos. *', zh: '我已阅读<a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">隐私政策</a>并同意处理我的数据。*' },
+  'kf.btn': { de: 'Nachricht senden →', en: 'Send Message →', fr: 'Envoyer le message →', es: 'Enviar mensaje →', zh: '发送消息 →' },
 };
 
-function toggleLang() {
-  currentLang = currentLang === 'de' ? 'en' : 'de';
-  document.getElementById('langToggle').textContent = currentLang.toUpperCase();
-  document.documentElement.lang = currentLang;
-  document.title = currentLang === 'de'
-    ? 'Ellerbrock Konferenztechnik – Dolmetschertechnik, Ted-Systeme & Führungsanlagen'
-    : 'Ellerbrock Conference Technology – Interpreting, Voting & Tour Guide Systems';
+function toggleLangMenu() {
+  document.getElementById('langMenu').classList.toggle('open');
+}
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+  const dd = document.querySelector('.lang-dropdown');
+  if (dd && !dd.contains(e.target)) {
+    document.getElementById('langMenu').classList.remove('open');
+  }
+});
+function setLang(lang) {
+  currentLang = lang;
+  const labels = { de: 'DE', en: 'EN', fr: 'FR', es: 'ES', zh: '中' };
+  document.getElementById('langToggle').textContent = labels[lang];
+  document.documentElement.lang = lang;
+  // Update page title
+  const titles = {
+    de: 'Ellerbrock Konferenztechnik \u2013 Dolmetschertechnik, Ted-Systeme & F\u00fchrungsanlagen',
+    en: 'Ellerbrock Conference Technology \u2013 Interpreting, Voting & Tour Guide Systems',
+    fr: 'Ellerbrock Technique de Conf\u00e9rence \u2014 Interpr\u00e9tation, Vote et Syst\u00e8mes de Guidage',
+    es: 'Ellerbrock Tecnolog\u00eda de Conferencias \u2014 Interpretaci\u00f3n, Votaci\u00f3n y Sistemas de Gu\u00eda',
+    zh: 'Ellerbrock\u4F1A\u8BAE\u6280\u672F \u2014 \u540C\u58F0\u4F20\u8BD1\u3001\u7535\u5B50\u8868\u51B3\u548C\u5BFC\u89C8\u7CFB\u7EDF'
+  };
+  document.title = titles[lang] || titles.de;
+  // Update all i18n elements
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (T[key] && T[key][currentLang]) {
-      if (el.tagName === 'INPUT') {
-        el.placeholder = T[key][currentLang];
+    if (T[key] && T[key][lang]) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = T[key][lang];
       } else {
-        el.innerHTML = T[key][currentLang];
+        el.innerHTML = T[key][lang];
       }
     }
   });
+  // Update dropdown active state
+  document.querySelectorAll('.lang-menu button').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick') === "setLang('" + lang + "')");
+  });
+  document.getElementById('langMenu').classList.remove('open');
+  // Save preference
+  try { localStorage.setItem('preferred-lang', lang); } catch(e) {}
 }
+// Restore saved language on load
+(function() {
+  try {
+    const saved = localStorage.getItem('preferred-lang');
+    if (saved && saved !== 'de') { setLang(saved); }
+  } catch(e) {}
+})();
 // ===== COOKIE BANNER =====
 (function() {
   if (localStorage.getItem('cookie-consent')) {
