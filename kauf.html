@@ -1081,6 +1081,22 @@ function setLang(lang) {
     if (saved && saved !== 'de') { setLang(saved); }
   } catch(e) {}
 })();
+
+// ===== NAV DROPDOWN (Über uns) =====
+function toggleNavDropdown(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  var dd = document.getElementById('navDropdown');
+  dd.classList.toggle('open');
+  // Close lang menu if open
+  document.getElementById('langMenu').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('navDropdown');
+  if (dd && !dd.contains(e.target)) {
+    dd.classList.remove('open');
+  }
+});
 // ===== COOKIE BANNER =====
 (function() {
   if (localStorage.getItem('cookie-consent')) {
