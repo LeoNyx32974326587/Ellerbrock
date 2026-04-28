@@ -107,17 +107,18 @@ body.dark .nav-links.active { background: var(--bg); border-color: var(--border)
 .tool-btn:hover { background: var(--bg-alt); border-color: var(--teal); }
 /* ===== NAV DROPDOWN ===== */
 .nav-has-dropdown { position: relative; }
+.nav-has-dropdown > a { cursor: pointer; }
 .nav-has-dropdown > a::after { content: ''; display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid currentColor; margin-left: 5px; vertical-align: middle; transition: transform 0.2s; }
-.nav-has-dropdown:hover > a::after { transform: rotate(180deg); }
-.nav-sub { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(-4px); min-width: 200px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 6px 0; opacity: 0; visibility: hidden; transition: all 0.2s ease; z-index: 1001; list-style: none; }
-.nav-has-dropdown:hover .nav-sub { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-.nav-sub li a { display: flex; align-items: center; gap: 8px; padding: 10px 18px; font-size: 0.85rem; color: var(--text); transition: background 0.15s; white-space: nowrap; }
+.nav-has-dropdown.open > a::after { transform: rotate(180deg); }
+.nav-sub { position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%) translateY(-8px); min-width: 210px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 6px 0; opacity: 0; visibility: hidden; transition: all 0.2s ease; z-index: 1001; list-style: none; pointer-events: none; }
+.nav-has-dropdown.open .nav-sub { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+.nav-sub li a { display: flex; align-items: center; gap: 8px; padding: 10px 18px; font-size: 0.85rem; color: var(--text); transition: background 0.15s; white-space: nowrap; border-radius: 6px; margin: 0 6px; }
 .nav-sub li a:hover { background: var(--bg-alt); color: var(--teal); }
 .nav-sub li a svg { width: 16px; height: 16px; stroke: var(--teal); fill: none; stroke-width: 2; flex-shrink: 0; }
 @media (max-width: 768px) {
   .nav-has-dropdown > a::after { display: none; }
-  .nav-sub { position: static; transform: none; opacity: 1; visibility: visible; box-shadow: none; border: none; border-radius: 0; padding: 0 0 0 16px; min-width: auto; background: transparent; }
-  .nav-sub li a { padding: 8px 14px; }
+  .nav-has-dropdown.open .nav-sub, .nav-sub { position: static; transform: none; opacity: 1; visibility: visible; pointer-events: auto; box-shadow: none; border: none; border-radius: 0; padding: 0 0 0 16px; min-width: auto; background: transparent; }
+  .nav-sub li a { padding: 8px 14px; margin: 0; }
 }
 /* ===== LANGUAGE DROPDOWN ===== */
 .lang-dropdown { position: relative; }
@@ -596,7 +597,7 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
       <li><a href="produkte.html" data-i18n="nav.produkte">Produkte</a></li>
       <li><a href="downloads.html" data-i18n="nav.downloads">Downloads</a></li>
       <li><a href="filme.html">Filme & Guides</a></li>
-      <li class="nav-has-dropdown"><a href="index.html#ueber-uns" data-i18n="nav.ueber">Über uns</a>
+      <li class="nav-has-dropdown" id="navDropdown"><a href="javascript:void(0)" onclick="toggleNavDropdown(event)" data-i18n="nav.ueber">Über uns</a>
         <ul class="nav-sub">
           <li><a href="standort-abtsteinach.html"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> <span data-i18n="nav.standort.abst">Abtsteinach (Hauptsitz)</span></a></li>
           <li><a href="standort-berlin.html"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> <span data-i18n="nav.standort.ber">Berlin</span></a></li>
