@@ -382,10 +382,15 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 /* Callback */
 .callback-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
 .team-cards { display: flex; gap: 24px; margin-top: 32px; flex-wrap: wrap; }
-.team-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; text-align: center; padding: 24px; flex: 1; min-width: 140px; transition: var(--transition); }
-.team-card:hover { box-shadow: var(--shadow); }
-.team-card img { width: 100px; height: 120px; object-fit: cover; border-radius: 10px; margin: 0 auto 16px; }
-.team-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--primary); }
+.team-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; text-align: center; transition: var(--transition); }
+.team-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
+.team-avatar { width: 100%; height: 220px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary), var(--teal)); overflow: hidden; }
+.team-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.team-avatar .initials { font-size: 2.8rem; font-weight: 800; color: white; }
+.team-card-body { padding: 24px; }
+.team-card-body h4 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+.team-card-body .team-role { font-size: 0.78rem; font-weight: 600; color: var(--teal); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+.team-card-body p { font-size: 0.9rem; color: var(--text-light); line-height: 1.7; }
 .callback-form { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; }
 .callback-form h3 { font-size: 1.2rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
 .callback-form .form-subtitle { font-size: 0.9rem; color: var(--text-light); margin-bottom: 28px; }
@@ -663,6 +668,35 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
         </div>
       </div>
 
+      <!-- Geschäftsleitung -->
+      <div class="fade-up" style="margin-bottom:56px;">
+        <h2 style="color:var(--primary); margin-bottom:24px;" data-i18n="ueber.gl.h">Geschäftsleitung</h2>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:32px;">
+          <div class="team-card">
+            <div class="team-avatar">
+              <img src="images/team-fabian-ellerbrock.jpg" alt="Fabian Ellerbrock" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <span class="initials" style="display:none;">FE</span>
+            </div>
+            <div class="team-card-body">
+              <h4>Fabian Ellerbrock</h4>
+              <div class="team-role" data-i18n="ueber.gl.fabian.role">Geschäftsführer</div>
+              <p data-i18n="ueber.gl.fabian.p">Leitet das Unternehmen in zweiter Generation und verantwortet die strategische Ausrichtung sowie den Ausbau der bundesweiten Standorte.</p>
+            </div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">
+              <img src="images/team-david-hintenlang.jpg" alt="David Hintenlang" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <span class="initials" style="display:none;">DH</span>
+            </div>
+            <div class="team-card-body">
+              <h4>David Hintenlang</h4>
+              <div class="team-role" data-i18n="ueber.gl.david.role">Geschäftsführer</div>
+              <p data-i18n="ueber.gl.david.p">Verantwortet den operativen Bereich und die technische Leitung — von der Projektplanung bis zur Vor-Ort-Betreuung.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Leistungen -->
       <div class="fade-up" style="margin-bottom:56px;">
         <h2 style="color:var(--primary); margin-bottom:24px;" data-i18n="ueber.leist.h">Was wir bieten</h2>
@@ -756,12 +790,21 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 <!-- ========== JAVASCRIPT ========== -->
 <script>
 // ===== PRELOADER =====
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('preloader').classList.add('fade-out');
-    setTimeout(() => document.getElementById('preloader').style.display = 'none', 600);
-  }, 800);
-});
+function hidePreloader() {
+  var p = document.getElementById('preloader');
+  if (p && !p.classList.contains('fade-out')) {
+    p.classList.add('fade-out');
+    setTimeout(function() { p.style.display = 'none'; }, 600);
+  }
+}
+// Hide after DOM is ready (don't wait for all images)
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  setTimeout(hidePreloader, 300);
+} else {
+  document.addEventListener('DOMContentLoaded', function() { setTimeout(hidePreloader, 300); });
+}
+// Fallback: always hide after 2 seconds no matter what
+setTimeout(hidePreloader, 2000);
 
 // ===== SCROLL NAVBAR =====
 window.addEventListener('scroll', () => {
@@ -811,6 +854,8 @@ document.querySelectorAll('.services-grid .service-card, .ref-grid .ref-card').f
 });
 
 // ===== PAGE TRANSITION =====
+// Always ensure page is visible on load (fixes stuck white screen)
+document.body.style.opacity = '1';
 document.body.classList.add('page-transition');
 document.querySelectorAll('a[href]').forEach(a => {
   const href = a.getAttribute('href');
@@ -836,6 +881,8 @@ document.querySelectorAll('a[href]').forEach(a => {
     setTimeout(() => { window.location.href = href; }, 200);
   });
 });
+// Safety: if user navigates back, restore visibility
+window.addEventListener('pageshow', function() { document.body.style.opacity = '1'; });
 
 
 // ===== OVERLAY PAGES =====

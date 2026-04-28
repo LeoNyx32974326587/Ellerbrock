@@ -743,12 +743,21 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 <!-- ========== JAVASCRIPT ========== -->
 <script>
 // ===== PRELOADER =====
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('preloader').classList.add('fade-out');
-    setTimeout(() => document.getElementById('preloader').style.display = 'none', 600);
-  }, 800);
-});
+function hidePreloader() {
+  var p = document.getElementById('preloader');
+  if (p && !p.classList.contains('fade-out')) {
+    p.classList.add('fade-out');
+    setTimeout(function() { p.style.display = 'none'; }, 600);
+  }
+}
+// Hide after DOM is ready (don't wait for all images)
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  setTimeout(hidePreloader, 300);
+} else {
+  document.addEventListener('DOMContentLoaded', function() { setTimeout(hidePreloader, 300); });
+}
+// Fallback: always hide after 2 seconds no matter what
+setTimeout(hidePreloader, 2000);
 
 // ===== SCROLL NAVBAR =====
 window.addEventListener('scroll', () => {
@@ -798,6 +807,8 @@ document.querySelectorAll('.services-grid .service-card, .ref-grid .ref-card').f
 });
 
 // ===== PAGE TRANSITION =====
+// Always ensure page is visible on load (fixes stuck white screen)
+document.body.style.opacity = '1';
 document.body.classList.add('page-transition');
 document.querySelectorAll('a[href]').forEach(a => {
   const href = a.getAttribute('href');
@@ -823,6 +834,8 @@ document.querySelectorAll('a[href]').forEach(a => {
     setTimeout(() => { window.location.href = href; }, 200);
   });
 });
+// Safety: if user navigates back, restore visibility
+window.addEventListener('pageshow', function() { document.body.style.opacity = '1'; });
 
 
 // ===== OVERLAY PAGES =====
