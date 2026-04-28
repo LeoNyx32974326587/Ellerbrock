@@ -595,19 +595,19 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
       <li><a href="index.html#leistungen" data-i18n="nav.leistungen">Leistungen</a></li>
       <li class="nav-has-dropdown" id="navDropdownProdukte"><a href="javascript:void(0)" onclick="toggleNavDropdownProdukte(event)" data-i18n="nav.produkte">Produkte</a>
         <ul class="nav-sub">
-          <li><a href="produkte.html"><svg viewBox="0 0 24 24"><path d="M20 7h-4V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v3H4a1 1 0 00-1 1v11a2 2 0 002 2h14a2 2 0 002-2V8a1 1 0 00-1-1zM10 4h4v3h-4V4z"/></svg> <span data-i18n="nav.prod.artikel">Artikel</span></a></li>
-          <li><a href="kauf.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg> <span data-i18n="nav.prod.kauf">Kauf</span></a></li>
-          <li><a href="miete.html"><svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <span data-i18n="nav.prod.miete">Miete</span></a></li>
+          <li><a href="kauf.html"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> <span data-i18n="nav.prod.kaufen">Kaufen</span></a></li>
+          <li><a href="miete.html"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> <span data-i18n="nav.prod.mieten">Mieten</span></a></li>
+          <li><a href="produkte.html"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg> <span data-i18n="nav.prod.bestand">Bestand</span></a></li>
         </ul>
       </li>
-      <li><a href="downloads.html" data-i18n="nav.downloads">Downloads</a></li>
-      <li><a href="filme.html">Filme & Guides</a></li>
       <li><a href="ueber-uns.html" data-i18n="nav.ueber">Über uns</a></li>
-      <li class="nav-has-dropdown" id="navDropdown"><a href="javascript:void(0)" onclick="toggleNavDropdown(event)" data-i18n="nav.standorte">Standorte</a>
+      <li class="nav-has-dropdown" id="navDropdown"><a href="javascript:void(0)" onclick="toggleNavDropdown(event)" data-i18n="nav.mehr">Mehr</a>
         <ul class="nav-sub">
           <li><a href="standort-abtsteinach.html"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> <span data-i18n="nav.standort.abst">Abtsteinach (Hauptsitz)</span></a></li>
           <li><a href="standort-berlin.html"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> <span data-i18n="nav.standort.ber">Berlin</span></a></li>
           <li><a href="standort-bonn.html"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> <span data-i18n="nav.standort.bonn">Bonn</span></a></li>
+          <li style="border-top:1px solid var(--border); margin-top:4px; padding-top:4px;"><a href="filme.html"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7zM14 5H3a2 2 0 00-2 2v10a2 2 0 002 2h11a2 2 0 002-2V7a2 2 0 00-2-2z"/></svg> <span data-i18n="nav.filme">Filme & Guides</span></a></li>
+          <li><a href="downloads.html"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> <span data-i18n="nav.downloads">Downloads</span></a></li>
         </ul>
       </li>
       <li><a href="index.html#kontakt" class="nav-cta" data-i18n="nav.kontakt">Kontakt</a></li>
@@ -849,6 +849,10 @@ const T = {
   'nav.leistungen': { de: 'Leistungen', en: 'Services', fr: 'Services', es: 'Servicios', zh: '服务' },
   'nav.kauf': { de: 'Kauf', en: 'Purchase', fr: 'Achat', es: 'Compra', zh: '购买' },
   'nav.produkte': { de: 'Produkte', en: 'Products', fr: 'Produits', es: 'Productos', zh: '产品' },
+
+  'nav.prod.kaufen': { de: 'Kaufen', en: 'Purchase', fr: 'Acheter', es: 'Comprar', zh: '购买' },
+  'nav.prod.mieten': { de: 'Mieten', en: 'Rental', fr: 'Location', es: 'Alquiler', zh: '租赁' },
+  'nav.prod.bestand': { de: 'Bestand', en: 'Inventory', fr: 'Stock', es: 'Inventario', zh: '库存' },
   'nav.prod.artikel': { de: 'Artikel', en: 'Products', fr: 'Articles', es: 'Artículos', zh: '产品' },
   'nav.prod.kauf': { de: 'Kauf', en: 'Purchase', fr: 'Achat', es: 'Compra', zh: '购买' },
   'nav.prod.miete': { de: 'Miete', en: 'Rental', fr: 'Location', es: 'Alquiler', zh: '租赁' },
@@ -899,6 +903,8 @@ const T = {
   'ueber.cta.p': { de: 'Kontaktieren Sie uns für eine unverbindliche Beratung.', en: 'Contact us for a free consultation.', fr: 'Contactez-nous pour un conseil sans engagement.', es: 'Contáctenos para una asesoría sin compromiso.', zh: '联系我们获取免费咨询。' },
   'ueber.cta.btn': { de: 'Jetzt anfragen →', en: 'Get in touch →', fr: 'Demander un devis →', es: 'Solicitar presupuesto →', zh: '立即咨询 →' },
   'nav.kontakt': { de: 'Kontakt', en: 'Contact', fr: 'Contact', es: 'Contacto', zh: '联系我们' },
+  'nav.mehr': { de: 'Mehr', en: 'More', fr: 'Plus', es: 'Más', zh: '更多' },
+  'nav.filme': { de: 'Filme & Guides', en: 'Films & Guides', fr: 'Films & Guides', es: 'Películas y guías', zh: '影片与指南' },
 
   'nav.standort.abst': { de: 'Abtsteinach (Hauptsitz)', en: 'Abtsteinach (Headquarters)', fr: 'Abtsteinach (Siège)', es: 'Abtsteinach (Sede)', zh: 'Abtsteinach（总部）' },
   'nav.standort.ber': { de: 'Berlin', en: 'Berlin', fr: 'Berlin', es: 'Berlín', zh: '柏林' },
