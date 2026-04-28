@@ -1155,12 +1155,29 @@ function toggleNavDropdown(e) {
   dd.classList.toggle('open');
   // Close lang menu if open
   document.getElementById('langMenu').classList.remove('open');
+  var ddP = document.getElementById('navDropdownProdukte');
+  if (ddP) ddP.classList.remove('open');
 }
 document.addEventListener('click', function(e) {
   var dd = document.getElementById('navDropdown');
   if (dd && !dd.contains(e.target)) {
     dd.classList.remove('open');
   }
+});
+
+// ===== NAV DROPDOWN (Produkte) =====
+function toggleNavDropdownProdukte(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  var dd = document.getElementById('navDropdownProdukte');
+  dd.classList.toggle('open');
+  // Close other dropdowns
+  document.getElementById('navDropdown').classList.remove('open');
+  document.getElementById('langMenu').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('navDropdownProdukte');
+  if (dd && !dd.contains(e.target)) { dd.classList.remove('open'); }
 });
 // ===== COOKIE BANNER =====
 (function() {
