@@ -768,7 +768,7 @@ document.querySelectorAll('.services-grid .service-card, .ref-grid .ref-card').f
 document.body.classList.add('page-transition');
 document.querySelectorAll('a[href]').forEach(a => {
   const href = a.getAttribute('href');
-  if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('http') || a.getAttribute('target') === '_blank') return;
+  if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('http') || href.startsWith('javascript:') || a.getAttribute('target') === '_blank') return;
   a.addEventListener('click', function(e) {
     e.preventDefault();
     document.body.style.opacity = '0';
