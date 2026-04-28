@@ -462,12 +462,12 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
 /* ===== STAGGERED FADE-IN ===== */
-.fade-up.stagger-1 { transition-delay: 0.1s; }
-.fade-up.stagger-2 { transition-delay: 0.2s; }
-.fade-up.stagger-3 { transition-delay: 0.3s; }
-.fade-up.stagger-4 { transition-delay: 0.4s; }
-.fade-up.stagger-5 { transition-delay: 0.5s; }
-.fade-up.stagger-6 { transition-delay: 0.6s; }
+.fade-up.stagger-1 { transition-delay: 0.05s; }
+.fade-up.stagger-2 { transition-delay: 0.1s; }
+.fade-up.stagger-3 { transition-delay: 0.15s; }
+.fade-up.stagger-4 { transition-delay: 0.2s; }
+.fade-up.stagger-5 { transition-delay: 0.25s; }
+.fade-up.stagger-6 { transition-delay: 0.3s; }
 
 /* ===== HERO PARALLAX ===== */
 .hero-bg { will-change: transform; }
@@ -501,7 +501,7 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 .ref-icon svg { stroke: var(--teal); }
 
 /* ===== FADE-UP ===== */
-.fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.35s ease, transform 0.35s ease; }
 .fade-up.visible { opacity: 1; transform: translateY(0); }
 
 /* ===== RESPONSIVE ===== */
@@ -839,7 +839,7 @@ window.addEventListener('scroll', () => {
 // ===== FADE-UP OBSERVER =====
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.01, rootMargin: '0px 0px 100px 0px' });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
 // ===== ACTIVE NAV LINK =====
@@ -885,6 +885,20 @@ document.querySelectorAll('a[href]').forEach(a => {
   if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('http') || href.startsWith('javascript:') || a.getAttribute('target') === '_blank') return;
   a.addEventListener('click', function(e) {
     e.preventDefault();
+    // Check if link points to the current page (same page navigation)
+    var currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    var linkPage = href.split('#')[0] || currentPage;
+    var linkHash = href.indexOf('#') >= 0 ? href.split('#')[1] : '';
+    if (linkPage === currentPage) {
+      // Same page: just scroll to section or top
+      if (linkHash) {
+        var target = document.getElementById(linkHash);
+        if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
     document.body.style.opacity = '0';
     document.body.style.transition = 'opacity 0.2s ease';
     setTimeout(() => { window.location.href = href; }, 200);
@@ -930,11 +944,19 @@ const counterObserver = new IntersectionObserver(entries => {
 document.querySelectorAll('.hero-stats, .about-card-inner').forEach(el => counterObserver.observe(el));
 
 // ===== DARK / LIGHT MODE =====
-let isDark = false;
+let isDark = (function() {
+  try { return localStorage.getItem('preferred-theme') === 'dark'; } catch(e) { return false; }
+})();
+// Apply immediately to avoid flash
+if (isDark) {
+  document.body.classList.add('dark');
+  document.getElementById('themeToggle').innerHTML = '\u2606';
+}
 function toggleTheme() {
   isDark = !isDark;
   document.body.classList.toggle('dark', isDark);
   document.getElementById('themeToggle').innerHTML = isDark ? '&#9788;' : '&#9790;';
+  try { localStorage.setItem('preferred-theme', isDark ? 'dark' : 'light'); } catch(e) {}
 }
 
 // ===== LANGUAGE TOGGLE (DE / EN) =====
