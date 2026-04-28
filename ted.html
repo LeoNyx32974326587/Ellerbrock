@@ -347,6 +347,17 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 .sub-card-body { padding: 28px; }
 .sub-card-body h4 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
 .sub-card-body p { font-size: 0.9rem; color: var(--text-light); line-height: 1.7; }
+/* Team member cards */
+.team-card { background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; transition: var(--transition); text-align: center; }
+.team-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.team-avatar { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary), var(--teal)); position: relative; }
+.team-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.team-avatar .initials { font-size: 2.8rem; font-weight: 800; color: white; letter-spacing: 2px; opacity: 0.9; }
+.team-card-body { padding: 24px 20px; }
+.team-card-body h4 { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+.team-card-body .team-role { font-size: 0.78rem; font-weight: 600; color: var(--teal); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+.team-card-body p { font-size: 0.85rem; color: var(--text-light); line-height: 1.65; }
+[data-theme="dark"] .team-card { background: var(--card); }
 .produkte-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
 .produkt-item { display: flex; align-items: center; gap: 16px; padding: 20px 24px; background: white; border: 1px solid var(--border); border-radius: var(--radius); transition: var(--transition); }
 .produkt-item:hover { border-color: var(--teal); box-shadow: var(--shadow); transform: translateY(-2px); }
@@ -720,40 +731,70 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
     <div class="content-block fade-up">
       <h2 data-i18n="ted.team.h">Unser Voting-Team</h2>
       <p data-i18n="ted.team.p">Unser Team besteht aus hervorragend ausgebildeten Experten mit langjähriger Erfahrung in der Abstimmtechnik.</p>
-      <div class="sub-grid" style="margin-top:24px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
-        <div class="sub-card">
-          <div class="sub-card-body">
+      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; margin-top:24px;">
+        <div class="team-card">
+          <div class="team-avatar">
+            <img src="images/team-david-hintenlang.jpg" alt="David Hintenlang" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="initials" style="display:none;">DH</span>
+          </div>
+          <div class="team-card-body">
             <h4>David Hintenlang</h4>
+            <div class="team-role" data-i18n="ted.role.david">Geschäftsführer</div>
             <p data-i18n="ted.team.david">Geschäftsführer und Fachkraft für Veranstaltungstechnik. Seit 2002 bei Ellerbrock — ein Allrounder in allen Gebieten der Veranstaltungstechnik.</p>
           </div>
         </div>
-        <div class="sub-card">
-          <div class="sub-card-body">
+        <div class="team-card">
+          <div class="team-avatar">
+            <img src="images/team-sven-reisner.jpg" alt="Sven Reisner" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="initials" style="display:none;">SR</span>
+          </div>
+          <div class="team-card-body">
             <h4>Sven Reisner</h4>
+            <div class="team-role" data-i18n="ted.role.sven">Kfm. Bürokommunikation</div>
             <p data-i18n="ted.team.sven">Kaufmann für Bürokommunikation. Spezialist für Abstimmtechnik mit jahrelanger Erfahrung beim Hersteller.</p>
           </div>
         </div>
-        <div class="sub-card">
-          <div class="sub-card-body">
+        <div class="team-card">
+          <div class="team-avatar">
+            <img src="images/team-julius-lampert.jpg" alt="Julius Lampert" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="initials" style="display:none;">JL</span>
+          </div>
+          <div class="team-card-body">
             <h4>Julius Lampert</h4>
+            <div class="team-role" data-i18n="ted.role.julius">Veranstaltungstechniker</div>
             <p data-i18n="ted.team.julius">Fachkraft für Veranstaltungstechnik. Seit 2020 im Team nach erfolgreich abgeschlossener Ausbildung.</p>
           </div>
         </div>
-        <div class="sub-card">
-          <div class="sub-card-body">
+        <div class="team-card">
+          <div class="team-avatar">
+            <img src="images/team-joerg-raphael.jpg" alt="Jörg Raphael" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="initials" style="display:none;">JR</span>
+          </div>
+          <div class="team-card-body">
             <h4>Jörg Raphael</h4>
+            <div class="team-role" data-i18n="ted.role.joerg">Grafiker</div>
             <p data-i18n="ted.team.joerg">Grafiker. Erstellt seit 2014 professionelle Abstimmfolien nach Kundenvorgaben und Corporate Design.</p>
           </div>
         </div>
-        <div class="sub-card">
-          <div class="sub-card-body">
+        <div class="team-card">
+          <div class="team-avatar">
+            <img src="images/team-fabian-habel.jpg" alt="Fabian Habel" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="initials" style="display:none;">FH</span>
+          </div>
+          <div class="team-card-body">
             <h4>Fabian Habel</h4>
+            <div class="team-role" data-i18n="ted.role.fabian">Konferenztechniker</div>
             <p data-i18n="ted.team.fabian">Konferenztechniker. Seit 2016 im Team — Experte für Voting, Bild, Daten und Ton.</p>
           </div>
         </div>
-        <div class="sub-card">
-          <div class="sub-card-body">
+        <div class="team-card">
+          <div class="team-avatar">
+            <img src="images/team-vladimir-mihajlov.jpg" alt="Vladimir Mihajlov" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="initials" style="display:none;">VM</span>
+          </div>
+          <div class="team-card-body">
             <h4>Vladimir Mihajlov</h4>
+            <div class="team-role" data-i18n="ted.role.vladimir">Konferenz- & Tontechniker</div>
             <p data-i18n="ted.team.vladimir">Konferenz- und Tontechniker. Diplom in Ton- und Studiotechnik. Seit 2018 im Team mit Spezialkenntnissen in Abstimm-, Dolmetscher-, Video- und Präsentationstechnik.</p>
           </div>
         </div>
@@ -1162,6 +1203,13 @@ const T = {
   'ted.team.joerg': { de: 'Grafiker. Erstellt seit 2014 professionelle Abstimmfolien nach Kundenvorgaben und Corporate Design.', en: 'Graphic designer. Creating professional voting slides to client specifications since 2014.', fr: 'Graphiste. Crée des diapositives de vote professionnelles depuis 2014.', es: 'Diseñador gráfico. Crea diapositivas de votación profesionales desde 2014.', zh: '平面设计师。自2014年起根据客户要求制作专业表决幻灯片。' },
   'ted.team.fabian': { de: 'Konferenztechniker. Seit 2016 im Team — Experte für Voting, Bild, Daten und Ton.', en: 'Conference technician. Team member since 2016 — expert in voting, video, data and audio.', fr: 'Technicien de conférence. Dans l\'équipe depuis 2016 — expert en vote, image et son.', es: 'Técnico de conferencias. En el equipo desde 2016 — experto en votación, imagen y sonido.', zh: '会议技术员。2016年加入——表决、视频、数据和音频专家。' },
   'ted.team.vladimir': { de: 'Konferenz- und Tontechniker. Diplom in Ton- und Studiotechnik. Seit 2018 im Team mit Spezialkenntnissen in Abstimm-, Dolmetscher-, Video- und Präsentationstechnik.', en: 'Conference and audio technician. Diploma in audio and studio technology. Team member since 2018 with expertise in voting, interpreting, video and presentation technology.', fr: 'Technicien de conférence et son. Diplômé en technique sonore. Dans l\'équipe depuis 2018.', es: 'T��cnico de conferencias y sonido. Diploma en técnica de sonido. En el equipo desde 2018.', zh: '会议和音响技术员。音响和录音棚技术文凭。2018年加入，专长于表决、口译、视频和演示技术。' },
+
+  'ted.role.david': { de: 'Geschäftsführer', en: 'Managing Director', fr: 'Directeur général', es: 'Director general', zh: '总经理' },
+  'ted.role.sven': { de: 'Kfm. Bürokommunikation', en: 'Office Communications', fr: 'Communication de bureau', es: 'Comunicación de oficina', zh: '办公通信' },
+  'ted.role.julius': { de: 'Veranstaltungstechniker', en: 'Event Technician', fr: 'Technicien événementiel', es: 'Técnico de eventos', zh: '活动技术员' },
+  'ted.role.joerg': { de: 'Grafiker', en: 'Graphic Designer', fr: 'Graphiste', es: 'Diseñador gráfico', zh: '平面设计师' },
+  'ted.role.fabian': { de: 'Konferenztechniker', en: 'Conference Technician', fr: 'Technicien de conférence', es: 'Técnico de conferencias', zh: '会议技术员' },
+  'ted.role.vladimir': { de: 'Konferenz- & Tontechniker', en: 'Conference & Audio Tech', fr: 'Technicien conférence & son', es: 'Técnico conferencia & sonido', zh: '会议与音响技术员' },
 
   'ted.galerie.h': { de: 'Bildergalerie', en: 'Image Gallery', fr: 'Galerie d\'images', es: 'Galería de imágenes', zh: '图片库' },
 
