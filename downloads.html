@@ -597,7 +597,8 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
       <li><a href="produkte.html" data-i18n="nav.produkte">Produkte</a></li>
       <li><a href="downloads.html" data-i18n="nav.downloads">Downloads</a></li>
       <li><a href="filme.html">Filme & Guides</a></li>
-      <li class="nav-has-dropdown" id="navDropdown"><a href="javascript:void(0)" onclick="toggleNavDropdown(event)" data-i18n="nav.ueber">Über uns</a>
+      <li><a href="ueber-uns.html" data-i18n="nav.ueber">Über uns</a></li>
+      <li class="nav-has-dropdown" id="navDropdown"><a href="javascript:void(0)" onclick="toggleNavDropdown(event)" data-i18n="nav.standorte">Standorte</a>
         <ul class="nav-sub">
           <li><a href="standort-abtsteinach.html"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> <span data-i18n="nav.standort.abst">Abtsteinach (Hauptsitz)</span></a></li>
           <li><a href="standort-berlin.html"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> <span data-i18n="nav.standort.ber">Berlin</span></a></li>
@@ -876,6 +877,29 @@ const T = {
   'nav.downloads': { de: 'Downloads', en: 'Downloads', fr: 'Téléchargements', es: 'Descargas', zh: '下载' },
   'nav.imagefilm': { de: 'Imagefilm', en: 'Company Film', fr: 'Film d\'entreprise', es: 'Vídeo corporativo', zh: '企业宣传片' },
   'nav.ueber': { de: 'Über uns', en: 'About Us', fr: 'À propos', es: 'Sobre nosotros', zh: '关于我们' },
+    'nav.standorte': { de: 'Standorte', en: 'Locations', fr: 'Sites', es: 'Sedes', zh: '办事处' },
+
+  'ueber.page.h1': { de: 'Über uns', en: 'About Us', fr: 'À propos', es: 'Sobre nosotros', zh: '关于我们' },
+  'ueber.page.sub': { de: 'Erfahrung trifft Innovation — seit 1978 Ihr Partner für professionelle Konferenztechnik', en: 'Experience meets innovation — your partner for professional conference technology since 1978', fr: 'L\'expérience rencontre l\'innovation — votre partenaire pour la technique de conférence depuis 1978', es: 'La experiencia se une a la innovación — su socio para tecnología de conferencias desde 1978', zh: '经验与创新的融合 — 自1978年以来您的专业会议技术合作伙伴' },
+  'ueber.intro.h': { de: 'Ellerbrock Konferenztechnik', en: 'Ellerbrock Conference Technology', fr: 'Ellerbrock Technique de Conférence', es: 'Ellerbrock Tecnología de Conferencias', zh: 'Ellerbrock会议技术' },
+  'ueber.intro.p1': { de: 'Seit 1978 ist Ellerbrock Konferenztechnik einer der führenden Anbieter für professionelle Konferenztechnik in Deutschland. Mit Standorten in Abtsteinach, Berlin und Bonn betreuen wir Veranstaltungen jeder Größe.', en: 'Since 1978, Ellerbrock has been one of the leading providers of professional conference technology in Germany. With locations in Abtsteinach, Berlin and Bonn, we support events of all sizes.', fr: 'Depuis 1978, Ellerbrock est l\'un des principaux fournisseurs de technique de conférence en Allemagne.', es: 'Desde 1978, Ellerbrock es uno de los principales proveedores de tecnología de conferencias en Alemania.', zh: '自1978年以来，Ellerbrock一直是德国领先的专业会议技术供应商之一。' },
+  'ueber.intro.p2': { de: 'Wir bieten Ihnen nicht nur hochwertige Technik zur Miete und zum Kauf, sondern auch einen umfassenden Service.', en: 'We offer not only high-quality technology for rent and purchase, but also comprehensive service.', fr: 'Nous proposons une technologie de haute qualité en location et à l\'achat, ainsi qu\'un service complet.', es: 'Ofrecemos tecnología de alta calidad en alquiler y venta, así como un servicio integral.', zh: '我们提供高品质的租赁和购买设备，以及全方位服务。' },
+  'ueber.stat.erfahrung': { de: 'Jahre Erfahrung', en: 'Years Experience', fr: 'Ans d\'expérience', es: 'Años de experiencia', zh: '年经验' },
+  'ueber.stat.standorte': { de: 'Standorte', en: 'Locations', fr: 'Sites', es: 'Sedes', zh: '个办事处' },
+  'ueber.stat.sprech': { de: 'Sprechstellen weltweit', en: 'Speaker Units Worldwide', fr: 'Postes de discussion', es: 'Unidades de debate', zh: '个话筒单元' },
+  'ueber.stat.flex': { de: 'Flexible Lösungen', en: 'Flexible Solutions', fr: 'Solutions flexibles', es: 'Soluciones flexibles', zh: '灵活方案' },
+  'ueber.leist.h': { de: 'Was wir bieten', en: 'What We Offer', fr: 'Ce que nous offrons', es: 'Lo que ofrecemos', zh: '我们的服务' },
+  'ueber.leist.miete': { de: 'Miete & Kauf', en: 'Rental & Purchase', fr: 'Location & Achat', es: 'Alquiler y venta', zh: '租赁与购买' },
+  'ueber.leist.miete.p': { de: 'Hochwertige Konferenztechnik flexibel zur Miete oder zum Kauf.', en: 'High-quality conference technology for rent or purchase.', fr: 'Technique de conférence de haute qualité en location ou à l\'achat.', es: 'Tecnología de conferencias de alta calidad en alquiler o venta.', zh: '高品质会议技术灵活租赁或购买。' },
+  'ueber.leist.service': { de: 'Full-Service-Support', en: 'Full-Service Support', fr: 'Service complet', es: 'Servicio integral', zh: '全方位服务' },
+  'ueber.leist.service.p': { de: 'Von der Beratung über Planung und Aufbau bis zur Vor-Ort-Betreuung.', en: 'From consulting to planning and setup to on-site support.', fr: 'Du conseil à la planification et au montage jusqu\'à l\'assistance sur place.', es: 'Desde la asesoría hasta la planificación, montaje y soporte in situ.', zh: '从咨询、规划、搭建到现场支持。' },
+  'ueber.leist.liefer': { de: 'Bundesweite Lieferung', en: 'Nationwide Delivery', fr: 'Livraison nationale', es: 'Entrega nacional', zh: '全国配送' },
+  'ueber.leist.liefer.p': { de: 'Mit drei Standorten in Deutschland sind wir schnell vor Ort.', en: 'With three locations in Germany, we are quickly on site.', fr: 'Avec trois sites en Allemagne, nous sommes rapidement sur place.', es: 'Con tres sedes en Alemania, estamos rápidamente in situ.', zh: '凭借德国三个办事处，我们能快速到达。' },
+  'ueber.leist.tech': { de: 'Erfahrene Techniker', en: 'Experienced Technicians', fr: 'Techniciens expérimentés', es: 'Técnicos experimentados', zh: '经验丰富的技术人员' },
+  'ueber.leist.tech.p': { de: 'Unser Team sorgt für reibungslose Abläufe bei jeder Veranstaltung.', en: 'Our team ensures smooth operations at every event.', fr: 'Notre équipe assure un déroulement fluide de chaque événement.', es: 'Nuestro equipo garantiza un desarrollo fluido en cada evento.', zh: '我们的团队确保每场活动顺利进行。' },
+  'ueber.cta.h': { de: 'Lassen Sie uns Ihre Veranstaltung planen', en: 'Let Us Plan Your Event', fr: 'Planifions votre événement', es: 'Planifiquemos su evento', zh: '让我们为您策划活动' },
+  'ueber.cta.p': { de: 'Kontaktieren Sie uns für eine unverbindliche Beratung.', en: 'Contact us for a free consultation.', fr: 'Contactez-nous pour un conseil sans engagement.', es: 'Contáctenos para una asesoría sin compromiso.', zh: '联系我们获取免费咨询。' },
+  'ueber.cta.btn': { de: 'Jetzt anfragen →', en: 'Get in touch →', fr: 'Demander un devis →', es: 'Solicitar presupuesto →', zh: '立即咨询 →' },
   'nav.kontakt': { de: 'Kontakt', en: 'Contact', fr: 'Contact', es: 'Contacto', zh: '联系我们' },
 
   'nav.standort.abst': { de: 'Abtsteinach (Hauptsitz)', en: 'Abtsteinach (Headquarters)', fr: 'Abtsteinach (Siège)', es: 'Abtsteinach (Sede)', zh: 'Abtsteinach（总部）' },
