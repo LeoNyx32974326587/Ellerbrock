@@ -105,10 +105,24 @@ body.dark .nav-links.active { background: var(--bg); border-color: var(--border)
   font-size: 1rem; transition: var(--transition); color: var(--text); position: relative;
 }
 .tool-btn:hover { background: var(--bg-alt); border-color: var(--teal); }
+/* ===== NAV DROPDOWN ===== */
+.nav-has-dropdown { position: relative; }
+.nav-has-dropdown > a::after { content: ''; display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid currentColor; margin-left: 5px; vertical-align: middle; transition: transform 0.2s; }
+.nav-has-dropdown:hover > a::after { transform: rotate(180deg); }
+.nav-sub { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(-4px); min-width: 200px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 6px 0; opacity: 0; visibility: hidden; transition: all 0.2s ease; z-index: 1001; list-style: none; }
+.nav-has-dropdown:hover .nav-sub { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.nav-sub li a { display: flex; align-items: center; gap: 8px; padding: 10px 18px; font-size: 0.85rem; color: var(--text); transition: background 0.15s; white-space: nowrap; }
+.nav-sub li a:hover { background: var(--bg-alt); color: var(--teal); }
+.nav-sub li a svg { width: 16px; height: 16px; stroke: var(--teal); fill: none; stroke-width: 2; flex-shrink: 0; }
+@media (max-width: 768px) {
+  .nav-has-dropdown > a::after { display: none; }
+  .nav-sub { position: static; transform: none; opacity: 1; visibility: visible; box-shadow: none; border: none; border-radius: 0; padding: 0 0 0 16px; min-width: auto; background: transparent; }
+  .nav-sub li a { padding: 8px 14px; }
+}
 /* ===== LANGUAGE DROPDOWN ===== */
 .lang-dropdown { position: relative; }
 .lang-btn { width: auto; padding: 0 10px; font-size: 0.75rem; font-weight: 700; font-family: inherit; letter-spacing: 0.03em; }
-.lang-menu { position: absolute; top: calc(100% + 6px); right: 0; background: var(--card); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 140px; padding: 6px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; z-index: 1001; }
+.lang-menu { position: absolute; top: calc(100% + 6px); right: 0; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 140px; padding: 6px 0; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: all 0.2s ease; z-index: 1001; }
 .lang-menu.open { opacity: 1; visibility: visible; transform: translateY(0); }
 .lang-menu button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 16px; border: none; background: transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; color: var(--text); transition: background 0.15s; text-align: left; }
 .lang-menu button:hover { background: var(--bg-alt); }
@@ -684,6 +698,7 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
           <li><a>69518 Abtsteinach</a></li>
           <li><a style="margin-top:8px;">Wackenbergstraße 84-88</a></li>
           <li><a>13156 Berlin</a></li>
+          <li><a style="margin-top:8px;">Bonn</a></li>
         </ul>
       </div>
     </div>
@@ -825,6 +840,29 @@ const T = {
   'nav.imagefilm': { de: 'Imagefilm', en: 'Company Film', fr: 'Film d\'entreprise', es: 'Vídeo corporativo', zh: '企业宣传片' },
   'nav.ueber': { de: 'Über uns', en: 'About Us', fr: 'À propos', es: 'Sobre nosotros', zh: '关于我们' },
   'nav.kontakt': { de: 'Kontakt', en: 'Contact', fr: 'Contact', es: 'Contacto', zh: '联系我们' },
+
+  'nav.standort.abst': { de: 'Abtsteinach (Hauptsitz)', en: 'Abtsteinach (Headquarters)', fr: 'Abtsteinach (Siège)', es: 'Abtsteinach (Sede)', zh: 'Abtsteinach（总部）' },
+  'nav.standort.ber': { de: 'Berlin', en: 'Berlin', fr: 'Berlin', es: 'Berlín', zh: '柏林' },
+  'nav.standort.bonn': { de: 'Bonn', en: 'Bonn', fr: 'Bonn', es: 'Bonn', zh: '波恩' },
+
+  'standort.oeffnung': { de: 'Öffnungszeiten', en: 'Opening Hours', fr: 'Horaires d\'ouverture', es: 'Horarios de apertura', zh: '营业时间' },
+  'standort.termin': { de: 'Termine', en: 'Appointments', fr: 'Rendez-vous', es: 'Citas', zh: '预约' },
+  'standort.termin.txt': { de: 'nach Vereinbarung auch außerhalb', en: 'by appointment also outside hours', fr: 'sur rendez-vous également en dehors', es: 'con cita previa también fuera de horario', zh: '也可预约非营业时间' },
+  'standort.leistungen': { de: 'Leistungen vor Ort', en: 'On-Site Services', fr: 'Services sur place', es: 'Servicios in situ', zh: '现场服务' },
+  'standort.anfrage': { de: 'Jetzt Anfrage senden →', en: 'Send Inquiry →', fr: 'Envoyer une demande →', es: 'Enviar consulta →', zh: '发送咨询 →' },
+  'standort.rueckruf': { de: 'Rückruf anfordern', en: 'Request Callback', fr: 'Demander un rappel', es: 'Solicitar devolución de llamada', zh: '请求回拨' },
+  'standort.abst.h2': { de: 'Niederlassung Abtsteinach — Hauptsitz', en: 'Abtsteinach Office — Headquarters', fr: 'Bureau d\'Abtsteinach — Siège', es: 'Oficina Abtsteinach — Sede', zh: 'Abtsteinach办事处 — 总部' },
+  'standort.abst.desc': { de: 'Von unserem Hauptsitz in Abtsteinach im Odenwald aus koordinieren wir seit 1978 bundesweite Einsätze für Dolmetscheranlagen, Abstimmsysteme und Konferenztechnik. Hier befinden sich unser Hauptlager, die Werkstatt und die Verwaltung. Von der Beratung über die Planung bis zum technischen Support — alles aus einer Hand.', en: 'From our headquarters in Abtsteinach in the Odenwald, we have been coordinating nationwide deployments of interpreting systems, voting systems and conference technology since 1978. Our main warehouse, workshop and administration are located here. From consulting to planning to technical support — everything from a single source.', fr: 'Depuis notre siège social à Abtsteinach dans l\'Odenwald, nous coordonnons depuis 1978 des interventions dans toute l\'Allemagne pour les systèmes d\'interprétation, de vote et de conférence. Notre entrepôt principal, notre atelier et notre administration se trouvent ici.', es: 'Desde nuestra sede en Abtsteinach en el Odenwald, coordinamos desde 1978 despliegues a nivel nacional de sistemas de interpretación, votación y conferencia. Aquí se encuentran nuestro almacén principal, taller y administración.', zh: '自1978年以来，我们从位于奥登瓦尔德的Abtsteinach总部协调全国范围的同声传译系统、表决系统和会议技术部署。我们的主仓库、工作室和行政部门均设于此。' },
+  'standort.ber.h2': { de: 'Niederlassung Berlin', en: 'Berlin Office', fr: 'Bureau de Berlin', es: 'Oficina Berlín', zh: '柏林办事处' },
+  'standort.ber.desc': { de: 'Unsere Berliner Niederlassung in Pankow ist Ihr direkter Ansprechpartner für Konferenztechnik in der Hauptstadtregion. Von hier aus betreuen wir Veranstaltungen in Berlin, Brandenburg und den neuen Bundesländern — von Bundestagssitzungen über internationale Kongresse bis zu Firmenevents.', en: 'Our Berlin office in Pankow is your direct contact for conference technology in the capital region. From here we support events in Berlin, Brandenburg and eastern Germany — from parliament sessions to international congresses to corporate events.', fr: 'Notre bureau berlinois à Pankow est votre interlocuteur direct pour la technique de conférence dans la région de la capitale. De là, nous accompagnons des événements à Berlin, dans le Brandebourg et dans l\'est de l\'Allemagne.', es: 'Nuestra oficina de Berlín en Pankow es su contacto directo para tecnología de conferencias en la región de la capital. Desde aquí atendemos eventos en Berlín, Brandeburgo y el este de Alemania.', zh: '我们位于柏林潘科的办事处是您在首都地区会议技术的直接联系窗口。我们从这里为柏林、勃兰登堡和德国东部的活动提供服务。' },
+  'standort.bonn.h2': { de: 'Niederlassung Bonn', en: 'Bonn Office', fr: 'Bureau de Bonn', es: 'Oficina Bonn', zh: '波恩办事处' },
+  'standort.bonn.desc': { de: 'Von unserem Standort in Bonn aus betreuen wir Veranstaltungen in Nordrhein-Westfalen und dem gesamten westdeutschen Raum. Die ehemalige Bundeshauptstadt ist mit ihrem internationalen Umfeld — UN-Campus, zahlreiche NGOs und Bundesbehörden — ein idealer Standort für unsere Konferenztechnik-Dienstleistungen.', en: 'From our Bonn location we support events in North Rhine-Westphalia and throughout western Germany. The former federal capital with its international environment — UN Campus, numerous NGOs and federal agencies — is an ideal location for our conference technology services.', fr: 'Depuis notre site de Bonn, nous accompagnons des événements en Rhénanie-du-Nord-Westphalie et dans tout l\'ouest de l\'Allemagne. L\'ancienne capitale fédérale avec son environnement international — Campus de l\'ONU, nombreuses ONG et agences fédérales — est un lieu idéal pour nos services.', es: 'Desde nuestra ubicación en Bonn atendemos eventos en Renania del Norte-Westfalia y en todo el oeste de Alemania. La antigua capital federal con su entorno internacional — Campus de la ONU, numerosas ONG y agencias federales — es una ubicación ideal para nuestros servicios.', zh: '我们从波恩为北莱茵-威斯特法伦州和整个德国西部的活动提供服务。这座前联邦首都拥有国际化环境 — 联合国园区、众多非政府组织和联邦机构 — 是我们会议技术服务的理想基地。' },
+  'standort.abst.title': { de: 'Standort Abtsteinach (Hauptsitz)', en: 'Abtsteinach Location (Headquarters)', fr: 'Site d\'Abtsteinach (Siège)', es: 'Ubicación Abtsteinach (Sede)', zh: 'Abtsteinach（总部）' },
+  'standort.abst.sub': { de: 'Unser Hauptsitz im Odenwald — seit 1978 Ihr Ansprechpartner für professionelle Konferenztechnik', en: 'Our headquarters in the Odenwald — your contact for professional conference technology since 1978', fr: 'Notre siège dans l\'Odenwald — votre interlocuteur pour la technique de conférence professionnelle depuis 1978', es: 'Nuestra sede en el Odenwald — su contacto para tecnología de conferencias profesional desde 1978', zh: '我们在奥登瓦尔德的总部 — 自1978年以来您的专业会议技术联系窗口' },
+  'standort.ber.title': { de: 'Standort Berlin', en: 'Berlin Location', fr: 'Site de Berlin', es: 'Ubicación Berlín', zh: '柏林办事处' },
+  'standort.ber.sub': { de: 'Unsere Niederlassung in Berlin-Pankow — Ihr Ansprechpartner für Konferenztechnik in der Hauptstadtregion', en: 'Our Berlin-Pankow office — your contact for conference technology in the capital region', fr: 'Notre bureau de Berlin-Pankow — votre interlocuteur pour la technique de conférence dans la région de la capitale', es: 'Nuestra oficina de Berlín-Pankow — su contacto para tecnología de conferencias en la región de la capital', zh: '我们位于柏林潘科的办事处 — 首都地区会议技术联系窗口' },
+  'standort.bonn.title': { de: 'Standort Bonn', en: 'Bonn Location', fr: 'Site de Bonn', es: 'Ubicación Bonn', zh: '波恩办事处' },
+  'standort.bonn.sub': { de: 'Unsere Niederlassung in Bonn — Ihr Ansprechpartner für Konferenztechnik im Rheinland und Westdeutschland', en: 'Our Bonn office — your contact for conference technology in the Rhineland and Western Germany', fr: 'Notre bureau de Bonn — votre interlocuteur pour la technique de conférence en Rhénanie et dans l\'ouest de l\'Allemagne', es: 'Nuestra oficina de Bonn — su contacto para tecnología de conferencias en Renania y el oeste de Alemania', zh: '我们在波恩的办事处 — 莱茵兰和德国西部会议技术联系窗口' },
   // Hero
   'hero.badge': { de: '● Ihr Partner seit über 45 Jahren', en: '● Your Partner for Over 45 Years', fr: '● Votre partenaire depuis plus de 45 ans', es: '● Su socio desde hace más de 45 años', zh: '● 您值得信赖的合作伙伴，超过45年' },
   'hero.h1a': { de: 'Professionelle ', en: 'Professional ', fr: 'Technique de ', es: 'Tecnología de ', zh: '专业' },
