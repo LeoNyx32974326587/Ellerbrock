@@ -1934,22 +1934,12 @@ function submitContactForm(e) {
 <!-- Cloudinary Image Loader -->
 <script>
 (function(){
-  /* Immediately suppress onerror on all images to prevent hiding before map loads */
-  document.querySelectorAll('img[src^="images/"]').forEach(function(img){
-    img.removeAttribute('onerror');
-    img.onerror=null;
-  });
-
   function applyMap(map){
-    if(!map)return;
+    if(!map||typeof map!=='object')return;
+    var keys=Object.keys(map);if(keys.length===0)return;
     document.querySelectorAll('img[src^="images/"]').forEach(function(img){
       var f=img.getAttribute('src').replace('images/','');
-      if(map[f]){
-        img.style.display='';
-        var sib=img.nextElementSibling;
-        if(sib&&sib.classList&&sib.classList.contains('initials'))sib.style.display='none';
-        img.src=map[f];
-      }
+      if(map[f]){img.src=map[f];img.style.display='';}
     });
   }
   if(window.self!==window.top){
@@ -1977,22 +1967,14 @@ function submitContactForm(e) {
     });
     return;
   }
+  /* Step 1: Apply immediately from already-loaded image-config.js */
+  if(window.ELLERBROCK_IMAGES) applyMap(window.ELLERBROCK_IMAGES);
+  /* Step 2: Also fetch latest from raw GitHub (bypasses Pages cache) */
   fetch("https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/image-config.js?t="+Date.now())
     .then(function(r){return r.text();})
     .then(function(txt){
-      try{
-        var fn=new Function(txt+";return window.ELLERBROCK_IMAGES;");
-        var map=fn();
-        if(map&&Object.keys(map).length>0) applyMap(map);
-      }catch(e){
-        if(window.ELLERBROCK_IMAGES&&Object.keys(window.ELLERBROCK_IMAGES).length>0)
-          applyMap(window.ELLERBROCK_IMAGES);
-      }
-    })
-    .catch(function(){
-      if(window.ELLERBROCK_IMAGES&&Object.keys(window.ELLERBROCK_IMAGES).length>0)
-        applyMap(window.ELLERBROCK_IMAGES);
-    });
+      try{eval(txt);applyMap(window.ELLERBROCK_IMAGES);}catch(e){}
+    }).catch(function(){});
 })();
 </script>
 </body>
