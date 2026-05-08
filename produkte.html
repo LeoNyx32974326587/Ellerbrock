@@ -1968,13 +1968,16 @@ function submitContactForm(e) {
 <script>
 (function(){
   try {
-    var raw = localStorage.getItem('cloudinary_images');
-    if (!raw) return;
-    var map = JSON.parse(raw);
-    document.querySelectorAll('img[src^="images/"]').forEach(function(img){
-      var filename = img.getAttribute('src').replace('images/','');
-      if (map[filename]) img.src = map[filename];
-    });
+    var u='https://res.cloudinary.com/daiiz3u5t/raw/upload/ellerbrock/image-map.json';
+    fetch(u+'?t='+Date.now(),{cache:'no-store'})
+      .then(function(r){return r.ok?r.json():null})
+      .then(function(map){
+        if(!map)return;
+        document.querySelectorAll('img[src^="images/"]').forEach(function(img){
+          var f=img.getAttribute('src').replace('images/','');
+          if(map[f])img.src=map[f];
+        });
+      }).catch(function(){});
   } catch(e){}
 })();
 </script>

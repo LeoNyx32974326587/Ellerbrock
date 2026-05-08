@@ -757,14 +757,38 @@ function renderGalleryPanel(filterCat) {
 var CLOUD_NAME = 'daiiz3u5t';
 var UPLOAD_PRESET = 'ellerbrock';
 var CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/image/upload';
+var CLOUDINARY_RAW_URL = 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/raw/upload';
+var IMAGE_MAP_URL = 'https://res.cloudinary.com/' + CLOUD_NAME + '/raw/upload/ellerbrock/image-map.json';
 
-// Store mapping: filename -> cloudinary URL
+// Store mapping: filename -> cloudinary URL (local + cloud sync)
 function getImageMap() {
   var raw = localStorage.getItem('cloudinary_images');
   return raw ? JSON.parse(raw) : {};
 }
 function saveImageMap(map) {
   localStorage.setItem('cloudinary_images', JSON.stringify(map));
+  syncImageMap(map);
+}
+
+// Sync image map to Cloudinary so all visitors can load it
+function syncImageMap(map) {
+  var json = JSON.stringify(map);
+  var blob = new Blob([json], {type: 'application/json'});
+  var formData = new FormData();
+  formData.append('file', blob, 'image-map.json');
+  formData.append('upload_preset', UPLOAD_PRESET);
+  formData.append('public_id', 'ellerbrock/image-map');
+  formData.append('invalidate', 'true');
+  fetch(CLOUDINARY_RAW_URL, { method: 'POST', body: formData })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.secure_url) {
+        console.log('Image map synced:', data.secure_url);
+      } else {
+        console.log('Image map sync error:', data);
+      }
+    })
+    .catch(function(err) { console.log('Image map sync failed:', err); });
 }
 
 function previewImage(input, previewId, filename) {
