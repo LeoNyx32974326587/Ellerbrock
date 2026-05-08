@@ -1,0 +1,1 @@
+window.ELLERBROCK_IMAGES = {};

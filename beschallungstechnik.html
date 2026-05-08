@@ -1862,6 +1862,7 @@ function submitContactForm(e) {
 })();
 </script>
 
+<script src="image-config.js"></script>
 <!-- Cloudinary Image Loader -->
 <script>
 (function(){
@@ -1897,13 +1898,9 @@ function submitContactForm(e) {
     });
     return;
   }
-  try{
-    fetch('https://jsonblob.com/api/jsonBlob/019e0764-7d58-7e93-a0ea-60217db84d0a',{cache:'no-store'})
-      .then(function(r){return r.ok?r.json():null})
-      .then(function(map){
-        if(map&&Object.keys(map).length>0){applyMap(map);}
-      }).catch(function(){});
-  }catch(e){}
+  if(window.ELLERBROCK_IMAGES&&Object.keys(window.ELLERBROCK_IMAGES).length>0){
+    applyMap(window.ELLERBROCK_IMAGES);
+  }
 })();
 </script>
 </body>

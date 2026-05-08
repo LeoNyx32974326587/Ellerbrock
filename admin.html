@@ -386,11 +386,15 @@
       <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;">
         <div>
           <h1>Bilder verwalten</h1>
-          <p>Klicke auf ein Bild um es auszutauschen. Bilder werden direkt in die Cloud hochgeladen.</p>
+          <p>Klicke auf ein Bild um es auszutauschen. Nach dem Hochladen auf "Bilder veröffentlichen" klicken.</p>
         </div>
+        <div style="display:flex;gap:8px;align-items:flex-start;">
+          <button onclick="publishToGitHub()" style="background:#4eb143;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">Bilder veröffentlichen</button>
+          <button onclick="showGitHubSetup()" title="GitHub-Einstellungen" style="background:transparent;border:1px solid var(--border);color:var(--text-light);padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13px;">&#9881;</button>
         <div class="view-toggle">
           <button class="view-toggle-btn active" onclick="switchGalleryView('preview', this)">Vorschau</button>
           <button class="view-toggle-btn" onclick="switchGalleryView('grid', this)">Alle Bilder</button>
+        </div>
         </div>
       </div>
 
@@ -757,7 +761,6 @@ function renderGalleryPanel(filterCat) {
 var CLOUD_NAME = 'daiiz3u5t';
 var UPLOAD_PRESET = 'ellerbrock';
 var CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/image/upload';
-var IMAGE_MAP_BLOB = 'https://jsonblob.com/api/jsonBlob/019e0764-7d58-7e93-a0ea-60217db84d0a';
 
 // Store mapping: filename -> cloudinary URL (local + cloud sync)
 function getImageMap() {
@@ -766,28 +769,117 @@ function getImageMap() {
 }
 function saveImageMap(map) {
   localStorage.setItem('cloudinary_images', JSON.stringify(map));
-  syncImageMap(map);
 }
 
-// Sync image map to jsonblob so all visitors can load it
-function syncImageMap(map) {
-  fetch(IMAGE_MAP_BLOB, {
-    method: 'PUT',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(map)
-  })
-    .then(function(res) { return res.json(); })
-    .then(function() { console.log('Image map synced to jsonblob'); })
-    .catch(function(err) { console.log('Sync failed:', err); });
+// ===== GITHUB PUBLISH =====
+function getGitHubConfig() {
+  var raw = localStorage.getItem('github_config');
+  return raw ? JSON.parse(raw) : null;
+}
+function saveGitHubConfig(cfg) {
+  localStorage.setItem('github_config', JSON.stringify(cfg));
 }
 
-// Auto-sync on admin load if images exist in localStorage
-(function() {
-  var map = getImageMap();
-  if (Object.keys(map).length > 0) {
-    syncImageMap(map);
+function showGitHubSetup() {
+  var existing = getGitHubConfig() || {};
+  var overlay = document.createElement('div');
+  overlay.id = 'ghSetupOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999;';
+  overlay.innerHTML = '<div style="background:var(--bg-card);border-radius:16px;padding:32px;max-width:440px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">' +
+    '<h2 style="margin:0 0 8px;">GitHub Verbindung</h2>' +
+    '<p style="color:var(--text-light);font-size:13px;margin:0 0 20px;">Einmalige Einrichtung. Du brauchst einen <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:var(--teal);">Personal Access Token</a> mit <strong>Contents: Read &amp; Write</strong> Berechtigung für dein Repository.</p>' +
+    '<label style="font-size:12px;font-weight:600;color:var(--text-light);display:block;margin-bottom:4px;">GitHub Benutzername</label>' +
+    '<input id="ghUser" value="' + (existing.owner || '') + '" placeholder="z.B. mein-username" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-input);color:var(--text);font-size:14px;margin-bottom:12px;box-sizing:border-box;">' +
+    '<label style="font-size:12px;font-weight:600;color:var(--text-light);display:block;margin-bottom:4px;">Repository Name</label>' +
+    '<input id="ghRepo" value="' + (existing.repo || '') + '" placeholder="z.B. Ellerbrock" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-input);color:var(--text);font-size:14px;margin-bottom:12px;box-sizing:border-box;">' +
+    '<label style="font-size:12px;font-weight:600;color:var(--text-light);display:block;margin-bottom:4px;">Personal Access Token</label>' +
+    '<input id="ghToken" type="password" value="' + (existing.token || '') + '" placeholder="github_pat_..." style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-input);color:var(--text);font-size:14px;margin-bottom:20px;box-sizing:border-box;">' +
+    '<div style="display:flex;gap:8px;justify-content:flex-end;">' +
+    '<button onclick="document.getElementById(\'ghSetupOverlay\').remove()" style="padding:10px 20px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;font-size:14px;">Abbrechen</button>' +
+    '<button onclick="saveGitHubSetup()" style="padding:10px 20px;border-radius:8px;border:none;background:var(--teal);color:#fff;cursor:pointer;font-weight:700;font-size:14px;">Speichern &amp; Veröffentlichen</button>' +
+    '</div></div>';
+  document.body.appendChild(overlay);
+}
+
+function saveGitHubSetup() {
+  var owner = document.getElementById('ghUser').value.trim();
+  var repo = document.getElementById('ghRepo').value.trim();
+  var token = document.getElementById('ghToken').value.trim();
+  if (!owner || !repo || !token) {
+    showToast('Bitte alle Felder ausfüllen.');
+    return;
   }
-})();
+  saveGitHubConfig({ owner: owner, repo: repo, token: token });
+  document.getElementById('ghSetupOverlay').remove();
+  showToast('GitHub-Verbindung gespeichert!');
+  publishToGitHub();
+}
+
+async function publishToGitHub() {
+  var map = getImageMap();
+  if (Object.keys(map).length === 0) {
+    showToast('Keine Bilder zum Veröffentlichen.');
+    return;
+  }
+  var cfg = getGitHubConfig();
+  if (!cfg) {
+    showGitHubSetup();
+    return;
+  }
+
+  showToast('Veröffentliche Bilder...');
+
+  var content = 'window.ELLERBROCK_IMAGES = ' + JSON.stringify(map, null, 2) + ';\n';
+  var encoded = btoa(unescape(encodeURIComponent(content)));
+
+  var apiUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/image-config.js';
+  var headers = {
+    'Authorization': 'Bearer ' + cfg.token,
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.github.v3+json'
+  };
+
+  try {
+    // Get current file SHA (needed for updates)
+    var sha = null;
+    var getRes = await fetch(apiUrl, { headers: headers });
+    if (getRes.ok) {
+      var fileData = await getRes.json();
+      sha = fileData.sha;
+    } else if (getRes.status === 401 || getRes.status === 403) {
+      showToast('GitHub Token ungültig oder abgelaufen. Bitte neu einrichten.');
+      showGitHubSetup();
+      return;
+    }
+
+    // Commit the file
+    var body = { message: 'Bilder aktualisiert', content: encoded };
+    if (sha) body.sha = sha;
+
+    var putRes = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: headers,
+      body: JSON.stringify(body)
+    });
+
+    if (putRes.ok) {
+      showToast('Bilder veröffentlicht! In 1-2 Minuten auf der Website sichtbar.');
+    } else {
+      var err = await putRes.json();
+      if (putRes.status === 401 || putRes.status === 403) {
+        showToast('GitHub Token ungültig. Bitte neu einrichten.');
+        showGitHubSetup();
+      } else if (putRes.status === 404) {
+        showToast('Repository nicht gefunden. Bitte Benutzername und Repo prüfen.');
+        showGitHubSetup();
+      } else {
+        showToast('Fehler: ' + (err.message || 'Unbekannt'));
+      }
+    }
+  } catch (e) {
+    showToast('Verbindungsfehler: ' + e.message);
+  }
+}
 
 function previewImage(input, previewId, filename) {
   if (input.files && input.files[0]) {
