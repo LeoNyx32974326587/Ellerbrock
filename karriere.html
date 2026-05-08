@@ -1010,7 +1010,7 @@ window.addEventListener('scroll', () => {
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.01, rootMargin: '0px 0px 100px 0px' });
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+document.querySelectorAll('.fade-up,.fade-left,.fade-right,.scale-up').forEach(el => observer.observe(el));
 
 // ===== ACTIVE NAV LINK =====
 (function() {
