@@ -253,9 +253,9 @@
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         Dashboard
       </button>
-      <button class="sidebar-link" onclick="showPanel('galerie', this)">
+      <button class="sidebar-link" onclick="showPanel('galerie', this);renderGalleryPanel(activeGalleryCat)">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Galerie
+        Bilder
       </button>
       <button class="sidebar-link" onclick="showPanel('inhalte', this)">
         <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -329,33 +329,11 @@
         <p style="font-size:0.78rem;color:var(--text-light);margin-top:12px;margin-bottom:0;">Tracking via localStorage — Aufrufe werden lokal im Browser gezählt.</p>
       </div>
 
-      <!-- Galerie Quick Access -->
+      <!-- Bilder Quick Access -->
       <div class="card">
-        <h3>Einblicke — Galerie</h3>
-        <p>Schnellzugriff auf die 6 Galerie-Bilder der Startseite.</p>
-        <div class="gallery-quick">
-          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
-            <img src="images/galerie-1.jpg" alt="Galerie 1"><span>Bild 1</span>
-          </div>
-          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
-            <img src="images/galerie-2.jpg" alt="Galerie 2"><span>Bild 2</span>
-          </div>
-          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
-            <img src="images/galerie-3.jpg" alt="Galerie 3"><span>Bild 3</span>
-          </div>
-          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
-            <img src="images/galerie-4.jpg" alt="Galerie 4"><span>Bild 4</span>
-          </div>
-          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
-            <img src="images/galerie-5.jpg" alt="Galerie 5"><span>Bild 5</span>
-          </div>
-          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
-            <img src="images/galerie-6.jpg" alt="Galerie 6"><span>Bild 6</span>
-          </div>
-        </div>
-        <div class="btn-row">
-          <button class="admin-btn btn-secondary" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">Galerie verwalten &rarr;</button>
-        </div>
+        <h3>Bilder auf der Website</h3>
+        <p>47 Bilder in 9 Kategorien — klicke auf eine Kategorie um direkt dorthin zu springen.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;" id="dashGalleryQuick"></div>
       </div>
 
       <!-- Quick Links -->
@@ -385,48 +363,18 @@
     <!-- GALERIE PANEL -->
     <div class="panel" id="panel-galerie">
       <div class="admin-header">
-        <h1>Galerie verwalten</h1>
-        <p>Bilder der Einblicke-Sektion auf der Startseite. Klicke auf ein Bild um es auszutauschen.</p>
+        <h1>Bilder verwalten</h1>
+        <p>Alle Bilder der Website nach Kategorie. Klicke auf ein Bild um es auszutauschen.</p>
       </div>
-      <div class="card">
-        <h3>Aktuelle Bilder</h3>
-        <p>Die Bilder liegen im <code style="background:var(--bg-input);padding:2px 6px;border-radius:4px;">images/</code> Ordner als <code style="background:var(--bg-input);padding:2px 6px;border-radius:4px;">galerie-1.jpg</code> bis <code style="background:var(--bg-input);padding:2px 6px;border-radius:4px;">galerie-6.jpg</code>.</p>
-        <div class="gallery-grid" id="adminGallery">
-          <div class="gallery-slot" onclick="document.getElementById('imgUpload1').click()">
-            <img src="images/galerie-1.jpg" id="preview1" alt="Galerie 1">
-            <div class="gallery-slot-overlay">Bild 1 austauschen</div>
-            <input type="file" id="imgUpload1" accept="image/*" style="display:none" onchange="previewImage(this, 'preview1', 'galerie-1.jpg')">
-          </div>
-          <div class="gallery-slot" onclick="document.getElementById('imgUpload2').click()">
-            <img src="images/galerie-2.jpg" id="preview2" alt="Galerie 2">
-            <div class="gallery-slot-overlay">Bild 2 austauschen</div>
-            <input type="file" id="imgUpload2" accept="image/*" style="display:none" onchange="previewImage(this, 'preview2', 'galerie-2.jpg')">
-          </div>
-          <div class="gallery-slot" onclick="document.getElementById('imgUpload3').click()">
-            <img src="images/galerie-3.jpg" id="preview3" alt="Galerie 3">
-            <div class="gallery-slot-overlay">Bild 3 austauschen</div>
-            <input type="file" id="imgUpload3" accept="image/*" style="display:none" onchange="previewImage(this, 'preview3', 'galerie-3.jpg')">
-          </div>
-          <div class="gallery-slot" onclick="document.getElementById('imgUpload4').click()">
-            <img src="images/galerie-4.jpg" id="preview4" alt="Galerie 4">
-            <div class="gallery-slot-overlay">Bild 4 austauschen</div>
-            <input type="file" id="imgUpload4" accept="image/*" style="display:none" onchange="previewImage(this, 'preview4', 'galerie-4.jpg')">
-          </div>
-          <div class="gallery-slot" onclick="document.getElementById('imgUpload5').click()">
-            <img src="images/galerie-5.jpg" id="preview5" alt="Galerie 5">
-            <div class="gallery-slot-overlay">Bild 5 austauschen</div>
-            <input type="file" id="imgUpload5" accept="image/*" style="display:none" onchange="previewImage(this, 'preview5', 'galerie-5.jpg')">
-          </div>
-          <div class="gallery-slot" onclick="document.getElementById('imgUpload6').click()">
-            <img src="images/galerie-6.jpg" id="preview6" alt="Galerie 6">
-            <div class="gallery-slot-overlay">Bild 6 austauschen</div>
-            <input type="file" id="imgUpload6" accept="image/*" style="display:none" onchange="previewImage(this, 'preview6', 'galerie-6.jpg')">
-          </div>
-        </div>
-        <div class="btn-row">
-          <button class="admin-btn btn-save" onclick="downloadGallery()">Bilder herunterladen (ZIP)</button>
-          <button class="admin-btn btn-secondary" onclick="showToast('Tipp: Lade die Bilder als galerie-1.jpg bis galerie-6.jpg in den images/ Ordner auf GitHub hoch.')">Hilfe</button>
-        </div>
+
+      <!-- Filter -->
+      <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;" id="galleryCategoryFilter"></div>
+
+      <!-- Dynamic gallery sections rendered by JS -->
+      <div id="galleryContainer"></div>
+
+      <div class="card" style="margin-top:8px;">
+        <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:0;">Tipp: Nach dem Austauschen eines Bildes muss die neue Datei mit exakt dem gleichen Dateinamen in den <code style="background:var(--bg-input);padding:2px 6px;border-radius:4px;">images/</code> Ordner auf GitHub hochgeladen werden.</p>
       </div>
     </div>
 
@@ -684,21 +632,102 @@ function showToast(msg) {
   setTimeout(function(){ t.classList.remove('show'); }, 2500);
 }
 
-// ===== GALLERY =====
+// ===== GALLERY (ALL IMAGES) =====
+var IMAGE_CATEGORIES = [
+  { id: 'einblicke', label: 'Einblicke (Startseite)', icon: '&#128247;', images: [
+    'galerie-1.jpg','galerie-2.jpg','galerie-3.jpg','galerie-4.jpg','galerie-5.jpg','galerie-6.jpg'
+  ]},
+  { id: 'team', label: 'Team', icon: '&#128101;', images: [
+    'team-fabian-ellerbrock.jpg','team-david-hintenlang.jpg','team-fabian-habel.jpg',
+    'team-joerg-raphael.jpg','team-julius-lampert.jpg','team-jochen-stiefel.jpg'
+  ]},
+  { id: 'dolmetscher', label: 'Dolmetscheranlagen', icon: '&#127908;', images: [
+    'dolmetscheranlage-hoersprechgarnitur.jpg','dolmetscheranlage-einsatz.jpg',
+    'dolmetscheranlage-komponenten.jpg','dolmetscheranlage-setup.jpg',
+    'dolmetscherkabine-audipack-9300.jpg','dolmetscherkabine-innenansicht.jpg',
+    'dolmetscherkabine-aufgebaut.jpg','dolmetscherdienst.jpg'
+  ]},
+  { id: 'ted', label: 'Ted-Abstimmsysteme', icon: '&#128202;', images: [
+    'ted-votingsystem-01.jpg','ted-votingsystem-02.jpg','ted-votingsystem-03.jpg',
+    'ted-votingsystem-04.jpg','ted-votingsystem-05.jpg','ted-votingsystem-06.jpg',
+    'ted-votingsystem-07.jpg','ted-votingsystem-08.jpg'
+  ]},
+  { id: 'fuehrung', label: 'Führungsanlagen', icon: '&#127911;', images: [
+    'fuehrungsanlage-01.jpg','fuehrungsanlage-02.jpg','fuehrungsanlage-03.jpg','fuehrungsanlage-04.jpg'
+  ]},
+  { id: 'diskussion', label: 'Diskussionssysteme', icon: '&#128172;', images: [
+    'diskussionsanlage-01.jpg','diskussionsanlage-02.jpg','diskussionsanlage-03.jpg','diskussionsanlage-04.jpg'
+  ]},
+  { id: 'beschallung', label: 'Beschallungstechnik', icon: '&#128266;', images: [
+    'beschallungstechnik-01.jpg','beschallungstechnik-02.jpg','beschallungstechnik-03.jpg'
+  ]},
+  { id: 'video', label: 'Videotechnik', icon: '&#127909;', images: ['videotechnik-01.jpg'] },
+  { id: 'kauf', label: 'Produkte kaufen', icon: '&#128176;', images: [
+    'kauf-dolmetscheranlage-01.jpg','kauf-dolmetscherkabine-01.jpg','kauf-diskussionsanlage-01.jpg',
+    'kauf-gebraucht-01.jpg','kauf-sennheiser-ek1039.jpg','kauf-bosch-dolmetscherpult.jpg'
+  ]}
+];
+
+var activeGalleryCat = 'all';
+
+function renderGalleryPanel(filterCat) {
+  activeGalleryCat = filterCat || 'all';
+  // Render filter buttons
+  var filterHtml = '<button class="visit-time-btn' + (activeGalleryCat === 'all' ? ' active' : '') + '" onclick="renderGalleryPanel(\'all\')">Alle (' + IMAGE_CATEGORIES.reduce(function(s,c){return s+c.images.length},0) + ')</button>';
+  IMAGE_CATEGORIES.forEach(function(cat) {
+    filterHtml += '<button class="visit-time-btn' + (activeGalleryCat === cat.id ? ' active' : '') + '" onclick="renderGalleryPanel(\'' + cat.id + '\')">' + cat.label + ' (' + cat.images.length + ')</button>';
+  });
+  document.getElementById('galleryCategoryFilter').innerHTML = filterHtml;
+
+  // Render image sections
+  var html = '';
+  IMAGE_CATEGORIES.forEach(function(cat) {
+    if (activeGalleryCat !== 'all' && activeGalleryCat !== cat.id) return;
+    html += '<div class="card"><h3>' + cat.icon + ' ' + cat.label + ' <span style="font-size:0.8rem;font-weight:500;color:var(--text-light);margin-left:8px;">' + cat.images.length + ' Bilder</span></h3>';
+    html += '<div class="gallery-grid">';
+    cat.images.forEach(function(img, idx) {
+      var uid = cat.id + '_' + idx;
+      html += '<div class="gallery-slot" onclick="document.getElementById(\'gup_' + uid + '\').click()">' +
+        '<img src="images/' + img + '" id="gpv_' + uid + '" alt="' + img + '">' +
+        '<div class="gallery-slot-overlay">' + img.replace('.jpg','').replace(/-/g,' ') + '</div>' +
+        '<input type="file" id="gup_' + uid + '" accept="image/*" style="display:none" onchange="previewImage(this,\'gpv_' + uid + '\',\'' + img + '\')">' +
+        '</div>';
+    });
+    html += '</div></div>';
+  });
+  document.getElementById('galleryContainer').innerHTML = html;
+}
+
 function previewImage(input, previewId, filename) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
     reader.onload = function(e) {
       document.getElementById(previewId).src = e.target.result;
-      showToast('Bild geladen: ' + filename + ' — Lade es in den images/ Ordner auf GitHub hoch.');
+      showToast('Bild geladen: ' + filename + ' — Lade es als "' + filename + '" in den images/ Ordner hoch.');
     };
     reader.readAsDataURL(input.files[0]);
   }
 }
 
-function downloadGallery() {
-  showToast('Tipp: Lade die Bilder direkt als galerie-1.jpg bis galerie-6.jpg in den images/ Ordner auf GitHub hoch.');
-}
+// Initial gallery render
+renderGalleryPanel('all');
+
+// Dashboard gallery quick access
+(function() {
+  var container = document.getElementById('dashGalleryQuick');
+  if (!container) return;
+  var html = '';
+  IMAGE_CATEGORIES.forEach(function(cat) {
+    html += '<div onclick="showPanel(\'galerie\',document.querySelectorAll(\'.sidebar-link\')[1]);renderGalleryPanel(\'' + cat.id + '\')" ' +
+      'style="background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:12px;" ' +
+      'onmouseover="this.style.borderColor=\'var(--teal)\';this.style.transform=\'translateY(-2px)\'" ' +
+      'onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\'">' +
+      '<span style="font-size:1.4rem;">' + cat.icon + '</span>' +
+      '<div><strong style="color:white;font-size:0.85rem;">' + cat.label + '</strong>' +
+      '<div style="font-size:0.75rem;color:var(--text-light);">' + cat.images.length + ' Bilder</div></div></div>';
+  });
+  container.innerHTML = html;
+})();
 
 // ===== CONTENT =====
 function saveContent() {
