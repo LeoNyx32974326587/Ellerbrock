@@ -468,6 +468,31 @@
         </div>
       </div>
       <div class="card">
+        <h3>Benutzer verwalten</h3>
+        <p>Weitere Admin-Benutzer hinzufügen oder entfernen.</p>
+        <div id="userList" style="margin:16px 0;"></div>
+        <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:16px;">
+          <div class="edit-group">
+            <label>Neuer Benutzername</label>
+            <input type="text" id="newUserName" placeholder="z.B. david">
+          </div>
+          <div class="edit-group">
+            <label>Passwort</label>
+            <input type="password" id="newUserPass" placeholder="Passwort für neuen Benutzer">
+          </div>
+          <div class="edit-group">
+            <label>Rolle</label>
+            <select id="newUserRole" style="width:100%;padding:12px 14px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:inherit;">
+              <option value="admin">Administrator</option>
+              <option value="editor">Editor (nur Inhalte)</option>
+            </select>
+          </div>
+          <div class="btn-row">
+            <button class="admin-btn btn-save" onclick="addUser()">Benutzer hinzufügen</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
         <h3>Gefahrenzone</h3>
         <p style="color:#ef4444;">Achtung: Diese Aktionen können nicht rückgängig gemacht werden.</p>
         <div class="btn-row">
@@ -492,31 +517,85 @@ async function sha256(str) {
   return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
 }
 
+function getUsers() {
+  var stored = localStorage.getItem('admin_users');
+  return stored ? JSON.parse(stored) : [];
+}
+function saveUsers(users) {
+  localStorage.setItem('admin_users', JSON.stringify(users));
+}
+
+var currentUserRole = 'admin';
+var currentUserName = '';
+
 async function handleLogin(e) {
   e.preventDefault();
   var user = document.getElementById('loginUser').value;
   var pass = document.getElementById('loginPass').value;
   var uHash = await sha256(user);
   var pHash = await sha256(pass);
-  // Also check localStorage for changed password
+
+  // Check main admin account
   var storedPHash = localStorage.getItem('admin_p_hash');
   var targetPHash = storedPHash || P_HASH;
   if (uHash === U_HASH && pHash === targetPHash) {
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('adminDashboard').classList.add('active');
-    sessionStorage.setItem('admin_auth', '1');
-  } else {
-    document.getElementById('loginError').style.display = 'block';
-    document.getElementById('loginPass').value = '';
-    setTimeout(function(){ document.getElementById('loginError').style.display = 'none'; }, 3000);
+    currentUserRole = 'admin';
+    currentUserName = 'Fabian';
+    loginSuccess();
+    return false;
   }
+
+  // Check additional users
+  var users = getUsers();
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].uHash === uHash && users[i].pHash === pHash) {
+      currentUserRole = users[i].role;
+      currentUserName = users[i].name;
+      loginSuccess();
+      return false;
+    }
+  }
+
+  document.getElementById('loginError').style.display = 'block';
+  document.getElementById('loginPass').value = '';
+  setTimeout(function(){ document.getElementById('loginError').style.display = 'none'; }, 3000);
   return false;
+}
+
+function loginSuccess() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('adminDashboard').classList.add('active');
+  sessionStorage.setItem('admin_auth', '1');
+  sessionStorage.setItem('admin_role', currentUserRole);
+  sessionStorage.setItem('admin_name', currentUserName);
+  updateUserDisplay();
+  applyRoleRestrictions();
+}
+
+function updateUserDisplay() {
+  var name = sessionStorage.getItem('admin_name') || 'Fabian';
+  var role = sessionStorage.getItem('admin_role') || 'admin';
+  var initials = name.split(' ').map(function(w){return w[0]}).join('').toUpperCase().substring(0,2);
+  document.querySelector('.sidebar-avatar').textContent = initials;
+  document.querySelector('.sidebar-user-info span').textContent = name;
+  document.querySelector('.sidebar-user-info small').textContent = role === 'admin' ? 'Administrator' : 'Editor';
+}
+
+function applyRoleRestrictions() {
+  var role = sessionStorage.getItem('admin_role') || 'admin';
+  if (role === 'editor') {
+    // Hide settings panel for editors
+    var settingsBtn = document.querySelectorAll('.sidebar-link')[4];
+    if (settingsBtn) settingsBtn.style.display = 'none';
+  }
 }
 
 // Auto-login if session active
 if (sessionStorage.getItem('admin_auth') === '1') {
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('adminDashboard').classList.add('active');
+  updateUserDisplay();
+  applyRoleRestrictions();
 }
 
 function logout() {
@@ -662,6 +741,60 @@ async function changePassword() {
   document.getElementById('newPassConfirm').value = '';
   showToast('Passwort erfolgreich geändert!');
 }
+
+// ===== USER MANAGEMENT =====
+async function addUser() {
+  var name = document.getElementById('newUserName').value.trim();
+  var pass = document.getElementById('newUserPass').value;
+  var role = document.getElementById('newUserRole').value;
+  if (!name || name.length < 2) { showToast('Benutzername muss mindestens 2 Zeichen haben'); return; }
+  if (!pass || pass.length < 6) { showToast('Passwort muss mindestens 6 Zeichen haben'); return; }
+  var uHash = await sha256(name.toLowerCase());
+  var pHash = await sha256(pass);
+  var users = getUsers();
+  // Check if user already exists
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].uHash === uHash) { showToast('Benutzer existiert bereits'); return; }
+  }
+  users.push({ name: name, uHash: uHash, pHash: pHash, role: role, created: new Date().toISOString().split('T')[0] });
+  saveUsers(users);
+  document.getElementById('newUserName').value = '';
+  document.getElementById('newUserPass').value = '';
+  renderUserList();
+  showToast('Benutzer "' + name + '" hinzugefügt!');
+}
+
+function removeUser(index) {
+  if (!confirm('Benutzer wirklich entfernen?')) return;
+  var users = getUsers();
+  var name = users[index].name;
+  users.splice(index, 1);
+  saveUsers(users);
+  renderUserList();
+  showToast('Benutzer "' + name + '" entfernt');
+}
+
+function renderUserList() {
+  var users = getUsers();
+  var container = document.getElementById('userList');
+  var html = '<div style="margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg-input);border-radius:8px;margin-bottom:6px;">' +
+    '<div><strong style="color:white;">fabian</strong> <span style="font-size:0.75rem;background:rgba(78,177,67,0.15);color:var(--accent);padding:2px 8px;border-radius:4px;margin-left:8px;">Administrator</span></div>' +
+    '<span style="font-size:0.8rem;color:var(--text-light);">Hauptkonto</span></div>';
+  users.forEach(function(u, i) {
+    var roleColor = u.role === 'admin' ? 'rgba(78,177,67,0.15)' : 'rgba(1,86,109,0.15)';
+    var roleTextColor = u.role === 'admin' ? 'var(--accent)' : 'var(--teal)';
+    var roleLabel = u.role === 'admin' ? 'Administrator' : 'Editor';
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg-input);border-radius:8px;margin-bottom:6px;">' +
+      '<div><strong style="color:white;">' + u.name + '</strong> <span style="font-size:0.75rem;background:' + roleColor + ';color:' + roleTextColor + ';padding:2px 8px;border-radius:4px;margin-left:8px;">' + roleLabel + '</span>' +
+      (u.created ? ' <span style="font-size:0.75rem;color:var(--text-light);margin-left:8px;">seit ' + u.created + '</span>' : '') + '</div>' +
+      '<button onclick="removeUser(' + i + ')" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;padding:4px 10px;border-radius:6px;transition:background 0.2s;" onmouseover="this.style.background=\'rgba(239,68,68,0.1)\'" onmouseout="this.style.background=\'none\'">Entfernen</button></div>';
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// Render user list on load
+renderUserList();
 </script>
 
 </body>
