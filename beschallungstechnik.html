@@ -1898,9 +1898,24 @@ function submitContactForm(e) {
     });
     return;
   }
-  if(window.ELLERBROCK_IMAGES&&Object.keys(window.ELLERBROCK_IMAGES).length>0){
-    applyMap(window.ELLERBROCK_IMAGES);
-  }
+  /* Fast load: fetch from raw GitHub (no Pages cache) with cache-busting */
+  fetch("https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/image-config.js?t="+Date.now())
+    .then(function(r){return r.text();})
+    .then(function(txt){
+      try{
+        var fn=new Function(txt+";return window.ELLERBROCK_IMAGES;");
+        var map=fn();
+        if(map&&Object.keys(map).length>0) applyMap(map);
+      }catch(e){
+        /* fallback to local file */
+        if(window.ELLERBROCK_IMAGES&&Object.keys(window.ELLERBROCK_IMAGES).length>0)
+          applyMap(window.ELLERBROCK_IMAGES);
+      }
+    })
+    .catch(function(){
+      if(window.ELLERBROCK_IMAGES&&Object.keys(window.ELLERBROCK_IMAGES).length>0)
+        applyMap(window.ELLERBROCK_IMAGES);
+    });
 })();
 </script>
 </body>
