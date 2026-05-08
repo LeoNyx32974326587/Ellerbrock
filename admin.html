@@ -774,6 +774,23 @@ function saveImageMap(map) {
   localStorage.setItem('cloudinary_images', JSON.stringify(map));
 }
 
+// Sync image map from server on load (so all devices see the same images)
+(function(){
+  var url = 'https://leonyx32974326587.github.io/Ellerbrock/image-config.js?t=' + Date.now();
+  fetch(url, {cache:'no-store'}).then(function(r){ return r.ok ? r.text() : null; }).then(function(text){
+    if (!text) return;
+    try {
+      var match = text.match(/window\.ELLERBROCK_IMAGES\s*=\s*(\{[\s\S]*?\});/);
+      if (match) {
+        var serverMap = JSON.parse(match[1]);
+        var localMap = getImageMap();
+        var merged = Object.assign({}, serverMap, localMap);
+        localStorage.setItem('cloudinary_images', JSON.stringify(merged));
+      }
+    } catch(e){}
+  }).catch(function(){});
+})();
+
 // ===== GITHUB PUBLISH =====
 function getGitHubToken() { return localStorage.getItem('gh_token') || ''; }
 
@@ -1206,30 +1223,4 @@ function renderVisitChart(range, btn) {
   document.getElementById('statTodayViews').textContent = 'Heute: ' + stats.todayTotal;
 
   // Sort pages by count descending
-  var sorted = Object.keys(stats.totals).sort(function(a,b){ return stats.totals[b] - stats.totals[a]; });
-  var max = sorted.length > 0 ? stats.totals[sorted[0]] : 1;
-
-  if (sorted.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:32px 0;color:var(--text-light);font-size:0.88rem;">Noch keine Aufrufe' + (range !== 'all' ? ' in diesem Zeitraum' : '') + ' erfasst.<br><small style="margin-top:8px;display:inline-block;">Aufrufe werden automatisch gezählt, sobald Besucher die Seiten öffnen.</small></div>';
-    return;
-  }
-
-  var html = '';
-  sorted.forEach(function(page) {
-    var label = PAGE_NAMES[page] || page;
-    var count = stats.totals[page];
-    var pct = Math.round((count / max) * 100);
-    html += '<div class="visit-bar-row">' +
-      '<div class="visit-bar-label" title="' + page + '">' + label + '</div>' +
-      '<div class="visit-bar-track"><div class="visit-bar-fill" style="width:' + pct + '%"></div></div>' +
-      '<div class="visit-bar-count">' + count + '</div></div>';
-  });
-  container.innerHTML = html;
-}
-
-// Initial render
-renderVisitChart('all', null);
-</script>
-
-</body>
-</html>
+  var sorted = Object.keys(stats.totals).sort(function(a,b){ return stats.totals[b] - stats.totals[a]; }
