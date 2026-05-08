@@ -1095,7 +1095,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
       <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; margin-top:24px;">
         <div class="team-card">
           <div class="team-avatar">
-            <img src="images/team-david-hintenlang.jpg" alt="David Hintenlang" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <img src="images/team-david-hintenlang.jpg" alt="David Hintenlang">
             <span class="initials" style="display:none;">DH</span>
           </div>
           <div class="team-card-body">
@@ -1106,7 +1106,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
         </div>
         <div class="team-card">
           <div class="team-avatar">
-            <img src="images/team-julius-lampert.jpg" alt="Julius Lampert" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <img src="images/team-julius-lampert.jpg" alt="Julius Lampert">
             <span class="initials" style="display:none;">JL</span>
           </div>
           <div class="team-card-body">
@@ -1117,7 +1117,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
         </div>
         <div class="team-card">
           <div class="team-avatar">
-            <img src="images/team-joerg-raphael.jpg" alt="Jörg Raphael" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <img src="images/team-joerg-raphael.jpg" alt="Jörg Raphael">
             <span class="initials" style="display:none;">JR</span>
           </div>
           <div class="team-card-body">
@@ -1128,7 +1128,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
         </div>
         <div class="team-card">
           <div class="team-avatar">
-            <img src="images/team-fabian-habel.jpg" alt="Fabian Habel" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <img src="images/team-fabian-habel.jpg" alt="Fabian Habel">
             <span class="initials" style="display:none;">FH</span>
           </div>
           <div class="team-card-body">
@@ -2050,11 +2050,22 @@ function submitContactForm(e) {
 <!-- Cloudinary Image Loader -->
 <script>
 (function(){
+  /* Immediately suppress onerror on all images to prevent hiding before map loads */
+  document.querySelectorAll('img[src^="images/"]').forEach(function(img){
+    img.removeAttribute('onerror');
+    img.onerror=null;
+  });
+
   function applyMap(map){
     if(!map)return;
     document.querySelectorAll('img[src^="images/"]').forEach(function(img){
       var f=img.getAttribute('src').replace('images/','');
-      if(map[f])img.src=map[f];
+      if(map[f]){
+        img.style.display='';
+        var sib=img.nextElementSibling;
+        if(sib&&sib.classList&&sib.classList.contains('initials'))sib.style.display='none';
+        img.src=map[f];
+      }
     });
   }
   if(window.self!==window.top){
@@ -2082,7 +2093,6 @@ function submitContactForm(e) {
     });
     return;
   }
-  /* Fast load: fetch from raw GitHub (no Pages cache) with cache-busting */
   fetch("https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/image-config.js?t="+Date.now())
     .then(function(r){return r.text();})
     .then(function(txt){
@@ -2091,7 +2101,6 @@ function submitContactForm(e) {
         var map=fn();
         if(map&&Object.keys(map).length>0) applyMap(map);
       }catch(e){
-        /* fallback to local file */
         if(window.ELLERBROCK_IMAGES&&Object.keys(window.ELLERBROCK_IMAGES).length>0)
           applyMap(window.ELLERBROCK_IMAGES);
       }
