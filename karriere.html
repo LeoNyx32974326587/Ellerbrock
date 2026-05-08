@@ -1969,6 +1969,21 @@ function submitContactForm(e) {
   } catch(e){}
 })();
 </script>
+
+<!-- Cloudinary Image Loader -->
+<script>
+(function(){
+  try {
+    var raw = localStorage.getItem('cloudinary_images');
+    if (!raw) return;
+    var map = JSON.parse(raw);
+    document.querySelectorAll('img[src^="images/"]').forEach(function(img){
+      var filename = img.getAttribute('src').replace('images/','');
+      if (map[filename]) img.src = map[filename];
+    });
+  } catch(e){}
+})();
+</script>
 </body>
 
 

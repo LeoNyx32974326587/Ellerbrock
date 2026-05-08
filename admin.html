@@ -160,6 +160,39 @@
     .gallery-quick-item span { position: absolute; bottom: 0; left: 0; right: 0; padding: 4px; background: rgba(0,0,0,0.7); color: white; font-size: 0.65rem; text-align: center; font-weight: 600; opacity: 0; transition: opacity 0.2s; }
     .gallery-quick-item:hover span { opacity: 1; }
 
+    /* View Toggle */
+    .view-toggle { display: flex; gap: 4px; background: var(--bg-input); border-radius: 8px; padding: 3px; }
+    .view-toggle-btn { padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; border: none; background: none; color: var(--text-light); cursor: pointer; font-family: inherit; transition: all 0.2s; }
+    .view-toggle-btn.active { background: rgba(1,86,109,0.2); color: var(--teal); }
+
+    /* Website Preview */
+    .site-preview { background: #f8f9fa; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+    .site-preview-bar { background: #2a2d38; padding: 8px 16px; display: flex; align-items: center; gap: 8px; }
+    .site-preview-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .site-preview-url { flex: 1; background: var(--bg-input); border-radius: 4px; padding: 4px 10px; font-size: 0.7rem; color: var(--text-light); margin-left: 8px; }
+    .site-preview-body { padding: 0; overflow-y: auto; max-height: 700px; }
+
+    /* Preview Sections */
+    .pv-hero { position: relative; height: 180px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .pv-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .pv-hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,51,102,0.85), rgba(1,86,109,0.7)); }
+    .pv-hero-text { position: relative; z-index: 1; text-align: center; color: white; padding: 20px; }
+    .pv-hero-text h3 { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+    .pv-hero-text p { font-size: 0.65rem; opacity: 0.8; }
+
+    .pv-section { padding: 20px 24px; }
+    .pv-section-title { font-size: 0.75rem; font-weight: 700; color: #003366; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .pv-section.dark { background: #003366; }
+    .pv-section.dark .pv-section-title { color: rgba(255,255,255,0.6); }
+
+    .pv-gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .pv-img-slot { position: relative; border-radius: 8px; overflow: hidden; cursor: pointer; aspect-ratio: 1; }
+    .pv-img-slot img { width: 100%; height: 100%; object-fit: cover; transition: all 0.2s; }
+    .pv-img-slot:hover img { transform: scale(1.05); }
+    .pv-img-slot::after { content: 'Bild ändern'; position: absolute; inset: 0; background: rgba(1,86,109,0.7); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; opacity: 0; transition: opacity 0.2s; border-radius: 8px; }
+    .pv-img-slot:hover::after { opacity: 1; }
+    .pv-img-badge { position: absolute; top: 4px; left: 4px; background: #4eb143; color: white; font-size: 0.55rem; font-weight: 700; padding: 1px 5px; border-radius: 3px; z-index: 2; }
+
     /* Quick Links */
     .quick-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .quick-link {
@@ -362,19 +395,42 @@
 
     <!-- GALERIE PANEL -->
     <div class="panel" id="panel-galerie">
-      <div class="admin-header">
-        <h1>Bilder verwalten</h1>
-        <p>Alle Bilder der Website nach Kategorie. Klicke auf ein Bild um es auszutauschen.</p>
+      <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;">
+        <div>
+          <h1>Bilder verwalten</h1>
+          <p>Klicke auf ein Bild um es auszutauschen. Bilder werden direkt in die Cloud hochgeladen.</p>
+        </div>
+        <div class="view-toggle">
+          <button class="view-toggle-btn active" onclick="switchGalleryView('preview', this)">Vorschau</button>
+          <button class="view-toggle-btn" onclick="switchGalleryView('grid', this)">Alle Bilder</button>
+        </div>
       </div>
 
-      <!-- Filter -->
-      <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;" id="galleryCategoryFilter"></div>
+      <!-- PREVIEW VIEW -->
+      <div id="galleryViewPreview">
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div class="site-preview">
+            <div class="site-preview-bar">
+              <div class="site-preview-dot" style="background:#ff5f57;"></div>
+              <div class="site-preview-dot" style="background:#ffbd2e;"></div>
+              <div class="site-preview-dot" style="background:#28c840;"></div>
+              <div class="site-preview-url">ellerbrock-konferenztechnik.de</div>
+            </div>
+            <div class="site-preview-body" id="previewBody"></div>
+          </div>
+        </div>
+        <!-- Page selector for preview -->
+        <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;" id="previewPageSelector"></div>
+      </div>
 
-      <!-- Dynamic gallery sections rendered by JS -->
-      <div id="galleryContainer"></div>
+      <!-- GRID VIEW -->
+      <div id="galleryViewGrid" style="display:none;">
+        <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;" id="galleryCategoryFilter"></div>
+        <div id="galleryContainer"></div>
+      </div>
 
-      <div class="card" style="margin-top:8px;">
-        <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:0;">Tipp: Nach dem Austauschen eines Bildes muss die neue Datei mit exakt dem gleichen Dateinamen in den <code style="background:var(--bg-input);padding:2px 6px;border-radius:4px;">images/</code> Ordner auf GitHub hochgeladen werden.</p>
+      <div class="card" style="margin-top:12px;">
+        <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:0;">Bilder werden zu Cloudinary hochgeladen und sind sofort fuer alle Besucher auf allen Geraeten sichtbar.</p>
       </div>
     </div>
 
@@ -685,11 +741,19 @@ function renderGalleryPanel(filterCat) {
     if (activeGalleryCat !== 'all' && activeGalleryCat !== cat.id) return;
     html += '<div class="card"><h3>' + cat.icon + ' ' + cat.label + ' <span style="font-size:0.8rem;font-weight:500;color:var(--text-light);margin-left:8px;">' + cat.images.length + ' Bilder</span></h3>';
     html += '<div class="gallery-grid">';
+    var imgMap = getImageMap();
     cat.images.forEach(function(img, idx) {
       var uid = cat.id + '_' + idx;
-      html += '<div class="gallery-slot" onclick="document.getElementById(\'gup_' + uid + '\').click()">' +
-        '<img src="images/' + img + '" id="gpv_' + uid + '" alt="' + img + '">' +
-        '<div class="gallery-slot-overlay">' + img.replace('.jpg','').replace(/-/g,' ') + '</div>' +
+      var cloudUrl = imgMap[img];
+      var imgSrc = cloudUrl || ('images/' + img);
+      var isCustom = !!cloudUrl;
+      html += '<div class="gallery-slot" style="position:relative;">' +
+        '<img src="' + imgSrc + '" id="gpv_' + uid + '" alt="' + img + '" onclick="document.getElementById(\'gup_' + uid + '\').click()" style="cursor:pointer;">' +
+        '<div class="gallery-slot-overlay" onclick="document.getElementById(\'gup_' + uid + '\').click()" style="cursor:pointer;">' +
+        '<div>' + img.replace('.jpg','').replace(/-/g,' ') + '</div>' +
+        '</div>' +
+        (isCustom ? '<div onclick="event.stopPropagation();resetImage(\'' + img + '\',\'gpv_' + uid + '\')" style="position:absolute;top:6px;right:6px;width:22px;height:22px;background:rgba(239,68,68,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.7rem;color:white;font-weight:700;z-index:2;" title="Auf Original zurücksetzen">&#10005;</div>' : '') +
+        (isCustom ? '<div style="position:absolute;top:6px;left:6px;background:var(--accent);color:white;font-size:0.6rem;font-weight:700;padding:2px 6px;border-radius:4px;z-index:2;">NEU</div>' : '') +
         '<input type="file" id="gup_' + uid + '" accept="image/*" style="display:none" onchange="previewImage(this,\'gpv_' + uid + '\',\'' + img + '\')">' +
         '</div>';
     });
@@ -698,19 +762,220 @@ function renderGalleryPanel(filterCat) {
   document.getElementById('galleryContainer').innerHTML = html;
 }
 
+// ===== CLOUDINARY CONFIG =====
+var CLOUD_NAME = 'daiiz3u5t';
+var UPLOAD_PRESET = 'ellerbrock';
+var CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/image/upload';
+
+// Store mapping: filename -> cloudinary URL
+function getImageMap() {
+  var raw = localStorage.getItem('cloudinary_images');
+  return raw ? JSON.parse(raw) : {};
+}
+function saveImageMap(map) {
+  localStorage.setItem('cloudinary_images', JSON.stringify(map));
+}
+
 function previewImage(input, previewId, filename) {
   if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      document.getElementById(previewId).src = e.target.result;
-      showToast('Bild geladen: ' + filename + ' — Lade es als "' + filename + '" in den images/ Ordner hoch.');
-    };
-    reader.readAsDataURL(input.files[0]);
+    var file = input.files[0];
+    if (file.size > 10 * 1024 * 1024) {
+      showToast('Bild zu gross (max. 10 MB).');
+      return;
+    }
+    // Show loading state
+    var preview = document.getElementById(previewId);
+    preview.style.opacity = '0.4';
+    showToast('Bild wird hochgeladen...');
+
+    // Upload to Cloudinary
+    var formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
+    formData.append('public_id', 'ellerbrock/' + filename.replace('.jpg','').replace('.png','').replace('.webp',''));
+
+    fetch(CLOUDINARY_URL, { method: 'POST', body: formData })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.secure_url) {
+          preview.src = data.secure_url;
+          preview.style.opacity = '1';
+          // Save mapping
+          var map = getImageMap();
+          map[filename] = data.secure_url;
+          saveImageMap(map);
+          showToast('Bild "' + filename + '" hochgeladen — sofort fuer alle sichtbar!');
+          // Re-render to show badges
+          renderGalleryPanel(activeGalleryCat);
+          renderPreview(currentPreviewPage);
+        } else {
+          preview.style.opacity = '1';
+          showToast('Fehler beim Upload: ' + (data.error ? data.error.message : 'Unbekannt'));
+        }
+      })
+      .catch(function(err) {
+        preview.style.opacity = '1';
+        showToast('Upload fehlgeschlagen: ' + err.message);
+      });
   }
+}
+
+function resetImage(filename, previewId) {
+  if (!confirm('Bild "' + filename + '" auf Original zurücksetzen?')) return;
+  var map = getImageMap();
+  delete map[filename];
+  saveImageMap(map);
+  document.getElementById(previewId).src = 'images/' + filename;
+  showToast(filename + ' auf Original zurückgesetzt.');
+  renderGalleryPanel(activeGalleryCat);
+  renderPreview(currentPreviewPage);
 }
 
 // Initial gallery render
 renderGalleryPanel('all');
+
+// ===== VIEW TOGGLE =====
+function switchGalleryView(view, btn) {
+  document.querySelectorAll('.view-toggle-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  document.getElementById('galleryViewPreview').style.display = view === 'preview' ? 'block' : 'none';
+  document.getElementById('galleryViewGrid').style.display = view === 'grid' ? 'block' : 'none';
+  if (view === 'preview') renderPreview(currentPreviewPage);
+  if (view === 'grid') renderGalleryPanel(activeGalleryCat);
+}
+
+// ===== WEBSITE PREVIEW =====
+var currentPreviewPage = 'startseite';
+
+var PREVIEW_PAGES = {
+  startseite: {
+    label: 'Startseite',
+    sections: [
+      { type: 'hero', title: 'Professionelle Konferenztechnik', sub: 'Dolmetscheranlagen, Ted-Abstimmsysteme, Fuehrungsanlagen und Medientechnik' },
+      { type: 'gallery', title: 'Einblicke', images: ['galerie-1.jpg','galerie-2.jpg','galerie-3.jpg','galerie-4.jpg','galerie-5.jpg','galerie-6.jpg'] }
+    ]
+  },
+  dolmetscheranlagen: {
+    label: 'Dolmetscheranlagen',
+    sections: [
+      { type: 'hero', title: 'Dolmetscheranlagen', sub: 'Professionelle Simultandolmetsch-Technik' },
+      { type: 'gallery', title: 'Dolmetscheranlagen', images: ['dolmetscheranlage-hoersprechgarnitur.jpg','dolmetscheranlage-einsatz.jpg','dolmetscheranlage-komponenten.jpg','dolmetscheranlage-setup.jpg','dolmetscherkabine-audipack-9300.jpg','dolmetscherkabine-innenansicht.jpg','dolmetscherkabine-aufgebaut.jpg','dolmetscherdienst.jpg'] }
+    ]
+  },
+  ted: {
+    label: 'Ted-Abstimmsysteme',
+    sections: [
+      { type: 'hero', title: 'Ted-Abstimmsysteme', sub: 'Elektronische Voting- und Abstimmsysteme' },
+      { type: 'gallery', title: 'Abstimmsysteme', images: ['ted-votingsystem-01.jpg','ted-votingsystem-02.jpg','ted-votingsystem-03.jpg','ted-votingsystem-04.jpg','ted-votingsystem-05.jpg','ted-votingsystem-06.jpg','ted-votingsystem-07.jpg','ted-votingsystem-08.jpg'] }
+    ]
+  },
+  fuehrungsanlagen: {
+    label: 'Fuehrungsanlagen',
+    sections: [
+      { type: 'hero', title: 'Fuehrungsanlagen', sub: 'Mobile Personenfuehrungsanlagen' },
+      { type: 'gallery', title: 'Fuehrungsanlagen', images: ['fuehrungsanlage-01.jpg','fuehrungsanlage-02.jpg','fuehrungsanlage-03.jpg','fuehrungsanlage-04.jpg'] }
+    ]
+  },
+  diskussionssysteme: {
+    label: 'Diskussionssysteme',
+    sections: [
+      { type: 'hero', title: 'Diskussionssysteme', sub: 'Konferenz- und Diskussionsanlagen' },
+      { type: 'gallery', title: 'Diskussionsanlagen', images: ['diskussionsanlage-01.jpg','diskussionsanlage-02.jpg','diskussionsanlage-03.jpg','diskussionsanlage-04.jpg'] }
+    ]
+  },
+  beschallungstechnik: {
+    label: 'Beschallungstechnik',
+    sections: [
+      { type: 'hero', title: 'Beschallungstechnik', sub: 'Professionelle Beschallungssysteme' },
+      { type: 'gallery', title: 'Beschallungstechnik', images: ['beschallungstechnik-01.jpg','beschallungstechnik-02.jpg','beschallungstechnik-03.jpg'] }
+    ]
+  },
+  videotechnik: {
+    label: 'Videotechnik',
+    sections: [
+      { type: 'hero', title: 'Videotechnik', sub: 'Displays, Kameras und Streaming' },
+      { type: 'gallery', title: 'Videotechnik', images: ['videotechnik-01.jpg'] }
+    ]
+  },
+  kauf: {
+    label: 'Produkte kaufen',
+    sections: [
+      { type: 'hero', title: 'Produkte kaufen', sub: 'Konferenztechnik zum Kauf' },
+      { type: 'gallery', title: 'Kaufprodukte', images: ['kauf-dolmetscheranlage-01.jpg','kauf-dolmetscherkabine-01.jpg','kauf-diskussionsanlage-01.jpg','kauf-gebraucht-01.jpg','kauf-sennheiser-ek1039.jpg','kauf-bosch-dolmetscherpult.jpg'] }
+    ]
+  },
+  team: {
+    label: 'Team',
+    sections: [
+      { type: 'hero', title: 'Unser Team', sub: 'Die Menschen hinter Ellerbrock' },
+      { type: 'team', title: 'Team-Fotos', images: ['team-fabian-ellerbrock.jpg','team-david-hintenlang.jpg','team-fabian-habel.jpg','team-joerg-raphael.jpg','team-julius-lampert.jpg','team-jochen-stiefel.jpg'] }
+    ]
+  }
+};
+
+function renderPreview(pageKey) {
+  currentPreviewPage = pageKey || 'startseite';
+  var page = PREVIEW_PAGES[currentPreviewPage];
+  var imgMap = getImageMap();
+
+  // Page selector
+  var selHtml = '';
+  Object.keys(PREVIEW_PAGES).forEach(function(key) {
+    selHtml += '<button class="visit-time-btn' + (currentPreviewPage === key ? ' active' : '') + '" onclick="renderPreview(\'' + key + '\')">' + PREVIEW_PAGES[key].label + '</button>';
+  });
+  document.getElementById('previewPageSelector').innerHTML = selHtml;
+
+  // Build preview
+  var html = '';
+  page.sections.forEach(function(sec) {
+    if (sec.type === 'hero') {
+      html += '<div class="pv-hero"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=60&auto=format" alt="">' +
+        '<div class="pv-hero-overlay"></div><div class="pv-hero-text"><h3>' + sec.title + '</h3><p>' + sec.sub + '</p></div></div>';
+    }
+    if (sec.type === 'gallery') {
+      html += '<div class="pv-section"><div class="pv-section-title">' + sec.title + '</div><div class="pv-gallery-grid">';
+      sec.images.forEach(function(img, idx) {
+        var uid = 'pv_' + currentPreviewPage + '_' + idx;
+        var src = imgMap[img] || ('images/' + img);
+        var isCustom = !!imgMap[img];
+        html += '<div class="pv-img-slot" onclick="document.getElementById(\'' + uid + '\').click()">' +
+          (isCustom ? '<div class="pv-img-badge">NEU</div>' : '') +
+          '<img src="' + src + '" id="pvimg_' + uid + '" alt="' + img + '">' +
+          '<input type="file" id="' + uid + '" accept="image/*" style="display:none" onchange="previewImage(this,\'pvimg_' + uid + '\',\'' + img + '\')">' +
+          '</div>';
+      });
+      html += '</div></div>';
+    }
+    if (sec.type === 'team') {
+      html += '<div class="pv-section" style="background:#f0f4f8;"><div class="pv-section-title">' + sec.title + '</div>' +
+        '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">';
+      sec.images.forEach(function(img, idx) {
+        var uid = 'pv_team_' + idx;
+        var src = imgMap[img] || ('images/' + img);
+        var isCustom = !!imgMap[img];
+        var name = img.replace('team-','').replace('.jpg','').replace(/-/g,' ');
+        name = name.split(' ').map(function(w){return w.charAt(0).toUpperCase()+w.slice(1)}).join(' ');
+        html += '<div style="text-align:center;background:white;border-radius:10px;padding:12px;cursor:pointer;" onclick="document.getElementById(\'' + uid + '\').click()">' +
+          '<div style="position:relative;display:inline-block;">' +
+          (isCustom ? '<div class="pv-img-badge">NEU</div>' : '') +
+          '<img src="' + src + '" id="pvimg_' + uid + '" alt="' + name + '" style="width:70px;height:85px;object-fit:cover;border-radius:8px;">' +
+          '</div>' +
+          '<div style="font-size:0.7rem;font-weight:600;color:#003366;margin-top:6px;">' + name + '</div>' +
+          '<input type="file" id="' + uid + '" accept="image/*" style="display:none" onchange="previewImage(this,\'pvimg_' + uid + '\',\'' + img + '\')">' +
+          '</div>';
+      });
+      html += '</div></div>';
+    }
+  });
+
+  // Footer
+  html += '<div style="background:#003366;padding:14px 24px;text-align:center;"><span style="color:rgba(255,255,255,0.4);font-size:0.65rem;">Ellerbrock Konferenztechnik &copy; 2025</span></div>';
+
+  document.getElementById('previewBody').innerHTML = html;
+}
+
+// Initial preview render
+renderPreview('startseite');
 
 // Dashboard gallery quick access
 (function() {
