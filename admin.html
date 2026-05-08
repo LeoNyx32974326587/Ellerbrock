@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #003366; --teal: #01566d; --accent: #4eb143;
+      --bg: #0f1117; --bg-card: #1a1d27; --bg-input: #252830;
+      --border: #2a2d38; --text: #e0e6ed; --text-light: #8891a0;
+      --radius: 12px;
+    }
+    body {
+      font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text);
+      min-height: 100vh; -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== LOGIN ===== */
+    .login-wrapper {
+      display: flex; align-items: center; justify-content: center; min-height: 100vh;
+      background: radial-gradient(ellipse at 30% 20%, rgba(1,86,109,0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 80%, rgba(78,177,67,0.05) 0%, transparent 50%);
+    }
+    .login-box {
+      width: 100%; max-width: 400px; padding: 48px 40px; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .login-logo { text-align: center; margin-bottom: 32px; }
+    .login-logo span { font-size: 1.5rem; font-weight: 800; color: white; letter-spacing: -0.02em; }
+    .login-logo small { display: block; font-size: 0.75rem; color: var(--text-light); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .login-field { margin-bottom: 20px; }
+    .login-field label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .login-field input {
+      width: 100%; padding: 14px 16px; background: var(--bg-input); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text); font-size: 0.95rem; font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .login-field input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(1,86,109,0.2); }
+    .login-btn {
+      width: 100%; padding: 14px; background: linear-gradient(135deg, var(--teal), var(--accent));
+      color: white; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 8px;
+    }
+    .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(1,86,109,0.3); }
+    .login-error { color: #ef4444; font-size: 0.85rem; text-align: center; margin-top: 16px; display: none; }
+
+    /* ===== ADMIN DASHBOARD ===== */
+    .admin { display: none; }
+    .admin.active { display: block; }
+    .login-wrapper.hidden { display: none; }
+
+    .admin-sidebar {
+      position: fixed; left: 0; top: 0; bottom: 0; width: 240px; background: var(--bg-card);
+      border-right: 1px solid var(--border); padding: 24px 0; z-index: 100;
+      display: flex; flex-direction: column;
+    }
+    .sidebar-logo { padding: 0 24px 24px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+    .sidebar-logo span { font-size: 1.1rem; font-weight: 800; color: white; }
+    .sidebar-logo small { display: block; font-size: 0.7rem; color: var(--accent); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .sidebar-nav { flex: 1; padding: 0 12px; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px;
+      font-size: 0.88rem; font-weight: 500; color: var(--text-light); cursor: pointer;
+      transition: all 0.2s; border: none; background: none; width: 100%; text-align: left; font-family: inherit;
+    }
+    .sidebar-link:hover { background: var(--bg-input); color: white; }
+    .sidebar-link.active { background: rgba(1,86,109,0.15); color: var(--teal); }
+    .sidebar-link svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .sidebar-bottom { padding: 16px 12px; border-top: 1px solid var(--border); margin-top: auto; }
+    .sidebar-user { display: flex; align-items: center; gap: 10px; padding: 8px 12px; }
+    .sidebar-avatar { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--teal), var(--accent)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.8rem; }
+    .sidebar-user-info span { font-size: 0.85rem; font-weight: 600; color: white; display: block; }
+    .sidebar-user-info small { font-size: 0.7rem; color: var(--text-light); }
+
+    .admin-main { margin-left: 240px; padding: 32px; }
+    .admin-header { margin-bottom: 32px; }
+    .admin-header h1 { font-size: 1.6rem; font-weight: 800; color: white; margin-bottom: 4px; }
+    .admin-header p { font-size: 0.9rem; color: var(--text-light); }
+
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .stat-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px; transition: all 0.2s;
+    }
+    .stat-card:hover { border-color: var(--teal); }
+    .stat-card-label { font-size: 0.75rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .stat-card-value { font-size: 1.8rem; font-weight: 800; color: white; }
+    .stat-card-sub { font-size: 0.8rem; color: var(--accent); margin-top: 4px; }
+
+    /* Panels */
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 28px; margin-bottom: 20px;
+    }
+    .card h3 { font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 16px; }
+    .card p { font-size: 0.88rem; color: var(--text-light); line-height: 1.7; margin-bottom: 16px; }
+
+    /* Gallery Manager */
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .gallery-slot {
+      aspect-ratio: 1; border-radius: 10px; overflow: hidden; position: relative;
+      border: 2px dashed var(--border); transition: border-color 0.2s; cursor: pointer;
+    }
+    .gallery-slot:hover { border-color: var(--teal); }
+    .gallery-slot img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-slot-overlay {
+      position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex;
+      align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s;
+      font-size: 0.8rem; font-weight: 600; color: white;
+    }
+    .gallery-slot:hover .gallery-slot-overlay { opacity: 1; }
+
+    /* Text Editor */
+    .edit-group { margin-bottom: 20px; }
+    .edit-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-light); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .edit-group input, .edit-group textarea {
+      width: 100%; padding: 12px 14px; background: var(--bg-input); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text); font-size: 0.9rem; font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .edit-group input:focus, .edit-group textarea:focus { outline: none; border-color: var(--teal); }
+    .edit-group textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
+
+    .admin-btn {
+      padding: 10px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; border: none; font-family: inherit; transition: all 0.2s;
+    }
+    .btn-save { background: var(--accent); color: white; }
+    .btn-save:hover { background: #3d9435; transform: translateY(-1px); }
+    .btn-secondary { background: var(--bg-input); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--teal); color: white; }
+    .btn-danger { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+    .btn-danger:hover { background: rgba(239,68,68,0.25); }
+    .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+
+    /* Quick Links */
+    .quick-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .quick-link {
+      display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--bg-input);
+      border: 1px solid var(--border); border-radius: 10px; text-decoration: none; color: var(--text);
+      transition: all 0.2s;
+    }
+    .quick-link:hover { border-color: var(--teal); color: white; transform: translateY(-2px); }
+    .quick-link-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+
+    /* Toast notification */
+    .toast {
+      position: fixed; bottom: 32px; right: 32px; padding: 14px 24px; background: var(--accent);
+      color: white; border-radius: 10px; font-size: 0.88rem; font-weight: 600;
+      transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 9999;
+      box-shadow: 0 8px 24px rgba(78,177,67,0.3);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* Settings */
+    .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .setting-row:last-child { border-bottom: none; }
+    .setting-label span { font-size: 0.9rem; font-weight: 600; color: white; display: block; }
+    .setting-label small { font-size: 0.8rem; color: var(--text-light); }
+    .toggle {
+      width: 44px; height: 24px; background: var(--bg-input); border-radius: 12px;
+      position: relative; cursor: pointer; border: 1px solid var(--border); transition: all 0.2s;
+    }
+    .toggle.on { background: var(--accent); border-color: var(--accent); }
+    .toggle::after {
+      content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+      background: white; border-radius: 50%; transition: transform 0.2s;
+    }
+    .toggle.on::after { transform: translateX(20px); }
+
+    /* Pages List */
+    .page-list { list-style: none; }
+    .page-item {
+      display: flex; align-items: center; justify-content: space-between; padding: 12px 16px;
+      border-bottom: 1px solid var(--border); font-size: 0.88rem;
+    }
+    .page-item:hover { background: var(--bg-input); }
+    .page-name { font-weight: 600; color: white; }
+    .page-link { color: var(--teal); font-size: 0.8rem; text-decoration: none; }
+    .page-link:hover { color: var(--accent); }
+
+    @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) {
+      .admin-sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); }
+      .sidebar-nav { display: flex; padding: 0 12px; overflow-x: auto; gap: 4px; }
+      .admin-main { margin-left: 0; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .quick-links { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div class="login-wrapper" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <span>Ellerbrock</span>
+      <small>Admin Center</small>
+    </div>
+    <form onsubmit="return handleLogin(event)">
+      <div class="login-field">
+        <label>Benutzername</label>
+        <input type="text" id="loginUser" autocomplete="off" autofocus>
+      </div>
+      <div class="login-field">
+        <label>Passwort</label>
+        <input type="password" id="loginPass">
+      </div>
+      <button type="submit" class="login-btn">Anmelden</button>
+      <div class="login-error" id="loginError">Benutzername oder Passwort falsch</div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== ADMIN DASHBOARD ===== -->
+<div class="admin" id="adminDashboard">
+  <aside class="admin-sidebar">
+    <div class="sidebar-logo">
+      <span>Ellerbrock</span>
+      <small>Admin Center</small>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="sidebar-link active" onclick="showPanel('dashboard', this)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </button>
+      <button class="sidebar-link" onclick="showPanel('galerie', this)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Galerie
+      </button>
+      <button class="sidebar-link" onclick="showPanel('inhalte', this)">
+        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Inhalte
+      </button>
+      <button class="sidebar-link" onclick="showPanel('seiten', this)">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Seiten
+      </button>
+      <button class="sidebar-link" onclick="showPanel('settings', this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Einstellungen
+      </button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">FE</div>
+        <div class="sidebar-user-info">
+          <span>Fabian</span>
+          <small>Administrator</small>
+        </div>
+      </div>
+      <button class="sidebar-link" onclick="logout()" style="margin-top:8px;color:#ef4444;">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Abmelden
+      </button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <!-- DASHBOARD PANEL -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="admin-header">
+        <h1>Dashboard</h1>
+        <p>Willkommen im Admin Center der Ellerbrock Website.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-label">HTML-Seiten</div>
+          <div class="stat-card-value">22</div>
+          <div class="stat-card-sub">Alle aktiv</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Galerie-Bilder</div>
+          <div class="stat-card-value">6</div>
+          <div class="stat-card-sub">Einblicke-Sektion</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Sprachen</div>
+          <div class="stat-card-value">5</div>
+          <div class="stat-card-sub">DE, EN, FR, ES, ZH</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Standorte</div>
+          <div class="stat-card-value">3</div>
+          <div class="stat-card-sub">Abtsteinach, Berlin, Bonn</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Schnellzugriff</h3>
+        <div class="quick-links">
+          <a href="index.html" target="_blank" class="quick-link">
+            <div class="quick-link-icon" style="background:rgba(1,86,109,0.15);color:var(--teal);">&#127968;</div>
+            <div><strong>Website ansehen</strong><br><small style="color:var(--text-light);">Startseite in neuem Tab</small></div>
+          </a>
+          <a href="https://github.com" target="_blank" class="quick-link">
+            <div class="quick-link-icon" style="background:rgba(255,255,255,0.08);color:white;">&#128187;</div>
+            <div><strong>GitHub Repository</strong><br><small style="color:var(--text-light);">Code verwalten</small></div>
+          </a>
+          <a href="https://www.instagram.com/ellerbrockkonferenztechnik/" target="_blank" class="quick-link">
+            <div class="quick-link-icon" style="background:rgba(131,58,180,0.15);color:#833ab4;">&#128247;</div>
+            <div><strong>Instagram</strong><br><small style="color:var(--text-light);">Social Media</small></div>
+          </a>
+          <a href="https://analytics.google.com" target="_blank" class="quick-link">
+            <div class="quick-link-icon" style="background:rgba(78,177,67,0.15);color:var(--accent);">&#128200;</div>
+            <div><strong>Analytics</strong><br><small style="color:var(--text-light);">Besucherstatistiken</small></div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- GALERIE PANEL -->
+    <div class="panel" id="panel-galerie">
+      <div class="admin-header">
+        <h1>Galerie verwalten</h1>
+        <p>Bilder der Einblicke-Sektion auf der Startseite. Klicke auf ein Bild um es auszutauschen.</p>
+      </div>
+      <div class="card">
+        <h3>Aktuelle Bilder</h3>
+        <p>Die Bilder liegen im <code style="background:var(--bg-input);padding:2px 6px;border-radius:4px;">images/</code> Ordner als <code style="background:var(--bg-input);padding:2px 6px;border-radius:4px;">galerie-1.jpg</code> bis <code style="background:var(--bg-input);padding:2px 6px;border-radius:4px;">galerie-6.jpg</code>.</p>
+        <div class="gallery-grid" id="adminGallery">
+          <div class="gallery-slot" onclick="document.getElementById('imgUpload1').click()">
+            <img src="images/galerie-1.jpg" id="preview1" alt="Galerie 1">
+            <div class="gallery-slot-overlay">Bild 1 austauschen</div>
+            <input type="file" id="imgUpload1" accept="image/*" style="display:none" onchange="previewImage(this, 'preview1', 'galerie-1.jpg')">
+          </div>
+          <div class="gallery-slot" onclick="document.getElementById('imgUpload2').click()">
+            <img src="images/galerie-2.jpg" id="preview2" alt="Galerie 2">
+            <div class="gallery-slot-overlay">Bild 2 austauschen</div>
+            <input type="file" id="imgUpload2" accept="image/*" style="display:none" onchange="previewImage(this, 'preview2', 'galerie-2.jpg')">
+          </div>
+          <div class="gallery-slot" onclick="document.getElementById('imgUpload3').click()">
+            <img src="images/galerie-3.jpg" id="preview3" alt="Galerie 3">
+            <div class="gallery-slot-overlay">Bild 3 austauschen</div>
+            <input type="file" id="imgUpload3" accept="image/*" style="display:none" onchange="previewImage(this, 'preview3', 'galerie-3.jpg')">
+          </div>
+          <div class="gallery-slot" onclick="document.getElementById('imgUpload4').click()">
+            <img src="images/galerie-4.jpg" id="preview4" alt="Galerie 4">
+            <div class="gallery-slot-overlay">Bild 4 austauschen</div>
+            <input type="file" id="imgUpload4" accept="image/*" style="display:none" onchange="previewImage(this, 'preview4', 'galerie-4.jpg')">
+          </div>
+          <div class="gallery-slot" onclick="document.getElementById('imgUpload5').click()">
+            <img src="images/galerie-5.jpg" id="preview5" alt="Galerie 5">
+            <div class="gallery-slot-overlay">Bild 5 austauschen</div>
+            <input type="file" id="imgUpload5" accept="image/*" style="display:none" onchange="previewImage(this, 'preview5', 'galerie-5.jpg')">
+          </div>
+          <div class="gallery-slot" onclick="document.getElementById('imgUpload6').click()">
+            <img src="images/galerie-6.jpg" id="preview6" alt="Galerie 6">
+            <div class="gallery-slot-overlay">Bild 6 austauschen</div>
+            <input type="file" id="imgUpload6" accept="image/*" style="display:none" onchange="previewImage(this, 'preview6', 'galerie-6.jpg')">
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="admin-btn btn-save" onclick="downloadGallery()">Bilder herunterladen (ZIP)</button>
+          <button class="admin-btn btn-secondary" onclick="showToast('Tipp: Lade die Bilder als galerie-1.jpg bis galerie-6.jpg in den images/ Ordner auf GitHub hoch.')">Hilfe</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- INHALTE PANEL -->
+    <div class="panel" id="panel-inhalte">
+      <div class="admin-header">
+        <h1>Inhalte bearbeiten</h1>
+        <p>Haupttexte der Startseite anpassen. Änderungen werden als Download bereitgestellt.</p>
+      </div>
+      <div class="card">
+        <h3>Hero-Bereich</h3>
+        <div class="edit-group">
+          <label>Badge-Text</label>
+          <input type="text" id="editBadge" value="Ihr Partner seit über 45 Jahren">
+        </div>
+        <div class="edit-group">
+          <label>Überschrift</label>
+          <input type="text" id="editTitle" value="Professionelle Konferenztechnik für Ihre Veranstaltung">
+        </div>
+        <div class="edit-group">
+          <label>Beschreibung</label>
+          <textarea id="editDesc">Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.</textarea>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Über-uns-Bereich</h3>
+        <div class="edit-group">
+          <label>Überschrift</label>
+          <input type="text" id="editAboutTitle" value="Erfahrung trifft Innovation">
+        </div>
+        <div class="edit-group">
+          <label>Text Absatz 1</label>
+          <textarea id="editAboutP1">Seit 1978 ist Ellerbrock Konferenztechnik einer der führenden Anbieter für professionelle Konferenztechnik in Deutschland. Mit Standorten in Abtsteinach und Berlin betreuen wir Veranstaltungen jeder Größe.</textarea>
+        </div>
+        <div class="edit-group">
+          <label>Text Absatz 2</label>
+          <textarea id="editAboutP2">Wir bieten Ihnen nicht nur hochwertige Technik zur Miete und zum Kauf, sondern auch einen umfassenden Service: Planung, Aufbau, Betreuung und technischer Support durch unser erfahrenes Team.</textarea>
+        </div>
+      </div>
+      <div class="card">
+        <h3>CTA / Kontakt</h3>
+        <div class="edit-group">
+          <label>Überschrift</label>
+          <input type="text" id="editCtaTitle" value="Lassen Sie uns Ihre Veranstaltung planen">
+        </div>
+        <div class="edit-group">
+          <label>Beschreibung</label>
+          <textarea id="editCtaSub">Unser Team berät Sie gerne — ob Miete, Kauf oder technischer Support.</textarea>
+        </div>
+        <div class="btn-row">
+          <button class="admin-btn btn-save" onclick="saveContent()">Änderungen speichern</button>
+          <button class="admin-btn btn-secondary" onclick="exportContent()">Als Textdatei exportieren</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEITEN PANEL -->
+    <div class="panel" id="panel-seiten">
+      <div class="admin-header">
+        <h1>Seiten-Übersicht</h1>
+        <p>Alle 22 HTML-Seiten der Website im Überblick.</p>
+      </div>
+      <div class="card">
+        <ul class="page-list" id="pageList"></ul>
+      </div>
+    </div>
+
+    <!-- SETTINGS PANEL -->
+    <div class="panel" id="panel-settings">
+      <div class="admin-header">
+        <h1>Einstellungen</h1>
+        <p>Website-Konfiguration und Admin-Einstellungen.</p>
+      </div>
+      <div class="card">
+        <h3>Website</h3>
+        <div class="setting-row">
+          <div class="setting-label"><span>Dark Mode Standard</span><small>Neue Besucher sehen Dark Mode</small></div>
+          <div class="toggle" id="toggleDark" onclick="this.classList.toggle('on');showToast('Einstellung gespeichert')"></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-label"><span>Preloader anzeigen</span><small>Ladeanimation beim Seitenwechsel</small></div>
+          <div class="toggle on" id="togglePreloader" onclick="this.classList.toggle('on');showToast('Einstellung gespeichert')"></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-label"><span>Cookie-Banner</span><small>DSGVO-konformes Cookie-Banner</small></div>
+          <div class="toggle on" id="toggleCookie" onclick="this.classList.toggle('on');showToast('Einstellung gespeichert')"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Admin-Zugang</h3>
+        <div class="edit-group">
+          <label>Neues Passwort</label>
+          <input type="password" id="newPass" placeholder="Neues Passwort eingeben">
+        </div>
+        <div class="edit-group">
+          <label>Passwort bestätigen</label>
+          <input type="password" id="newPassConfirm" placeholder="Passwort wiederholen">
+        </div>
+        <div class="btn-row">
+          <button class="admin-btn btn-save" onclick="changePassword()">Passwort ändern</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Gefahrenzone</h3>
+        <p style="color:#ef4444;">Achtung: Diese Aktionen können nicht rückgängig gemacht werden.</p>
+        <div class="btn-row">
+          <button class="admin-btn btn-danger" onclick="if(confirm('Wirklich alle gespeicherten Einstellungen zurücksetzen?')){localStorage.clear();showToast('Alle Einstellungen zurückgesetzt');}">Alle Einstellungen zurücksetzen</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== AUTH =====
+var U_HASH = '33f1ac9818eb1eb88c0156eada16bae1fc00fb98e89645aab3c084a86f66bc63';
+var P_HASH = 'a59faff57ffff144573f8d002204a2f044c6cf8d6aa5700a4ce61707d8f8b589';
+
+async function sha256(str) {
+  var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  var user = document.getElementById('loginUser').value;
+  var pass = document.getElementById('loginPass').value;
+  var uHash = await sha256(user);
+  var pHash = await sha256(pass);
+  // Also check localStorage for changed password
+  var storedPHash = localStorage.getItem('admin_p_hash');
+  var targetPHash = storedPHash || P_HASH;
+  if (uHash === U_HASH && pHash === targetPHash) {
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('adminDashboard').classList.add('active');
+    sessionStorage.setItem('admin_auth', '1');
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    setTimeout(function(){ document.getElementById('loginError').style.display = 'none'; }, 3000);
+  }
+  return false;
+}
+
+// Auto-login if session active
+if (sessionStorage.getItem('admin_auth') === '1') {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('adminDashboard').classList.add('active');
+}
+
+function logout() {
+  sessionStorage.removeItem('admin_auth');
+  document.getElementById('adminDashboard').classList.remove('active');
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+}
+
+// ===== PANELS =====
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.sidebar-link').forEach(function(l){l.classList.remove('active')});
+  document.getElementById('panel-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+// ===== GALLERY =====
+function previewImage(input, previewId, filename) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById(previewId).src = e.target.result;
+      showToast('Bild geladen: ' + filename + ' — Lade es in den images/ Ordner auf GitHub hoch.');
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function downloadGallery() {
+  showToast('Tipp: Lade die Bilder direkt als galerie-1.jpg bis galerie-6.jpg in den images/ Ordner auf GitHub hoch.');
+}
+
+// ===== CONTENT =====
+function saveContent() {
+  var content = {
+    badge: document.getElementById('editBadge').value,
+    title: document.getElementById('editTitle').value,
+    desc: document.getElementById('editDesc').value,
+    aboutTitle: document.getElementById('editAboutTitle').value,
+    aboutP1: document.getElementById('editAboutP1').value,
+    aboutP2: document.getElementById('editAboutP2').value,
+    ctaTitle: document.getElementById('editCtaTitle').value,
+    ctaSub: document.getElementById('editCtaSub').value,
+  };
+  localStorage.setItem('admin_content', JSON.stringify(content));
+  showToast('Inhalte gespeichert!');
+}
+
+function exportContent() {
+  var content = {
+    badge: document.getElementById('editBadge').value,
+    title: document.getElementById('editTitle').value,
+    desc: document.getElementById('editDesc').value,
+    aboutTitle: document.getElementById('editAboutTitle').value,
+    aboutP1: document.getElementById('editAboutP1').value,
+    aboutP2: document.getElementById('editAboutP2').value,
+    ctaTitle: document.getElementById('editCtaTitle').value,
+    ctaSub: document.getElementById('editCtaSub').value,
+  };
+  var text = 'ELLERBROCK WEBSITE — INHALTSAKTUALISIERUNG\n';
+  text += '==========================================\n\n';
+  text += 'Hero Badge: ' + content.badge + '\n';
+  text += 'Hero Titel: ' + content.title + '\n';
+  text += 'Hero Beschreibung: ' + content.desc + '\n\n';
+  text += 'Über-uns Titel: ' + content.aboutTitle + '\n';
+  text += 'Über-uns Absatz 1: ' + content.aboutP1 + '\n';
+  text += 'Über-uns Absatz 2: ' + content.aboutP2 + '\n\n';
+  text += 'CTA Titel: ' + content.ctaTitle + '\n';
+  text += 'CTA Beschreibung: ' + content.ctaSub + '\n';
+  var blob = new Blob([text], {type: 'text/plain'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'website-inhalte.txt';
+  a.click();
+  showToast('Textdatei heruntergeladen');
+}
+
+// Load saved content
+(function() {
+  var saved = localStorage.getItem('admin_content');
+  if (saved) {
+    var c = JSON.parse(saved);
+    if (c.badge) document.getElementById('editBadge').value = c.badge;
+    if (c.title) document.getElementById('editTitle').value = c.title;
+    if (c.desc) document.getElementById('editDesc').value = c.desc;
+    if (c.aboutTitle) document.getElementById('editAboutTitle').value = c.aboutTitle;
+    if (c.aboutP1) document.getElementById('editAboutP1').value = c.aboutP1;
+    if (c.aboutP2) document.getElementById('editAboutP2').value = c.aboutP2;
+    if (c.ctaTitle) document.getElementById('editCtaTitle').value = c.ctaTitle;
+    if (c.ctaSub) document.getElementById('editCtaSub').value = c.ctaSub;
+  }
+})();
+
+// ===== PAGES LIST =====
+var pages = [
+  {name: 'Startseite', file: 'index.html'},
+  {name: 'Über uns', file: 'ueber-uns.html'},
+  {name: 'Karriere', file: 'karriere.html'},
+  {name: 'Dolmetscheranlagen', file: 'dolmetscheranlagen.html'},
+  {name: 'Ted-Abstimmsysteme', file: 'ted.html'},
+  {name: 'Führungsanlagen', file: 'fuehrungsanlagen.html'},
+  {name: 'Diskussionssysteme', file: 'diskussionssysteme.html'},
+  {name: 'Beschallungstechnik', file: 'beschallungstechnik.html'},
+  {name: 'Videotechnik', file: 'videotechnik.html'},
+  {name: 'Produkte kaufen', file: 'kauf.html'},
+  {name: 'Produkte mieten', file: 'miete.html'},
+  {name: 'Produkte Bestand', file: 'produkte.html'},
+  {name: 'Standort Abtsteinach', file: 'standort-abtsteinach.html'},
+  {name: 'Standort Berlin', file: 'standort-berlin.html'},
+  {name: 'Standort Bonn', file: 'standort-bonn.html'},
+  {name: 'Filme & Guides', file: 'filme.html'},
+  {name: 'Downloads', file: 'downloads.html'},
+  {name: 'Kontakt', file: 'kontakt.html'},
+  {name: 'Kontaktformular', file: 'kontaktformular.html'},
+  {name: 'Rückrufservice', file: 'rueckrufservice.html'},
+  {name: 'Impressum', file: 'impressum.html'},
+  {name: 'Datenschutz', file: 'datenschutz.html'},
+];
+var pl = document.getElementById('pageList');
+pages.forEach(function(p) {
+  pl.innerHTML += '<li class="page-item"><span class="page-name">' + p.name + '</span><a href="' + p.file + '" target="_blank" class="page-link">' + p.file + ' &#8599;</a></li>';
+});
+
+// ===== CHANGE PASSWORD =====
+async function changePassword() {
+  var p1 = document.getElementById('newPass').value;
+  var p2 = document.getElementById('newPassConfirm').value;
+  if (!p1 || p1.length < 6) { showToast('Passwort muss mindestens 6 Zeichen haben'); return; }
+  if (p1 !== p2) { showToast('Passwörter stimmen nicht überein'); return; }
+  var hash = await sha256(p1);
+  localStorage.setItem('admin_p_hash', hash);
+  document.getElementById('newPass').value = '';
+  document.getElementById('newPassConfirm').value = '';
+  showToast('Passwort erfolgreich geändert!');
+}
+</script>
+
+</body>
+</html>
