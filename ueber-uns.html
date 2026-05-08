@@ -1034,7 +1034,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:32px;">
           <div class="team-card">
             <div class="team-avatar">
-              <img src="images/team-fabian-ellerbrock.jpg" alt="Fabian Ellerbrock">
+              <img src="images/team-fabian-ellerbrock.jpg" alt="Fabian Ellerbrock" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
               <span class="initials" style="display:none;">FE</span>
             </div>
             <div class="team-card-body">
@@ -1045,7 +1045,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
           </div>
           <div class="team-card">
             <div class="team-avatar">
-              <img src="images/team-david-hintenlang.jpg" alt="David Hintenlang">
+              <img src="images/team-david-hintenlang.jpg" alt="David Hintenlang" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
               <span class="initials" style="display:none;">DH</span>
             </div>
             <div class="team-card-body">
@@ -1935,11 +1935,10 @@ function submitContactForm(e) {
 <script>
 (function(){
   function applyMap(map){
-    if(!map||typeof map!=='object')return;
-    var keys=Object.keys(map);if(keys.length===0)return;
+    if(!map)return;
     document.querySelectorAll('img[src^="images/"]').forEach(function(img){
       var f=img.getAttribute('src').replace('images/','');
-      if(map[f]){img.src=map[f];img.style.display='';}
+      if(map[f])img.src=map[f];
     });
   }
   if(window.self!==window.top){
@@ -1967,14 +1966,9 @@ function submitContactForm(e) {
     });
     return;
   }
-  /* Step 1: Apply immediately from already-loaded image-config.js */
-  if(window.ELLERBROCK_IMAGES) applyMap(window.ELLERBROCK_IMAGES);
-  /* Step 2: Also fetch latest from raw GitHub (bypasses Pages cache) */
-  fetch("https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/image-config.js?t="+Date.now())
-    .then(function(r){return r.text();})
-    .then(function(txt){
-      try{eval(txt);applyMap(window.ELLERBROCK_IMAGES);}catch(e){}
-    }).catch(function(){});
+  if(window.ELLERBROCK_IMAGES&&Object.keys(window.ELLERBROCK_IMAGES).length>0){
+    applyMap(window.ELLERBROCK_IMAGES);
+  }
 })();
 </script>
 </body>
