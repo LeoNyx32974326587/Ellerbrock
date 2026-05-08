@@ -18,8 +18,6 @@
       font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text);
       min-height: 100vh; -webkit-font-smoothing: antialiased;
     }
-
-    /* ===== LOGIN ===== */
     .login-wrapper {
       display: flex; align-items: center; justify-content: center; min-height: 100vh;
       background: radial-gradient(ellipse at 30% 20%, rgba(1,86,109,0.08) 0%, transparent 50%),
@@ -49,12 +47,9 @@
     }
     .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(1,86,109,0.3); }
     .login-error { color: #ef4444; font-size: 0.85rem; text-align: center; margin-top: 16px; display: none; }
-
-    /* ===== ADMIN DASHBOARD ===== */
     .admin { display: none; }
     .admin.active { display: block; }
     .login-wrapper.hidden { display: none; }
-
     .admin-sidebar {
       position: fixed; left: 0; top: 0; bottom: 0; width: 240px; background: var(--bg-card);
       border-right: 1px solid var(--border); padding: 24px 0; z-index: 100;
@@ -77,72 +72,37 @@
     .sidebar-avatar { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--teal), var(--accent)); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.8rem; }
     .sidebar-user-info span { font-size: 0.85rem; font-weight: 600; color: white; display: block; }
     .sidebar-user-info small { font-size: 0.7rem; color: var(--text-light); }
-
     .admin-main { margin-left: 240px; padding: 32px; }
     .admin-header { margin-bottom: 32px; }
     .admin-header h1 { font-size: 1.6rem; font-weight: 800; color: white; margin-bottom: 4px; }
     .admin-header p { font-size: 0.9rem; color: var(--text-light); }
-
-    /* Stats Grid */
     .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-    .stat-card {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 24px; transition: all 0.2s;
-    }
+    .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: all 0.2s; }
     .stat-card:hover { border-color: var(--teal); }
     .stat-card-label { font-size: 0.75rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
     .stat-card-value { font-size: 1.8rem; font-weight: 800; color: white; }
     .stat-card-sub { font-size: 0.8rem; color: var(--accent); margin-top: 4px; }
-
-    /* Panels */
     .panel { display: none; }
     .panel.active { display: block; }
-    .card {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 28px; margin-bottom: 20px;
-    }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; }
     .card h3 { font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 16px; }
     .card p { font-size: 0.88rem; color: var(--text-light); line-height: 1.7; margin-bottom: 16px; }
-
-    /* Gallery Manager */
     .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .gallery-slot {
-      aspect-ratio: 1; border-radius: 10px; overflow: hidden; position: relative;
-      border: 2px dashed var(--border); transition: border-color 0.2s; cursor: pointer;
-      background: var(--bg-input); display: flex; align-items: center; justify-content: center;
-    }
+    .gallery-slot { aspect-ratio: 1; border-radius: 10px; overflow: hidden; position: relative; border: 2px dashed var(--border); transition: border-color 0.2s; cursor: pointer; background: var(--bg-input); display: flex; align-items: center; justify-content: center; }
     .gallery-slot:hover { border-color: var(--teal); }
     .gallery-slot img { width: 100%; height: 100%; object-fit: cover; }
     .gallery-slot img.img-missing { display: none; }
-    .gallery-slot-placeholder {
-      display: none; flex-direction: column; align-items: center; justify-content: center;
-      gap: 8px; color: var(--text-light); font-size: 0.75rem; text-align: center; padding: 12px;
-      position: absolute; inset: 0;
-    }
+    .gallery-slot-placeholder { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--text-light); font-size: 0.75rem; text-align: center; padding: 12px; position: absolute; inset: 0; }
     .gallery-slot-placeholder svg { width: 32px; height: 32px; stroke: var(--text-light); fill: none; stroke-width: 1.5; opacity: 0.5; }
     .gallery-slot img.img-missing + .gallery-slot-placeholder { display: flex; }
-    .gallery-slot-overlay {
-      position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex;
-      align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s;
-      font-size: 0.8rem; font-weight: 600; color: white;
-    }
+    .gallery-slot-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; font-size: 0.8rem; font-weight: 600; color: white; }
     .gallery-slot:hover .gallery-slot-overlay { opacity: 1; }
-
-    /* Text Editor */
     .edit-group { margin-bottom: 20px; }
     .edit-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-light); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
-    .edit-group input, .edit-group textarea {
-      width: 100%; padding: 12px 14px; background: var(--bg-input); border: 1px solid var(--border);
-      border-radius: 8px; color: var(--text); font-size: 0.9rem; font-family: inherit;
-      transition: border-color 0.2s;
-    }
+    .edit-group input, .edit-group textarea { width: 100%; padding: 12px 14px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; font-family: inherit; transition: border-color 0.2s; }
     .edit-group input:focus, .edit-group textarea:focus { outline: none; border-color: var(--teal); }
     .edit-group textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
-
-    .admin-btn {
-      padding: 10px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
-      cursor: pointer; border: none; font-family: inherit; transition: all 0.2s;
-    }
+    .admin-btn { padding: 10px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: all 0.2s; }
     .btn-save { background: var(--accent); color: white; }
     .btn-save:hover { background: #3d9435; transform: translateY(-1px); }
     .btn-secondary { background: var(--bg-input); color: var(--text); border: 1px solid var(--border); }
@@ -150,8 +110,6 @@
     .btn-danger { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
     .btn-danger:hover { background: rgba(239,68,68,0.25); }
     .btn-row { display: flex; gap: 10px; margin-top: 20px; }
-
-    /* Visit Chart */
     .visit-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.82rem; }
     .visit-bar-label { width: 140px; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
     .visit-bar-track { flex: 1; height: 22px; background: var(--bg-input); border-radius: 6px; overflow: hidden; position: relative; }
@@ -160,73 +118,40 @@
     .visit-time-range { display: flex; gap: 6px; margin-bottom: 16px; }
     .visit-time-btn { padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-input); color: var(--text-light); cursor: pointer; font-family: inherit; transition: all 0.2s; }
     .visit-time-btn.active { background: rgba(1,86,109,0.15); color: var(--teal); border-color: var(--teal); }
-
-    /* Gallery Quick Access */
     .gallery-quick { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
     .gallery-quick-item { aspect-ratio: 1; border-radius: 8px; overflow: hidden; cursor: pointer; position: relative; border: 2px solid transparent; transition: all 0.2s; }
     .gallery-quick-item:hover { border-color: var(--teal); transform: scale(1.05); }
     .gallery-quick-item img { width: 100%; height: 100%; object-fit: cover; }
     .gallery-quick-item span { position: absolute; bottom: 0; left: 0; right: 0; padding: 4px; background: rgba(0,0,0,0.7); color: white; font-size: 0.65rem; text-align: center; font-weight: 600; opacity: 0; transition: opacity 0.2s; }
     .gallery-quick-item:hover span { opacity: 1; }
-
-    /* View Toggle */
     .view-toggle { display: flex; gap: 4px; background: var(--bg-input); border-radius: 8px; padding: 3px; }
     .view-toggle-btn { padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; border: none; background: none; color: var(--text-light); cursor: pointer; font-family: inherit; transition: all 0.2s; }
     .view-toggle-btn.active { background: rgba(1,86,109,0.2); color: var(--teal); }
-
-    /* Website Preview */
     .site-preview { background: #f8f9fa; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
     .site-preview-bar { background: #2a2d38; padding: 8px 16px; display: flex; align-items: center; gap: 8px; }
     .site-preview-dot { width: 10px; height: 10px; border-radius: 50%; }
     .site-preview-url { flex: 1; background: var(--bg-input); border-radius: 4px; padding: 4px 10px; font-size: 0.7rem; color: var(--text-light); margin-left: 8px; }
     .site-preview-iframe { width: 100%; height: 75vh; border: none; background: white; }
-
-    /* Quick Links */
     .quick-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .quick-link {
-      display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--bg-input);
-      border: 1px solid var(--border); border-radius: 10px; text-decoration: none; color: var(--text);
-      transition: all 0.2s;
-    }
+    .quick-link { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; color: var(--text); transition: all 0.2s; }
     .quick-link:hover { border-color: var(--teal); color: white; transform: translateY(-2px); }
     .quick-link-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-
-    /* Toast notification */
-    .toast {
-      position: fixed; bottom: 32px; right: 32px; padding: 14px 24px; background: var(--accent);
-      color: white; border-radius: 10px; font-size: 0.88rem; font-weight: 600;
-      transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 9999;
-      box-shadow: 0 8px 24px rgba(78,177,67,0.3);
-    }
+    .toast { position: fixed; bottom: 32px; right: 32px; padding: 14px 24px; background: var(--accent); color: white; border-radius: 10px; font-size: 0.88rem; font-weight: 600; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 9999; box-shadow: 0 8px 24px rgba(78,177,67,0.3); }
     .toast.show { transform: translateY(0); opacity: 1; }
-
-    /* Settings */
     .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border); }
     .setting-row:last-child { border-bottom: none; }
     .setting-label span { font-size: 0.9rem; font-weight: 600; color: white; display: block; }
     .setting-label small { font-size: 0.8rem; color: var(--text-light); }
-    .toggle {
-      width: 44px; height: 24px; background: var(--bg-input); border-radius: 12px;
-      position: relative; cursor: pointer; border: 1px solid var(--border); transition: all 0.2s;
-    }
+    .toggle { width: 44px; height: 24px; background: var(--bg-input); border-radius: 12px; position: relative; cursor: pointer; border: 1px solid var(--border); transition: all 0.2s; }
     .toggle.on { background: var(--accent); border-color: var(--accent); }
-    .toggle::after {
-      content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
-      background: white; border-radius: 50%; transition: transform 0.2s;
-    }
+    .toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: transform 0.2s; }
     .toggle.on::after { transform: translateX(20px); }
-
-    /* Pages List */
     .page-list { list-style: none; }
-    .page-item {
-      display: flex; align-items: center; justify-content: space-between; padding: 12px 16px;
-      border-bottom: 1px solid var(--border); font-size: 0.88rem;
-    }
+    .page-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
     .page-item:hover { background: var(--bg-input); }
     .page-name { font-weight: 600; color: white; }
     .page-link { color: var(--teal); font-size: 0.8rem; text-decoration: none; }
     .page-link:hover { color: var(--accent); }
-
     @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 768px) {
       .admin-sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); }
@@ -239,992 +164,123 @@
   </style>
 </head>
 <body>
-
-<!-- ===== LOGIN SCREEN ===== -->
 <div class="login-wrapper" id="loginScreen">
   <div class="login-box">
-    <div class="login-logo">
-      <span>Ellerbrock</span>
-      <small>Admin Center</small>
-    </div>
+    <div class="login-logo"><span>Ellerbrock</span><small>Admin Center</small></div>
     <form onsubmit="return handleLogin(event)">
-      <div class="login-field">
-        <label>Benutzername</label>
-        <input type="text" id="loginUser" autocomplete="off" autofocus>
-      </div>
-      <div class="login-field">
-        <label>Passwort</label>
-        <input type="password" id="loginPass">
-      </div>
+      <div class="login-field"><label>Benutzername</label><input type="text" id="loginUser" autocomplete="off" autofocus></div>
+      <div class="login-field"><label>Passwort</label><input type="password" id="loginPass"></div>
       <button type="submit" class="login-btn">Anmelden</button>
       <div class="login-error" id="loginError">Benutzername oder Passwort falsch</div>
     </form>
   </div>
 </div>
-
-<!-- ===== ADMIN DASHBOARD ===== -->
 <div class="admin" id="adminDashboard">
   <aside class="admin-sidebar">
-    <div class="sidebar-logo">
-      <span>Ellerbrock</span>
-      <small>Admin Center</small>
-    </div>
+    <div class="sidebar-logo"><span>Ellerbrock</span><small>Admin Center</small></div>
     <nav class="sidebar-nav">
-      <button class="sidebar-link active" onclick="showPanel('dashboard', this)">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        Dashboard
-      </button>
-      <button class="sidebar-link" onclick="showPanel('galerie', this);renderGalleryPanel(activeGalleryCat)">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        Bilder
-      </button>
-      <button class="sidebar-link" onclick="showPanel('inhalte', this)">
-        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        Inhalte
-      </button>
-      <button class="sidebar-link" onclick="showPanel('seiten', this)">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Seiten
-      </button>
-      <button class="sidebar-link" onclick="showPanel('settings', this)">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-        Einstellungen
-      </button>
+      <button class="sidebar-link active" onclick="showPanel('dashboard', this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</button>
+      <button class="sidebar-link" onclick="showPanel('galerie', this);renderGalleryPanel(activeGalleryCat)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> Bilder</button>
+      <button class="sidebar-link" onclick="showPanel('inhalte', this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Inhalte</button>
+      <button class="sidebar-link" onclick="showPanel('seiten', this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Seiten</button>
+      <button class="sidebar-link" onclick="showPanel('settings', this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg> Einstellungen</button>
     </nav>
     <div class="sidebar-bottom">
-      <div class="sidebar-user">
-        <div class="sidebar-avatar">FE</div>
-        <div class="sidebar-user-info">
-          <span>Fabian</span>
-          <small>Administrator</small>
-        </div>
-      </div>
-      <button class="sidebar-link" onclick="logout()" style="margin-top:8px;color:#ef4444;">
-        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Abmelden
-      </button>
+      <div class="sidebar-user"><div class="sidebar-avatar">FE</div><div class="sidebar-user-info"><span>Fabian</span><small>Administrator</small></div></div>
+      <button class="sidebar-link" onclick="logout()" style="margin-top:8px;color:#ef4444;"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Abmelden</button>
     </div>
   </aside>
-
   <main class="admin-main">
-
-    <!-- DASHBOARD PANEL -->
     <div class="panel active" id="panel-dashboard">
-      <div class="admin-header">
-        <h1>Dashboard</h1>
-        <p>Willkommen im Admin Center der Ellerbrock Website.</p>
-      </div>
+      <div class="admin-header"><h1>Dashboard</h1><p>Willkommen im Admin Center der Ellerbrock Website.</p></div>
       <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-card-label">Aufrufe gesamt</div>
-          <div class="stat-card-value" id="statTotalViews">0</div>
-          <div class="stat-card-sub" id="statTodayViews">Heute: 0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">HTML-Seiten</div>
-          <div class="stat-card-value">22</div>
-          <div class="stat-card-sub">Alle aktiv</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">Sprachen</div>
-          <div class="stat-card-value">5</div>
-          <div class="stat-card-sub">DE, EN, FR, ES, ZH</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">Standorte</div>
-          <div class="stat-card-value">3</div>
-          <div class="stat-card-sub">Abtsteinach, Berlin, Bonn</div>
-        </div>
+        <div class="stat-card"><div class="stat-card-label">Aufrufe gesamt</div><div class="stat-card-value" id="statTotalViews">0</div><div class="stat-card-sub" id="statTodayViews">Heute: 0</div></div>
+        <div class="stat-card"><div class="stat-card-label">HTML-Seiten</div><div class="stat-card-value">22</div><div class="stat-card-sub">Alle aktiv</div></div>
+        <div class="stat-card"><div class="stat-card-label">Sprachen</div><div class="stat-card-value">5</div><div class="stat-card-sub">DE, EN, FR, ES, ZH</div></div>
+        <div class="stat-card"><div class="stat-card-label">Standorte</div><div class="stat-card-value">3</div><div class="stat-card-sub">Abtsteinach, Berlin, Bonn</div></div>
       </div>
-
-      <!-- Aufrufe Chart -->
-      <div class="card">
-        <h3>Seitenaufrufe</h3>
-        <div class="visit-time-range">
-          <button class="visit-time-btn active" onclick="renderVisitChart('all', this)">Gesamt</button>
-          <button class="visit-time-btn" onclick="renderVisitChart('today', this)">Heute</button>
-          <button class="visit-time-btn" onclick="renderVisitChart('7d', this)">7 Tage</button>
-          <button class="visit-time-btn" onclick="renderVisitChart('30d', this)">30 Tage</button>
-        </div>
-        <div id="visitChart"></div>
-        <p style="font-size:0.78rem;color:var(--text-light);margin-top:12px;margin-bottom:0;">Tracking via localStorage — Aufrufe werden lokal im Browser gezählt.</p>
-      </div>
-
-      <!-- Bilder Quick Access -->
-      <div class="card">
-        <h3>Bilder auf der Website</h3>
-        <p>47 Bilder in 9 Kategorien — klicke auf eine Kategorie um direkt dorthin zu springen.</p>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;" id="dashGalleryQuick"></div>
-      </div>
-
-      <!-- Quick Links -->
-      <div class="card">
-        <h3>Schnellzugriff</h3>
-        <div class="quick-links">
-          <a href="index.html" target="_blank" class="quick-link">
-            <div class="quick-link-icon" style="background:rgba(1,86,109,0.15);color:var(--teal);">&#127968;</div>
-            <div><strong>Website ansehen</strong><br><small style="color:var(--text-light);">Startseite in neuem Tab</small></div>
-          </a>
-          <a href="https://github.com" target="_blank" class="quick-link">
-            <div class="quick-link-icon" style="background:rgba(255,255,255,0.08);color:white;">&#128187;</div>
-            <div><strong>GitHub Repository</strong><br><small style="color:var(--text-light);">Code verwalten</small></div>
-          </a>
-          <a href="https://www.instagram.com/ellerbrockkonferenztechnik/" target="_blank" class="quick-link">
-            <div class="quick-link-icon" style="background:rgba(131,58,180,0.15);color:#833ab4;">&#128247;</div>
-            <div><strong>Instagram</strong><br><small style="color:var(--text-light);">Social Media</small></div>
-          </a>
-          <a href="https://analytics.google.com" target="_blank" class="quick-link">
-            <div class="quick-link-icon" style="background:rgba(78,177,67,0.15);color:var(--accent);">&#128200;</div>
-            <div><strong>Analytics</strong><br><small style="color:var(--text-light);">Besucherstatistiken</small></div>
-          </a>
-        </div>
-      </div>
+      <div class="card"><h3>Seitenaufrufe</h3><div class="visit-time-range"><button class="visit-time-btn active" onclick="renderVisitChart('all', this)">Gesamt</button><button class="visit-time-btn" onclick="renderVisitChart('today', this)">Heute</button><button class="visit-time-btn" onclick="renderVisitChart('7d', this)">7 Tage</button><button class="visit-time-btn" onclick="renderVisitChart('30d', this)">30 Tage</button></div><div id="visitChart"></div><p style="font-size:0.78rem;color:var(--text-light);margin-top:12px;margin-bottom:0;">Tracking via localStorage.</p></div>
+      <div class="card"><h3>Bilder auf der Website</h3><p>47 Bilder in 9 Kategorien.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;" id="dashGalleryQuick"></div></div>
+      <div class="card"><h3>Schnellzugriff</h3><div class="quick-links"><a href="index.html" target="_blank" class="quick-link"><div class="quick-link-icon" style="background:rgba(1,86,109,0.15);color:var(--teal);">&#127968;</div><div><strong>Website ansehen</strong><br><small style="color:var(--text-light);">Startseite in neuem Tab</small></div></a><a href="https://github.com" target="_blank" class="quick-link"><div class="quick-link-icon" style="background:rgba(255,255,255,0.08);color:white;">&#128187;</div><div><strong>GitHub Repository</strong><br><small style="color:var(--text-light);">Code verwalten</small></div></a><a href="https://www.instagram.com/ellerbrockkonferenztechnik/" target="_blank" class="quick-link"><div class="quick-link-icon" style="background:rgba(131,58,180,0.15);color:#833ab4;">&#128247;</div><div><strong>Instagram</strong><br><small style="color:var(--text-light);">Social Media</small></div></a><a href="https://analytics.google.com" target="_blank" class="quick-link"><div class="quick-link-icon" style="background:rgba(78,177,67,0.15);color:var(--accent);">&#128200;</div><div><strong>Analytics</strong><br><small style="color:var(--text-light);">Besucherstatistiken</small></div></a></div></div>
     </div>
-
-    <!-- GALERIE PANEL -->
     <div class="panel" id="panel-galerie">
-      <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;">
-        <div>
-          <h1>Bilder verwalten</h1>
-          <p>Klicke auf ein Bild um es auszutauschen. Nach dem Hochladen auf "Bilder veröffentlichen" klicken.</p>
-        </div>
-        <div style="display:flex;gap:8px;align-items:flex-start;">
-          <button onclick="publishToGitHub()" style="background:#4eb143;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">Bilder veröffentlichen</button>
-        <div class="view-toggle">
-          <button class="view-toggle-btn active" onclick="switchGalleryView('preview', this)">Vorschau</button>
-          <button class="view-toggle-btn" onclick="switchGalleryView('grid', this)">Alle Bilder</button>
-        </div>
-        </div>
-      </div>
-
-      <!-- PREVIEW VIEW -->
-      <div id="galleryViewPreview">
-        <!-- Page selector -->
-        <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;" id="previewPageSelector"></div>
-        <div class="card" style="padding:0;overflow:hidden;">
-          <div class="site-preview">
-            <div class="site-preview-bar">
-              <div class="site-preview-dot" style="background:#ff5f57;"></div>
-              <div class="site-preview-dot" style="background:#ffbd2e;"></div>
-              <div class="site-preview-dot" style="background:#28c840;"></div>
-              <div class="site-preview-url" id="previewUrlBar">ellerbrock-konferenztechnik.de</div>
-            </div>
-            <iframe id="previewFrame" class="site-preview-iframe" src=""></iframe>
-          </div>
-        </div>
-        <!-- Hidden file input for iframe uploads -->
-        <input type="file" id="iframeUploadInput" accept="image/*" style="display:none">
-      </div>
-
-      <!-- GRID VIEW -->
-      <div id="galleryViewGrid" style="display:none;">
-        <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;" id="galleryCategoryFilter"></div>
-        <div id="galleryContainer"></div>
-      </div>
-
-      <div class="card" style="margin-top:12px;">
-        <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:0;">Bilder werden zu Cloudinary hochgeladen und sind sofort fuer alle Besucher auf allen Geraeten sichtbar.</p>
-      </div>
+      <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;"><div><h1>Bilder verwalten</h1><p>Klicke auf ein Bild um es auszutauschen. Nach dem Hochladen auf "Bilder veröffentlichen" klicken.</p></div><div style="display:flex;gap:8px;align-items:flex-start;"><button onclick="publishToGitHub()" style="background:#4eb143;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">Bilder veröffentlichen</button><div class="view-toggle"><button class="view-toggle-btn active" onclick="switchGalleryView('preview', this)">Vorschau</button><button class="view-toggle-btn" onclick="switchGalleryView('grid', this)">Alle Bilder</button></div></div></div>
+      <div id="galleryViewPreview"><div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;" id="previewPageSelector"></div><div class="card" style="padding:0;overflow:hidden;"><div class="site-preview"><div class="site-preview-bar"><div class="site-preview-dot" style="background:#ff5f57;"></div><div class="site-preview-dot" style="background:#ffbd2e;"></div><div class="site-preview-dot" style="background:#28c840;"></div><div class="site-preview-url" id="previewUrlBar">ellerbrock-konferenztechnik.de</div></div><iframe id="previewFrame" class="site-preview-iframe" src=""></iframe></div></div><input type="file" id="iframeUploadInput" accept="image/*" style="display:none"></div>
+      <div id="galleryViewGrid" style="display:none;"><div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;" id="galleryCategoryFilter"></div><div id="galleryContainer"></div></div>
+      <div class="card" style="margin-top:12px;"><p style="font-size:0.82rem;color:var(--text-light);margin-bottom:0;">Bilder werden zu Cloudinary hochgeladen und sind sofort fuer alle Besucher auf allen Geraeten sichtbar.</p></div>
     </div>
-
-    <!-- INHALTE PANEL -->
     <div class="panel" id="panel-inhalte">
-      <div class="admin-header">
-        <h1>Inhalte bearbeiten</h1>
-        <p>Haupttexte der Startseite anpassen. Änderungen werden als Download bereitgestellt.</p>
-      </div>
-      <div class="card">
-        <h3>Hero-Bereich</h3>
-        <div class="edit-group">
-          <label>Badge-Text</label>
-          <input type="text" id="editBadge" value="Ihr Partner seit über 45 Jahren">
-        </div>
-        <div class="edit-group">
-          <label>Überschrift</label>
-          <input type="text" id="editTitle" value="Professionelle Konferenztechnik für Ihre Veranstaltung">
-        </div>
-        <div class="edit-group">
-          <label>Beschreibung</label>
-          <textarea id="editDesc">Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.</textarea>
-        </div>
-      </div>
-      <div class="card">
-        <h3>Über-uns-Bereich</h3>
-        <div class="edit-group">
-          <label>Überschrift</label>
-          <input type="text" id="editAboutTitle" value="Erfahrung trifft Innovation">
-        </div>
-        <div class="edit-group">
-          <label>Text Absatz 1</label>
-          <textarea id="editAboutP1">Seit 1978 ist Ellerbrock Konferenztechnik einer der führenden Anbieter für professionelle Konferenztechnik in Deutschland. Mit Standorten in Abtsteinach und Berlin betreuen wir Veranstaltungen jeder Größe.</textarea>
-        </div>
-        <div class="edit-group">
-          <label>Text Absatz 2</label>
-          <textarea id="editAboutP2">Wir bieten Ihnen nicht nur hochwertige Technik zur Miete und zum Kauf, sondern auch einen umfassenden Service: Planung, Aufbau, Betreuung und technischer Support durch unser erfahrenes Team.</textarea>
-        </div>
-      </div>
-      <div class="card">
-        <h3>CTA / Kontakt</h3>
-        <div class="edit-group">
-          <label>Überschrift</label>
-          <input type="text" id="editCtaTitle" value="Lassen Sie uns Ihre Veranstaltung planen">
-        </div>
-        <div class="edit-group">
-          <label>Beschreibung</label>
-          <textarea id="editCtaSub">Unser Team berät Sie gerne — ob Miete, Kauf oder technischer Support.</textarea>
-        </div>
-        <div class="btn-row">
-          <button class="admin-btn btn-save" onclick="saveContent()">Änderungen speichern</button>
-          <button class="admin-btn btn-secondary" onclick="exportContent()">Als Textdatei exportieren</button>
-        </div>
-      </div>
+      <div class="admin-header"><h1>Inhalte bearbeiten</h1><p>Haupttexte der Startseite anpassen.</p></div>
+      <div class="card"><h3>Hero-Bereich</h3><div class="edit-group"><label>Badge-Text</label><input type="text" id="editBadge" value="Ihr Partner seit über 45 Jahren"></div><div class="edit-group"><label>Überschrift</label><input type="text" id="editTitle" value="Professionelle Konferenztechnik für Ihre Veranstaltung"></div><div class="edit-group"><label>Beschreibung</label><textarea id="editDesc">Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.</textarea></div></div>
+      <div class="card"><h3>Über-uns-Bereich</h3><div class="edit-group"><label>Überschrift</label><input type="text" id="editAboutTitle" value="Erfahrung trifft Innovation"></div><div class="edit-group"><label>Text Absatz 1</label><textarea id="editAboutP1">Seit 1978 ist Ellerbrock Konferenztechnik einer der führenden Anbieter für professionelle Konferenztechnik in Deutschland.</textarea></div><div class="edit-group"><label>Text Absatz 2</label><textarea id="editAboutP2">Wir bieten Ihnen nicht nur hochwertige Technik zur Miete und zum Kauf, sondern auch einen umfassenden Service.</textarea></div></div>
+      <div class="card"><h3>CTA / Kontakt</h3><div class="edit-group"><label>Überschrift</label><input type="text" id="editCtaTitle" value="Lassen Sie uns Ihre Veranstaltung planen"></div><div class="edit-group"><label>Beschreibung</label><textarea id="editCtaSub">Unser Team berät Sie gerne — ob Miete, Kauf oder technischer Support.</textarea></div><div class="btn-row"><button class="admin-btn btn-save" onclick="saveContent()">Änderungen speichern</button><button class="admin-btn btn-secondary" onclick="exportContent()">Als Textdatei exportieren</button></div></div>
     </div>
-
-    <!-- SEITEN PANEL -->
-    <div class="panel" id="panel-seiten">
-      <div class="admin-header">
-        <h1>Seiten-Übersicht</h1>
-        <p>Alle 22 HTML-Seiten der Website im Überblick.</p>
-      </div>
-      <div class="card">
-        <ul class="page-list" id="pageList"></ul>
-      </div>
-    </div>
-
-    <!-- SETTINGS PANEL -->
+    <div class="panel" id="panel-seiten"><div class="admin-header"><h1>Seiten-Übersicht</h1><p>Alle 22 HTML-Seiten der Website im Überblick.</p></div><div class="card"><ul class="page-list" id="pageList"></ul></div></div>
     <div class="panel" id="panel-settings">
-      <div class="admin-header">
-        <h1>Einstellungen</h1>
-        <p>Website-Konfiguration und Admin-Einstellungen.</p>
-      </div>
-      <div class="card">
-        <h3>Website</h3>
-        <div class="setting-row">
-          <div class="setting-label"><span>Dark Mode Standard</span><small>Neue Besucher sehen Dark Mode</small></div>
-          <div class="toggle" id="toggleDark" onclick="this.classList.toggle('on');showToast('Einstellung gespeichert')"></div>
-        </div>
-        <div class="setting-row">
-          <div class="setting-label"><span>Preloader anzeigen</span><small>Ladeanimation beim Seitenwechsel</small></div>
-          <div class="toggle on" id="togglePreloader" onclick="this.classList.toggle('on');showToast('Einstellung gespeichert')"></div>
-        </div>
-        <div class="setting-row">
-          <div class="setting-label"><span>Cookie-Banner</span><small>DSGVO-konformes Cookie-Banner</small></div>
-          <div class="toggle on" id="toggleCookie" onclick="this.classList.toggle('on');showToast('Einstellung gespeichert')"></div>
-        </div>
-      </div>
-      <div class="card">
-        <h3>Admin-Zugang</h3>
-        <div class="edit-group">
-          <label>Neues Passwort</label>
-          <input type="password" id="newPass" placeholder="Neues Passwort eingeben">
-        </div>
-        <div class="edit-group">
-          <label>Passwort bestätigen</label>
-          <input type="password" id="newPassConfirm" placeholder="Passwort wiederholen">
-        </div>
-        <div class="btn-row">
-          <button class="admin-btn btn-save" onclick="changePassword()">Passwort ändern</button>
-        </div>
-      </div>
-      <div class="card">
-        <h3>Benutzer verwalten</h3>
-        <p>Weitere Admin-Benutzer hinzufügen oder entfernen.</p>
-        <div id="userList" style="margin:16px 0;"></div>
-        <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:16px;">
-          <div class="edit-group">
-            <label>Neuer Benutzername</label>
-            <input type="text" id="newUserName" placeholder="z.B. david">
-          </div>
-          <div class="edit-group">
-            <label>Passwort</label>
-            <input type="password" id="newUserPass" placeholder="Passwort für neuen Benutzer">
-          </div>
-          <div class="edit-group">
-            <label>Rolle</label>
-            <select id="newUserRole" style="width:100%;padding:12px 14px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:inherit;">
-              <option value="admin">Administrator</option>
-              <option value="editor">Editor (nur Inhalte)</option>
-            </select>
-          </div>
-          <div class="btn-row">
-            <button class="admin-btn btn-save" onclick="addUser()">Benutzer hinzufügen</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <h3>Gefahrenzone</h3>
-        <p style="color:#ef4444;">Achtung: Diese Aktionen können nicht rückgängig gemacht werden.</p>
-        <div class="btn-row">
-          <button class="admin-btn btn-danger" onclick="if(confirm('Wirklich alle gespeicherten Einstellungen zurücksetzen?')){localStorage.clear();showToast('Alle Einstellungen zurückgesetzt');}">Alle Einstellungen zurücksetzen</button>
-        </div>
-      </div>
+      <div class="admin-header"><h1>Einstellungen</h1><p>Website-Konfiguration und Admin-Einstellungen.</p></div>
+      <div class="card"><h3>Website</h3><div class="setting-row"><div class="setting-label"><span>Dark Mode Standard</span><small>Neue Besucher sehen Dark Mode</small></div><div class="toggle" id="toggleDark" onclick="this.classList.toggle('on');showToast('Einstellung gespeichert')"></div></div><div class="setting-row"><div class="setting-label"><span>Preloader anzeigen</span><small>Ladeanimation beim Seitenwechsel</small></div><div class="toggle on" id="togglePreloader" onclick="this.classList.toggle('on');showToast('Einstellung gespeichert')"></div></div><div class="setting-row"><div class="setting-label"><span>Cookie-Banner</span><small>DSGVO-konformes Cookie-Banner</small></div><div class="toggle on" id="toggleCookie" onclick="this.classList.toggle('on');showToast('Einstellung gespeichert')"></div></div></div>
+      <div class="card"><h3>Admin-Zugang</h3><div class="edit-group"><label>Neues Passwort</label><input type="password" id="newPass" placeholder="Neues Passwort eingeben"></div><div class="edit-group"><label>Passwort bestätigen</label><input type="password" id="newPassConfirm" placeholder="Passwort wiederholen"></div><div class="btn-row"><button class="admin-btn btn-save" onclick="changePassword()">Passwort ändern</button></div></div>
+      <div class="card"><h3>Benutzer verwalten</h3><p>Weitere Admin-Benutzer hinzufügen oder entfernen.</p><div id="userList" style="margin:16px 0;"></div><div style="border-top:1px solid var(--border);padding-top:20px;margin-top:16px;"><div class="edit-group"><label>Neuer Benutzername</label><input type="text" id="newUserName" placeholder="z.B. david"></div><div class="edit-group"><label>Passwort</label><input type="password" id="newUserPass" placeholder="Passwort für neuen Benutzer"></div><div class="edit-group"><label>Rolle</label><select id="newUserRole" style="width:100%;padding:12px 14px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:inherit;"><option value="admin">Administrator</option><option value="editor">Editor (nur Inhalte)</option></select></div><div class="btn-row"><button class="admin-btn btn-save" onclick="addUser()">Benutzer hinzufügen</button></div></div></div>
+      <div class="card"><h3>Gefahrenzone</h3><p style="color:#ef4444;">Achtung: Diese Aktionen können nicht rückgängig gemacht werden.</p><div class="btn-row"><button class="admin-btn btn-danger" onclick="if(confirm('Wirklich alle gespeicherten Einstellungen zurücksetzen?')){localStorage.clear();showToast('Alle Einstellungen zurückgesetzt');}">Alle Einstellungen zurücksetzen</button></div></div>
     </div>
-
   </main>
 </div>
-
-<!-- Toast -->
 <div class="toast" id="toast"></div>
-
 <script>
-// ===== AUTH =====
-var U_HASH = '33f1ac9818eb1eb88c0156eada16bae1fc00fb98e89645aab3c084a86f66bc63';
-var P_HASH = 'a59faff57ffff144573f8d002204a2f044c6cf8d6aa5700a4ce61707d8f8b589';
-
-async function sha256(str) {
-  var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
-}
-
-function getUsers() {
-  var stored = localStorage.getItem('admin_users');
-  return stored ? JSON.parse(stored) : [];
-}
-function saveUsers(users) {
-  localStorage.setItem('admin_users', JSON.stringify(users));
-}
-
-var currentUserRole = 'admin';
-var currentUserName = '';
-
-async function handleLogin(e) {
-  e.preventDefault();
-  var user = document.getElementById('loginUser').value;
-  var pass = document.getElementById('loginPass').value;
-  var uHash = await sha256(user);
-  var pHash = await sha256(pass);
-
-  // Check main admin account
-  var storedPHash = localStorage.getItem('admin_p_hash');
-  var targetPHash = storedPHash || P_HASH;
-  if (uHash === U_HASH && pHash === targetPHash) {
-    currentUserRole = 'admin';
-    currentUserName = 'Fabian';
-    loginSuccess();
-    return false;
-  }
-
-  // Check additional users
-  var users = getUsers();
-  for (var i = 0; i < users.length; i++) {
-    if (users[i].uHash === uHash && users[i].pHash === pHash) {
-      currentUserRole = users[i].role;
-      currentUserName = users[i].name;
-      loginSuccess();
-      return false;
-    }
-  }
-
-  document.getElementById('loginError').style.display = 'block';
-  document.getElementById('loginPass').value = '';
-  setTimeout(function(){ document.getElementById('loginError').style.display = 'none'; }, 3000);
-  return false;
-}
-
-function loginSuccess() {
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('adminDashboard').classList.add('active');
-  sessionStorage.setItem('admin_auth', '1');
-  sessionStorage.setItem('admin_role', currentUserRole);
-  sessionStorage.setItem('admin_name', currentUserName);
-  updateUserDisplay();
-  applyRoleRestrictions();
-}
-
-function updateUserDisplay() {
-  var name = sessionStorage.getItem('admin_name') || 'Fabian';
-  var role = sessionStorage.getItem('admin_role') || 'admin';
-  var initials = name.split(' ').map(function(w){return w[0]}).join('').toUpperCase().substring(0,2);
-  document.querySelector('.sidebar-avatar').textContent = initials;
-  document.querySelector('.sidebar-user-info span').textContent = name;
-  document.querySelector('.sidebar-user-info small').textContent = role === 'admin' ? 'Administrator' : 'Editor';
-}
-
-function applyRoleRestrictions() {
-  var role = sessionStorage.getItem('admin_role') || 'admin';
-  if (role === 'editor') {
-    // Hide settings panel for editors
-    var settingsBtn = document.querySelectorAll('.sidebar-link')[4];
-    if (settingsBtn) settingsBtn.style.display = 'none';
-  }
-}
-
-// Auto-login if session active
-if (sessionStorage.getItem('admin_auth') === '1') {
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('adminDashboard').classList.add('active');
-  updateUserDisplay();
-  applyRoleRestrictions();
-}
-
-function logout() {
-  sessionStorage.removeItem('admin_auth');
-  document.getElementById('adminDashboard').classList.remove('active');
-  document.getElementById('loginScreen').classList.remove('hidden');
-  document.getElementById('loginUser').value = '';
-  document.getElementById('loginPass').value = '';
-}
-
-// ===== PANELS =====
-function showPanel(id, btn) {
-  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
-  document.querySelectorAll('.sidebar-link').forEach(function(l){l.classList.remove('active')});
-  document.getElementById('panel-' + id).classList.add('active');
-  if (btn) btn.classList.add('active');
-}
-
-// ===== TOAST =====
-function showToast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2500);
-}
-
-// ===== GALLERY (ALL IMAGES) =====
-var IMAGE_CATEGORIES = [
-  { id: 'einblicke', label: 'Einblicke (Startseite)', icon: '&#128247;', images: [
-    'galerie-1.jpg','galerie-2.jpg','galerie-3.jpg','galerie-4.jpg','galerie-5.jpg','galerie-6.jpg'
-  ]},
-  { id: 'team', label: 'Team', icon: '&#128101;', images: [
-    'team-fabian-ellerbrock.jpg','team-david-hintenlang.jpg','team-fabian-habel.jpg',
-    'team-joerg-raphael.jpg','team-julius-lampert.jpg','team-jochen-stiefel.jpg'
-  ]},
-  { id: 'dolmetscher', label: 'Dolmetscheranlagen', icon: '&#127908;', images: [
-    'dolmetscheranlage-hoersprechgarnitur.jpg','dolmetscheranlage-einsatz.jpg',
-    'dolmetscheranlage-komponenten.jpg','dolmetscheranlage-setup.jpg',
-    'dolmetscherkabine-audipack-9300.jpg','dolmetscherkabine-innenansicht.jpg',
-    'dolmetscherkabine-aufgebaut.jpg','dolmetscherdienst.jpg'
-  ]},
-  { id: 'ted', label: 'Ted-Abstimmsysteme', icon: '&#128202;', images: [
-    'ted-votingsystem-01.jpg','ted-votingsystem-02.jpg','ted-votingsystem-03.jpg',
-    'ted-votingsystem-04.jpg','ted-votingsystem-05.jpg','ted-votingsystem-06.jpg',
-    'ted-votingsystem-07.jpg','ted-votingsystem-08.jpg'
-  ]},
-  { id: 'fuehrung', label: 'Führungsanlagen', icon: '&#127911;', images: [
-    'fuehrungsanlage-01.jpg','fuehrungsanlage-02.jpg','fuehrungsanlage-03.jpg','fuehrungsanlage-04.jpg'
-  ]},
-  { id: 'diskussion', label: 'Diskussionssysteme', icon: '&#128172;', images: [
-    'diskussionsanlage-01.jpg','diskussionsanlage-02.jpg','diskussionsanlage-03.jpg','diskussionsanlage-04.jpg'
-  ]},
-  { id: 'beschallung', label: 'Beschallungstechnik', icon: '&#128266;', images: [
-    'beschallungstechnik-01.jpg','beschallungstechnik-02.jpg','beschallungstechnik-03.jpg'
-  ]},
-  { id: 'video', label: 'Videotechnik', icon: '&#127909;', images: ['videotechnik-01.jpg'] },
-  { id: 'kauf', label: 'Produkte kaufen', icon: '&#128176;', images: [
-    'kauf-dolmetscheranlage-01.jpg','kauf-dolmetscherkabine-01.jpg','kauf-diskussionsanlage-01.jpg',
-    'kauf-gebraucht-01.jpg','kauf-sennheiser-ek1039.jpg','kauf-bosch-dolmetscherpult.jpg'
-  ]}
-];
-
-var activeGalleryCat = 'all';
-
-function renderGalleryPanel(filterCat) {
-  activeGalleryCat = filterCat || 'all';
-  // Render filter buttons
-  var filterHtml = '<button class="visit-time-btn' + (activeGalleryCat === 'all' ? ' active' : '') + '" onclick="renderGalleryPanel(\'all\')">Alle (' + IMAGE_CATEGORIES.reduce(function(s,c){return s+c.images.length},0) + ')</button>';
-  IMAGE_CATEGORIES.forEach(function(cat) {
-    filterHtml += '<button class="visit-time-btn' + (activeGalleryCat === cat.id ? ' active' : '') + '" onclick="renderGalleryPanel(\'' + cat.id + '\')">' + cat.label + ' (' + cat.images.length + ')</button>';
-  });
-  document.getElementById('galleryCategoryFilter').innerHTML = filterHtml;
-
-  // Render image sections
-  var html = '';
-  IMAGE_CATEGORIES.forEach(function(cat) {
-    if (activeGalleryCat !== 'all' && activeGalleryCat !== cat.id) return;
-    html += '<div class="card"><h3>' + cat.icon + ' ' + cat.label + ' <span style="font-size:0.8rem;font-weight:500;color:var(--text-light);margin-left:8px;">' + cat.images.length + ' Bilder</span></h3>';
-    html += '<div class="gallery-grid">';
-    var imgMap = getImageMap();
-    cat.images.forEach(function(img, idx) {
-      var uid = cat.id + '_' + idx;
-      var cloudUrl = imgMap[img];
-      var imgSrc = cloudUrl || ('images/' + img);
-      var isCustom = !!cloudUrl;
-      html += '<div class="gallery-slot" style="position:relative;" onclick="document.getElementById(\'gup_' + uid + '\').click()">' +
-        '<img src="' + imgSrc + '" id="gpv_' + uid + '" alt="' + img + '" style="cursor:pointer;" onerror="this.classList.add(\'img-missing\')">' +
-        '<div class="gallery-slot-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>' + img.replace('.jpg','').replace(/-/g,' ') + '</span></div>' +
-        '<div class="gallery-slot-overlay" style="cursor:pointer;">' +
-        '<div>' + img.replace('.jpg','').replace(/-/g,' ') + '</div>' +
-        '</div>' +
-        (isCustom ? '<div onclick="event.stopPropagation();resetImage(\'' + img + '\',\'gpv_' + uid + '\')" style="position:absolute;top:6px;right:6px;width:22px;height:22px;background:rgba(239,68,68,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.7rem;color:white;font-weight:700;z-index:2;" title="Auf Original zurücksetzen">&#10005;</div>' : '') +
-        (isCustom ? '<div style="position:absolute;top:6px;left:6px;background:var(--accent);color:white;font-size:0.6rem;font-weight:700;padding:2px 6px;border-radius:4px;z-index:2;">NEU</div>' : '') +
-        '<input type="file" id="gup_' + uid + '" accept="image/*" style="display:none" onchange="previewImage(this,\'gpv_' + uid + '\',\'' + img + '\')">' +
-        '</div>';
-    });
-    html += '</div></div>';
-  });
-  document.getElementById('galleryContainer').innerHTML = html;
-}
-
-// ===== CLOUDINARY CONFIG =====
-var CLOUD_NAME = 'daiiz3u5t';
-var UPLOAD_PRESET = 'ellerbrock';
-var CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/image/upload';
-
-// ===== GITHUB CONFIG =====
-var GITHUB_OWNER = 'LeoNyx32974326587';
-var GITHUB_REPO = 'Ellerbrock';
-
-// Store mapping: filename -> cloudinary URL (local + cloud sync)
-function getImageMap() {
-  var raw = localStorage.getItem('cloudinary_images');
-  return raw ? JSON.parse(raw) : {};
-}
-function saveImageMap(map) {
-  localStorage.setItem('cloudinary_images', JSON.stringify(map));
-}
-
-// Sync image map from server (polls every 10s for near-realtime sync)
-var _lastServerHash = '';
-function syncFromServer() {
-  var url = 'https://leonyx32974326587.github.io/Ellerbrock/image-config.js?t=' + Date.now();
-  fetch(url, {cache:'no-store'}).then(function(r){ return r.ok ? r.text() : null; }).then(function(text){
-    if (!text) return;
-    try {
-      var match = text.match(/window\.ELLERBROCK_IMAGES\s*=\s*(\{[\s\S]*?\});/);
-      if (match) {
-        var hash = match[1];
-        if (hash === _lastServerHash) return;
-        _lastServerHash = hash;
-        var serverMap = JSON.parse(match[1]);
-        localStorage.setItem('cloudinary_images', JSON.stringify(serverMap));
-        renderGalleryPanel(activeGalleryCat);
-        if (typeof renderPreview === 'function' && typeof currentPreviewPage !== 'undefined') {
-          renderPreview(currentPreviewPage);
-        }
-      }
-    } catch(e){}
-  }).catch(function(){});
-}
-syncFromServer();
-setInterval(syncFromServer, 10000);
-
-// ===== GITHUB PUBLISH =====
-function getGitHubToken() { return localStorage.getItem('gh_token') || ''; }
-
-function promptGitHubToken() {
-  var t = prompt('GitHub Token eingeben (einmalig):');
-  if (t && t.trim()) {
-    localStorage.setItem('gh_token', t.trim());
-    publishToGitHub();
-  }
-}
-
-async function publishToGitHub() {
-  var map = getImageMap();
-  if (Object.keys(map).length === 0) { showToast('Keine Bilder zum Veröffentlichen.'); return; }
-
-  var token = getGitHubToken();
-  if (!token) { promptGitHubToken(); return; }
-
-  showToast('Veröffentliche Bilder...');
-
-  var content = 'window.ELLERBROCK_IMAGES = ' + JSON.stringify(map, null, 2) + ';\n';
-  var encoded = btoa(unescape(encodeURIComponent(content)));
-
-  var apiUrl = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/image-config.js';
-  var headers = { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' };
-
-  try {
-    var sha = null;
-    var getRes = await fetch(apiUrl, { headers: headers });
-    if (getRes.ok) { sha = (await getRes.json()).sha; }
-    else if (getRes.status === 401 || getRes.status === 403) {
-      localStorage.removeItem('gh_token');
-      showToast('Token ungültig. Bitte neu eingeben.');
-      promptGitHubToken();
-      return;
-    }
-
-    var body = { message: 'Bilder aktualisiert', content: encoded };
-    if (sha) body.sha = sha;
-
-    var putRes = await fetch(apiUrl, { method: 'PUT', headers: headers, body: JSON.stringify(body) });
-    if (putRes.ok) {
-      showToast('Bilder veröffentlicht! In 1-2 Minuten auf der Website sichtbar.');
-    } else {
-      var err = await putRes.json();
-      showToast('Fehler: ' + (err.message || 'Unbekannt'));
-    }
-  } catch (e) { showToast('Verbindungsfehler: ' + e.message); }
-}
-
-function previewImage(input, previewId, filename) {
-  if (input.files && input.files[0]) {
-    var file = input.files[0];
-    if (file.size > 10 * 1024 * 1024) {
-      showToast('Bild zu gross (max. 10 MB).');
-      return;
-    }
-    // Show loading state
-    var preview = document.getElementById(previewId);
-    preview.style.opacity = '0.4';
-    showToast('Bild wird hochgeladen...');
-
-    // Upload to Cloudinary
-    var formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', UPLOAD_PRESET);
-    formData.append('public_id', 'ellerbrock/' + filename.replace('.jpg','').replace('.png','').replace('.webp','') + '-' + Date.now());
-
-    fetch(CLOUDINARY_URL, { method: 'POST', body: formData })
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.secure_url) {
-          preview.src = data.secure_url;
-          preview.style.opacity = '1';
-          // Save mapping
-          var map = getImageMap();
-          map[filename] = data.secure_url;
-          saveImageMap(map);
-          showToast('Bild "' + filename + '" hochgeladen — sofort fuer alle sichtbar!');
-          // Re-render to show badges
-          renderGalleryPanel(activeGalleryCat);
-          renderPreview(currentPreviewPage);
-        } else {
-          preview.style.opacity = '1';
-          showToast('Fehler beim Upload: ' + (data.error ? data.error.message : 'Unbekannt'));
-        }
-      })
-      .catch(function(err) {
-        preview.style.opacity = '1';
-        showToast('Upload fehlgeschlagen: ' + err.message);
-      });
-  }
-}
-
-function resetImage(filename, previewId) {
-  if (!confirm('Bild "' + filename + '" auf Original zurücksetzen?')) return;
-  var map = getImageMap();
-  delete map[filename];
-  saveImageMap(map);
-  document.getElementById(previewId).src = 'images/' + filename;
-  showToast(filename + ' auf Original zurückgesetzt.');
-  renderGalleryPanel(activeGalleryCat);
-  renderPreview(currentPreviewPage);
-}
-
-// Initial gallery render
+var U_HASH='33f1ac9818eb1eb88c0156eada16bae1fc00fb98e89645aab3c084a86f66bc63';
+var P_HASH='a59faff57ffff144573f8d002204a2f044c6cf8d6aa5700a4ce61707d8f8b589';
+async function sha256(str){var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');}
+function getUsers(){var stored=localStorage.getItem('admin_users');return stored?JSON.parse(stored):[];}
+function saveUsers(users){localStorage.setItem('admin_users',JSON.stringify(users));}
+var currentUserRole='admin';var currentUserName='';
+async function handleLogin(e){e.preventDefault();var user=document.getElementById('loginUser').value;var pass=document.getElementById('loginPass').value;var uHash=await sha256(user);var pHash=await sha256(pass);var storedPHash=localStorage.getItem('admin_p_hash');var targetPHash=storedPHash||P_HASH;if(uHash===U_HASH&&pHash===targetPHash){currentUserRole='admin';currentUserName='Fabian';loginSuccess();return false;}var users=getUsers();for(var i=0;i<users.length;i++){if(users[i].uHash===uHash&&users[i].pHash===pHash){currentUserRole=users[i].role;currentUserName=users[i].name;loginSuccess();return false;}}document.getElementById('loginError').style.display='block';document.getElementById('loginPass').value='';setTimeout(function(){document.getElementById('loginError').style.display='none';},3000);return false;}
+function loginSuccess(){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('adminDashboard').classList.add('active');sessionStorage.setItem('admin_auth','1');sessionStorage.setItem('admin_role',currentUserRole);sessionStorage.setItem('admin_name',currentUserName);updateUserDisplay();applyRoleRestrictions();}
+function updateUserDisplay(){var name=sessionStorage.getItem('admin_name')||'Fabian';var role=sessionStorage.getItem('admin_role')||'admin';var initials=name.split(' ').map(function(w){return w[0]}).join('').toUpperCase().substring(0,2);document.querySelector('.sidebar-avatar').textContent=initials;document.querySelector('.sidebar-user-info span').textContent=name;document.querySelector('.sidebar-user-info small').textContent=role==='admin'?'Administrator':'Editor';}
+function applyRoleRestrictions(){var role=sessionStorage.getItem('admin_role')||'admin';if(role==='editor'){var settingsBtn=document.querySelectorAll('.sidebar-link')[4];if(settingsBtn)settingsBtn.style.display='none';}}
+if(sessionStorage.getItem('admin_auth')==='1'){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('adminDashboard').classList.add('active');updateUserDisplay();applyRoleRestrictions();}
+function logout(){sessionStorage.removeItem('admin_auth');document.getElementById('adminDashboard').classList.remove('active');document.getElementById('loginScreen').classList.remove('hidden');document.getElementById('loginUser').value='';document.getElementById('loginPass').value='';}
+function showPanel(id,btn){document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});document.querySelectorAll('.sidebar-link').forEach(function(l){l.classList.remove('active')});document.getElementById('panel-'+id).classList.add('active');if(btn)btn.classList.add('active');}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
+var IMAGE_CATEGORIES=[{id:'einblicke',label:'Einblicke (Startseite)',icon:'&#128247;',images:['galerie-1.jpg','galerie-2.jpg','galerie-3.jpg','galerie-4.jpg','galerie-5.jpg','galerie-6.jpg']},{id:'team',label:'Team',icon:'&#128101;',images:['team-fabian-ellerbrock.jpg','team-david-hintenlang.jpg','team-fabian-habel.jpg','team-joerg-raphael.jpg','team-julius-lampert.jpg','team-jochen-stiefel.jpg']},{id:'dolmetscher',label:'Dolmetscheranlagen',icon:'&#127908;',images:['dolmetscheranlage-hoersprechgarnitur.jpg','dolmetscheranlage-einsatz.jpg','dolmetscheranlage-komponenten.jpg','dolmetscheranlage-setup.jpg','dolmetscherkabine-audipack-9300.jpg','dolmetscherkabine-innenansicht.jpg','dolmetscherkabine-aufgebaut.jpg','dolmetscherdienst.jpg']},{id:'ted',label:'Ted-Abstimmsysteme',icon:'&#128202;',images:['ted-votingsystem-01.jpg','ted-votingsystem-02.jpg','ted-votingsystem-03.jpg','ted-votingsystem-04.jpg','ted-votingsystem-05.jpg','ted-votingsystem-06.jpg','ted-votingsystem-07.jpg','ted-votingsystem-08.jpg']},{id:'fuehrung',label:'Führungsanlagen',icon:'&#127911;',images:['fuehrungsanlage-01.jpg','fuehrungsanlage-02.jpg','fuehrungsanlage-03.jpg','fuehrungsanlage-04.jpg']},{id:'diskussion',label:'Diskussionssysteme',icon:'&#128172;',images:['diskussionsanlage-01.jpg','diskussionsanlage-02.jpg','diskussionsanlage-03.jpg','diskussionsanlage-04.jpg']},{id:'beschallung',label:'Beschallungstechnik',icon:'&#128266;',images:['beschallungstechnik-01.jpg','beschallungstechnik-02.jpg','beschallungstechnik-03.jpg']},{id:'video',label:'Videotechnik',icon:'&#127909;',images:['videotechnik-01.jpg']},{id:'kauf',label:'Produkte kaufen',icon:'&#128176;',images:['kauf-dolmetscheranlage-01.jpg','kauf-dolmetscherkabine-01.jpg','kauf-diskussionsanlage-01.jpg','kauf-gebraucht-01.jpg','kauf-sennheiser-ek1039.jpg','kauf-bosch-dolmetscherpult.jpg']}];
+var activeGalleryCat='all';
+function renderGalleryPanel(filterCat){activeGalleryCat=filterCat||'all';var filterHtml='<button class="visit-time-btn'+(activeGalleryCat==='all'?' active':'')+'" onclick="renderGalleryPanel(\'all\')">Alle ('+IMAGE_CATEGORIES.reduce(function(s,c){return s+c.images.length},0)+')</button>';IMAGE_CATEGORIES.forEach(function(cat){filterHtml+='<button class="visit-time-btn'+(activeGalleryCat===cat.id?' active':'')+'" onclick="renderGalleryPanel(\''+cat.id+'\')">'+cat.label+' ('+cat.images.length+')</button>';});document.getElementById('galleryCategoryFilter').innerHTML=filterHtml;var html='';IMAGE_CATEGORIES.forEach(function(cat){if(activeGalleryCat!=='all'&&activeGalleryCat!==cat.id)return;html+='<div class="card"><h3>'+cat.icon+' '+cat.label+' <span style="font-size:0.8rem;font-weight:500;color:var(--text-light);margin-left:8px;">'+cat.images.length+' Bilder</span></h3>';html+='<div class="gallery-grid">';var imgMap=getImageMap();cat.images.forEach(function(img,idx){var uid=cat.id+'_'+idx;var cloudUrl=imgMap[img];var imgSrc=cloudUrl||('images/'+img);var isCustom=!!cloudUrl;html+='<div class="gallery-slot" style="position:relative;" onclick="document.getElementById(\'gup_'+uid+'\').click()">'+'<img src="'+imgSrc+'" id="gpv_'+uid+'" alt="'+img+'" style="cursor:pointer;" onerror="this.classList.add(\'img-missing\')">'+'<div class="gallery-slot-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>'+img.replace('.jpg','').replace(/-/g,' ')+'</span></div>'+'<div class="gallery-slot-overlay" style="cursor:pointer;"><div>'+img.replace('.jpg','').replace(/-/g,' ')+'</div></div>'+(isCustom?'<div onclick="event.stopPropagation();resetImage(\''+img+'\',\'gpv_'+uid+'\')" style="position:absolute;top:6px;right:6px;width:22px;height:22px;background:rgba(239,68,68,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.7rem;color:white;font-weight:700;z-index:2;" title="Auf Original zurücksetzen">&#10005;</div>':'')+(isCustom?'<div style="position:absolute;top:6px;left:6px;background:var(--accent);color:white;font-size:0.6rem;font-weight:700;padding:2px 6px;border-radius:4px;z-index:2;">NEU</div>':'')+'<input type="file" id="gup_'+uid+'" accept="image/*" style="display:none" onchange="previewImage(this,\'gpv_'+uid+'\',\''+img+'\')">'+'</div>';});html+='</div></div>';});document.getElementById('galleryContainer').innerHTML=html;}
+var CLOUD_NAME='daiiz3u5t';var UPLOAD_PRESET='ellerbrock';var CLOUDINARY_URL='https://api.cloudinary.com/v1_1/'+CLOUD_NAME+'/image/upload';
+var GITHUB_OWNER='LeoNyx32974326587';var GITHUB_REPO='Ellerbrock';
+function getImageMap(){var raw=localStorage.getItem('cloudinary_images');return raw?JSON.parse(raw):{};}
+function saveImageMap(map){localStorage.setItem('cloudinary_images',JSON.stringify(map));}
+var _lastServerHash='';
+function syncFromServer(){var url='https://leonyx32974326587.github.io/Ellerbrock/image-config.js?t='+Date.now();fetch(url,{cache:'no-store'}).then(function(r){return r.ok?r.text():null;}).then(function(text){if(!text)return;try{var match=text.match(/window\.ELLERBROCK_IMAGES\s*=\s*(\{[\s\S]*?\});/);if(match){var hash=match[1];if(hash===_lastServerHash)return;_lastServerHash=hash;var serverMap=JSON.parse(match[1]);localStorage.setItem('cloudinary_images',JSON.stringify(serverMap));renderGalleryPanel(activeGalleryCat);if(typeof renderPreview==='function'&&typeof currentPreviewPage!=='undefined'){renderPreview(currentPreviewPage);}}}catch(e){}}).catch(function(){});}
+syncFromServer();setInterval(syncFromServer,10000);
+function getGitHubToken(){return localStorage.getItem('gh_token')||'';}
+function promptGitHubToken(){var t=prompt('GitHub Token eingeben (einmalig):');if(t&&t.trim()){localStorage.setItem('gh_token',t.trim());publishToGitHub();}}
+async function publishToGitHub(){var map=getImageMap();if(Object.keys(map).length===0){showToast('Keine Bilder zum Veröffentlichen.');return;}var token=getGitHubToken();if(!token){promptGitHubToken();return;}showToast('Veröffentliche Bilder...');var content='window.ELLERBROCK_IMAGES = '+JSON.stringify(map,null,2)+';\n';var encoded=btoa(unescape(encodeURIComponent(content)));var apiUrl='https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/image-config.js';var headers={'Authorization':'Bearer '+token,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};try{var sha=null;var getRes=await fetch(apiUrl,{headers:headers});if(getRes.ok){sha=(await getRes.json()).sha;}else if(getRes.status===401||getRes.status===403){localStorage.removeItem('gh_token');showToast('Token ungültig. Bitte neu eingeben.');promptGitHubToken();return;}var body={message:'Bilder aktualisiert',content:encoded};if(sha)body.sha=sha;var putRes=await fetch(apiUrl,{method:'PUT',headers:headers,body:JSON.stringify(body)});if(putRes.ok){showToast('Bilder veröffentlicht! In 1-2 Minuten auf der Website sichtbar.');}else{var err=await putRes.json();showToast('Fehler: '+(err.message||'Unbekannt'));}}catch(e){showToast('Verbindungsfehler: '+e.message);}}
+function previewImage(input,previewId,filename){if(input.files&&input.files[0]){var file=input.files[0];if(file.size>10*1024*1024){showToast('Bild zu gross (max. 10 MB).');return;}var preview=document.getElementById(previewId);preview.style.opacity='0.4';showToast('Bild wird hochgeladen...');var formData=new FormData();formData.append('file',file);formData.append('upload_preset',UPLOAD_PRESET);formData.append('public_id','ellerbrock/'+filename.replace('.jpg','').replace('.png','').replace('.webp','')+'-'+Date.now());fetch(CLOUDINARY_URL,{method:'POST',body:formData}).then(function(res){return res.json();}).then(function(data){if(data.secure_url){preview.src=data.secure_url;preview.style.opacity='1';var map=getImageMap();map[filename]=data.secure_url;saveImageMap(map);showToast('Bild "'+filename+'" hochgeladen!');renderGalleryPanel(activeGalleryCat);renderPreview(currentPreviewPage);}else{preview.style.opacity='1';showToast('Fehler beim Upload: '+(data.error?data.error.message:'Unbekannt'));}}).catch(function(err){preview.style.opacity='1';showToast('Upload fehlgeschlagen: '+err.message);});}}
+function resetImage(filename,previewId){if(!confirm('Bild "'+filename+'" auf Original zurücksetzen?'))return;var map=getImageMap();delete map[filename];saveImageMap(map);document.getElementById(previewId).src='images/'+filename;showToast(filename+' auf Original zurückgesetzt.');renderGalleryPanel(activeGalleryCat);renderPreview(currentPreviewPage);}
 renderGalleryPanel('all');
-
-// ===== VIEW TOGGLE =====
-function switchGalleryView(view, btn) {
-  document.querySelectorAll('.view-toggle-btn').forEach(function(b){b.classList.remove('active')});
-  btn.classList.add('active');
-  document.getElementById('galleryViewPreview').style.display = view === 'preview' ? 'block' : 'none';
-  document.getElementById('galleryViewGrid').style.display = view === 'grid' ? 'block' : 'none';
-  if (view === 'preview') renderPreview(currentPreviewPage);
-  if (view === 'grid') renderGalleryPanel(activeGalleryCat);
-}
-
-// ===== IFRAME PREVIEW =====
-var currentPreviewPage = 'index.html';
-var PREVIEW_PAGES = [
-  {file:'index.html', label:'Startseite'},
-  {file:'dolmetscheranlagen.html', label:'Dolmetscheranlagen'},
-  {file:'ted.html', label:'Ted-Abstimmsysteme'},
-  {file:'fuehrungsanlagen.html', label:'Führungsanlagen'},
-  {file:'diskussionssysteme.html', label:'Diskussionssysteme'},
-  {file:'beschallungstechnik.html', label:'Beschallungstechnik'},
-  {file:'videotechnik.html', label:'Videotechnik'},
-  {file:'kauf.html', label:'Produkte kaufen'},
-  {file:'ueber-uns.html', label:'Über uns / Team'}
-];
-
-var pendingUploadFilename = null;
-
-function renderPreview(pageFile) {
-  currentPreviewPage = pageFile || 'index.html';
-  // Page selector
-  var selHtml = '';
-  PREVIEW_PAGES.forEach(function(p) {
-    selHtml += '<button class="visit-time-btn' + (currentPreviewPage === p.file ? ' active' : '') + '" onclick="renderPreview(\'' + p.file + '\')">' + p.label + '</button>';
-  });
-  document.getElementById('previewPageSelector').innerHTML = selHtml;
-  document.getElementById('previewUrlBar').textContent = 'ellerbrock-konferenztechnik.de/' + (currentPreviewPage === 'index.html' ? '' : currentPreviewPage);
-
-  var frame = document.getElementById('previewFrame');
-  frame.src = currentPreviewPage;
-  frame.onload = function() {
-    // Send image map to iframe via postMessage (works with file:// protocol)
-    var imgMap = getImageMap();
-    frame.contentWindow.postMessage({type: 'admin-init', map: imgMap}, '*');
-  };
-}
-
-// Listen for upload requests from iframe
-window.addEventListener('message', function(e) {
-  var d = e.data;
-  if (!d || d.type !== 'admin-upload') return;
-  pendingUploadFilename = d.filename;
-  document.getElementById('iframeUploadInput').click();
-});
-
-// Handle upload from iframe
-document.getElementById('iframeUploadInput').addEventListener('change', function() {
-  if (!this.files || !this.files[0] || !pendingUploadFilename) return;
-  var file = this.files[0];
-  var filename = pendingUploadFilename;
-  if (file.size > 10 * 1024 * 1024) { showToast('Bild zu gross (max. 10 MB).'); return; }
-
-  showToast('Bild wird hochgeladen...');
-  var formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', UPLOAD_PRESET);
-  formData.append('public_id', 'ellerbrock/' + filename.replace('.jpg','').replace('.png','').replace('.webp','') + '-' + Date.now());
-
-  fetch(CLOUDINARY_URL, { method: 'POST', body: formData })
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data.secure_url) {
-        var map = getImageMap();
-        map[filename] = data.secure_url;
-        saveImageMap(map);
-        showToast('Bild "' + filename + '" hochgeladen!');
-        renderPreview(currentPreviewPage);
-        renderGalleryPanel(activeGalleryCat);
-      } else {
-        showToast('Fehler: ' + (data.error ? data.error.message : 'Unbekannt'));
-      }
-    })
-    .catch(function(err) { showToast('Upload fehlgeschlagen: ' + err.message); });
-
-  this.value = '';
-  pendingUploadFilename = null;
-});
-
-// Initial preview render
+function switchGalleryView(view,btn){document.querySelectorAll('.view-toggle-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');document.getElementById('galleryViewPreview').style.display=view==='preview'?'block':'none';document.getElementById('galleryViewGrid').style.display=view==='grid'?'block':'none';if(view==='preview')renderPreview(currentPreviewPage);if(view==='grid')renderGalleryPanel(activeGalleryCat);}
+var currentPreviewPage='index.html';
+var PREVIEW_PAGES=[{file:'index.html',label:'Startseite'},{file:'dolmetscheranlagen.html',label:'Dolmetscheranlagen'},{file:'ted.html',label:'Ted-Abstimmsysteme'},{file:'fuehrungsanlagen.html',label:'Führungsanlagen'},{file:'diskussionssysteme.html',label:'Diskussionssysteme'},{file:'beschallungstechnik.html',label:'Beschallungstechnik'},{file:'videotechnik.html',label:'Videotechnik'},{file:'kauf.html',label:'Produkte kaufen'},{file:'ueber-uns.html',label:'Über uns / Team'}];
+var pendingUploadFilename=null;
+function renderPreview(pageFile){currentPreviewPage=pageFile||'index.html';var selHtml='';PREVIEW_PAGES.forEach(function(p){selHtml+='<button class="visit-time-btn'+(currentPreviewPage===p.file?' active':'')+'" onclick="renderPreview(\''+p.file+'\')">'+p.label+'</button>';});document.getElementById('previewPageSelector').innerHTML=selHtml;document.getElementById('previewUrlBar').textContent='ellerbrock-konferenztechnik.de/'+(currentPreviewPage==='index.html'?'':currentPreviewPage);var frame=document.getElementById('previewFrame');frame.src=currentPreviewPage;frame.onload=function(){var imgMap=getImageMap();frame.contentWindow.postMessage({type:'admin-init',map:imgMap},'*');};}
+window.addEventListener('message',function(e){var d=e.data;if(!d||d.type!=='admin-upload')return;pendingUploadFilename=d.filename;document.getElementById('iframeUploadInput').click();});
+document.getElementById('iframeUploadInput').addEventListener('change',function(){if(!this.files||!this.files[0]||!pendingUploadFilename)return;var file=this.files[0];var filename=pendingUploadFilename;if(file.size>10*1024*1024){showToast('Bild zu gross (max. 10 MB).');return;}showToast('Bild wird hochgeladen...');var formData=new FormData();formData.append('file',file);formData.append('upload_preset',UPLOAD_PRESET);formData.append('public_id','ellerbrock/'+filename.replace('.jpg','').replace('.png','').replace('.webp','')+'-'+Date.now());fetch(CLOUDINARY_URL,{method:'POST',body:formData}).then(function(res){return res.json();}).then(function(data){if(data.secure_url){var map=getImageMap();map[filename]=data.secure_url;saveImageMap(map);showToast('Bild "'+filename+'" hochgeladen!');renderPreview(currentPreviewPage);renderGalleryPanel(activeGalleryCat);}else{showToast('Fehler: '+(data.error?data.error.message:'Unbekannt'));}}).catch(function(err){showToast('Upload fehlgeschlagen: '+err.message);});this.value='';pendingUploadFilename=null;});
 renderPreview('index.html');
-
-// Dashboard gallery quick access
-(function() {
-  var container = document.getElementById('dashGalleryQuick');
-  if (!container) return;
-  var html = '';
-  IMAGE_CATEGORIES.forEach(function(cat) {
-    html += '<div onclick="showPanel(\'galerie\',document.querySelectorAll(\'.sidebar-link\')[1]);renderGalleryPanel(\'' + cat.id + '\')" ' +
-      'style="background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:12px;" ' +
-      'onmouseover="this.style.borderColor=\'var(--teal)\';this.style.transform=\'translateY(-2px)\'" ' +
-      'onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\'">' +
-      '<span style="font-size:1.4rem;">' + cat.icon + '</span>' +
-      '<div><strong style="color:white;font-size:0.85rem;">' + cat.label + '</strong>' +
-      '<div style="font-size:0.75rem;color:var(--text-light);">' + cat.images.length + ' Bilder</div></div></div>';
-  });
-  container.innerHTML = html;
-})();
-
-// ===== CONTENT =====
-function saveContent() {
-  var content = {
-    badge: document.getElementById('editBadge').value,
-    title: document.getElementById('editTitle').value,
-    desc: document.getElementById('editDesc').value,
-    aboutTitle: document.getElementById('editAboutTitle').value,
-    aboutP1: document.getElementById('editAboutP1').value,
-    aboutP2: document.getElementById('editAboutP2').value,
-    ctaTitle: document.getElementById('editCtaTitle').value,
-    ctaSub: document.getElementById('editCtaSub').value,
-  };
-  localStorage.setItem('admin_content', JSON.stringify(content));
-  showToast('Inhalte gespeichert!');
-}
-
-function exportContent() {
-  var content = {
-    badge: document.getElementById('editBadge').value,
-    title: document.getElementById('editTitle').value,
-    desc: document.getElementById('editDesc').value,
-    aboutTitle: document.getElementById('editAboutTitle').value,
-    aboutP1: document.getElementById('editAboutP1').value,
-    aboutP2: document.getElementById('editAboutP2').value,
-    ctaTitle: document.getElementById('editCtaTitle').value,
-    ctaSub: document.getElementById('editCtaSub').value,
-  };
-  var text = 'ELLERBROCK WEBSITE — INHALTSAKTUALISIERUNG\n';
-  text += '==========================================\n\n';
-  text += 'Hero Badge: ' + content.badge + '\n';
-  text += 'Hero Titel: ' + content.title + '\n';
-  text += 'Hero Beschreibung: ' + content.desc + '\n\n';
-  text += 'Über-uns Titel: ' + content.aboutTitle + '\n';
-  text += 'Über-uns Absatz 1: ' + content.aboutP1 + '\n';
-  text += 'Über-uns Absatz 2: ' + content.aboutP2 + '\n\n';
-  text += 'CTA Titel: ' + content.ctaTitle + '\n';
-  text += 'CTA Beschreibung: ' + content.ctaSub + '\n';
-  var blob = new Blob([text], {type: 'text/plain'});
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'website-inhalte.txt';
-  a.click();
-  showToast('Textdatei heruntergeladen');
-}
-
-// Load saved content
-(function() {
-  var saved = localStorage.getItem('admin_content');
-  if (saved) {
-    var c = JSON.parse(saved);
-    if (c.badge) document.getElementById('editBadge').value = c.badge;
-    if (c.title) document.getElementById('editTitle').value = c.title;
-    if (c.desc) document.getElementById('editDesc').value = c.desc;
-    if (c.aboutTitle) document.getElementById('editAboutTitle').value = c.aboutTitle;
-    if (c.aboutP1) document.getElementById('editAboutP1').value = c.aboutP1;
-    if (c.aboutP2) document.getElementById('editAboutP2').value = c.aboutP2;
-    if (c.ctaTitle) document.getElementById('editCtaTitle').value = c.ctaTitle;
-    if (c.ctaSub) document.getElementById('editCtaSub').value = c.ctaSub;
-  }
-})();
-
-// ===== PAGES LIST =====
-var pages = [
-  {name: 'Startseite', file: 'index.html'},
-  {name: 'Über uns', file: 'ueber-uns.html'},
-  {name: 'Karriere', file: 'karriere.html'},
-  {name: 'Dolmetscheranlagen', file: 'dolmetscheranlagen.html'},
-  {name: 'Ted-Abstimmsysteme', file: 'ted.html'},
-  {name: 'Führungsanlagen', file: 'fuehrungsanlagen.html'},
-  {name: 'Diskussionssysteme', file: 'diskussionssysteme.html'},
-  {name: 'Beschallungstechnik', file: 'beschallungstechnik.html'},
-  {name: 'Videotechnik', file: 'videotechnik.html'},
-  {name: 'Produkte kaufen', file: 'kauf.html'},
-  {name: 'Produkte mieten', file: 'miete.html'},
-  {name: 'Produkte Bestand', file: 'produkte.html'},
-  {name: 'Standort Abtsteinach', file: 'standort-abtsteinach.html'},
-  {name: 'Standort Berlin', file: 'standort-berlin.html'},
-  {name: 'Standort Bonn', file: 'standort-bonn.html'},
-  {name: 'Filme & Guides', file: 'filme.html'},
-  {name: 'Downloads', file: 'downloads.html'},
-  {name: 'Kontakt', file: 'kontakt.html'},
-  {name: 'Kontaktformular', file: 'kontaktformular.html'},
-  {name: 'Rückrufservice', file: 'rueckrufservice.html'},
-  {name: 'Impressum', file: 'impressum.html'},
-  {name: 'Datenschutz', file: 'datenschutz.html'},
-];
-var pl = document.getElementById('pageList');
-pages.forEach(function(p) {
-  pl.innerHTML += '<li class="page-item"><span class="page-name">' + p.name + '</span><a href="' + p.file + '" target="_blank" class="page-link">' + p.file + ' &#8599;</a></li>';
-});
-
-// ===== CHANGE PASSWORD =====
-async function changePassword() {
-  var p1 = document.getElementById('newPass').value;
-  var p2 = document.getElementById('newPassConfirm').value;
-  if (!p1 || p1.length < 6) { showToast('Passwort muss mindestens 6 Zeichen haben'); return; }
-  if (p1 !== p2) { showToast('Passwörter stimmen nicht überein'); return; }
-  var hash = await sha256(p1);
-  localStorage.setItem('admin_p_hash', hash);
-  document.getElementById('newPass').value = '';
-  document.getElementById('newPassConfirm').value = '';
-  showToast('Passwort erfolgreich geändert!');
-}
-
-// ===== USER MANAGEMENT =====
-async function addUser() {
-  var name = document.getElementById('newUserName').value.trim();
-  var pass = document.getElementById('newUserPass').value;
-  var role = document.getElementById('newUserRole').value;
-  if (!name || name.length < 2) { showToast('Benutzername muss mindestens 2 Zeichen haben'); return; }
-  if (!pass || pass.length < 6) { showToast('Passwort muss mindestens 6 Zeichen haben'); return; }
-  var uHash = await sha256(name.toLowerCase());
-  var pHash = await sha256(pass);
-  var users = getUsers();
-  // Check if user already exists
-  for (var i = 0; i < users.length; i++) {
-    if (users[i].uHash === uHash) { showToast('Benutzer existiert bereits'); return; }
-  }
-  users.push({ name: name, uHash: uHash, pHash: pHash, role: role, created: new Date().toISOString().split('T')[0] });
-  saveUsers(users);
-  document.getElementById('newUserName').value = '';
-  document.getElementById('newUserPass').value = '';
-  renderUserList();
-  showToast('Benutzer "' + name + '" hinzugefügt!');
-}
-
-function removeUser(index) {
-  if (!confirm('Benutzer wirklich entfernen?')) return;
-  var users = getUsers();
-  var name = users[index].name;
-  users.splice(index, 1);
-  saveUsers(users);
-  renderUserList();
-  showToast('Benutzer "' + name + '" entfernt');
-}
-
-function renderUserList() {
-  var users = getUsers();
-  var container = document.getElementById('userList');
-  var html = '<div style="margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg-input);border-radius:8px;margin-bottom:6px;">' +
-    '<div><strong style="color:white;">fabian</strong> <span style="font-size:0.75rem;background:rgba(78,177,67,0.15);color:var(--accent);padding:2px 8px;border-radius:4px;margin-left:8px;">Administrator</span></div>' +
-    '<span style="font-size:0.8rem;color:var(--text-light);">Hauptkonto</span></div>';
-  users.forEach(function(u, i) {
-    var roleColor = u.role === 'admin' ? 'rgba(78,177,67,0.15)' : 'rgba(1,86,109,0.15)';
-    var roleTextColor = u.role === 'admin' ? 'var(--accent)' : 'var(--teal)';
-    var roleLabel = u.role === 'admin' ? 'Administrator' : 'Editor';
-    html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg-input);border-radius:8px;margin-bottom:6px;">' +
-      '<div><strong style="color:white;">' + u.name + '</strong> <span style="font-size:0.75rem;background:' + roleColor + ';color:' + roleTextColor + ';padding:2px 8px;border-radius:4px;margin-left:8px;">' + roleLabel + '</span>' +
-      (u.created ? ' <span style="font-size:0.75rem;color:var(--text-light);margin-left:8px;">seit ' + u.created + '</span>' : '') + '</div>' +
-      '<button onclick="removeUser(' + i + ')" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;padding:4px 10px;border-radius:6px;transition:background 0.2s;" onmouseover="this.style.background=\'rgba(239,68,68,0.1)\'" onmouseout="this.style.background=\'none\'">Entfernen</button></div>';
-  });
-  html += '</div>';
-  container.innerHTML = html;
-}
-
-// Render user list on load
+(function(){var container=document.getElementById('dashGalleryQuick');if(!container)return;var html='';IMAGE_CATEGORIES.forEach(function(cat){html+='<div onclick="showPanel(\'galerie\',document.querySelectorAll(\'.sidebar-link\')[1]);renderGalleryPanel(\''+cat.id+'\')" style="background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:12px;" onmouseover="this.style.borderColor=\'var(--teal)\';this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.borderColor=\'var(--border)\';this.style.transform=\'none\'"><span style="font-size:1.4rem;">'+cat.icon+'</span><div><strong style="color:white;font-size:0.85rem;">'+cat.label+'</strong><div style="font-size:0.75rem;color:var(--text-light);">'+cat.images.length+' Bilder</div></div></div>';});container.innerHTML=html;})();
+function saveContent(){var content={badge:document.getElementById('editBadge').value,title:document.getElementById('editTitle').value,desc:document.getElementById('editDesc').value,aboutTitle:document.getElementById('editAboutTitle').value,aboutP1:document.getElementById('editAboutP1').value,aboutP2:document.getElementById('editAboutP2').value,ctaTitle:document.getElementById('editCtaTitle').value,ctaSub:document.getElementById('editCtaSub').value};localStorage.setItem('admin_content',JSON.stringify(content));showToast('Inhalte gespeichert!');}
+function exportContent(){var content={badge:document.getElementById('editBadge').value,title:document.getElementById('editTitle').value,desc:document.getElementById('editDesc').value,aboutTitle:document.getElementById('editAboutTitle').value,aboutP1:document.getElementById('editAboutP1').value,aboutP2:document.getElementById('editAboutP2').value,ctaTitle:document.getElementById('editCtaTitle').value,ctaSub:document.getElementById('editCtaSub').value};var text='ELLERBROCK WEBSITE\n==================\n\nHero Badge: '+content.badge+'\nHero Titel: '+content.title+'\nHero Beschreibung: '+content.desc+'\n\nÜber-uns Titel: '+content.aboutTitle+'\nÜber-uns Absatz 1: '+content.aboutP1+'\nÜber-uns Absatz 2: '+content.aboutP2+'\n\nCTA Titel: '+content.ctaTitle+'\nCTA Beschreibung: '+content.ctaSub+'\n';var blob=new Blob([text],{type:'text/plain'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='website-inhalte.txt';a.click();showToast('Textdatei heruntergeladen');}
+(function(){var saved=localStorage.getItem('admin_content');if(saved){var c=JSON.parse(saved);if(c.badge)document.getElementById('editBadge').value=c.badge;if(c.title)document.getElementById('editTitle').value=c.title;if(c.desc)document.getElementById('editDesc').value=c.desc;if(c.aboutTitle)document.getElementById('editAboutTitle').value=c.aboutTitle;if(c.aboutP1)document.getElementById('editAboutP1').value=c.aboutP1;if(c.aboutP2)document.getElementById('editAboutP2').value=c.aboutP2;if(c.ctaTitle)document.getElementById('editCtaTitle').value=c.ctaTitle;if(c.ctaSub)document.getElementById('editCtaSub').value=c.ctaSub;}})();
+var pages=[{name:'Startseite',file:'index.html'},{name:'Über uns',file:'ueber-uns.html'},{name:'Karriere',file:'karriere.html'},{name:'Dolmetscheranlagen',file:'dolmetscheranlagen.html'},{name:'Ted-Abstimmsysteme',file:'ted.html'},{name:'Führungsanlagen',file:'fuehrungsanlagen.html'},{name:'Diskussionssysteme',file:'diskussionssysteme.html'},{name:'Beschallungstechnik',file:'beschallungstechnik.html'},{name:'Videotechnik',file:'videotechnik.html'},{name:'Produkte kaufen',file:'kauf.html'},{name:'Produkte mieten',file:'miete.html'},{name:'Produkte Bestand',file:'produkte.html'},{name:'Standort Abtsteinach',file:'standort-abtsteinach.html'},{name:'Standort Berlin',file:'standort-berlin.html'},{name:'Standort Bonn',file:'standort-bonn.html'},{name:'Filme & Guides',file:'filme.html'},{name:'Downloads',file:'downloads.html'},{name:'Kontakt',file:'kontakt.html'},{name:'Kontaktformular',file:'kontaktformular.html'},{name:'Rückrufservice',file:'rueckrufservice.html'},{name:'Impressum',file:'impressum.html'},{name:'Datenschutz',file:'datenschutz.html'}];
+var pl=document.getElementById('pageList');pages.forEach(function(p){pl.innerHTML+='<li class="page-item"><span class="page-name">'+p.name+'</span><a href="'+p.file+'" target="_blank" class="page-link">'+p.file+' &#8599;</a></li>';});
+async function changePassword(){var p1=document.getElementById('newPass').value;var p2=document.getElementById('newPassConfirm').value;if(!p1||p1.length<6){showToast('Passwort muss mindestens 6 Zeichen haben');return;}if(p1!==p2){showToast('Passwörter stimmen nicht überein');return;}var hash=await sha256(p1);localStorage.setItem('admin_p_hash',hash);document.getElementById('newPass').value='';document.getElementById('newPassConfirm').value='';showToast('Passwort erfolgreich geändert!');}
+async function addUser(){var name=document.getElementById('newUserName').value.trim();var pass=document.getElementById('newUserPass').value;var role=document.getElementById('newUserRole').value;if(!name||name.length<2){showToast('Benutzername muss mindestens 2 Zeichen haben');return;}if(!pass||pass.length<6){showToast('Passwort muss mindestens 6 Zeichen haben');return;}var uHash=await sha256(name.toLowerCase());var pHash=await sha256(pass);var users=getUsers();for(var i=0;i<users.length;i++){if(users[i].uHash===uHash){showToast('Benutzer existiert bereits');return;}}users.push({name:name,uHash:uHash,pHash:pHash,role:role,created:new Date().toISOString().split('T')[0]});saveUsers(users);document.getElementById('newUserName').value='';document.getElementById('newUserPass').value='';renderUserList();showToast('Benutzer "'+name+'" hinzugefügt!');}
+function removeUser(index){if(!confirm('Benutzer wirklich entfernen?'))return;var users=getUsers();var name=users[index].name;users.splice(index,1);saveUsers(users);renderUserList();showToast('Benutzer "'+name+'" entfernt');}
+function renderUserList(){var users=getUsers();var container=document.getElementById('userList');var html='<div style="margin-bottom:12px;"><div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg-input);border-radius:8px;margin-bottom:6px;"><div><strong style="color:white;">fabian</strong> <span style="font-size:0.75rem;background:rgba(78,177,67,0.15);color:var(--accent);padding:2px 8px;border-radius:4px;margin-left:8px;">Administrator</span></div><span style="font-size:0.8rem;color:var(--text-light);">Hauptkonto</span></div>';users.forEach(function(u,i){var roleColor=u.role==='admin'?'rgba(78,177,67,0.15)':'rgba(1,86,109,0.15)';var roleTextColor=u.role==='admin'?'var(--accent)':'var(--teal)';var roleLabel=u.role==='admin'?'Administrator':'Editor';html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg-input);border-radius:8px;margin-bottom:6px;"><div><strong style="color:white;">'+u.name+'</strong> <span style="font-size:0.75rem;background:'+roleColor+';color:'+roleTextColor+';padding:2px 8px;border-radius:4px;margin-left:8px;">'+roleLabel+'</span>'+(u.created?' <span style="font-size:0.75rem;color:var(--text-light);margin-left:8px;">seit '+u.created+'</span>':'')+'</div><button onclick="removeUser('+i+')" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:0.85rem;font-weight:600;font-family:inherit;padding:4px 10px;border-radius:6px;">Entfernen</button></div>';});html+='</div>';container.innerHTML=html;}
 renderUserList();
-
-// ===== VISIT TRACKING DASHBOARD =====
-var PAGE_NAMES = {
-  'index.html':'Startseite','ueber-uns.html':'Über uns','karriere.html':'Karriere',
-  'dolmetscheranlagen.html':'Dolmetscheranlagen','ted.html':'Ted-Abstimmsysteme',
-  'fuehrungsanlagen.html':'Führungsanlagen','diskussionssysteme.html':'Diskussionssysteme',
-  'beschallungstechnik.html':'Beschallungstechnik','videotechnik.html':'Videotechnik',
-  'kauf.html':'Produkte kaufen','miete.html':'Produkte mieten','produkte.html':'Produkte Bestand',
-  'standort-abtsteinach.html':'Standort Abtsteinach','standort-berlin.html':'Standort Berlin',
-  'standort-bonn.html':'Standort Bonn','filme.html':'Filme & Guides','downloads.html':'Downloads',
-  'kontakt.html':'Kontakt','kontaktformular.html':'Kontaktformular','rueckrufservice.html':'Rückrufservice',
-  'impressum.html':'Impressum','datenschutz.html':'Datenschutz'
-};
-
-function getVisitData() {
-  var raw = localStorage.getItem('site_visits');
-  return raw ? JSON.parse(raw) : {};
-}
-
-function calcStats(range) {
-  var data = getVisitData();
-  var now = new Date();
-  var today = now.toISOString().split('T')[0];
-  var totals = {};
-  var grandTotal = 0;
-  var todayTotal = 0;
-
-  Object.keys(data).forEach(function(page) {
-    var entries = data[page]; // array of date strings
-    if (!Array.isArray(entries)) { entries = []; }
-    var count = 0;
-    entries.forEach(function(dateStr) {
-      var dominated = true;
-      if (range === 'today') { dominated = (dateStr === today); }
-      else if (range === '7d') {
-        var d = new Date(dateStr); var diff = (now - d) / 86400000; dominated = diff <= 7;
-      } else if (range === '30d') {
-        var d2 = new Date(dateStr); var diff2 = (now - d2) / 86400000; dominated = diff2 <= 30;
-      }
-      if (dominated) count++;
-      if (dateStr === today) todayTotal++;
-    });
-    if (count > 0) totals[page] = count;
-    grandTotal += entries.length;
-  });
-  return { totals: totals, grandTotal: grandTotal, todayTotal: todayTotal };
-}
-
-function renderVisitChart(range, btn) {
-  if (btn) {
-    document.querySelectorAll('.visit-time-btn').forEach(function(b){b.classList.remove('active')});
-    btn.classList.add('active');
-  }
-  var stats = calcStats(range);
-  var container = document.getElementById('visitChart');
-
-  // Update stat cards
-  document
+var PAGE_NAMES={'index.html':'Startseite','ueber-uns.html':'Über uns','karriere.html':'Karriere','dolmetscheranlagen.html':'Dolmetscheranlagen','ted.html':'Ted-Abstimmsysteme','fuehrungsanlagen.html':'Führungsanlagen','diskussionssysteme.html':'Diskussionssysteme','beschallungstechnik.html':'Beschallungstechnik','videotechnik.html':'Videotechnik','kauf.html':'Produkte kaufen','miete.html':'Produkte mieten','produkte.html':'Produkte Bestand','standort-abtsteinach.html':'Standort Abtsteinach','standort-berlin.html':'Standort Berlin','standort-bonn.html':'Standort Bonn','filme.html':'Filme & Guides','downloads.html':'Downloads','kontakt.html':'Kontakt','kontaktformular.html':'Kontaktformular','rueckrufservice.html':'Rückrufservice','impressum.html':'Impressum','datenschutz.html':'Datenschutz'};
+function getVisitData(){var raw=localStorage.getItem('site_visits');return raw?JSON.parse(raw):{};}
+function calcStats(range){var data=getVisitData();var now=new Date();var today=now.toISOString().split('T')[0];var totals={};var grandTotal=0;var todayTotal=0;Object.keys(data).forEach(function(page){var entries=data[page];if(!Array.isArray(entries)){entries=[];}var count=0;entries.forEach(function(dateStr){var dominated=true;if(range==='today'){dominated=(dateStr===today);}else if(range==='7d'){var d=new Date(dateStr);var diff=(now-d)/86400000;dominated=diff<=7;}else if(range==='30d'){var d2=new Date(dateStr);var diff2=(now-d2)/86400000;dominated=diff2<=30;}if(dominated)count++;if(dateStr===today)todayTotal++;});if(count>0)totals[page]=count;grandTotal+=entries.length;});return{totals:totals,grandTotal:grandTotal,todayTotal:todayTotal};}
+function renderVisitChart(range,btn){if(btn){document.querySelectorAll('.visit-time-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');}var stats=calcStats(range);var container=document.getElementById('visitChart');document.getElementById('statTotalViews').textContent=stats.grandTotal;document.getElementById('statTodayViews').textContent='Heute: '+stats.todayTotal;var sorted=Object.keys(stats.totals).sort(function(a,b){return stats.totals[b]-stats.totals[a];});var max=sorted.length>0?stats.totals[sorted[0]]:1;if(sorted.length===0){container.innerHTML='<div style="text-align:center;padding:32px 0;color:var(--text-light);font-size:0.88rem;">Noch keine Aufrufe'+(range!=='all'?' in diesem Zeitraum':'')+' erfasst.</div>';return;}var html='';sorted.forEach(function(page){var label=PAGE_NAMES[page]||page;var count=stats.totals[page];var pct=Math.round((count/max)*100);html+='<div class="visit-bar-row"><div class="visit-bar-label" title="'+page+'">'+label+'</div><div class="visit-bar-track"><div class="visit-bar-fill" style="width:'+pct+'%"></div></div><div class="visit-bar-count">'+count+'</div></div>';});container.innerHTML=html;}
+renderVisitChart('all',null);
+</script>
+</body>
+</html>
