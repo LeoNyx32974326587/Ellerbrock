@@ -1,5 +1,5 @@
 window.ELLERBROCK_IMAGES = {
-  "team-david-hintenlang.jpg": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778254690/ellerbrock/team-david-hintenlang-1778254689648.webp",
+  "team-david-hintenlang.jpg": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778254718/ellerbrock/team-david-hintenlang-1778254718065.webp",
   "team-joerg-raphael.jpg": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778254085/ellerbrock/team-joerg-raphael-1778254085375.webp",
   "team-fabian-habel.jpg": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778253650/ellerbrock/team-fabian-habel-1778253649968.webp",
   "dolmetscheranlage-einsatz.jpg": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778238769/ellerbrock/dolmetscheranlage-einsatz.jpg",
