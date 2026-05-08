@@ -506,6 +506,186 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.35s ease, transform 0.35s ease; }
 .fade-up.visible { opacity: 1; transform: translateY(0); }
 
+
+/* ===== ANIMATED SECTION DIVIDERS ===== */
+.wave-divider { position: relative; overflow: hidden; }
+.wave-divider::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 60px;
+  background: var(--bg-alt);
+  clip-path: polygon(0 60%, 15% 40%, 30% 55%, 50% 35%, 70% 50%, 85% 38%, 100% 55%, 100% 100%, 0 100%);
+  z-index: 1;
+}
+.wave-divider-reverse::after {
+  background: var(--bg);
+  clip-path: polygon(0 45%, 20% 60%, 40% 42%, 60% 58%, 80% 40%, 100% 52%, 100% 100%, 0 100%);
+}
+
+/* ===== ANIMATED GRADIENT LABEL ===== */
+.section-label {
+  background: linear-gradient(135deg, var(--teal), var(--accent), var(--teal));
+  background-size: 200% auto;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 4s ease infinite;
+}
+@keyframes gradientShift { 0%,100% { background-position: 0% center; } 50% { background-position: 200% center; } }
+
+/* ===== GLOWING CARD EFFECTS ===== */
+.service-card:hover {
+  box-shadow: 0 8px 32px rgba(1,86,109,0.15), 0 0 0 1px rgba(1,86,109,0.1);
+}
+.ref-card:hover {
+  box-shadow: 0 8px 32px rgba(1,86,109,0.12);
+}
+
+/* ===== ANIMATED GRADIENT BORDER ON CARDS ===== */
+.service-card::before {
+  height: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--accent), #7dd571, var(--teal));
+  background-size: 300% 100%;
+  animation: borderGlow 3s ease infinite paused;
+}
+.service-card:hover::before { animation-play-state: running; }
+@keyframes borderGlow { 0%,100% { background-position: 0% 0%; } 50% { background-position: 100% 0%; } }
+
+/* ===== MORE ANIMATION VARIANTS ===== */
+.fade-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.fade-left.visible { opacity: 1; transform: translateX(0); }
+.fade-right { opacity: 0; transform: translateX(30px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.fade-right.visible { opacity: 1; transform: translateX(0); }
+.scale-up { opacity: 0; transform: scale(0.92); transition: opacity 0.5s ease, transform 0.5s ease; }
+.scale-up.visible { opacity: 1; transform: scale(1); }
+
+/* ===== FLOATING DECORATIVE ELEMENTS ===== */
+.floating-decor {
+  position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(circle, rgba(1,86,109,0.08) 0%, transparent 70%);
+}
+.floating-decor-1 { width: 400px; height: 400px; top: -100px; right: -100px; animation: floatSlow 8s ease-in-out infinite; }
+.floating-decor-2 { width: 300px; height: 300px; bottom: -80px; left: -80px; animation: floatSlow 10s ease-in-out infinite reverse; }
+.floating-decor-accent { background: radial-gradient(circle, rgba(78,177,67,0.06) 0%, transparent 70%); }
+@keyframes floatSlow { 0%,100% { transform: translate(0, 0); } 50% { transform: translate(20px, -20px); } }
+
+/* ===== HERO GLOW EFFECT ===== */
+.hero::after {
+  content: ''; position: absolute; top: 30%; left: -10%; width: 50%; height: 50%;
+  background: radial-gradient(ellipse, rgba(78,177,67,0.08) 0%, transparent 70%);
+  z-index: 1; pointer-events: none; animation: heroGlow 6s ease-in-out infinite;
+}
+@keyframes heroGlow { 0%,100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.1); } }
+
+/* ===== ANIMATED STAT COUNTERS ===== */
+.hero-stat strong, .stat-block strong {
+  background: linear-gradient(135deg, white, rgba(255,255,255,0.8));
+  -webkit-background-clip: text; background-clip: text;
+}
+.stat-block strong {
+  background: linear-gradient(135deg, var(--primary), var(--teal));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.stat-block {
+  position: relative; overflow: hidden;
+}
+.stat-block::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--accent));
+  transform: scaleX(0); transition: transform 0.6s ease;
+}
+.stat-block:hover::before { transform: scaleX(1); }
+
+/* ===== GLASSMORPHISM ABOUT CARD ===== */
+.about-card {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+body.dark .about-card {
+  background: rgba(22,27,34,0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ===== SUBTLE DOT PATTERN ===== */
+.services::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(rgba(0,51,102,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none; z-index: 0;
+}
+.services { position: relative; }
+.services > .container { position: relative; z-index: 1; }
+body.dark .services::before { background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); }
+
+/* ===== HOVER LIFT FOR GALLERY ===== */
+.galerie-item { transition: transform 0.4s cubic-bezier(.4,0,.2,1), box-shadow 0.4s ease; }
+.galerie-item:hover { transform: scale(1.04) translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); z-index: 2; }
+.galerie-item:hover img { transform: none; }
+
+/* ===== PULSE GLOW ON CTA BUTTONS ===== */
+.btn-primary {
+  position: relative; overflow: hidden;
+}
+.btn-primary::after {
+  content: ''; position: absolute; inset: -2px;
+  background: linear-gradient(135deg, var(--accent), #7dd571);
+  border-radius: inherit; z-index: -1; opacity: 0;
+  transition: opacity 0.3s ease; filter: blur(12px);
+}
+.btn-primary:hover::after { opacity: 0.5; }
+
+/* ===== NAVBAR GLOW ON SCROLL ===== */
+.navbar.scrolled { border-bottom-color: rgba(1,86,109,0.15); }
+
+/* ===== SMOOTH ICON ANIMATION ===== */
+.service-icon {
+  transition: var(--transition);
+}
+.service-card:hover .service-icon {
+  background: linear-gradient(135deg, rgba(1,86,109,0.15), rgba(78,177,67,0.1));
+  transform: scale(1.08) rotate(-3deg);
+}
+
+/* ===== TEAL ACCENT LINE FOOTER ===== */
+.footer::before {
+  content: ''; display: block; height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--accent), var(--teal));
+}
+
+/* ===== ANIMATED UNDERLINE ON HOVER ===== */
+.content-block h2 {
+  border-bottom: none; position: relative; display: inline-block; padding-bottom: 12px;
+}
+.content-block h2::after {
+  content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--teal));
+  border-radius: 2px;
+  transform: scaleX(0.5); transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.content-block:hover h2::after { transform: scaleX(1); }
+
+/* ===== SUBTLE TEXT REVEAL ===== */
+.hero h1 { animation: textReveal 0.8s ease-out 0.3s both; }
+.hero p { animation: textReveal 0.8s ease-out 0.5s both; }
+.hero-buttons { animation: textReveal 0.8s ease-out 0.7s both; }
+.hero-stats { animation: textReveal 0.8s ease-out 0.9s both; }
+@keyframes textReveal { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== OVERLAY HERO GLOW ===== */
+.overlay-hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+  background: linear-gradient(0deg, rgba(0,10,20,0.5) 0%, transparent 100%);
+  z-index: 1; pointer-events: none;
+}
+
+/* ===== SMOOTH SCROLL INDICATOR ===== */
+@keyframes scrollHint { 0%,100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(8px); opacity: 0.4; } }
+
+/* ===== IMPROVED DARK MODE TRANSITIONS ===== */
+body { transition: background 0.4s ease, color 0.3s ease; }
+.service-card, .ref-card, .sub-card, .contact-card, .download-item, .produkt-item, .team-card, .callback-form {
+  transition: all 0.35s cubic-bezier(.4,0,.2,1);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .services-grid { grid-template-columns: repeat(2, 1fr); }
@@ -763,7 +943,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
 <section class="about" id="ueber-uns">
   <div class="container">
     <div class="about-grid">
-      <div class="about-content fade-up">
+      <div class="about-content fade-left">
         <span class="section-label" data-i18n="about.label">Über uns</span>
         <h2 class="section-title" data-i18n="about.title">Erfahrung trifft Innovation</h2>
         <p class="about-text" data-i18n="about.p1">Seit 1978 ist Ellerbrock Konferenztechnik einer der führenden Anbieter für professionelle Konferenztechnik in Deutschland. Mit Standorten in Abtsteinach und Berlin betreuen wir Veranstaltungen jeder Größe — von der Vorstandssitzung bis zum internationalen Kongress.</p>
