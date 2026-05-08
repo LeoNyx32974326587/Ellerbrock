@@ -774,22 +774,30 @@ function saveImageMap(map) {
   localStorage.setItem('cloudinary_images', JSON.stringify(map));
 }
 
-// Sync image map from server on load (so all devices see the same images)
-(function(){
+// Sync image map from server (polls every 10s for near-realtime sync)
+var _lastServerHash = '';
+function syncFromServer() {
   var url = 'https://leonyx32974326587.github.io/Ellerbrock/image-config.js?t=' + Date.now();
   fetch(url, {cache:'no-store'}).then(function(r){ return r.ok ? r.text() : null; }).then(function(text){
     if (!text) return;
     try {
       var match = text.match(/window\.ELLERBROCK_IMAGES\s*=\s*(\{[\s\S]*?\});/);
       if (match) {
+        var hash = match[1];
+        if (hash === _lastServerHash) return;
+        _lastServerHash = hash;
         var serverMap = JSON.parse(match[1]);
-        var localMap = getImageMap();
-        var merged = Object.assign({}, serverMap, localMap);
-        localStorage.setItem('cloudinary_images', JSON.stringify(merged));
+        localStorage.setItem('cloudinary_images', JSON.stringify(serverMap));
+        renderGalleryPanel(activeGalleryCat);
+        if (typeof renderPreview === 'function' && typeof currentPreviewPage !== 'undefined') {
+          renderPreview(currentPreviewPage);
+        }
       }
     } catch(e){}
   }).catch(function(){});
-})();
+}
+syncFromServer();
+setInterval(syncFromServer, 10000);
 
 // ===== GITHUB PUBLISH =====
 function getGitHubToken() { return localStorage.getItem('gh_token') || ''; }
@@ -1219,8 +1227,4 @@ function renderVisitChart(range, btn) {
   var container = document.getElementById('visitChart');
 
   // Update stat cards
-  document.getElementById('statTotalViews').textContent = stats.grandTotal;
-  document.getElementById('statTodayViews').textContent = 'Heute: ' + stats.todayTotal;
-
-  // Sort pages by count descending
-  var sorted = Object.keys(stats.totals).sort(function(a,b){ return stats.totals[b] - stats.totals[a]; }
+  document
