@@ -2031,11 +2031,10 @@ function submitContactForm(e) {
 <script>
 (function(){
   function applyMap(map){
-    if(!map||typeof map!=='object')return;
-    var keys=Object.keys(map);if(keys.length===0)return;
+    if(!map)return;
     document.querySelectorAll('img[src^="images/"]').forEach(function(img){
       var f=img.getAttribute('src').replace('images/','');
-      if(map[f]){img.src=map[f];img.style.display='';}
+      if(map[f])img.src=map[f];
     });
   }
   if(window.self!==window.top){
@@ -2063,9 +2062,10 @@ function submitContactForm(e) {
     });
     return;
   }
-  /* Step 1: Apply immediately from already-loaded image-config.js */
-  var dbg=document.createElement('div');dbg.id='cl-debug';dbg.style.cssText='position:fixed;bottom:10px;left:10px;background:#222;color:#0f0;padding:8px 14px;border-radius:8px;font-size:12px;z-index:99999;font-family:monospace;';
-  dbg.textContent='Loader: init...';document.body.appendChild(dbg);
-  if(window.ELLERBROCK_IMAGES){
-    var keys=Object.keys(window.ELLERBROCK_IMAGES);
-    dbg.textContent='Config: '+keys.length+' Bilder geladen
+  if(window.ELLERBROCK_IMAGES&&Object.keys(window.ELLERBROCK_IMAGES).length>0){
+    applyMap(window.ELLERBROCK_IMAGES);
+  }
+})();
+</script>
+</body>
+</html>
