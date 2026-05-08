@@ -2029,13 +2029,37 @@ function submitContactForm(e) {
 <!-- Cloudinary Image Loader -->
 <script>
 (function(){
-  if(window.self!==window.top)return;
   function applyMap(map){
     if(!map)return;
     document.querySelectorAll('img[src^="images/"]').forEach(function(img){
       var f=img.getAttribute('src').replace('images/','');
       if(map[f])img.src=map[f];
     });
+  }
+  if(window.self!==window.top){
+    window.addEventListener('message',function(e){
+      var d=e.data;if(!d||d.type!=='admin-init')return;
+      var map=d.map||{};
+      var s=document.createElement('style');
+      s.textContent='.preloader,.scroll-progress,.grain-overlay,.cursor-glow,.ticker-banner{display:none!important;}body{overflow:auto!important;}.adm-ov{position:absolute;inset:0;background:rgba(1,86,109,0.6);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;cursor:pointer;z-index:100;}.adm-ov:hover{opacity:1;}.adm-ov span{color:#fff;font-weight:700;font-size:13px;background:rgba(0,0,0,0.5);padding:6px 14px;border-radius:8px;}.adm-w{position:relative;display:inline-block;min-width:60px;min-height:60px;}.adm-b{position:absolute;top:4px;left:4px;background:#4eb143;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;z-index:101;}';
+      document.head.appendChild(s);
+      document.querySelectorAll('img[src^="images/"]').forEach(function(img){
+        var fn=img.getAttribute('src').replace('images/','');
+        img.removeAttribute('onerror');img.onerror=null;img.style.display='block';
+        if(map[fn])img.src=map[fn];
+        var nx=img.nextElementSibling;if(nx&&nx.classList&&nx.classList.contains('initials'))nx.style.display='none';
+        var p=img.parentElement;if(!p)return;
+        var w=document.createElement('div');w.className='adm-w';
+        p.insertBefore(w,img);w.appendChild(img);img.style.width='100%';img.style.height='100%';
+        if(map[fn]){var bg=document.createElement('div');bg.className='adm-b';bg.textContent='NEU';w.appendChild(bg);}
+        img.addEventListener('error',function(){img.style.display='none';var ph=document.createElement('div');ph.style.cssText='width:100%;min-height:80px;background:rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;color:#888;font-size:11px;text-align:center;padding:8px;border-radius:8px;';ph.textContent=fn.replace('.jpg','').replace(/-/g,' ');w.insertBefore(ph,w.firstChild);});
+        var ov=document.createElement('div');ov.className='adm-ov';ov.innerHTML='<span>Bild \u00e4ndern</span>';
+        (function(f){ov.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();window.parent.postMessage({type:'admin-upload',filename:f},'*');});})(fn);
+        w.appendChild(ov);
+      });
+      document.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(ev){ev.preventDefault();});a.style.cursor='default';});
+    });
+    return;
   }
   try{
     var u='https://res.cloudinary.com/daiiz3u5t/raw/upload/ellerbrock/image-map.json';
@@ -2044,9 +2068,7 @@ function submitContactForm(e) {
       .then(function(map){
         if(map){applyMap(map);}
         else{var ls=localStorage.getItem('cloudinary_images');if(ls)applyMap(JSON.parse(ls));}
-      }).catch(function(){
-        var ls=localStorage.getItem('cloudinary_images');if(ls)applyMap(JSON.parse(ls));
-      });
+      }).catch(function(){var ls=localStorage.getItem('cloudinary_images');if(ls)applyMap(JSON.parse(ls));});
   }catch(e){}
 })();
 </script>
