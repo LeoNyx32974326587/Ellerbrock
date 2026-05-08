@@ -764,7 +764,6 @@ var CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/image/u
 // ===== GITHUB CONFIG =====
 var GITHUB_OWNER = 'LeoNyx32974326587';
 var GITHUB_REPO = 'Ellerbrock';
-var GITHUB_TOKEN = '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';
 
 // Store mapping: filename -> cloudinary URL (local + cloud sync)
 function getImageMap() {
@@ -776,12 +775,22 @@ function saveImageMap(map) {
 }
 
 // ===== GITHUB PUBLISH =====
+function getGitHubToken() { return localStorage.getItem('gh_token') || ''; }
+
+function promptGitHubToken() {
+  var t = prompt('GitHub Token eingeben (einmalig):');
+  if (t && t.trim()) {
+    localStorage.setItem('gh_token', t.trim());
+    publishToGitHub();
+  }
+}
+
 async function publishToGitHub() {
   var map = getImageMap();
-  if (Object.keys(map).length === 0) {
-    showToast('Keine Bilder zum Veröffentlichen.');
-    return;
-  }
+  if (Object.keys(map).length === 0) { showToast('Keine Bilder zum Veröffentlichen.'); return; }
+
+  var token = getGitHubToken();
+  if (!token) { promptGitHubToken(); return; }
 
   showToast('Veröffentliche Bilder...');
 
@@ -789,38 +798,30 @@ async function publishToGitHub() {
   var encoded = btoa(unescape(encodeURIComponent(content)));
 
   var apiUrl = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/image-config.js';
-  var headers = {
-    'Authorization': 'Bearer ' + GITHUB_TOKEN,
-    'Content-Type': 'application/json',
-    'Accept': 'application/vnd.github.v3+json'
-  };
+  var headers = { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' };
 
   try {
     var sha = null;
     var getRes = await fetch(apiUrl, { headers: headers });
-    if (getRes.ok) {
-      var fileData = await getRes.json();
-      sha = fileData.sha;
+    if (getRes.ok) { sha = (await getRes.json()).sha; }
+    else if (getRes.status === 401 || getRes.status === 403) {
+      localStorage.removeItem('gh_token');
+      showToast('Token ungültig. Bitte neu eingeben.');
+      promptGitHubToken();
+      return;
     }
 
     var body = { message: 'Bilder aktualisiert', content: encoded };
     if (sha) body.sha = sha;
 
-    var putRes = await fetch(apiUrl, {
-      method: 'PUT',
-      headers: headers,
-      body: JSON.stringify(body)
-    });
-
+    var putRes = await fetch(apiUrl, { method: 'PUT', headers: headers, body: JSON.stringify(body) });
     if (putRes.ok) {
       showToast('Bilder veröffentlicht! In 1-2 Minuten auf der Website sichtbar.');
     } else {
       var err = await putRes.json();
       showToast('Fehler: ' + (err.message || 'Unbekannt'));
     }
-  } catch (e) {
-    showToast('Verbindungsfehler: ' + e.message);
-  }
+  } catch (e) { showToast('Verbindungsfehler: ' + e.message); }
 }
 
 function previewImage(input, previewId, filename) {
@@ -1219,16 +1220,4 @@ function renderVisitChart(range, btn) {
     var count = stats.totals[page];
     var pct = Math.round((count / max) * 100);
     html += '<div class="visit-bar-row">' +
-      '<div class="visit-bar-label" title="' + page + '">' + label + '</div>' +
-      '<div class="visit-bar-track"><div class="visit-bar-fill" style="width:' + pct + '%"></div></div>' +
-      '<div class="visit-bar-count">' + count + '</div></div>';
-  });
-  container.innerHTML = html;
-}
-
-// Initial render
-renderVisitChart('all', null);
-</script>
-
-</body>
-</html>
+      '<div class="visit-b
