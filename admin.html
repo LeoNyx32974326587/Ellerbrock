@@ -846,132 +846,236 @@ function switchGalleryView(view, btn) {
 
 // ===== WEBSITE PREVIEW =====
 var currentPreviewPage = 'startseite';
+var PV_PAGES = ['startseite','dolmetscheranlagen','ted','fuehrungsanlagen','diskussionssysteme','beschallungstechnik','videotechnik','kauf','team'];
+var PV_LABELS = {startseite:'Startseite',dolmetscheranlagen:'Dolmetscheranlagen',ted:'Ted-Abstimmsysteme',fuehrungsanlagen:'Führungsanlagen',diskussionssysteme:'Diskussionssysteme',beschallungstechnik:'Beschallungstechnik',videotechnik:'Videotechnik',kauf:'Produkte kaufen',team:'Team'};
 
-var PREVIEW_PAGES = {
-  startseite: {
-    label: 'Startseite',
-    sections: [
-      { type: 'hero', title: 'Professionelle Konferenztechnik', sub: 'Dolmetscheranlagen, Ted-Abstimmsysteme, Fuehrungsanlagen und Medientechnik' },
-      { type: 'gallery', title: 'Einblicke', images: ['galerie-1.jpg','galerie-2.jpg','galerie-3.jpg','galerie-4.jpg','galerie-5.jpg','galerie-6.jpg'] }
-    ]
-  },
-  dolmetscheranlagen: {
-    label: 'Dolmetscheranlagen',
-    sections: [
-      { type: 'hero', title: 'Dolmetscheranlagen', sub: 'Professionelle Simultandolmetsch-Technik' },
-      { type: 'gallery', title: 'Dolmetscheranlagen', images: ['dolmetscheranlage-hoersprechgarnitur.jpg','dolmetscheranlage-einsatz.jpg','dolmetscheranlage-komponenten.jpg','dolmetscheranlage-setup.jpg','dolmetscherkabine-audipack-9300.jpg','dolmetscherkabine-innenansicht.jpg','dolmetscherkabine-aufgebaut.jpg','dolmetscherdienst.jpg'] }
-    ]
-  },
-  ted: {
-    label: 'Ted-Abstimmsysteme',
-    sections: [
-      { type: 'hero', title: 'Ted-Abstimmsysteme', sub: 'Elektronische Voting- und Abstimmsysteme' },
-      { type: 'gallery', title: 'Abstimmsysteme', images: ['ted-votingsystem-01.jpg','ted-votingsystem-02.jpg','ted-votingsystem-03.jpg','ted-votingsystem-04.jpg','ted-votingsystem-05.jpg','ted-votingsystem-06.jpg','ted-votingsystem-07.jpg','ted-votingsystem-08.jpg'] }
-    ]
-  },
-  fuehrungsanlagen: {
-    label: 'Fuehrungsanlagen',
-    sections: [
-      { type: 'hero', title: 'Fuehrungsanlagen', sub: 'Mobile Personenfuehrungsanlagen' },
-      { type: 'gallery', title: 'Fuehrungsanlagen', images: ['fuehrungsanlage-01.jpg','fuehrungsanlage-02.jpg','fuehrungsanlage-03.jpg','fuehrungsanlage-04.jpg'] }
-    ]
-  },
-  diskussionssysteme: {
-    label: 'Diskussionssysteme',
-    sections: [
-      { type: 'hero', title: 'Diskussionssysteme', sub: 'Konferenz- und Diskussionsanlagen' },
-      { type: 'gallery', title: 'Diskussionsanlagen', images: ['diskussionsanlage-01.jpg','diskussionsanlage-02.jpg','diskussionsanlage-03.jpg','diskussionsanlage-04.jpg'] }
-    ]
-  },
-  beschallungstechnik: {
-    label: 'Beschallungstechnik',
-    sections: [
-      { type: 'hero', title: 'Beschallungstechnik', sub: 'Professionelle Beschallungssysteme' },
-      { type: 'gallery', title: 'Beschallungstechnik', images: ['beschallungstechnik-01.jpg','beschallungstechnik-02.jpg','beschallungstechnik-03.jpg'] }
-    ]
-  },
-  videotechnik: {
-    label: 'Videotechnik',
-    sections: [
-      { type: 'hero', title: 'Videotechnik', sub: 'Displays, Kameras und Streaming' },
-      { type: 'gallery', title: 'Videotechnik', images: ['videotechnik-01.jpg'] }
-    ]
-  },
-  kauf: {
-    label: 'Produkte kaufen',
-    sections: [
-      { type: 'hero', title: 'Produkte kaufen', sub: 'Konferenztechnik zum Kauf' },
-      { type: 'gallery', title: 'Kaufprodukte', images: ['kauf-dolmetscheranlage-01.jpg','kauf-dolmetscherkabine-01.jpg','kauf-diskussionsanlage-01.jpg','kauf-gebraucht-01.jpg','kauf-sennheiser-ek1039.jpg','kauf-bosch-dolmetscherpult.jpg'] }
-    ]
-  },
-  team: {
-    label: 'Team',
-    sections: [
-      { type: 'hero', title: 'Unser Team', sub: 'Die Menschen hinter Ellerbrock' },
-      { type: 'team', title: 'Team-Fotos', images: ['team-fabian-ellerbrock.jpg','team-david-hintenlang.jpg','team-fabian-habel.jpg','team-joerg-raphael.jpg','team-julius-lampert.jpg','team-jochen-stiefel.jpg'] }
-    ]
-  }
-};
+// Helper: clickable image slot
+function pvSlot(img, uid, style) {
+  var m = getImageMap();
+  var src = m[img] || ('images/' + img);
+  var badge = m[img] ? '<div class="pv-img-badge">NEU</div>' : '';
+  return '<div class="pv-img-slot" onclick="document.getElementById(\'' + uid + '\').click()" style="' + (style||'') + '">' +
+    badge + '<img src="' + src + '" id="pvimg_' + uid + '" alt="' + img + '">' +
+    '<input type="file" id="' + uid + '" accept="image/*" style="display:none" onchange="previewImage(this,\'pvimg_' + uid + '\',\'' + img + '\')">' +
+    '</div>';
+}
 
 function renderPreview(pageKey) {
   currentPreviewPage = pageKey || 'startseite';
-  var page = PREVIEW_PAGES[currentPreviewPage];
-  var imgMap = getImageMap();
-
   // Page selector
   var selHtml = '';
-  Object.keys(PREVIEW_PAGES).forEach(function(key) {
-    selHtml += '<button class="visit-time-btn' + (currentPreviewPage === key ? ' active' : '') + '" onclick="renderPreview(\'' + key + '\')">' + PREVIEW_PAGES[key].label + '</button>';
+  PV_PAGES.forEach(function(k) {
+    selHtml += '<button class="visit-time-btn' + (currentPreviewPage === k ? ' active' : '') + '" onclick="renderPreview(\'' + k + '\')">' + PV_LABELS[k] + '</button>';
   });
   document.getElementById('previewPageSelector').innerHTML = selHtml;
 
-  // Build preview
-  var html = '';
-  page.sections.forEach(function(sec) {
-    if (sec.type === 'hero') {
-      html += '<div class="pv-hero"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=60&auto=format" alt="">' +
-        '<div class="pv-hero-overlay"></div><div class="pv-hero-text"><h3>' + sec.title + '</h3><p>' + sec.sub + '</p></div></div>';
+  var h = '';
+  if (currentPreviewPage === 'startseite') h = pvStartseite();
+  else if (currentPreviewPage === 'team') h = pvTeam();
+  else h = pvSubpage(currentPreviewPage);
+
+  document.getElementById('previewBody').innerHTML = h;
+}
+
+function pvStartseite() {
+  var h = '';
+  // --- NAV ---
+  h += '<div style="background:#003366;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;">' +
+    '<img src="https://www.konferenz-technik.de/media/ellerbrock-logo.png" alt="" style="height:22px;filter:brightness(0) invert(1);opacity:0.85;">' +
+    '<div style="display:flex;gap:12px;font-size:0.6rem;color:rgba(255,255,255,0.7);">Leistungen &bull; Über uns &bull; Kontakt</div></div>';
+  // --- HERO ---
+  h += '<div class="pv-hero" style="height:220px;"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=60&auto=format" alt="">' +
+    '<div class="pv-hero-overlay"></div><div class="pv-hero-text">' +
+    '<div style="font-size:0.55rem;opacity:0.7;margin-bottom:6px;">&#9679; Ihr Partner seit über 45 Jahren</div>' +
+    '<h3 style="font-size:1.1rem;">Professionelle <span style="background:linear-gradient(135deg,#01566d,#4eb143);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Konferenztechnik</span> für Ihre Veranstaltung</h3>' +
+    '<p style="font-size:0.65rem;margin-top:6px;">Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.</p>' +
+    '<div style="display:flex;gap:8px;margin-top:10px;justify-content:center;">' +
+    '<span style="background:linear-gradient(135deg,#01566d,#4eb143);color:white;padding:5px 12px;border-radius:6px;font-size:0.6rem;font-weight:600;">Jetzt anfragen</span>' +
+    '<span style="border:1px solid rgba(255,255,255,0.4);color:white;padding:5px 12px;border-radius:6px;font-size:0.6rem;">Unsere Leistungen</span></div>' +
+    '<div style="display:flex;gap:20px;margin-top:12px;justify-content:center;">' +
+    '<div style="text-align:center;"><strong style="font-size:0.85rem;">45+</strong><br><span style="font-size:0.5rem;opacity:0.7;">Jahre Erfahrung</span></div>' +
+    '<div style="text-align:center;"><strong style="font-size:0.85rem;">3</strong><br><span style="font-size:0.5rem;opacity:0.7;">Standorte</span></div>' +
+    '<div style="text-align:center;"><strong style="font-size:0.85rem;">600+</strong><br><span style="font-size:0.5rem;opacity:0.7;">Sprechstellen</span></div></div>' +
+    '</div></div>';
+  // --- TRUST BAR ---
+  h += '<div style="background:#f8f9fa;padding:8px 20px;text-align:center;font-size:0.6rem;color:#999;letter-spacing:0.1em;overflow:hidden;white-space:nowrap;">BOSCH &nbsp;&bull;&nbsp; beyerdynamic &nbsp;&bull;&nbsp; SENNHEISER &nbsp;&bull;&nbsp; Televic &nbsp;&bull;&nbsp; BARCO &nbsp;&bull;&nbsp; audipack</div>';
+  // --- REFERENZEN ---
+  h += '<div class="pv-section" style="background:white;">' +
+    '<div style="text-align:center;margin-bottom:12px;"><div class="pv-section-title" style="color:#4eb143;">Referenzen</div><div style="font-size:0.85rem;font-weight:700;color:#003366;">Vertrauen namhafter Kunden</div><div style="font-size:0.6rem;color:#666;margin-top:2px;">Wir betreuen Veranstaltungen für führende Institutionen und Unternehmen.</div></div>' +
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">' +
+    '<div style="background:#f8f9fa;border-radius:8px;padding:10px;text-align:center;"><div style="font-size:0.65rem;font-weight:600;color:#003366;">Bundestag & Landtage</div><div style="font-size:0.55rem;color:#666;margin-top:2px;">Parlamentarische Sitzungen</div></div>' +
+    '<div style="background:#f8f9fa;border-radius:8px;padding:10px;text-align:center;"><div style="font-size:0.65rem;font-weight:600;color:#003366;">Internationale Kongresse</div><div style="font-size:0.55rem;color:#666;margin-top:2px;">Mehrsprachige Großveranstaltungen</div></div>' +
+    '<div style="background:#f8f9fa;border-radius:8px;padding:10px;text-align:center;"><div style="font-size:0.65rem;font-weight:600;color:#003366;">DAX-Unternehmen</div><div style="font-size:0.55rem;color:#666;margin-top:2px;">Hauptversammlungen</div></div>' +
+    '<div style="background:#f8f9fa;border-radius:8px;padding:10px;text-align:center;"><div style="font-size:0.65rem;font-weight:600;color:#003366;">Universitäten</div><div style="font-size:0.55rem;color:#666;margin-top:2px;">Symposien & Vorlesungen</div></div>' +
+    '</div></div>';
+  // --- LEISTUNGEN ---
+  h += '<div class="pv-section" style="background:#f8f9fa;">' +
+    '<div style="text-align:center;margin-bottom:12px;"><div class="pv-section-title" style="color:#4eb143;">Unsere Leistungen</div><div style="font-size:0.85rem;font-weight:700;color:#003366;">Alles für Ihre Konferenz</div></div>' +
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">' +
+    ['Dolmetscheranlagen','Ted-Abstimmsysteme','Führungsanlagen','Diskussionsanlagen','Beschallungstechnik','Video- & Präsentationstechnik'].map(function(t){
+      return '<div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;"><div style="font-size:0.7rem;font-weight:600;color:#003366;">' + t + '</div><div style="font-size:0.55rem;color:#666;margin-top:3px;">Mehr erfahren →</div></div>';
+    }).join('') +
+    '</div></div>';
+  // --- ÜBER UNS ---
+  h += '<div class="pv-section" style="background:white;">' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center;">' +
+    '<div><div class="pv-section-title" style="color:#4eb143;">Über uns</div><div style="font-size:0.85rem;font-weight:700;color:#003366;margin-bottom:6px;">Erfahrung trifft Innovation</div>' +
+    '<div style="font-size:0.6rem;color:#555;line-height:1.5;">Seit 1978 ist Ellerbrock Konferenztechnik einer der führenden Anbieter für professionelle Konferenztechnik in Deutschland. Mit Standorten in Abtsteinach und Berlin betreuen wir Veranstaltungen jeder Größe.</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px;">' +
+    '<div style="font-size:0.55rem;color:#003366;">✓ Miete & Kauf</div><div style="font-size:0.55rem;color:#003366;">✓ Full-Service</div>' +
+    '<div style="font-size:0.55rem;color:#003366;">✓ Bundesweite Lieferung</div><div style="font-size:0.55rem;color:#003366;">✓ Erfahrene Techniker</div>' +
+    '</div></div>' +
+    '<div style="background:linear-gradient(135deg,#003366,#01566d);border-radius:10px;padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
+    '<div style="text-align:center;color:white;"><strong style="font-size:0.9rem;">45+</strong><br><span style="font-size:0.5rem;opacity:0.7;">Jahre Erfahrung</span></div>' +
+    '<div style="text-align:center;color:white;"><strong style="font-size:0.9rem;">3</strong><br><span style="font-size:0.5rem;opacity:0.7;">Standorte</span></div>' +
+    '<div style="text-align:center;color:white;"><strong style="font-size:0.9rem;">600+</strong><br><span style="font-size:0.5rem;opacity:0.7;">Tischsprechstellen</span></div>' +
+    '<div style="text-align:center;color:white;"><strong style="font-size:0.9rem;">∞</strong><br><span style="font-size:0.5rem;opacity:0.7;">Flexible Lösungen</span></div>' +
+    '</div></div></div>';
+  // --- EINBLICKE GALERIE ---
+  h += '<div class="pv-section" style="background:#f8f9fa;">' +
+    '<div style="text-align:center;margin-bottom:12px;"><div class="pv-section-title" style="color:#4eb143;">Einblicke</div><div style="font-size:0.85rem;font-weight:700;color:#003366;">Aktuelles aus unserem Arbeitsalltag</div><div style="font-size:0.6rem;color:#666;margin-top:2px;">Impressionen von Veranstaltungen, Technik-Setups und unserem Team im Einsatz.</div></div>' +
+    '<div class="pv-gallery-grid">';
+  for (var i = 1; i <= 6; i++) {
+    h += pvSlot('galerie-' + i + '.jpg', 'pv_gal_' + i, '');
+  }
+  h += '</div>' +
+    '<div style="text-align:center;margin-top:10px;"><span style="font-size:0.6rem;color:#833ab4;">📷 Folgen Sie uns auf Instagram</span></div></div>';
+  // --- CTA ---
+  h += '<div style="background:linear-gradient(135deg,#003366,#01566d);padding:24px 20px;text-align:center;">' +
+    '<div style="font-size:0.5rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;">Kontakt</div>' +
+    '<div style="font-size:0.85rem;font-weight:700;color:white;margin:6px 0;">Lassen Sie uns Ihre Veranstaltung planen</div>' +
+    '<div style="font-size:0.6rem;color:rgba(255,255,255,0.6);">Unser Team berät Sie gerne — ob Miete, Kauf oder technischer Support.</div>' +
+    '<div style="display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap;">' +
+    '<span style="background:#4eb143;color:white;padding:5px 10px;border-radius:5px;font-size:0.55rem;font-weight:600;">Kontaktformular</span>' +
+    '<span style="background:#01566d;color:white;padding:5px 10px;border-radius:5px;font-size:0.55rem;">Rückrufservice</span></div></div>';
+  // --- FOOTER ---
+  h += '<div style="background:#0a1628;padding:16px 20px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">' +
+    '<div><img src="https://www.konferenz-technik.de/media/ellerbrock-logo.png" alt="" style="height:16px;filter:brightness(0) invert(1);opacity:0.6;"><div style="font-size:0.5rem;color:rgba(255,255,255,0.4);margin-top:4px;max-width:180px;">Ihr professioneller Partner für Konferenztechnik — seit über 45 Jahren.</div></div>' +
+    '<div style="font-size:0.5rem;color:rgba(255,255,255,0.3);text-align:right;">© 2025 Ellerbrock<br>Impressum &bull; Datenschutz</div></div>';
+  return h;
+}
+
+function pvSubpage(pageKey) {
+  var data = {
+    dolmetscheranlagen: {
+      hero: {title:'Dolmetscheranlagen',sub:'Simultandolmetschertechnik für internationale Konferenzen — Miete und Verkauf', bg:'https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=800&q=60'},
+      blocks: [
+        {h:'Dolmetscheranlagen mieten', p:'Moderne Simultandolmetscheranlagen bestehen aus schallisolierten Dolmetscherkabinen, einer Zentraleinheit, einem Dolmetscherpult und drahtlosen Empfängereinheiten für die Konferenzteilnehmer.', imgs:['dolmetscheranlage-hoersprechgarnitur.jpg','dolmetscheranlage-einsatz.jpg'], extra:['dolmetscheranlage-komponenten.jpg','dolmetscheranlage-setup.jpg']},
+        {h:'Dolmetscherkabinen', p:'Unsere mobilen Dolmetscherkabinen vom Typ Audipack Silent 9300 und Silent 9500 entsprechen der ISO-Norm 4043. Die Kabinen sind in drei Größen für 1–3 Simultandolmetscher erhältlich.', imgs:['dolmetscherkabine-audipack-9300.jpg','dolmetscherkabine-innenansicht.jpg'], extra:['dolmetscherkabine-aufgebaut.jpg']},
+        {h:'Dolmetscherdienst', p:'Neben der Technik vermitteln wir auch erfahrene Konferenzdolmetscher in zahlreichen Sprachkombinationen.', imgs:['dolmetscherdienst.jpg']}
+      ]
+    },
+    ted: {
+      hero: {title:'Ted-Abstimmsysteme',sub:'Interaktive Voting-Systeme für Live-Abstimmungen und Wahlen', bg:'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&q=60'},
+      blocks: [
+        {h:'Abstimmsysteme mieten',p:'Elektronische Ted-Abstimmsysteme für interaktive Live-Votings bei Konferenzen, Hauptversammlungen und Events.', imgs:['ted-votingsystem-01.jpg','ted-votingsystem-02.jpg','ted-votingsystem-03.jpg'], extra:['ted-votingsystem-04.jpg','ted-votingsystem-05.jpg','ted-votingsystem-06.jpg']},
+        {h:'Technik & Details',p:'Verschiedene Handgeräte und Tischeinheiten für unterschiedliche Anforderungen.', imgs:['ted-votingsystem-07.jpg','ted-votingsystem-08.jpg']}
+      ]
+    },
+    fuehrungsanlagen: {
+      hero: {title:'Führungsanlagen',sub:'Drahtlose Personenführungsanlagen für Werksführungen und Events', bg:'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&q=60'},
+      blocks: [{h:'Führungsanlagen mieten',p:'Drahtlose Personenführungsanlagen für kristallklaren Empfang in jeder Umgebung — ideal für Museen, Fabriken und Events.', imgs:['fuehrungsanlage-01.jpg','fuehrungsanlage-02.jpg'], extra:['fuehrungsanlage-03.jpg','fuehrungsanlage-04.jpg']}]
+    },
+    diskussionssysteme: {
+      hero: {title:'Diskussionssysteme',sub:'Konferenz- und Diskussionsanlagen für strukturierte Meetings', bg:'https://images.unsplash.com/photo-1531058020387-3be344556be6?w=800&q=60'},
+      blocks: [{h:'Diskussionsanlagen mieten',p:'Moderne drahtlose Konferenzsysteme mit Wortmeldung, Zeitsteuerung und Aufzeichnung für produktive Meetings.', imgs:['diskussionsanlage-01.jpg','diskussionsanlage-02.jpg'], extra:['diskussionsanlage-03.jpg','diskussionsanlage-04.jpg']}]
+    },
+    beschallungstechnik: {
+      hero: {title:'Beschallungstechnik',sub:'Professionelle Mikrofon- und Beschallungssysteme', bg:'https://images.unsplash.com/photo-1478147427282-58a87a120781?w=800&q=60'},
+      blocks: [{h:'Beschallungstechnik mieten',p:'Professionelle Mikrofon- und Beschallungssysteme für optimale Sprachverständlichkeit bei jeder Veranstaltungsgröße.', imgs:['beschallungstechnik-01.jpg','beschallungstechnik-02.jpg'], extra:['beschallungstechnik-03.jpg']}]
+    },
+    videotechnik: {
+      hero: {title:'Video- & Präsentationstechnik',sub:'Displays, Kameras und Streaming-Lösungen', bg:'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=60'},
+      blocks: [{h:'Videotechnik mieten',p:'Vom Beamer bis zur Video-Live-Regie — Präsentations- und Videotechnik für einen professionellen Auftritt.', imgs:['videotechnik-01.jpg']}]
+    },
+    kauf: {
+      hero: {title:'Produkte kaufen',sub:'Konferenztechnik zum Kauf — neu und gebraucht', bg:'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=60'},
+      blocks: [{h:'Kaufangebote',p:'Dolmetscheranlagen, Dolmetscherkabinen, Diskussionsanlagen und Zubehör — neu und gebraucht.', imgs:['kauf-dolmetscheranlage-01.jpg','kauf-dolmetscherkabine-01.jpg','kauf-diskussionsanlage-01.jpg'], extra:['kauf-gebraucht-01.jpg','kauf-sennheiser-ek1039.jpg','kauf-bosch-dolmetscherpult.jpg']}]
     }
-    if (sec.type === 'gallery') {
-      html += '<div class="pv-section"><div class="pv-section-title">' + sec.title + '</div><div class="pv-gallery-grid">';
-      sec.images.forEach(function(img, idx) {
-        var uid = 'pv_' + currentPreviewPage + '_' + idx;
-        var src = imgMap[img] || ('images/' + img);
-        var isCustom = !!imgMap[img];
-        html += '<div class="pv-img-slot" onclick="document.getElementById(\'' + uid + '\').click()">' +
-          (isCustom ? '<div class="pv-img-badge">NEU</div>' : '') +
-          '<img src="' + src + '" id="pvimg_' + uid + '" alt="' + img + '">' +
-          '<input type="file" id="' + uid + '" accept="image/*" style="display:none" onchange="previewImage(this,\'pvimg_' + uid + '\',\'' + img + '\')">' +
-          '</div>';
+  };
+  var d = data[pageKey]; if (!d) return '';
+  var h = '';
+  // NAV
+  h += '<div style="background:#003366;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;">' +
+    '<img src="https://www.konferenz-technik.de/media/ellerbrock-logo.png" alt="" style="height:22px;filter:brightness(0) invert(1);opacity:0.85;">' +
+    '<div style="font-size:0.6rem;color:rgba(255,255,255,0.7);">← Startseite</div></div>';
+  // HERO
+  h += '<div class="pv-hero" style="height:140px;"><img src="' + d.hero.bg + '" alt="">' +
+    '<div class="pv-hero-overlay" style="background:linear-gradient(135deg,rgba(0,51,102,0.88),rgba(1,86,109,0.75));"></div>' +
+    '<div class="pv-hero-text"><h3 style="font-size:1rem;">' + d.hero.title + '</h3><p style="font-size:0.6rem;">' + d.hero.sub + '</p></div></div>';
+  // CONTENT BLOCKS
+  var imgIdx = 0;
+  d.blocks.forEach(function(block) {
+    h += '<div class="pv-section" style="background:white;border-bottom:1px solid #e5e7eb;">';
+    h += '<div style="font-size:0.8rem;font-weight:700;color:#003366;margin-bottom:8px;">' + block.h + '</div>';
+    h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;">';
+    h += '<div style="font-size:0.6rem;color:#555;line-height:1.6;">' + block.p + '</div>';
+    h += '<div style="display:grid;grid-template-columns:repeat(' + Math.min(block.imgs.length, 2) + ',1fr);gap:6px;">';
+    block.imgs.forEach(function(img) {
+      h += pvSlot(img, 'pvsub_' + imgIdx, 'border-radius:6px;');
+      imgIdx++;
+    });
+    h += '</div></div>';
+    if (block.extra && block.extra.length) {
+      h += '<div style="display:grid;grid-template-columns:repeat(' + Math.min(block.extra.length, 3) + ',1fr);gap:6px;margin-top:8px;">';
+      block.extra.forEach(function(img) {
+        h += pvSlot(img, 'pvsub_' + imgIdx, 'border-radius:6px;');
+        imgIdx++;
       });
-      html += '</div></div>';
+      h += '</div>';
     }
-    if (sec.type === 'team') {
-      html += '<div class="pv-section" style="background:#f0f4f8;"><div class="pv-section-title">' + sec.title + '</div>' +
-        '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">';
-      sec.images.forEach(function(img, idx) {
-        var uid = 'pv_team_' + idx;
-        var src = imgMap[img] || ('images/' + img);
-        var isCustom = !!imgMap[img];
-        var name = img.replace('team-','').replace('.jpg','').replace(/-/g,' ');
-        name = name.split(' ').map(function(w){return w.charAt(0).toUpperCase()+w.slice(1)}).join(' ');
-        html += '<div style="text-align:center;background:white;border-radius:10px;padding:12px;cursor:pointer;" onclick="document.getElementById(\'' + uid + '\').click()">' +
-          '<div style="position:relative;display:inline-block;">' +
-          (isCustom ? '<div class="pv-img-badge">NEU</div>' : '') +
-          '<img src="' + src + '" id="pvimg_' + uid + '" alt="' + name + '" style="width:70px;height:85px;object-fit:cover;border-radius:8px;">' +
-          '</div>' +
-          '<div style="font-size:0.7rem;font-weight:600;color:#003366;margin-top:6px;">' + name + '</div>' +
-          '<input type="file" id="' + uid + '" accept="image/*" style="display:none" onchange="previewImage(this,\'pvimg_' + uid + '\',\'' + img + '\')">' +
-          '</div>';
-      });
-      html += '</div></div>';
-    }
+    h += '</div>';
   });
+  // CTA
+  h += '<div style="background:linear-gradient(135deg,#003366,#01566d);padding:20px;text-align:center;">' +
+    '<div style="font-size:0.8rem;font-weight:700;color:white;">Lassen Sie uns Ihre Veranstaltung planen</div>' +
+    '<div style="font-size:0.55rem;color:rgba(255,255,255,0.6);margin-top:4px;">Unser Team berät Sie gerne.</div></div>';
+  // FOOTER
+  h += '<div style="background:#0a1628;padding:12px 20px;text-align:center;font-size:0.5rem;color:rgba(255,255,255,0.3);">© 2025 Ellerbrock Konferenztechnik</div>';
+  return h;
+}
 
-  // Footer
-  html += '<div style="background:#003366;padding:14px 24px;text-align:center;"><span style="color:rgba(255,255,255,0.4);font-size:0.65rem;">Ellerbrock Konferenztechnik &copy; 2025</span></div>';
-
-  document.getElementById('previewBody').innerHTML = html;
+function pvTeam() {
+  var h = '';
+  var teamMembers = [
+    {img:'team-fabian-ellerbrock.jpg',name:'Fabian Ellerbrock',role:'Geschäftsführung'},
+    {img:'team-david-hintenlang.jpg',name:'David Hintenlang',role:'Technik'},
+    {img:'team-fabian-habel.jpg',name:'Fabian Habel',role:'Technik'},
+    {img:'team-joerg-raphael.jpg',name:'Jörg Raphael',role:'Vertrieb'},
+    {img:'team-julius-lampert.jpg',name:'Julius Lampert',role:'Technik'},
+    {img:'team-jochen-stiefel.jpg',name:'Jochen Stiefel',role:'Beratung'}
+  ];
+  // NAV
+  h += '<div style="background:#003366;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;">' +
+    '<img src="https://www.konferenz-technik.de/media/ellerbrock-logo.png" alt="" style="height:22px;filter:brightness(0) invert(1);opacity:0.85;">' +
+    '<div style="font-size:0.6rem;color:rgba(255,255,255,0.7);">← Startseite</div></div>';
+  // HERO
+  h += '<div class="pv-hero" style="height:120px;"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=60" alt="">' +
+    '<div class="pv-hero-overlay"></div><div class="pv-hero-text"><h3 style="font-size:1rem;">Unser Team</h3><p style="font-size:0.6rem;">Die Menschen hinter Ellerbrock Konferenztechnik</p></div></div>';
+  // TEAM GRID
+  h += '<div class="pv-section" style="background:#f8f9fa;">' +
+    '<div style="text-align:center;margin-bottom:14px;"><div class="pv-section-title" style="color:#4eb143;">Team</div><div style="font-size:0.85rem;font-weight:700;color:#003366;">Erfahrung und Kompetenz</div></div>' +
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">';
+  teamMembers.forEach(function(m, i) {
+    var map = getImageMap();
+    var src = map[m.img] || ('images/' + m.img);
+    var badge = map[m.img] ? '<div class="pv-img-badge">NEU</div>' : '';
+    var uid = 'pv_tm_' + i;
+    h += '<div style="background:white;border:1px solid #e5e7eb;border-radius:10px;padding:14px;text-align:center;cursor:pointer;" onclick="document.getElementById(\'' + uid + '\').click()">' +
+      '<div style="position:relative;display:inline-block;">' + badge +
+      '<img src="' + src + '" id="pvimg_' + uid + '" alt="' + m.name + '" style="width:65px;height:80px;object-fit:cover;border-radius:8px;">' +
+      '</div>' +
+      '<div style="font-size:0.7rem;font-weight:700;color:#003366;margin-top:8px;">' + m.name + '</div>' +
+      '<div style="font-size:0.55rem;color:#666;">' + m.role + '</div>' +
+      '<input type="file" id="' + uid + '" accept="image/*" style="display:none" onchange="previewImage(this,\'pvimg_' + uid + '\',\'' + m.img + '\')">' +
+      '</div>';
+  });
+  h += '</div></div>';
+  // CTA + FOOTER
+  h += '<div style="background:linear-gradient(135deg,#003366,#01566d);padding:20px;text-align:center;">' +
+    '<div style="font-size:0.8rem;font-weight:700;color:white;">Lassen Sie uns Ihre Veranstaltung planen</div></div>';
+  h += '<div style="background:#0a1628;padding:12px 20px;text-align:center;font-size:0.5rem;color:rgba(255,255,255,0.3);">© 2025 Ellerbrock Konferenztechnik</div>';
+  return h;
 }
 
 // Initial preview render
