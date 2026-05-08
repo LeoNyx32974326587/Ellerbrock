@@ -390,7 +390,6 @@
         </div>
         <div style="display:flex;gap:8px;align-items:flex-start;">
           <button onclick="publishToGitHub()" style="background:#4eb143;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">Bilder veröffentlichen</button>
-          <button onclick="showGitHubSetup()" title="GitHub-Einstellungen" style="background:transparent;border:1px solid var(--border);color:var(--text-light);padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13px;">&#9881;</button>
         <div class="view-toggle">
           <button class="view-toggle-btn active" onclick="switchGalleryView('preview', this)">Vorschau</button>
           <button class="view-toggle-btn" onclick="switchGalleryView('grid', this)">Alle Bilder</button>
@@ -762,6 +761,11 @@ var CLOUD_NAME = 'daiiz3u5t';
 var UPLOAD_PRESET = 'ellerbrock';
 var CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/image/upload';
 
+// ===== GITHUB CONFIG =====
+var GITHUB_OWNER = 'LeoNyx32974326587';
+var GITHUB_REPO = 'Ellerbrock';
+var GITHUB_TOKEN = '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';
+
 // Store mapping: filename -> cloudinary URL (local + cloud sync)
 function getImageMap() {
   var raw = localStorage.getItem('cloudinary_images');
@@ -772,58 +776,10 @@ function saveImageMap(map) {
 }
 
 // ===== GITHUB PUBLISH =====
-function getGitHubConfig() {
-  var raw = localStorage.getItem('github_config');
-  return raw ? JSON.parse(raw) : null;
-}
-function saveGitHubConfig(cfg) {
-  localStorage.setItem('github_config', JSON.stringify(cfg));
-}
-
-function showGitHubSetup() {
-  var existing = getGitHubConfig() || {};
-  var overlay = document.createElement('div');
-  overlay.id = 'ghSetupOverlay';
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999;';
-  overlay.innerHTML = '<div style="background:var(--bg-card);border-radius:16px;padding:32px;max-width:440px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">' +
-    '<h2 style="margin:0 0 8px;">GitHub Verbindung</h2>' +
-    '<p style="color:var(--text-light);font-size:13px;margin:0 0 20px;">Einmalige Einrichtung. Du brauchst einen <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:var(--teal);">Personal Access Token</a> mit <strong>Contents: Read &amp; Write</strong> Berechtigung für dein Repository.</p>' +
-    '<label style="font-size:12px;font-weight:600;color:var(--text-light);display:block;margin-bottom:4px;">GitHub Benutzername</label>' +
-    '<input id="ghUser" value="' + (existing.owner || '') + '" placeholder="z.B. mein-username" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-input);color:var(--text);font-size:14px;margin-bottom:12px;box-sizing:border-box;">' +
-    '<label style="font-size:12px;font-weight:600;color:var(--text-light);display:block;margin-bottom:4px;">Repository Name</label>' +
-    '<input id="ghRepo" value="' + (existing.repo || '') + '" placeholder="z.B. Ellerbrock" style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-input);color:var(--text);font-size:14px;margin-bottom:12px;box-sizing:border-box;">' +
-    '<label style="font-size:12px;font-weight:600;color:var(--text-light);display:block;margin-bottom:4px;">Personal Access Token</label>' +
-    '<input id="ghToken" type="password" value="' + (existing.token || '') + '" placeholder="github_pat_..." style="width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg-input);color:var(--text);font-size:14px;margin-bottom:20px;box-sizing:border-box;">' +
-    '<div style="display:flex;gap:8px;justify-content:flex-end;">' +
-    '<button onclick="document.getElementById(\'ghSetupOverlay\').remove()" style="padding:10px 20px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;font-size:14px;">Abbrechen</button>' +
-    '<button onclick="saveGitHubSetup()" style="padding:10px 20px;border-radius:8px;border:none;background:var(--teal);color:#fff;cursor:pointer;font-weight:700;font-size:14px;">Speichern &amp; Veröffentlichen</button>' +
-    '</div></div>';
-  document.body.appendChild(overlay);
-}
-
-function saveGitHubSetup() {
-  var owner = document.getElementById('ghUser').value.trim();
-  var repo = document.getElementById('ghRepo').value.trim();
-  var token = document.getElementById('ghToken').value.trim();
-  if (!owner || !repo || !token) {
-    showToast('Bitte alle Felder ausfüllen.');
-    return;
-  }
-  saveGitHubConfig({ owner: owner, repo: repo, token: token });
-  document.getElementById('ghSetupOverlay').remove();
-  showToast('GitHub-Verbindung gespeichert!');
-  publishToGitHub();
-}
-
 async function publishToGitHub() {
   var map = getImageMap();
   if (Object.keys(map).length === 0) {
     showToast('Keine Bilder zum Veröffentlichen.');
-    return;
-  }
-  var cfg = getGitHubConfig();
-  if (!cfg) {
-    showGitHubSetup();
     return;
   }
 
@@ -832,27 +788,21 @@ async function publishToGitHub() {
   var content = 'window.ELLERBROCK_IMAGES = ' + JSON.stringify(map, null, 2) + ';\n';
   var encoded = btoa(unescape(encodeURIComponent(content)));
 
-  var apiUrl = 'https://api.github.com/repos/' + cfg.owner + '/' + cfg.repo + '/contents/image-config.js';
+  var apiUrl = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/image-config.js';
   var headers = {
-    'Authorization': 'Bearer ' + cfg.token,
+    'Authorization': 'Bearer ' + GITHUB_TOKEN,
     'Content-Type': 'application/json',
     'Accept': 'application/vnd.github.v3+json'
   };
 
   try {
-    // Get current file SHA (needed for updates)
     var sha = null;
     var getRes = await fetch(apiUrl, { headers: headers });
     if (getRes.ok) {
       var fileData = await getRes.json();
       sha = fileData.sha;
-    } else if (getRes.status === 401 || getRes.status === 403) {
-      showToast('GitHub Token ungültig oder abgelaufen. Bitte neu einrichten.');
-      showGitHubSetup();
-      return;
     }
 
-    // Commit the file
     var body = { message: 'Bilder aktualisiert', content: encoded };
     if (sha) body.sha = sha;
 
@@ -866,15 +816,7 @@ async function publishToGitHub() {
       showToast('Bilder veröffentlicht! In 1-2 Minuten auf der Website sichtbar.');
     } else {
       var err = await putRes.json();
-      if (putRes.status === 401 || putRes.status === 403) {
-        showToast('GitHub Token ungültig. Bitte neu einrichten.');
-        showGitHubSetup();
-      } else if (putRes.status === 404) {
-        showToast('Repository nicht gefunden. Bitte Benutzername und Repo prüfen.');
-        showGitHubSetup();
-      } else {
-        showToast('Fehler: ' + (err.message || 'Unbekannt'));
-      }
+      showToast('Fehler: ' + (err.message || 'Unbekannt'));
     }
   } catch (e) {
     showToast('Verbindungsfehler: ' + e.message);
