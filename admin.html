@@ -1220,4 +1220,16 @@ function renderVisitChart(range, btn) {
     var count = stats.totals[page];
     var pct = Math.round((count / max) * 100);
     html += '<div class="visit-bar-row">' +
-      '<div class="visit-b
+      '<div class="visit-bar-label" title="' + page + '">' + label + '</div>' +
+      '<div class="visit-bar-track"><div class="visit-bar-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="visit-bar-count">' + count + '</div></div>';
+  });
+  container.innerHTML = html;
+}
+
+// Initial render
+renderVisitChart('all', null);
+</script>
+
+</body>
+</html>
