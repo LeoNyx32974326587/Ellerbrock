@@ -1883,7 +1883,6 @@ function submitContactForm(e) {
 })();
 </script>
 
-<script src="image-config.js"></script>
 <script src="cloudinary-loader.js"></script>
 <!-- Cloudinary Image Loader -->
 <script>
@@ -1920,9 +1919,7 @@ function submitContactForm(e) {
     });
     return;
   }
-  if(window.ELLERBROCK_IMAGES&&Object.keys(window.ELLERBROCK_IMAGES).length>0){
-    applyMap(window.ELLERBROCK_IMAGES);
-  }
+  /* handled by cloudinary-loader.js */
 })();
 </script>
 </body>
