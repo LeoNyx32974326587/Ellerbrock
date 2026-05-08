@@ -1877,6 +1877,7 @@ function submitContactForm(e) {
 <!-- Cloudinary Image Loader -->
 <script>
 (function(){
+  if(window.self!==window.top)return;
   function applyMap(map){
     if(!map)return;
     document.querySelectorAll('img[src^="images/"]').forEach(function(img){
@@ -1884,7 +1885,7 @@ function submitContactForm(e) {
       if(map[f])img.src=map[f];
     });
   }
-  try {
+  try{
     var u='https://res.cloudinary.com/daiiz3u5t/raw/upload/ellerbrock/image-map.json';
     fetch(u+'?t='+Date.now(),{cache:'no-store'})
       .then(function(r){return r.ok?r.json():null})
@@ -1894,7 +1895,7 @@ function submitContactForm(e) {
       }).catch(function(){
         var ls=localStorage.getItem('cloudinary_images');if(ls)applyMap(JSON.parse(ls));
       });
-  } catch(e){}
+  }catch(e){}
 })();
 </script>
 </body>

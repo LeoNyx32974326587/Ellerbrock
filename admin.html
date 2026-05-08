@@ -905,38 +905,12 @@ function injectPreviewOverlays(frame) {
       '.admin-img-badge{position:absolute;top:4px;left:4px;background:#4eb143;color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;z-index:101;}';
     doc.head.appendChild(hideStyle);
 
-    // Find all images with src="images/..." (check both src attribute and actual src)
+    // Loader doesn't run in iframe, so all images still have src="images/..."
     var imgs = doc.querySelectorAll('img[src^="images/"]');
     var imgMap = getImageMap();
 
-    // Also find images whose original src was replaced by Cloudinary loader
-    var allImgs = doc.querySelectorAll('img');
-    allImgs.forEach(function(img) {
-      var src = img.getAttribute('src') || '';
-      // Skip if already in our list (src starts with images/)
-      if (src.indexOf('images/') === 0) return;
-      // Check if src is a Cloudinary URL for one of our images
-      if (src.indexOf('res.cloudinary.com') !== -1 && src.indexOf('ellerbrock/') !== -1) {
-        // Find matching filename from map
-        var keys = Object.keys(imgMap);
-        for (var k = 0; k < keys.length; k++) {
-          if (imgMap[keys[k]] === src || src.indexOf(keys[k].replace('.jpg','').replace('.png','')) !== -1) {
-            img.setAttribute('data-original-filename', keys[k]);
-            break;
-          }
-        }
-      }
-    });
-
-    // Process standard images
     imgs.forEach(function(img) {
       var filename = img.getAttribute('src').replace('images/', '');
-      processPreviewImage(doc, img, filename, imgMap);
-    });
-
-    // Process Cloudinary-replaced images
-    doc.querySelectorAll('img[data-original-filename]').forEach(function(img) {
-      var filename = img.getAttribute('data-original-filename');
       processPreviewImage(doc, img, filename, imgMap);
     });
 
