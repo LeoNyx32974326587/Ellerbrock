@@ -2064,14 +2064,8 @@ function submitContactForm(e) {
     return;
   }
   /* Step 1: Apply immediately from already-loaded image-config.js */
-  if(window.ELLERBROCK_IMAGES) applyMap(window.ELLERBROCK_IMAGES);
-  /* Step 2: Also fetch latest from raw GitHub (bypasses Pages cache) */
-  fetch("https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/image-config.js?t="+Date.now())
-    .then(function(r){return r.text();})
-    .then(function(txt){
-      try{eval(txt);applyMap(window.ELLERBROCK_IMAGES);}catch(e){}
-    }).catch(function(){});
-})();
-</script>
-</body>
-</html>
+  var dbg=document.createElement('div');dbg.id='cl-debug';dbg.style.cssText='position:fixed;bottom:10px;left:10px;background:#222;color:#0f0;padding:8px 14px;border-radius:8px;font-size:12px;z-index:99999;font-family:monospace;';
+  dbg.textContent='Loader: init...';document.body.appendChild(dbg);
+  if(window.ELLERBROCK_IMAGES){
+    var keys=Object.keys(window.ELLERBROCK_IMAGES);
+    dbg.textContent='Config: '+keys.length+' Bilder geladen
