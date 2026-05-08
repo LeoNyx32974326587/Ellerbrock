@@ -267,20 +267,20 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 
 /* ===== INSTAGRAM GALLERY ===== */
 .insta-gallery { padding: 100px 0; background: var(--bg); }
-.insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.insta-grid a { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 1; display: block; }
-.insta-grid a img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
-.insta-grid a:hover img { transform: scale(1.06); }
-.insta-grid a::after {
+.galerie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1080px; margin: 0 auto; }
+.galerie-item { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 1; display: block; }
+.galerie-item img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+.galerie-item:hover img { transform: scale(1.06); }
+.galerie-item::after {
   content: ''; position: absolute; inset: 0;
   background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.4) 100%);
   opacity: 0; transition: var(--transition);
 }
-.insta-grid a:hover::after { opacity: 1; }
+.galerie-item:hover::after { opacity: 1; }
 .insta-follow { display: inline-flex; align-items: center; gap: 10px; margin-top: 40px; padding: 14px 32px; border-radius: 50px; background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); color: white; font-weight: 700; font-size: 0.95rem; transition: var(--transition); text-decoration: none; }
 .insta-follow:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(131,58,180,0.3); }
 @media (max-width: 768px) {
-  .insta-grid { grid-template-columns: repeat(2, 1fr); }
+  .galerie-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 480px) {
   .insta-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -797,11 +797,15 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
       <h2 class="section-title" data-i18n="insta.title">Aktuelles aus unserem Arbeitsalltag</h2>
       <p class="section-subtitle" data-i18n="insta.sub">Impressionen von Veranstaltungen, Technik-Setups und unserem Team im Einsatz.</p>
     </div>
-    <div class="fade-up" style="max-width:1080px;margin:0 auto;">
-      <script src="https://elfsightcdn.com/platform.js" async></script>
-      <div class="elfsight-app-2d34f383-6b4b-489f-b20c-d797104d28cd" data-elfsight-app-lazy></div>
+    <div class="galerie-grid fade-up">
+      <a href="images/galerie-1.jpg" class="galerie-item" target="_blank"><img src="images/galerie-1.jpg" alt="Einblick 1" loading="lazy"></a>
+      <a href="images/galerie-2.jpg" class="galerie-item" target="_blank"><img src="images/galerie-2.jpg" alt="Einblick 2" loading="lazy"></a>
+      <a href="images/galerie-3.jpg" class="galerie-item" target="_blank"><img src="images/galerie-3.jpg" alt="Einblick 3" loading="lazy"></a>
+      <a href="images/galerie-4.jpg" class="galerie-item" target="_blank"><img src="images/galerie-4.jpg" alt="Einblick 4" loading="lazy"></a>
+      <a href="images/galerie-5.jpg" class="galerie-item" target="_blank"><img src="images/galerie-5.jpg" alt="Einblick 5" loading="lazy"></a>
+      <a href="images/galerie-6.jpg" class="galerie-item" target="_blank"><img src="images/galerie-6.jpg" alt="Einblick 6" loading="lazy"></a>
     </div>
-    <div class="section-header" style="margin-bottom:0;margin-top:0;">
+    <div class="section-header" style="margin-bottom:0;margin-top:16px;">
       <a href="https://www.instagram.com/ellerbrockkonferenztechnik/" target="_blank" rel="noopener" class="insta-follow" data-i18n="insta.follow">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
         Folgen Sie uns auf Instagram
