@@ -1857,6 +1857,21 @@ function submitContactForm(e) {
   </div>
 </div>
 
+<!-- Page-View Tracking -->
+<script>
+(function(){
+  try {
+    var page = location.pathname.split('/').pop() || 'index.html';
+    if (page === 'admin.html') return;
+    var key = 'site_visits';
+    var data = JSON.parse(localStorage.getItem(key) || '{}');
+    var today = new Date().toISOString().split('T')[0];
+    if (!data[page]) data[page] = [];
+    data[page].push(today);
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch(e){}
+})();
+</script>
 </body>
 
 

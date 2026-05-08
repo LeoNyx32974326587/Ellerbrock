@@ -142,6 +142,24 @@
     .btn-danger:hover { background: rgba(239,68,68,0.25); }
     .btn-row { display: flex; gap: 10px; margin-top: 20px; }
 
+    /* Visit Chart */
+    .visit-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.82rem; }
+    .visit-bar-label { width: 140px; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+    .visit-bar-track { flex: 1; height: 22px; background: var(--bg-input); border-radius: 6px; overflow: hidden; position: relative; }
+    .visit-bar-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--accent)); border-radius: 6px; transition: width 0.6s ease; min-width: 2px; }
+    .visit-bar-count { width: 40px; text-align: right; color: white; font-weight: 600; flex-shrink: 0; }
+    .visit-time-range { display: flex; gap: 6px; margin-bottom: 16px; }
+    .visit-time-btn { padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; border: 1px solid var(--border); background: var(--bg-input); color: var(--text-light); cursor: pointer; font-family: inherit; transition: all 0.2s; }
+    .visit-time-btn.active { background: rgba(1,86,109,0.15); color: var(--teal); border-color: var(--teal); }
+
+    /* Gallery Quick Access */
+    .gallery-quick { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+    .gallery-quick-item { aspect-ratio: 1; border-radius: 8px; overflow: hidden; cursor: pointer; position: relative; border: 2px solid transparent; transition: all 0.2s; }
+    .gallery-quick-item:hover { border-color: var(--teal); transform: scale(1.05); }
+    .gallery-quick-item img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-quick-item span { position: absolute; bottom: 0; left: 0; right: 0; padding: 4px; background: rgba(0,0,0,0.7); color: white; font-size: 0.65rem; text-align: center; font-weight: 600; opacity: 0; transition: opacity 0.2s; }
+    .gallery-quick-item:hover span { opacity: 1; }
+
     /* Quick Links */
     .quick-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .quick-link {
@@ -277,14 +295,14 @@
       </div>
       <div class="stats-grid">
         <div class="stat-card">
+          <div class="stat-card-label">Aufrufe gesamt</div>
+          <div class="stat-card-value" id="statTotalViews">0</div>
+          <div class="stat-card-sub" id="statTodayViews">Heute: 0</div>
+        </div>
+        <div class="stat-card">
           <div class="stat-card-label">HTML-Seiten</div>
           <div class="stat-card-value">22</div>
           <div class="stat-card-sub">Alle aktiv</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">Galerie-Bilder</div>
-          <div class="stat-card-value">6</div>
-          <div class="stat-card-sub">Einblicke-Sektion</div>
         </div>
         <div class="stat-card">
           <div class="stat-card-label">Sprachen</div>
@@ -297,6 +315,50 @@
           <div class="stat-card-sub">Abtsteinach, Berlin, Bonn</div>
         </div>
       </div>
+
+      <!-- Aufrufe Chart -->
+      <div class="card">
+        <h3>Seitenaufrufe</h3>
+        <div class="visit-time-range">
+          <button class="visit-time-btn active" onclick="renderVisitChart('all', this)">Gesamt</button>
+          <button class="visit-time-btn" onclick="renderVisitChart('today', this)">Heute</button>
+          <button class="visit-time-btn" onclick="renderVisitChart('7d', this)">7 Tage</button>
+          <button class="visit-time-btn" onclick="renderVisitChart('30d', this)">30 Tage</button>
+        </div>
+        <div id="visitChart"></div>
+        <p style="font-size:0.78rem;color:var(--text-light);margin-top:12px;margin-bottom:0;">Tracking via localStorage — Aufrufe werden lokal im Browser gezählt.</p>
+      </div>
+
+      <!-- Galerie Quick Access -->
+      <div class="card">
+        <h3>Einblicke — Galerie</h3>
+        <p>Schnellzugriff auf die 6 Galerie-Bilder der Startseite.</p>
+        <div class="gallery-quick">
+          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
+            <img src="images/galerie-1.jpg" alt="Galerie 1"><span>Bild 1</span>
+          </div>
+          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
+            <img src="images/galerie-2.jpg" alt="Galerie 2"><span>Bild 2</span>
+          </div>
+          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
+            <img src="images/galerie-3.jpg" alt="Galerie 3"><span>Bild 3</span>
+          </div>
+          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
+            <img src="images/galerie-4.jpg" alt="Galerie 4"><span>Bild 4</span>
+          </div>
+          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
+            <img src="images/galerie-5.jpg" alt="Galerie 5"><span>Bild 5</span>
+          </div>
+          <div class="gallery-quick-item" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">
+            <img src="images/galerie-6.jpg" alt="Galerie 6"><span>Bild 6</span>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="admin-btn btn-secondary" onclick="showPanel('galerie', document.querySelectorAll('.sidebar-link')[1])">Galerie verwalten &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
       <div class="card">
         <h3>Schnellzugriff</h3>
         <div class="quick-links">
@@ -795,6 +857,90 @@ function renderUserList() {
 
 // Render user list on load
 renderUserList();
+
+// ===== VISIT TRACKING DASHBOARD =====
+var PAGE_NAMES = {
+  'index.html':'Startseite','ueber-uns.html':'Über uns','karriere.html':'Karriere',
+  'dolmetscheranlagen.html':'Dolmetscheranlagen','ted.html':'Ted-Abstimmsysteme',
+  'fuehrungsanlagen.html':'Führungsanlagen','diskussionssysteme.html':'Diskussionssysteme',
+  'beschallungstechnik.html':'Beschallungstechnik','videotechnik.html':'Videotechnik',
+  'kauf.html':'Produkte kaufen','miete.html':'Produkte mieten','produkte.html':'Produkte Bestand',
+  'standort-abtsteinach.html':'Standort Abtsteinach','standort-berlin.html':'Standort Berlin',
+  'standort-bonn.html':'Standort Bonn','filme.html':'Filme & Guides','downloads.html':'Downloads',
+  'kontakt.html':'Kontakt','kontaktformular.html':'Kontaktformular','rueckrufservice.html':'Rückrufservice',
+  'impressum.html':'Impressum','datenschutz.html':'Datenschutz'
+};
+
+function getVisitData() {
+  var raw = localStorage.getItem('site_visits');
+  return raw ? JSON.parse(raw) : {};
+}
+
+function calcStats(range) {
+  var data = getVisitData();
+  var now = new Date();
+  var today = now.toISOString().split('T')[0];
+  var totals = {};
+  var grandTotal = 0;
+  var todayTotal = 0;
+
+  Object.keys(data).forEach(function(page) {
+    var entries = data[page]; // array of date strings
+    if (!Array.isArray(entries)) { entries = []; }
+    var count = 0;
+    entries.forEach(function(dateStr) {
+      var dominated = true;
+      if (range === 'today') { dominated = (dateStr === today); }
+      else if (range === '7d') {
+        var d = new Date(dateStr); var diff = (now - d) / 86400000; dominated = diff <= 7;
+      } else if (range === '30d') {
+        var d2 = new Date(dateStr); var diff2 = (now - d2) / 86400000; dominated = diff2 <= 30;
+      }
+      if (dominated) count++;
+      if (dateStr === today) todayTotal++;
+    });
+    if (count > 0) totals[page] = count;
+    grandTotal += entries.length;
+  });
+  return { totals: totals, grandTotal: grandTotal, todayTotal: todayTotal };
+}
+
+function renderVisitChart(range, btn) {
+  if (btn) {
+    document.querySelectorAll('.visit-time-btn').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active');
+  }
+  var stats = calcStats(range);
+  var container = document.getElementById('visitChart');
+
+  // Update stat cards
+  document.getElementById('statTotalViews').textContent = stats.grandTotal;
+  document.getElementById('statTodayViews').textContent = 'Heute: ' + stats.todayTotal;
+
+  // Sort pages by count descending
+  var sorted = Object.keys(stats.totals).sort(function(a,b){ return stats.totals[b] - stats.totals[a]; });
+  var max = sorted.length > 0 ? stats.totals[sorted[0]] : 1;
+
+  if (sorted.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:32px 0;color:var(--text-light);font-size:0.88rem;">Noch keine Aufrufe' + (range !== 'all' ? ' in diesem Zeitraum' : '') + ' erfasst.<br><small style="margin-top:8px;display:inline-block;">Aufrufe werden automatisch gezählt, sobald Besucher die Seiten öffnen.</small></div>';
+    return;
+  }
+
+  var html = '';
+  sorted.forEach(function(page) {
+    var label = PAGE_NAMES[page] || page;
+    var count = stats.totals[page];
+    var pct = Math.round((count / max) * 100);
+    html += '<div class="visit-bar-row">' +
+      '<div class="visit-bar-label" title="' + page + '">' + label + '</div>' +
+      '<div class="visit-bar-track"><div class="visit-bar-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="visit-bar-count">' + count + '</div></div>';
+  });
+  container.innerHTML = html;
+}
+
+// Initial render
+renderVisitChart('all', null);
 </script>
 
 </body>
