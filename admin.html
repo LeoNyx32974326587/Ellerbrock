@@ -757,8 +757,7 @@ function renderGalleryPanel(filterCat) {
 var CLOUD_NAME = 'daiiz3u5t';
 var UPLOAD_PRESET = 'ellerbrock';
 var CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/image/upload';
-var CLOUDINARY_RAW_URL = 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/raw/upload';
-var IMAGE_MAP_URL = 'https://res.cloudinary.com/' + CLOUD_NAME + '/raw/upload/ellerbrock/image-map.json';
+var IMAGE_MAP_BLOB = 'https://jsonblob.com/api/jsonBlob/019e0764-7d58-7e93-a0ea-60217db84d0a';
 
 // Store mapping: filename -> cloudinary URL (local + cloud sync)
 function getImageMap() {
@@ -770,26 +769,25 @@ function saveImageMap(map) {
   syncImageMap(map);
 }
 
-// Sync image map to Cloudinary so all visitors can load it
+// Sync image map to jsonblob so all visitors can load it
 function syncImageMap(map) {
-  var json = JSON.stringify(map);
-  var blob = new Blob([json], {type: 'application/json'});
-  var formData = new FormData();
-  formData.append('file', blob, 'image-map.json');
-  formData.append('upload_preset', UPLOAD_PRESET);
-  formData.append('public_id', 'ellerbrock/image-map');
-  formData.append('invalidate', 'true');
-  fetch(CLOUDINARY_RAW_URL, { method: 'POST', body: formData })
+  fetch(IMAGE_MAP_BLOB, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(map)
+  })
     .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data.secure_url) {
-        console.log('Image map synced:', data.secure_url);
-      } else {
-        console.log('Image map sync error:', data);
-      }
-    })
-    .catch(function(err) { console.log('Image map sync failed:', err); });
+    .then(function() { console.log('Image map synced to jsonblob'); })
+    .catch(function(err) { console.log('Sync failed:', err); });
 }
+
+// Auto-sync on admin load if images exist in localStorage
+(function() {
+  var map = getImageMap();
+  if (Object.keys(map).length > 0) {
+    syncImageMap(map);
+  }
+})();
 
 function previewImage(input, previewId, filename) {
   if (input.files && input.files[0]) {
@@ -807,7 +805,7 @@ function previewImage(input, previewId, filename) {
     var formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', UPLOAD_PRESET);
-    formData.append('public_id', 'ellerbrock/' + filename.replace('.jpg','').replace('.png','').replace('.webp',''));
+    formData.append('public_id', 'ellerbrock/' + filename.replace('.jpg','').replace('.png','').replace('.webp','') + '-' + Date.now());
 
     fetch(CLOUDINARY_URL, { method: 'POST', body: formData })
       .then(function(res) { return res.json(); })
@@ -913,7 +911,7 @@ document.getElementById('iframeUploadInput').addEventListener('change', function
   var formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', UPLOAD_PRESET);
-  formData.append('public_id', 'ellerbrock/' + filename.replace('.jpg','').replace('.png','').replace('.webp',''));
+  formData.append('public_id', 'ellerbrock/' + filename.replace('.jpg','').replace('.png','').replace('.webp','') + '-' + Date.now());
 
   fetch(CLOUDINARY_URL, { method: 'POST', body: formData })
     .then(function(res) { return res.json(); })
@@ -923,7 +921,6 @@ document.getElementById('iframeUploadInput').addEventListener('change', function
         map[filename] = data.secure_url;
         saveImageMap(map);
         showToast('Bild "' + filename + '" hochgeladen!');
-        // Refresh preview
         renderPreview(currentPreviewPage);
         renderGalleryPanel(activeGalleryCat);
       } else {

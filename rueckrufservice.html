@@ -1906,13 +1906,11 @@ function submitContactForm(e) {
     return;
   }
   try{
-    var u='https://res.cloudinary.com/daiiz3u5t/raw/upload/ellerbrock/image-map.json';
-    fetch(u+'?t='+Date.now(),{cache:'no-store'})
+    fetch('https://jsonblob.com/api/jsonBlob/019e0764-7d58-7e93-a0ea-60217db84d0a',{cache:'no-store'})
       .then(function(r){return r.ok?r.json():null})
       .then(function(map){
-        if(map){applyMap(map);}
-        else{var ls=localStorage.getItem('cloudinary_images');if(ls)applyMap(JSON.parse(ls));}
-      }).catch(function(){var ls=localStorage.getItem('cloudinary_images');if(ls)applyMap(JSON.parse(ls));});
+        if(map&&Object.keys(map).length>0){applyMap(map);}
+      }).catch(function(){});
   }catch(e){}
 })();
 </script>
