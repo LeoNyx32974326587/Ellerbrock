@@ -136,56 +136,71 @@
     .quick-link { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; color: var(--text); transition: all 0.2s; }
     .quick-link:hover { border-color: var(--teal); color: white; transform: translateY(-2px); }
     .quick-link-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-    .msg-card-actions{display:flex;gap:6px;margin-top:8px;}
-    .msg-action-btn{padding:4px 12px;border-radius:6px;font-size:0.75rem;font-weight:600;border:none;cursor:pointer;font-family:inherit;transition:all 0.2s;}
-    .msg-action-btn:hover{transform:translateY(-1px);}
-    .msg-action-done{background:rgba(78,177,67,0.15);color:var(--accent);}
-    .msg-action-done:hover{background:rgba(78,177,67,0.25);}
-    .msg-action-undone{background:rgba(1,86,109,0.15);color:var(--teal);}
-    .msg-action-undone:hover{background:rgba(1,86,109,0.25);}
-    .msg-action-delete{background:rgba(239,68,68,0.1);color:#ef4444;}
-    .msg-action-delete:hover{background:rgba(239,68,68,0.2);}
-    .msg-card.msg-done{opacity:0.6;}
-    .msg-card.msg-deleted{opacity:0.5;border-left:3px solid #ef4444;background:rgba(239,68,68,0.03);}
-    .msg-card.msg-deleted:hover{opacity:0.75;}
-    .msg-action-restore{background:rgba(1,86,109,0.15);color:var(--teal);}
-    .msg-action-restore:hover{background:rgba(1,86,109,0.25);}
-    .msg-action-permdelete{background:rgba(239,68,68,0.15);color:#ef4444;}
-    .msg-action-permdelete:hover{background:rgba(239,68,68,0.25);}
-    .msg-card.msg-claimed{border-left:3px solid #f59e0b;}
-    .msg-card.msg-archived{opacity:0.55;border-left:3px solid #8b5cf6;}
-    .msg-card.msg-archived:hover{opacity:0.75;}
-    .msg-archived-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:6px;background:rgba(139,92,246,0.15);color:#8b5cf6;}
-    .msg-action-archive{background:rgba(139,92,246,0.15);color:#8b5cf6;}
-    .msg-action-archive:hover{background:rgba(139,92,246,0.25);}
-    .msg-action-unarchive{background:rgba(139,92,246,0.1);color:#8b5cf6;}
-    .msg-action-unarchive:hover{background:rgba(139,92,246,0.2);}
-    .msg-archive-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.15);border-radius:var(--radius);margin-bottom:16px;}
-    .msg-archive-header span{font-size:0.9rem;color:#8b5cf6;font-weight:600;}
-    .msg-claimed-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:6px;background:rgba(245,158,11,0.15);color:#f59e0b;}
-    .msg-action-claim{background:rgba(245,158,11,0.15);color:#f59e0b;}
-    .msg-action-claim:hover{background:rgba(245,158,11,0.25);}
-    .msg-action-unclaim{background:rgba(245,158,11,0.1);color:#f59e0b;}
-    .msg-action-unclaim:hover{background:rgba(245,158,11,0.2);}
-    .msg-trash-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius:var(--radius);margin-bottom:16px;}
-    .msg-trash-header span{font-size:0.9rem;color:#ef4444;font-weight:600;}
-    .msg-card.msg-done:hover{opacity:0.85;}
-    .msg-card.msg-done .msg-card-from{text-decoration:line-through;text-decoration-color:var(--text-light);}
-    .msg-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:12px;transition:all 0.2s;cursor:pointer;}
-    .msg-card:hover{border-color:var(--teal);transform:translateY(-1px);}
+    /* ── Nachrichten: Tabs ── */
+    .msg-tabs{display:flex;gap:2px;background:var(--bg-input);border-radius:10px;padding:3px;margin-bottom:24px;}
+    .msg-tab{flex:1;padding:10px 8px;border-radius:8px;font-size:0.8rem;font-weight:600;border:none;background:none;color:var(--text-light);cursor:pointer;font-family:inherit;transition:all 0.2s;text-align:center;white-space:nowrap;position:relative;}
+    .msg-tab:hover{color:white;background:rgba(255,255,255,0.05);}
+    .msg-tab.active{background:var(--bg-card);color:white;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+    .msg-tab-badge{display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;border-radius:9px;font-size:0.65rem;font-weight:700;margin-left:6px;padding:0 5px;}
+    .msg-tab-count{color:var(--accent);background:rgba(78,177,67,0.15);}
+    .msg-tab-muted{color:var(--text-light);background:var(--bg-input);}
+    /* ── Nachrichten: Sektion-Header ── */
+    .msg-section-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-radius:10px;margin-bottom:16px;}
+    .msg-section-header.sec-trash{background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.12);}
+    .msg-section-header.sec-archive{background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.12);}
+    .msg-section-header .sec-title{font-size:0.88rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+    .msg-section-header.sec-trash .sec-title{color:#ef4444;}
+    .msg-section-header.sec-archive .sec-title{color:#8b5cf6;}
+    .msg-section-header .sec-action{padding:5px 14px;border-radius:6px;font-size:0.75rem;font-weight:600;border:none;cursor:pointer;font-family:inherit;transition:all 0.15s;}
+    .msg-section-header.sec-trash .sec-action{background:rgba(239,68,68,0.12);color:#ef4444;}
+    .msg-section-header.sec-archive .sec-action{background:rgba(139,92,246,0.12);color:#8b5cf6;}
+    .msg-section-header .sec-action:hover{filter:brightness(1.2);}
+    /* ── Nachrichten: Karten ── */
+    .msg-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:0;margin-bottom:10px;transition:all 0.2s;overflow:hidden;}
+    .msg-card:hover{border-color:rgba(1,86,109,0.4);box-shadow:0 4px 16px rgba(0,0,0,0.15);}
+    .msg-card-body{padding:18px 22px 14px;cursor:pointer;}
+    .msg-card-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+    .msg-card-type{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;padding:3px 10px;border-radius:20px;}
+    .msg-type-kontakt{background:rgba(1,86,109,0.12);color:var(--teal);}
+    .msg-type-rueckruf{background:rgba(78,177,67,0.12);color:var(--accent);}
+    .msg-badge{font-size:0.68rem;font-weight:700;padding:2px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;}
+    .msg-badge-claim{background:rgba(245,158,11,0.12);color:#f59e0b;}
+    .msg-badge-archive{background:rgba(139,92,246,0.12);color:#8b5cf6;}
+    .msg-badge-done{background:rgba(78,177,67,0.12);color:var(--accent);}
+    .msg-badge-unread{background:rgba(78,177,67,0.15);color:var(--accent);}
+    .msg-card-date{font-size:0.75rem;color:var(--text-light);margin-left:auto;}
+    .msg-card-from{font-size:0.95rem;font-weight:600;color:white;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+    .msg-card-preview{font-size:0.84rem;color:var(--text-light);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
     .msg-card.msg-unread{border-left:3px solid var(--accent);}
-    .msg-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-    .msg-card-type{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:3px 10px;border-radius:6px;}
-    .msg-type-kontakt{background:rgba(1,86,109,0.15);color:var(--teal);}
-    .msg-type-rueckruf{background:rgba(78,177,67,0.15);color:var(--accent);}
-    .msg-card-date{font-size:0.78rem;color:var(--text-light);}
-    .msg-card-from{font-size:0.95rem;font-weight:600;color:white;margin-bottom:4px;}
-    .msg-card-preview{font-size:0.85rem;color:var(--text-light);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
-    .msg-detail{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px;}
-    .msg-detail-row{display:flex;padding:10px 0;border-bottom:1px solid var(--border);font-size:0.88rem;}
+    .msg-card.msg-done{opacity:0.55;}
+    .msg-card.msg-done:hover{opacity:0.8;}
+    .msg-card.msg-done .msg-card-from span:first-child{text-decoration:line-through;text-decoration-color:var(--text-light);}
+    .msg-card.msg-deleted{opacity:0.45;border-left:3px solid #ef4444;}
+    .msg-card.msg-deleted:hover{opacity:0.7;}
+    .msg-card.msg-claimed{border-left:3px solid #f59e0b;}
+    .msg-card.msg-archived{opacity:0.5;}
+    .msg-card.msg-archived:hover{opacity:0.75;}
+    /* ── Nachrichten: Karten-Aktionen ── */
+    .msg-card-actions{display:flex;gap:0;border-top:1px solid var(--border);background:rgba(0,0,0,0.15);}
+    .msg-act{flex:1;padding:9px 6px;font-size:0.73rem;font-weight:600;border:none;background:none;cursor:pointer;font-family:inherit;transition:all 0.15s;color:var(--text-light);text-align:center;border-right:1px solid var(--border);}
+    .msg-act:last-child{border-right:none;}
+    .msg-act:hover{background:rgba(255,255,255,0.05);color:white;}
+    .msg-act.act-green:hover{color:var(--accent);background:rgba(78,177,67,0.08);}
+    .msg-act.act-yellow:hover{color:#f59e0b;background:rgba(245,158,11,0.08);}
+    .msg-act.act-purple:hover{color:#8b5cf6;background:rgba(139,92,246,0.08);}
+    .msg-act.act-red:hover{color:#ef4444;background:rgba(239,68,68,0.08);}
+    .msg-act.act-teal:hover{color:var(--teal);background:rgba(1,86,109,0.08);}
+    /* ── Nachrichten: Detail ── */
+    .msg-detail{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;}
+    .msg-detail-header{padding:22px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+    .msg-detail-badges{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+    .msg-detail-body{padding:0 28px;}
+    .msg-detail-row{display:flex;padding:14px 0;border-bottom:1px solid var(--border);font-size:0.88rem;}
     .msg-detail-row:last-child{border-bottom:none;}
-    .msg-detail-label{width:160px;color:var(--text-light);font-weight:600;flex-shrink:0;}
+    .msg-detail-label{width:160px;color:var(--text-light);font-weight:600;flex-shrink:0;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.04em;}
     .msg-detail-value{color:white;flex:1;word-break:break-word;}
+    .msg-detail-actions{padding:18px 28px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;}
+    .msg-detail-actions .admin-btn{font-size:0.82rem;}
     .toast { position: fixed; bottom: 32px; right: 32px; padding: 14px 24px; background: var(--accent); color: white; border-radius: 10px; font-size: 0.88rem; font-weight: 600; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 9999; box-shadow: 0 8px 24px rgba(78,177,67,0.3); }
     .toast.show { transform: translateY(0); opacity: 1; }
     .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border); }
@@ -267,9 +282,22 @@
       <div class="card"><h3>CTA / Kontakt</h3><div class="edit-group"><label>Überschrift</label><input type="text" id="editCtaTitle" value="Lassen Sie uns Ihre Veranstaltung planen"></div><div class="edit-group"><label>Beschreibung</label><textarea id="editCtaSub">Unser Team berät Sie gerne — ob Miete, Kauf oder technischer Support.</textarea></div><div class="btn-row"><button class="admin-btn btn-save" onclick="saveContent()">Änderungen speichern</button><button class="admin-btn btn-secondary" onclick="exportContent()">Als Textdatei exportieren</button></div></div>
     </div>
     <div class="panel" id="panel-nachrichten">
-      <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;"><div><h1>Nachrichten</h1><p>Eingegangene Anfragen vom Kontaktformular und Rückrufservice.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="visit-time-btn active" id="msgFilterAll" onclick="filterMessages('all',this)">Alle</button><button class="visit-time-btn" onclick="filterMessages('unbearbeitet',this)">Unbearbeitet</button><button class="visit-time-btn" onclick="filterMessages('bearbeitet',this)">Bearbeitet</button><button class="visit-time-btn" onclick="filterMessages('Kontaktformular',this)">Kontaktformular</button><button class="visit-time-btn" onclick="filterMessages('Rückrufservice',this)">Rückrufservice</button><button class="visit-time-btn" onclick="filterMessages('mein-archiv',this)" style="color:#6366f1;">&#128230; Mein Archiv</button><button class="visit-time-btn" onclick="filterMessages('archiv-alle',this)" style="color:#8b5cf6;">&#128230; Archiv (Alle)</button><button class="visit-time-btn" onclick="filterMessages('geloescht',this)" style="color:#ef4444;">&#128465; Gelöscht</button></div></div>
+      <div class="admin-header"><h1>Nachrichten</h1><p>Eingegangene Anfragen vom Kontaktformular und Rückrufservice.</p></div>
+      <div class="msg-tabs" id="msgTabs">
+        <button class="msg-tab active" onclick="filterMessages('all',this)">Posteingang</button>
+        <button class="msg-tab" onclick="filterMessages('unbearbeitet',this)">Offen</button>
+        <button class="msg-tab" onclick="filterMessages('bearbeitet',this)">Erledigt</button>
+        <button class="msg-tab" onclick="filterMessages('mein-archiv',this)">Mein Archiv</button>
+        <button class="msg-tab" onclick="filterMessages('archiv-alle',this)">Archiv</button>
+        <button class="msg-tab" onclick="filterMessages('geloescht',this)">Papierkorb</button>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;" id="msgTypeFilter">
+        <button class="visit-time-btn active" onclick="setTypeFilter('all',this)">Alle Typen</button>
+        <button class="visit-time-btn" onclick="setTypeFilter('Kontaktformular',this)">Kontaktformular</button>
+        <button class="visit-time-btn" onclick="setTypeFilter('Rückrufservice',this)">Rückrufservice</button>
+      </div>
       <div id="msgLoading" style="text-align:center;padding:40px;color:var(--text-light);">Nachrichten werden geladen...</div>
-      <div id="msgEmpty" style="display:none;text-align:center;padding:60px 20px;"><div style="font-size:3rem;margin-bottom:12px;">📭</div><div style="color:var(--text-light);font-size:0.95rem;">Noch keine Nachrichten eingegangen.</div></div>
+      <div id="msgEmpty" style="display:none;text-align:center;padding:60px 20px;"><div style="font-size:3rem;margin-bottom:16px;opacity:0.4;">&#128172;</div><div style="color:var(--text-light);font-size:0.95rem;">Keine Nachrichten in dieser Ansicht.</div></div>
       <div id="msgList"></div>
     </div>
     <div class="panel" id="panel-seiten"><div class="admin-header"><h1>Seiten-Übersicht</h1><p>Alle 22 HTML-Seiten der Website im Überblick.</p></div><div class="card"><ul class="page-list" id="pageList"></ul></div></div>
@@ -365,125 +393,162 @@ function renderMessages(){
   var list=document.getElementById('msgList');
   var msgs=[];
   _messagesCache.forEach(function(m,i){m._origIdx=i;msgs.push(m);});
-  var _currentUser=sessionStorage.getItem('admin_name')||'Admin';
+  var _cu=sessionStorage.getItem('admin_name')||'Admin';
+  // Status filter
   if(_msgFilter==='geloescht'){msgs=msgs.filter(function(m){return !!m.deleted;});}
-  else if(_msgFilter==='mein-archiv'){msgs=msgs.filter(function(m){return !m.deleted&&m.archivedBy&&m.archivedBy.indexOf(_currentUser)!==-1;});}
+  else if(_msgFilter==='mein-archiv'){msgs=msgs.filter(function(m){return !m.deleted&&m.archivedBy&&m.archivedBy.indexOf(_cu)!==-1;});}
   else if(_msgFilter==='archiv-alle'){msgs=msgs.filter(function(m){return !m.deleted&&!!m.archivedForAll;});}
   else{
     msgs=msgs.filter(function(m){return !m.deleted&&!m.archivedForAll&&!(m.archivedBy&&m.archivedBy.length>0);});
     if(_msgFilter==='unbearbeitet'){msgs=msgs.filter(function(m){return !m.done;});}
     else if(_msgFilter==='bearbeitet'){msgs=msgs.filter(function(m){return !!m.done;});}
-    else if(_msgFilter!=='all'){msgs=msgs.filter(function(m){return m._formtype===_msgFilter;});}
   }
+  // Type filter
+  if(_msgTypeFilter&&_msgTypeFilter!=='all'){msgs=msgs.filter(function(m){return m._formtype===_msgTypeFilter;});}
+  // Update tab badges
+  updateTabBadges();
   if(msgs.length===0){document.getElementById('msgEmpty').style.display='block';list.innerHTML='';return;}
   document.getElementById('msgEmpty').style.display='none';
   var html='';
-  if(_msgFilter==='geloescht'){html+='<div class="msg-trash-header"><span>&#128465; Papierkorb ('+msgs.length+' Nachrichten)</span><button class="msg-action-btn msg-action-permdelete" onclick="emptyTrash()">Papierkorb leeren</button></div>';}
-  if(_msgFilter==='mein-archiv'){html+='<div class="msg-archive-header"><span>&#128230; Mein Archiv ('+msgs.length+' Nachrichten)</span><span style="font-size:0.8rem;color:var(--text-light);">Nur für dich sichtbar</span></div>';}
-  if(_msgFilter==='archiv-alle'){html+='<div class="msg-archive-header"><span>&#128230; Archiv für alle ('+msgs.length+' Nachrichten)</span><span style="font-size:0.8rem;color:var(--text-light);">Für alle Benutzer archiviert</span></div>';}
+  // Section headers
+  if(_msgFilter==='geloescht'){html+='<div class="msg-section-header sec-trash"><span class="sec-title">&#128465; '+msgs.length+' gelöschte Nachrichten</span><button class="sec-action" onclick="emptyTrash()">Papierkorb leeren</button></div>';}
+  if(_msgFilter==='mein-archiv'){html+='<div class="msg-section-header sec-archive"><span class="sec-title">&#128230; '+msgs.length+' archivierte Nachrichten</span><span style="font-size:0.78rem;color:var(--text-light);">Persönliches Archiv</span></div>';}
+  if(_msgFilter==='archiv-alle'){html+='<div class="msg-section-header sec-archive"><span class="sec-title">&#128230; '+msgs.length+' archivierte Nachrichten</span><span style="font-size:0.78rem;color:var(--text-light);">Globales Archiv</span></div>';}
   msgs.forEach(function(m){
     var oi=m._origIdx;
-    var isKontakt=m._formtype==='Kontaktformular';
-    var typeClass=isKontakt?'msg-type-kontakt':'msg-type-rueckruf';
-    var typeLabel=isKontakt?'Kontaktformular':'Rückrufservice';
-    var dateStr='';
-    if(m.date){var d=new Date(m.date);dateStr=d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
-    var preview=isKontakt?(m.betreff||m.nachricht||'Keine Nachricht'):(m.nachricht||((m.gewuenschter_tag&&m.gewuenschter_tag!=='-')?'Rückruf am '+m.gewuenschter_tag+(m.gewuenschte_uhrzeit&&m.gewuenschte_uhrzeit!=='-'?' um '+m.gewuenschte_uhrzeit:''):'Rückruf angefragt'));
-    var classes='msg-card';
-    if(m.deleted)classes+=' msg-deleted';
-    else if(m.read===false)classes+=' msg-unread';
-    if(m.done&&!m.deleted)classes+=' msg-done';
-    if(m.claimedBy&&!m.deleted&&!m.done)classes+=' msg-claimed';
-    if(m.archivedForAll||(m.archivedBy&&m.archivedBy.indexOf(_currentUser)!==-1))classes+=' msg-archived';
-    html+='<div class="'+classes+'">';
-    html+='<div class="msg-card-head"><span class="msg-card-type '+typeClass+'">'+typeLabel+'</span><div style="display:flex;align-items:center;gap:8px;">';
-    if(m.claimedBy&&!m.deleted)html+='<span class="msg-claimed-badge">&#9998; '+escHtml(m.claimedBy)+'</span>';
-    if(m.archivedForAll)html+='<span class="msg-archived-badge">&#128230; Archiviert</span>';
-    else if(m.archivedBy&&m.archivedBy.length>0)html+='<span class="msg-archived-badge">&#128230; '+m.archivedBy.length+'x archiviert</span>';
-    if(m.done)html+='<span style="font-size:0.7rem;font-weight:600;color:var(--accent);">&#10003; Bearbeitet</span>';
-    html+='<span class="msg-card-date">'+dateStr+'</span></div></div>';
-    html+='<div class="msg-card-from" onclick="showMessage('+oi+')" style="cursor:pointer;">'+(m.name||'Unbekannt')+(m.firma?' — '+m.firma:'')+'</div>';
-    html+='<div class="msg-card-preview" onclick="showMessage('+oi+')" style="cursor:pointer;">'+escHtml(preview)+'</div>';
+    var isK=m._formtype==='Kontaktformular';
+    var tc=isK?'msg-type-kontakt':'msg-type-rueckruf';
+    var tl=isK?'Kontakt':'Rückruf';
+    var ds='';
+    if(m.date){var d=new Date(m.date);ds=d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
+    var pv=isK?(m.betreff||m.nachricht||'Keine Nachricht'):(m.nachricht||((m.gewuenschter_tag&&m.gewuenschter_tag!=='-')?'Rückruf am '+m.gewuenschter_tag+(m.gewuenschte_uhrzeit&&m.gewuenschte_uhrzeit!=='-'?' um '+m.gewuenschte_uhrzeit:''):'Rückruf angefragt'));
+    var cl='msg-card';
+    if(m.deleted)cl+=' msg-deleted';
+    else if(m.read===false)cl+=' msg-unread';
+    if(m.done&&!m.deleted)cl+=' msg-done';
+    if(m.claimedBy&&!m.deleted&&!m.done)cl+=' msg-claimed';
+    if(m.archivedForAll||(m.archivedBy&&m.archivedBy.length>0))cl+=' msg-archived';
+    html+='<div class="'+cl+'">';
+    html+='<div class="msg-card-body" onclick="showMessage('+oi+')">';
+    html+='<div class="msg-card-top"><span class="msg-card-type '+tc+'">'+tl+'</span>';
+    if(m.read===false&&!m.deleted)html+='<span class="msg-badge msg-badge-unread">Neu</span>';
+    if(m.claimedBy&&!m.deleted)html+='<span class="msg-badge msg-badge-claim">&#9998; '+escHtml(m.claimedBy)+'</span>';
+    if(m.archivedForAll)html+='<span class="msg-badge msg-badge-archive">Archiviert</span>';
+    else if(m.archivedBy&&m.archivedBy.length>0)html+='<span class="msg-badge msg-badge-archive">'+m.archivedBy.length+'x archiviert</span>';
+    if(m.done)html+='<span class="msg-badge msg-badge-done">&#10003; Erledigt</span>';
+    html+='<span class="msg-card-date">'+ds+'</span></div>';
+    html+='<div class="msg-card-from"><span>'+(m.name||'Unbekannt')+'</span>'+(m.firma?'<span style="font-weight:400;color:var(--text-light);font-size:0.85rem;">'+escHtml(m.firma)+'</span>':'')+'</div>';
+    html+='<div class="msg-card-preview">'+escHtml(pv)+'</div>';
+    html+='</div>';
+    // Action bar
     html+='<div class="msg-card-actions">';
     if(m.deleted){
-      html+='<button class="msg-action-btn msg-action-restore" onclick="event.stopPropagation();restoreMessage('+oi+')">&#8634; Wiederherstellen</button>';
-      html+='<button class="msg-action-btn msg-action-permdelete" onclick="event.stopPropagation();permDeleteMessage('+oi+')">&#10005; Endgültig löschen</button>';
-    }else if(_msgFilter==='mein-archiv'){
-      html+='<button class="msg-action-btn msg-action-unarchive" onclick="event.stopPropagation();unarchiveForMe('+oi+')">&#8634; Dearchivieren</button>';
-      html+='<button class="msg-action-btn msg-action-delete" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005; Löschen</button>';
-    }else if(_msgFilter==='archiv-alle'){
-      html+='<button class="msg-action-btn msg-action-unarchive" onclick="event.stopPropagation();unarchiveForAll('+oi+')">&#8634; Für alle dearchivieren</button>';
-      html+='<button class="msg-action-btn msg-action-delete" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005; Löschen</button>';
+      html+='<button class="msg-act act-teal" onclick="event.stopPropagation();restoreMessage('+oi+')">&#8634; Wiederherstellen</button>';
+      html+='<button class="msg-act act-red" onclick="event.stopPropagation();permDeleteMessage('+oi+')">&#10005; Endgültig</button>';
+    }else if(_msgFilter==='mein-archiv'||_msgFilter==='archiv-alle'){
+      html+='<button class="msg-act act-purple" onclick="event.stopPropagation();'+(_msgFilter==='mein-archiv'?'unarchiveForMe('+oi+')':'unarchiveForAll('+oi+')')+'">&#8634; Zurückholen</button>';
+      html+='<button class="msg-act act-red" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005; Löschen</button>';
     }else{
       if(!m.done){
-        if(!m.claimedBy){html+='<button class="msg-action-btn msg-action-claim" onclick="event.stopPropagation();claimMessage('+oi+')">&#9998; Übernehmen</button>';}
-        else{html+='<button class="msg-action-btn msg-action-unclaim" onclick="event.stopPropagation();unclaimMessage('+oi+')">&#10005; Freigeben</button>';}
-        html+='<button class="msg-action-btn msg-action-done" onclick="event.stopPropagation();toggleDone('+oi+',true)">&#10003; Als bearbeitet</button>';
-      }else{html+='<button class="msg-action-btn msg-action-undone" onclick="event.stopPropagation();toggleDone('+oi+',false)">&#8634; Unbearbeitet</button>';}
-      html+='<button class="msg-action-btn msg-action-archive" onclick="event.stopPropagation();archiveForMe('+oi+')">&#128230; Für mich</button>';
-      html+='<button class="msg-action-btn msg-action-archive" onclick="event.stopPropagation();archiveForAll('+oi+')">&#128230; Für alle</button>';
-      html+='<button class="msg-action-btn msg-action-delete" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005; Löschen</button>';
+        html+='<button class="msg-act act-yellow" onclick="event.stopPropagation();'+(m.claimedBy?'unclaimMessage('+oi+')':'claimMessage('+oi+')')+'">'+(m.claimedBy?'&#10005; Freigeben':'&#9998; Übernehmen')+'</button>';
+        html+='<button class="msg-act act-green" onclick="event.stopPropagation();toggleDone('+oi+',true)">&#10003; Erledigt</button>';
+      }else{
+        html+='<button class="msg-act act-teal" onclick="event.stopPropagation();toggleDone('+oi+',false)">&#8634; Öffnen</button>';
+      }
+      html+='<button class="msg-act act-purple" onclick="event.stopPropagation();archiveForMe('+oi+')">&#128230; Archiv</button>';
+      html+='<button class="msg-act act-red" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005;</button>';
     }
     html+='</div></div>';
   });
   list.innerHTML=html;
 }
+function updateTabBadges(){
+  var _cu=sessionStorage.getItem('admin_name')||'Admin';
+  var active=_messagesCache.filter(function(m){return !m.deleted&&!m.archivedForAll&&!(m.archivedBy&&m.archivedBy.length>0);});
+  var open=active.filter(function(m){return !m.done;}).length;
+  var done=active.filter(function(m){return !!m.done;}).length;
+  var myArc=_messagesCache.filter(function(m){return !m.deleted&&m.archivedBy&&m.archivedBy.indexOf(_cu)!==-1;}).length;
+  var allArc=_messagesCache.filter(function(m){return !m.deleted&&!!m.archivedForAll;}).length;
+  var trash=_messagesCache.filter(function(m){return !!m.deleted;}).length;
+  var tabs=document.querySelectorAll('.msg-tab');
+  function setBadge(tab,count,cls){
+    var old=tab.querySelector('.msg-tab-badge');if(old)old.remove();
+    if(count>0){var b=document.createElement('span');b.className='msg-tab-badge '+cls;b.textContent=count;tab.appendChild(b);}
+  }
+  if(tabs[0])setBadge(tabs[0],active.length,'msg-tab-muted');
+  if(tabs[1])setBadge(tabs[1],open,'msg-tab-count');
+  if(tabs[2])setBadge(tabs[2],done,'msg-tab-muted');
+  if(tabs[3])setBadge(tabs[3],myArc,'msg-tab-muted');
+  if(tabs[4])setBadge(tabs[4],allArc,'msg-tab-muted');
+  if(tabs[5])setBadge(tabs[5],trash,'msg-tab-muted');
+}
 function escHtml(s){if(!s)return '';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+var _msgTypeFilter='all';
 function filterMessages(f,btn){
   _msgFilter=f;
-  document.querySelectorAll('#panel-nachrichten .visit-time-btn').forEach(function(b){b.classList.remove('active')});
+  document.querySelectorAll('.msg-tab').forEach(function(b){b.classList.remove('active')});
+  if(btn)btn.classList.add('active');
+  renderMessages();
+}
+function setTypeFilter(f,btn){
+  _msgTypeFilter=f;
+  document.querySelectorAll('#msgTypeFilter .visit-time-btn').forEach(function(b){b.classList.remove('active')});
   if(btn)btn.classList.add('active');
   renderMessages();
 }
 function showMessage(idx){
   var m=_messagesCache[idx];if(!m)return;
-  var isKontakt=m._formtype==='Kontaktformular';
-  var typeClass=isKontakt?'msg-type-kontakt':'msg-type-rueckruf';
-  var typeLabel=isKontakt?'Kontaktformular':'Rückrufservice';
-  var dateStr='';
-  if(m.date){var d=new Date(m.date);dateStr=d.toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});}
-  var html='<div style="margin-bottom:20px;"><button class="admin-btn btn-secondary" onclick="renderMessages();this.parentElement.parentElement.remove();" style="margin-bottom:16px;">&larr; Zurück</button></div>';
-  html+='<div class="msg-detail"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px;"><div style="display:flex;align-items:center;gap:8px;"><span class="msg-card-type '+typeClass+'" style="font-size:0.8rem;">'+typeLabel+'</span>';
-  if(m.claimedBy)html+='<span class="msg-claimed-badge" style="font-size:0.78rem;">&#9998; In Bearbeitung von '+escHtml(m.claimedBy)+'</span>';
-  if(m.archivedForAll)html+='<span class="msg-archived-badge" style="font-size:0.78rem;">&#128230; Archiviert für alle'+(m.archivedForAllBy?' von '+escHtml(m.archivedForAllBy):'')+'</span>';
-  else if(m.archivedBy&&m.archivedBy.length>0)html+='<span class="msg-archived-badge" style="font-size:0.78rem;">&#128230; Archiviert von: '+escHtml(m.archivedBy.join(', '))+'</span>';
-  html+='</div><span style="font-size:0.85rem;color:var(--text-light);">'+dateStr+'</span></div>';
-  html+='<div class="msg-detail-row"><div class="msg-detail-label">Name</div><div class="msg-detail-value">'+(escHtml(m.name)||'—')+'</div></div>';
+  var isK=m._formtype==='Kontaktformular';
+  var tc=isK?'msg-type-kontakt':'msg-type-rueckruf';
+  var tl=isK?'Kontaktformular':'Rückrufservice';
+  var ds='';
+  if(m.date){var d=new Date(m.date);ds=d.toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+  var html='<div style="margin-bottom:16px;"><button class="admin-btn btn-secondary" onclick="renderMessages()" style="font-size:0.82rem;">&larr; Zurück zur Liste</button></div>';
+  html+='<div class="msg-detail">';
+  // Header
+  html+='<div class="msg-detail-header"><div class="msg-detail-badges"><span class="msg-card-type '+tc+'" style="font-size:0.78rem;">'+tl+'</span>';
+  if(m.claimedBy)html+='<span class="msg-badge msg-badge-claim" style="font-size:0.75rem;">&#9998; '+escHtml(m.claimedBy)+'</span>';
+  if(m.done)html+='<span class="msg-badge msg-badge-done" style="font-size:0.75rem;">&#10003; Erledigt</span>';
+  if(m.archivedForAll)html+='<span class="msg-badge msg-badge-archive" style="font-size:0.75rem;">Archiviert'+(m.archivedForAllBy?' von '+escHtml(m.archivedForAllBy):'')+'</span>';
+  else if(m.archivedBy&&m.archivedBy.length>0)html+='<span class="msg-badge msg-badge-archive" style="font-size:0.75rem;">Archiviert von '+escHtml(m.archivedBy.join(', '))+'</span>';
+  html+='</div><span style="font-size:0.82rem;color:var(--text-light);">'+ds+'</span></div>';
+  // Body
+  html+='<div class="msg-detail-body">';
+  html+='<div class="msg-detail-row"><div class="msg-detail-label">Name</div><div class="msg-detail-value" style="font-weight:600;">'+(escHtml(m.name)||'—')+'</div></div>';
   if(m.firma)html+='<div class="msg-detail-row"><div class="msg-detail-label">Firma</div><div class="msg-detail-value">'+escHtml(m.firma)+'</div></div>';
-  var displayEmail=m.email||m._replyto;if(displayEmail&&displayEmail!=='info@ellerbrock-konferenztechnik.de')html+='<div class="msg-detail-row"><div class="msg-detail-label">E-Mail</div><div class="msg-detail-value"><a href="mailto:'+escHtml(displayEmail)+'" style="color:var(--teal);text-decoration:none;">'+escHtml(displayEmail)+'</a></div></div>';
-  if(m.telefon)html+='<div class="msg-detail-row"><div class="msg-detail-label">Telefon</div><div class="msg-detail-value"><a href="tel:'+escHtml(m.telefon)+'" style="color:var(--teal);text-decoration:none;">'+escHtml(m.telefon)+'</a></div></div>';
-  if(isKontakt){
-    if(m.betreff)html+='<div class="msg-detail-row"><div class="msg-detail-label">Betreff</div><div class="msg-detail-value">'+escHtml(m.betreff)+'</div></div>';
-    if(m.nachricht)html+='<div class="msg-detail-row"><div class="msg-detail-label">Nachricht</div><div class="msg-detail-value" style="white-space:pre-wrap;">'+escHtml(m.nachricht)+'</div></div>';
-  } else {
-    if(m.gewuenschter_tag)html+='<div class="msg-detail-row"><div class="msg-detail-label">Gewünschter Tag</div><div class="msg-detail-value">'+escHtml(m.gewuenschter_tag)+'</div></div>';
-    if(m.gewuenschte_uhrzeit)html+='<div class="msg-detail-row"><div class="msg-detail-label">Gewünschte Uhrzeit</div><div class="msg-detail-value">'+escHtml(m.gewuenschte_uhrzeit)+'</div></div>';
-    if(m.nachricht)html+='<div class="msg-detail-row"><div class="msg-detail-label">Nachricht</div><div class="msg-detail-value" style="white-space:pre-wrap;">'+escHtml(m.nachricht)+'</div></div>';
+  var de=m.email||m._replyto;if(de&&de!=='info@ellerbrock-konferenztechnik.de')html+='<div class="msg-detail-row"><div class="msg-detail-label">E-Mail</div><div class="msg-detail-value"><a href="mailto:'+escHtml(de)+'" style="color:var(--teal);text-decoration:none;font-weight:500;">'+escHtml(de)+'</a></div></div>';
+  if(m.telefon)html+='<div class="msg-detail-row"><div class="msg-detail-label">Telefon</div><div class="msg-detail-value"><a href="tel:'+escHtml(m.telefon)+'" style="color:var(--teal);text-decoration:none;font-weight:500;">'+escHtml(m.telefon)+'</a></div></div>';
+  if(isK){
+    if(m.betreff)html+='<div class="msg-detail-row"><div class="msg-detail-label">Betreff</div><div class="msg-detail-value" style="font-weight:600;">'+escHtml(m.betreff)+'</div></div>';
+    if(m.nachricht)html+='<div class="msg-detail-row"><div class="msg-detail-label">Nachricht</div><div class="msg-detail-value" style="white-space:pre-wrap;line-height:1.7;">'+escHtml(m.nachricht)+'</div></div>';
+  }else{
+    if(m.gewuenschter_tag&&m.gewuenschter_tag!=='-')html+='<div class="msg-detail-row"><div class="msg-detail-label">Tag</div><div class="msg-detail-value">'+escHtml(m.gewuenschter_tag)+'</div></div>';
+    if(m.gewuenschte_uhrzeit&&m.gewuenschte_uhrzeit!=='-')html+='<div class="msg-detail-row"><div class="msg-detail-label">Uhrzeit</div><div class="msg-detail-value">'+escHtml(m.gewuenschte_uhrzeit)+'</div></div>';
+    if(m.nachricht)html+='<div class="msg-detail-row"><div class="msg-detail-label">Nachricht</div><div class="msg-detail-value" style="white-space:pre-wrap;line-height:1.7;">'+escHtml(m.nachricht)+'</div></div>';
   }
   html+='</div>';
-  html+='<div class="btn-row" style="margin-top:16px;">';
+  // Actions
+  html+='<div class="msg-detail-actions">';
   if(m.deleted){
     html+='<button class="admin-btn btn-save" onclick="restoreMessage('+idx+');renderMessages()">&#8634; Wiederherstellen</button>';
     html+='<button class="admin-btn btn-danger" onclick="permDeleteMessage('+idx+')">Endgültig löschen</button>';
   }else{
     if(!m.done){
-      if(!m.claimedBy){html+='<button class="admin-btn btn-secondary" onclick="claimMessage('+idx+');showMessage('+idx+')" style="border-color:#f59e0b;color:#f59e0b;">&#9998; Übernehmen</button>';}
-      else{html+='<button class="admin-btn btn-secondary" onclick="unclaimMessage('+idx+');showMessage('+idx+')">&#10005; Freigeben</button>';}
-      html+='<button class="admin-btn btn-save" onclick="toggleDone('+idx+',true);showMessage('+idx+')">&#10003; Als bearbeitet markieren</button>';
-    }else{html+='<button class="admin-btn btn-secondary" onclick="toggleDone('+idx+',false);showMessage('+idx+')">&#8634; Als unbearbeitet markieren</button>';}
-    html+='</div><div class="btn-row" style="margin-top:8px;">';
+      html+='<button class="admin-btn btn-secondary" onclick="'+(m.claimedBy?'unclaimMessage('+idx+')':'claimMessage('+idx+')')+';showMessage('+idx+')" style="border-color:#f59e0b;color:#f59e0b;">'+(m.claimedBy?'&#10005; Freigeben':'&#9998; Übernehmen')+'</button>';
+      html+='<button class="admin-btn btn-save" onclick="toggleDone('+idx+',true);showMessage('+idx+')">&#10003; Erledigt</button>';
+    }else{
+      html+='<button class="admin-btn btn-secondary" onclick="toggleDone('+idx+',false);showMessage('+idx+')">&#8634; Wieder öffnen</button>';
+    }
     var _me=sessionStorage.getItem('admin_name')||'Admin';
-    var _myArchived=m.archivedBy&&m.archivedBy.indexOf(_me)!==-1;
-    if(!_myArchived){html+='<button class="admin-btn btn-secondary" onclick="archiveForMe('+idx+');renderMessages()" style="border-color:#8b5cf6;color:#8b5cf6;">&#128230; Für mich archivieren</button>';}
-    else{html+='<button class="admin-btn btn-secondary" onclick="unarchiveForMe('+idx+');renderMessages()" style="border-color:#8b5cf6;color:#8b5cf6;">&#128230; Aus meinem Archiv</button>';}
-    if(!m.archivedForAll){html+='<button class="admin-btn btn-secondary" onclick="archiveForAll('+idx+');renderMessages()" style="border-color:#8b5cf6;color:#8b5cf6;">&#128230; Für alle archivieren</button>';}
-    else{html+='<button class="admin-btn btn-secondary" onclick="unarchiveForAll('+idx+');renderMessages()" style="border-color:#8b5cf6;color:#8b5cf6;">&#128230; Für alle dearchivieren</button>';}
-    html+='<button class="admin-btn btn-danger" onclick="deleteMessage('+idx+')">Nachricht löschen</button>';
+    var _myA=m.archivedBy&&m.archivedBy.indexOf(_me)!==-1;
+    html+='<button class="admin-btn btn-secondary" onclick="'+(_myA?'unarchiveForMe('+idx+')':'archiveForMe('+idx+')')+';renderMessages()" style="border-color:#8b5cf6;color:#8b5cf6;">&#128230; '+(_myA?'Dearchivieren':'Archivieren')+'</button>';
+    if(!m.archivedForAll){html+='<button class="admin-btn btn-secondary" onclick="archiveForAll('+idx+');renderMessages()" style="border-color:#8b5cf6;color:#8b5cf6;">&#128230; Für alle</button>';}
+    else{html+='<button class="admin-btn btn-secondary" onclick="unarchiveForAll('+idx+');renderMessages()" style="border-color:#8b5cf6;color:#8b5cf6;">&#128230; Alle dearchiv.</button>';}
+    html+='<button class="admin-btn btn-danger" onclick="deleteMessage('+idx+')">Löschen</button>';
   }
-  html+='</div>';
+  html+='</div></div>';
   document.getElementById('msgList').innerHTML=html;
   document.getElementById('msgEmpty').style.display='none';
-  // Mark as read
   if(m.read===false){m.read=true;markMessageRead(idx);}
 }
 function saveMessagesToGitHub(commitMsg){
