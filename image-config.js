@@ -71,7 +71,8 @@ window.ELLERBROCK_IMAGES = {
       "section:nth-of-type(3)>div>div>h2": "Vertrauen namhafter Kunden",
       "section>div:nth-of-type(2)>div:nth-of-type(3)>div:nth-of-type(3)>strong": "12.000+",
       "section>div:nth-of-type(2)>div:nth-of-type(3)>div:nth-of-type(3)>span": "Empfänger weltweit",
-      "section:nth-of-type(3)>div>div>span": "Referenzen"
+      "section:nth-of-type(3)>div>div>span": "Referenzen",
+      "div:nth-of-type(2)>div:nth-of-type(2)>div>div:nth-of-type(3)>div>div:nth-of-type(2)>div:nth-of-type(2)>p": "Verantwortet den operativen Bereich und die technische Leitung — von der Projektplanung bis zur Vor-Ort-Betreuung"
     }
   }
 };
