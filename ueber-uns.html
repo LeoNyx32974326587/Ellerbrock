@@ -118,11 +118,13 @@ body.dark .form-group input:focus { border-color: var(--teal); background: var(-
 .nav-sub li a:hover { background: var(--bg-alt); color: var(--teal); }
 .nav-sub li a svg { width: 16px; height: 16px; stroke: var(--teal); fill: none; stroke-width: 2; flex-shrink: 0; }
 @media (max-width: 930px) {
-  .nav-has-dropdown > a { pointer-events: auto; cursor: pointer; }
-  .nav-has-dropdown > a::after { transition: transform 0.2s; }
-  .nav-sub { position: static!important; transform: none!important; min-width: auto; background: transparent; box-shadow: none; border: none; border-radius: 0; padding: 0 0 0 12px; opacity: 0; visibility: hidden; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, opacity 0.2s ease, visibility 0.2s; pointer-events: none; }
-  .nav-has-dropdown.open .nav-sub { opacity: 1; visibility: visible; max-height: 500px; pointer-events: auto; }
-  .nav-sub li a { padding: 8px 14px; margin: 0; }
+  .nav-has-dropdown > a { pointer-events: auto; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+  .nav-has-dropdown > a::after { margin-left: auto; transition: transform 0.3s; }
+  .nav-sub { position: static!important; transform: none!important; min-width: auto; background: var(--bg-alt); box-shadow: none; border: none; border-radius: 8px; padding: 0; margin: 4px 0 4px 8px; opacity: 0; visibility: hidden; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, opacity 0.2s ease, visibility 0.2s, padding 0.2s; pointer-events: none; }
+  .nav-has-dropdown.open .nav-sub { opacity: 1; visibility: visible; max-height: 500px; pointer-events: auto; padding: 6px 0; }
+  .nav-sub li a { padding: 10px 16px; margin: 0; border-radius: 6px; font-size: 0.88rem; }
+  .nav-sub li a svg { width: 14px; height: 14px; }
+  .nav-sub li { border-bottom: none; }
 }
 /* ===== LANGUAGE DROPDOWN ===== */
 .lang-dropdown { position: relative; }
@@ -881,9 +883,13 @@ body.dark .cursor-glow { background: radial-gradient(circle, rgba(77,184,212,0.0
   .nav-links { display: none; }
   .nav-toggle { display: flex; }
   .nav-links.active {
-    display: flex; flex-direction: column; position: absolute; top: 72px; left: 0; right: 0;
-    background: white; padding: 16px 24px; border-bottom: 1px solid var(--border); box-shadow: var(--shadow);
+    display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0;
+    background: white; padding: 12px 20px 16px; border-bottom: 1px solid var(--border);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1); gap: 0;
   }
+  .nav-links.active > li > a { padding: 12px 16px; font-size: 0.95rem; border-radius: 10px; display: block; }
+  .nav-links.active > li > a:hover { background: var(--bg-alt); }
+  .nav-links.active .nav-cta { text-align: center; margin-top: 8px; padding: 12px 16px; border-radius: 10px; }
   .nav-inner { height: 64px; }
   .nav-logo img { height: 44px; }
 }
