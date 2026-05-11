@@ -36,8 +36,8 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486670/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778486669420.webp",
     "fit": "cover",
     "pos": "center",
-    "w": "446px",
-    "h": "384px",
+    "w": "367px",
+    "h": "303px",
     "mx": 14,
     "my": -14
   },
