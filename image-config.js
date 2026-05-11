@@ -27,8 +27,8 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486289/ellerbrock/team-david-hintenlang-1778486287340.jpg",
     "fit": "contain",
     "pos": "center",
-    "mx": 1,
-    "my": 39,
+    "mx": -6,
+    "my": 43,
     "w": "529px",
     "h": "621px"
   },
