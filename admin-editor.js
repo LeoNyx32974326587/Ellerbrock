@@ -293,47 +293,41 @@
         setupImage(img,fn,entry||{});
       });
 
-      // Setup team placeholders - click to upload image
+      // Setup team placeholders - click to upload via parent postMessage
       document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
         ph.style.cursor='pointer';
         ph.title='Klicken um Bild hochzuladen';
-        ph.addEventListener('click',function(){
-          var input=document.createElement('input');
-          input.type='file';input.accept='image/*';
-          input.onchange=function(){
-            if(!input.files||!input.files[0])return;
-            var file=input.files[0];
-            var nameEl=ph.closest('.team-card').querySelector('.team-card-name');
-            var personName=nameEl?nameEl.textContent.trim().toLowerCase().replace(/[^a-z0-9]/g,'-'):'team-member';
-            var fn='team-'+personName+'.jpg';
-            // Upload to Cloudinary
-            var fd=new FormData();
-            fd.append('file',file);
-            fd.append('upload_preset','ellerbrock');
-            fd.append('public_id','ellerbrock/'+fn.replace('.jpg','')+'-'+Date.now());
-            fetch('https://api.cloudinary.com/v1_1/daiiz3u5t/image/upload',{method:'POST',body:fd})
-            .then(function(r){return r.json();})
-            .then(function(data){
-              if(!data.secure_url)return;
-              // Replace placeholder with img
+        var nameEl=ph.closest('.team-card').querySelector('.team-card-name');
+        var personName=nameEl?nameEl.textContent.trim().toLowerCase().replace(/[^a-z0-9]/g,'-'):'team-member';
+        var fn='team-'+personName+'.jpg';
+        // Create a hidden img so the existing upload system can find it
+        var hiddenImg=document.createElement('img');
+        hiddenImg.src='images/'+fn;
+        hiddenImg.setAttribute('data-orig',fn);
+        hiddenImg.style.display='none';
+        ph.appendChild(hiddenImg);
+        ph.addEventListener('click',function(e){
+          e.stopPropagation();
+          window.parent.postMessage({type:'admin-upload',filename:fn},'*');
+        });
+        // Listen for when parent sends back the uploaded image
+        window.addEventListener('message',function(msg){
+          if(msg.data&&msg.data.type==='admin-init'){
+            var m=msg.data.map||{};
+            if(m[fn]&&m[fn].url){
               var card=ph.closest('.team-card');
+              if(!card||!card.contains(ph))return;
               var imgDiv=document.createElement('div');
               imgDiv.className='team-card-img';
               var img=document.createElement('img');
-              img.src=data.secure_url;
+              img.src=m[fn].url;
               img.alt=nameEl?nameEl.textContent:'';
               img.setAttribute('data-orig',fn);
               imgDiv.appendChild(img);
               ph.replaceWith(imgDiv);
-              // Save to map
-              var m=JSON.parse(localStorage.getItem('cloudinary_images')||'{}');
-              m[fn]={url:data.secure_url,fit:'cover',pos:'center'};
-              localStorage.setItem('cloudinary_images',JSON.stringify(m));
-              localStorage.setItem('images_dirty','1');
               setupImage(img,fn,m[fn]);
-            });
-          };
-          input.click();
+            }
+          }
         });
       });
 
