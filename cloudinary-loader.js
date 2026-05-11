@@ -41,6 +41,27 @@
         });
       });
     }
+    document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
+      var nameEl=ph.closest('.team-card')&&ph.closest('.team-card').querySelector('.team-card-name');
+      if(!nameEl)return;
+      var pn=nameEl.textContent.trim().toLowerCase().replace(/[^a-z0-9]/g,'-');
+      var fn='team-'+pn+'.jpg';
+      var entry=map[fn];
+      if(!entry)return;
+      var url=typeof entry==='string'?entry:entry.url;
+      if(!url)return;
+      var imgDiv=document.createElement('div');
+      imgDiv.className='team-card-img';
+      var img=document.createElement('img');
+      img.src=url;img.alt=nameEl.textContent;
+      img.setAttribute('data-orig',fn);
+      if(typeof entry==='object'){
+        if(entry.fit)img.style.objectFit=entry.fit;
+        if(entry.pos)img.style.objectPosition=entry.pos;
+      }
+      imgDiv.appendChild(img);
+      ph.replaceWith(imgDiv);
+    });
   }
   if(window.self!==window.top){
     var sc=document.createElement('script');sc.src='admin-editor.js';document.head.appendChild(sc);
