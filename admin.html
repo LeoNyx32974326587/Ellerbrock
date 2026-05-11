@@ -287,8 +287,7 @@
         <button class="msg-tab active" onclick="filterMessages('all',this)">Posteingang</button>
         <button class="msg-tab" onclick="filterMessages('unbearbeitet',this)">Offen</button>
         <button class="msg-tab" onclick="filterMessages('bearbeitet',this)">Erledigt</button>
-        <button class="msg-tab" onclick="filterMessages('mein-archiv',this)">Mein Archiv</button>
-        <button class="msg-tab" onclick="filterMessages('archiv-alle',this)">Archiv</button>
+        <div style="position:relative;display:inline-block;" id="archivTabWrap"><button class="msg-tab" onclick="toggleArchivDropdown(event)">Archiv <span style="font-size:0.6em;">&#9660;</span></button><div id="archivDropdown" style="display:none;position:absolute;top:100%;left:0;margin-top:4px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);z-index:100;min-width:180px;overflow:hidden;"><button style="display:block;width:100%;text-align:left;padding:10px 16px;border:none;background:none;cursor:pointer;font-size:0.88rem;color:var(--text);transition:background 0.15s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'" onclick="filterMessages('mein-archiv',document.querySelector('#archivTabWrap .msg-tab'));closeArchivDropdown()">&#128100; Mein Archiv</button><button style="display:block;width:100%;text-align:left;padding:10px 16px;border:none;background:none;cursor:pointer;font-size:0.88rem;color:var(--text);border-top:1px solid var(--border);transition:background 0.15s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'" onclick="filterMessages('archiv-alle',document.querySelector('#archivTabWrap .msg-tab'));closeArchivDropdown()">&#127760; Archiv für alle</button></div></div>
         <button class="msg-tab" onclick="filterMessages('geloescht',this)">Papierkorb</button>
       </div>
       <div style="display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;" id="msgTypeFilter">
@@ -456,7 +455,7 @@ function renderMessages(){
       }else{
         html+='<button class="msg-act act-teal" onclick="event.stopPropagation();toggleDone('+oi+',false)">&#8634; Öffnen</button>';
       }
-      html+='<button class="msg-act act-purple" onclick="event.stopPropagation();archiveForMe('+oi+')">&#128230; Archiv</button>';
+      html+='<div style="position:relative;display:inline-block;" class="archiv-act-wrap"><button class="msg-act act-purple" onclick="event.stopPropagation();toggleCardArchivMenu(this,'+oi+')">&#128230; Archiv &#9660;</button></div>';
       html+='<button class="msg-act act-red" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005;</button>';
     }
     html+='</div></div>';
@@ -479,9 +478,8 @@ function updateTabBadges(){
   if(tabs[0])setBadge(tabs[0],active.length,'msg-tab-muted');
   if(tabs[1])setBadge(tabs[1],open,'msg-tab-count');
   if(tabs[2])setBadge(tabs[2],done,'msg-tab-muted');
-  if(tabs[3])setBadge(tabs[3],myArc,'msg-tab-muted');
-  if(tabs[4])setBadge(tabs[4],allArc,'msg-tab-muted');
-  if(tabs[5])setBadge(tabs[5],trash,'msg-tab-muted');
+  var arcTotal=myArc+allArc;if(tabs[3])setBadge(tabs[3],arcTotal,'msg-tab-muted');
+  if(tabs[4])setBadge(tabs[4],trash,'msg-tab-muted');
 }
 function escHtml(s){if(!s)return '';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 var _msgTypeFilter='all';
@@ -626,6 +624,9 @@ function unclaimMessage(idx){
   renderMessages();
   showToast('Markierung entfernt');
 }
+function toggleArchivDropdown(e){e.stopPropagation();var dd=document.getElementById('archivDropdown');if(dd.style.display==='none'){dd.style.display='block';setTimeout(function(){document.addEventListener('click',closeArchivDropdown,{once:true});},0);}else{dd.style.display='none';}}
+function closeArchivDropdown(){document.getElementById('archivDropdown').style.display='none';}
+function toggleCardArchivMenu(btn,idx){var wrap=btn.parentElement;var existing=wrap.querySelector('.card-archiv-menu');if(existing){existing.remove();return;}document.querySelectorAll('.card-archiv-menu').forEach(function(el){el.remove();});var menu=document.createElement('div');menu.className='card-archiv-menu';menu.style.cssText='position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:6px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);z-index:100;min-width:170px;overflow:hidden;';menu.innerHTML='<button style="display:block;width:100%;text-align:left;padding:10px 14px;border:none;background:none;cursor:pointer;font-size:0.85rem;color:var(--text);" onmouseover="this.style.background=\'var(--bg)\'" onmouseout="this.style.background=\'none\'" onclick="event.stopPropagation();archiveForMe('+idx+');this.closest(\'.card-archiv-menu\').remove()">&#128100; Für mich archivieren</button><button style="display:block;width:100%;text-align:left;padding:10px 14px;border:none;background:none;cursor:pointer;font-size:0.85rem;color:var(--text);border-top:1px solid var(--border);" onmouseover="this.style.background=\'var(--bg)\'" onmouseout="this.style.background=\'none\'" onclick="event.stopPropagation();archiveForAll('+idx+');this.closest(\'.card-archiv-menu\').remove()">&#127760; Für alle archivieren</button>';wrap.appendChild(menu);setTimeout(function(){document.addEventListener('click',function(){menu.remove();},{once:true});},0);}
 function archiveForMe(idx){
   var name=sessionStorage.getItem('admin_name')||'Admin';
   var m=_messagesCache[idx];
