@@ -85,5 +85,10 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498376/ellerbrock/galerie-6-1778498376614.jpg",
     "fit": "cover",
     "pos": "center"
+  },
+  "team-jochen-stiefel.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498613/ellerbrock/team-jochen-stiefel-1778498613486.jpg",
+    "fit": "cover",
+    "pos": "center"
   }
 };
