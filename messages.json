@@ -1,15 +1,17 @@
 [
   {
     "_subject": "Kontaktformular: Anfrage",
-    "_replyto": "sündfunke@gnail.cvom",
+    "_replyto": "sÃ¼ndfunke@gnail.cvom",
     "name": "Oliover KErn",
-    "firma": "Südfunk",
+    "firma": "SÃ¼dfunk",
     "telefon": "4678326876",
     "betreff": "Anfrage",
-    "nachricht": "Hallo und tschüss",
+    "nachricht": "Hallo und tschÃ¼ss",
     "_formtype": "Kontaktformular",
     "id": 1778500223479,
     "date": "2026-05-11T11:50:23.480Z",
-    "read": false
+    "read": false,
+    "claimedBy": "Admin",
+    "claimedAt": "2026-05-11T11:53:40.878Z"
   }
 ]
