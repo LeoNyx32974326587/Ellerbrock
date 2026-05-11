@@ -23,5 +23,30 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486289/ellerbrock/team-david-hintenlang-1778486287340.jpg",
     "fit": "cover",
     "pos": "center"
+  },
+  "dolmetscheranlage-hoersprechgarnitur.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486670/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778486669420.webp",
+    "fit": "contain",
+    "pos": "center",
+    "w": "260px",
+    "h": "657px",
+    "mx": 4,
+    "my": -198
+  },
+  "_new_1778486794992": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486799/ellerbrock/_new_1778486794992-1778486798950.jpg",
+    "fit": "cover",
+    "pos": "center",
+    "page": "index.html",
+    "x": 834,
+    "y": 845
+  },
+  "_new_1778486828174": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486835/ellerbrock/_new_1778486828174-1778486834908.jpg",
+    "fit": "cover",
+    "pos": "center",
+    "page": "index.html",
+    "x": 1138,
+    "y": 984
   }
 };
