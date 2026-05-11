@@ -323,7 +323,7 @@ function updateUserDisplay(){var name=sessionStorage.getItem('admin_name')||'Fab
 function applyRoleRestrictions(){var role=sessionStorage.getItem('admin_role')||'admin';if(role==='editor'){var settingsBtn=document.querySelectorAll('.sidebar-link')[5];if(settingsBtn)settingsBtn.style.display='none';}}
 if(sessionStorage.getItem('admin_auth')==='1'){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('adminDashboard').classList.add('active');updateUserDisplay();applyRoleRestrictions();}
 function logout(){sessionStorage.removeItem('admin_auth');document.getElementById('adminDashboard').classList.remove('active');document.getElementById('loginScreen').classList.remove('hidden');document.getElementById('loginUser').value='';document.getElementById('loginPass').value='';}
-function showPanel(id,btn){document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});document.querySelectorAll('.sidebar-link').forEach(function(l){l.classList.remove('active')});document.getElementById('panel-'+id).classList.add('active');if(btn)btn.classList.add('active');if(id==='nachrichten'){if(!_msgRefreshTimer){_msgRefreshTimer=setInterval(function(){refreshMessages();},1000);}}else{if(_msgRefreshTimer){clearInterval(_msgRefreshTimer);_msgRefreshTimer=null;}}}
+function showPanel(id,btn){document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});document.querySelectorAll('.sidebar-link').forEach(function(l){l.classList.remove('active')});document.getElementById('panel-'+id).classList.add('active');if(btn)btn.classList.add('active');if(id==='nachrichten'){if(!_msgRefreshTimer){_msgRefreshTimer=setInterval(function(){refreshMessages();},5000);}}else{if(_msgRefreshTimer){clearInterval(_msgRefreshTimer);_msgRefreshTimer=null;}}}
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
 var IMAGE_CATEGORIES=[{id:'einblicke',label:'Einblicke (Startseite)',icon:'&#128247;',images:['galerie-1.jpg','galerie-2.jpg','galerie-3.jpg','galerie-4.jpg','galerie-5.jpg','galerie-6.jpg']},{id:'team',label:'Team',icon:'&#128101;',images:['team-fabian-ellerbrock.jpg','team-david-hintenlang.jpg','team-fabian-habel.jpg','team-joerg-raphael.jpg','team-julius-lampert.jpg','team-jochen-stiefel.jpg']},{id:'dolmetscher',label:'Dolmetscheranlagen',icon:'&#127908;',images:['dolmetscheranlage-hoersprechgarnitur.jpg','dolmetscheranlage-einsatz.jpg','dolmetscheranlage-komponenten.jpg','dolmetscheranlage-setup.jpg','dolmetscherkabine-audipack-9300.jpg','dolmetscherkabine-innenansicht.jpg','dolmetscherkabine-aufgebaut.jpg','dolmetscherdienst.jpg']},{id:'ted',label:'Ted-Abstimmsysteme',icon:'&#128202;',images:['ted-votingsystem-01.jpg','ted-votingsystem-02.jpg','ted-votingsystem-03.jpg','ted-votingsystem-04.jpg','ted-votingsystem-05.jpg','ted-votingsystem-06.jpg','ted-votingsystem-07.jpg','ted-votingsystem-08.jpg']},{id:'fuehrung',label:'Führungsanlagen',icon:'&#127911;',images:['fuehrungsanlage-01.jpg','fuehrungsanlage-02.jpg','fuehrungsanlage-03.jpg','fuehrungsanlage-04.jpg']},{id:'diskussion',label:'Diskussionssysteme',icon:'&#128172;',images:['diskussionsanlage-01.jpg','diskussionsanlage-02.jpg','diskussionsanlage-03.jpg','diskussionsanlage-04.jpg']},{id:'beschallung',label:'Beschallungstechnik',icon:'&#128266;',images:['beschallungstechnik-01.jpg','beschallungstechnik-02.jpg','beschallungstechnik-03.jpg']},{id:'video',label:'Videotechnik',icon:'&#127909;',images:['videotechnik-01.jpg']},{id:'kauf',label:'Produkte kaufen',icon:'&#128176;',images:['kauf-dolmetscheranlage-01.jpg','kauf-dolmetscherkabine-01.jpg','kauf-diskussionsanlage-01.jpg','kauf-gebraucht-01.jpg','kauf-sennheiser-ek1039.jpg','kauf-bosch-dolmetscherpult.jpg']}];
 var activeGalleryCat='all';
@@ -367,23 +367,30 @@ function calcStats(range){var data=getVisitData();var now=new Date();var today=n
 function renderVisitChart(range,btn){if(btn){document.querySelectorAll('.visit-time-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');}var stats=calcStats(range);var container=document.getElementById('visitChart');document.getElementById('statTotalViews').textContent=stats.grandTotal;document.getElementById('statTodayViews').textContent='Heute: '+stats.todayTotal;var sorted=Object.keys(stats.totals).sort(function(a,b){return stats.totals[b]-stats.totals[a];});var max=sorted.length>0?stats.totals[sorted[0]]:1;if(sorted.length===0){container.innerHTML='<div style="text-align:center;padding:32px 0;color:var(--text-light);font-size:0.88rem;">Noch keine Aufrufe'+(range!=='all'?' in diesem Zeitraum':'')+' erfasst.</div>';return;}var html='';sorted.forEach(function(page){var label=PAGE_NAMES[page]||page;var count=stats.totals[page];var pct=Math.round((count/max)*100);html+='<div class="visit-bar-row"><div class="visit-bar-label" title="'+page+'">'+label+'</div><div class="visit-bar-track"><div class="visit-bar-fill" style="width:'+pct+'%"></div></div><div class="visit-bar-count">'+count+'</div></div>';});container.innerHTML=html;}
 renderVisitChart('all',null);
 var _messagesCache=[];var _msgFilter='all';var _msgRefreshTimer=null;var _msgDetailOpen=false;
+function _fetchMessages(cb){
+  var token=getGitHubToken();
+  var headers={'Accept':'application/vnd.github.v3+json'};
+  if(token)headers['Authorization']='Bearer '+token;
+  fetch('https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/messages.json?ref=main&t='+Date.now(),{headers:headers,cache:'no-store'})
+  .then(function(r){if(!r.ok)throw new Error('not found');return r.json();})
+  .then(function(file){
+    if(file.content&&file.encoding==='base64'){cb(JSON.parse(decodeURIComponent(escape(atob(file.content)))));}
+    else if(file.git_url){fetch(file.git_url,{headers:headers,cache:'no-store'}).then(function(r){return r.json();}).then(function(blob){cb(JSON.parse(decodeURIComponent(escape(atob(blob.content)))));}).catch(function(){cb(null);});}
+    else{cb([]);}
+  }).catch(function(){cb(null);});
+}
 function loadMessages(){
   document.getElementById('msgLoading').style.display='block';
   document.getElementById('msgList').innerHTML='';
   document.getElementById('msgEmpty').style.display='none';
-  fetch('https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/messages.json?t='+Date.now(),{cache:'no-store'})
-  .then(function(r){if(!r.ok)throw new Error('not found');return r.json();})
-  .then(function(msgs){
+  _fetchMessages(function(msgs){
+    if(msgs===null){document.getElementById('msgLoading').style.display='none';document.getElementById('msgEmpty').style.display='block';return;}
     _messagesCache=msgs;
     renderMessages();
     updateMsgBadge();
-  })
-  .catch(function(){
-    document.getElementById('msgLoading').style.display='none';
-    document.getElementById('msgEmpty').style.display='block';
   });
 }
-function refreshMessages(){if(_msgDetailOpen)return;fetch("https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/messages.json?t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("not found");return r.json();}).then(function(msgs){if(JSON.stringify(msgs)!==JSON.stringify(_messagesCache)){_messagesCache=msgs;renderMessages();updateMsgBadge();}}).catch(function(){});}
+function refreshMessages(){if(_msgDetailOpen)return;_fetchMessages(function(msgs){if(msgs===null)return;if(JSON.stringify(msgs)!==JSON.stringify(_messagesCache)){_messagesCache=msgs;renderMessages();updateMsgBadge();}});}
 function renderMessages(){_msgDetailOpen=false;
   document.getElementById('msgLoading').style.display='none';
   var list=document.getElementById('msgList');
@@ -684,10 +691,7 @@ function updateMsgBadge(){
   var token=getGitHubToken();
   var headers={'Accept':'application/vnd.github.v3+json'};
   if(token)headers['Authorization']='Bearer '+token;
-  fetch('https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/messages.json?t='+Date.now(),{cache:'no-store'})
-  .then(function(r){if(!r.ok)throw new Error('x');return r.json();})
-  .then(function(msgs){_messagesCache=msgs;updateMsgBadge();})
-  .catch(function(){});
+  _fetchMessages(function(msgs){if(msgs){_messagesCache=msgs;updateMsgBadge();}});
 })();
 
 </script>
