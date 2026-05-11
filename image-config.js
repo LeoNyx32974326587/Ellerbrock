@@ -58,7 +58,7 @@ window.ELLERBROCK_IMAGES = {
   },
   "_texts": {
     "index.html": {
-      "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltun"
+      "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltung"
     }
   }
 };
