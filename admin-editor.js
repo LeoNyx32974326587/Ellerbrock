@@ -207,13 +207,23 @@
   }
 
   /* ---- Make text elements editable ---- */
+  function isLeafText(el){
+    // Only allow editing on elements that are truly text-only (no important children)
+    var dominated=['a','button','img','ul','ol','div','nav','section','form','input','select','iframe','table','svg'];
+    for(var i=0;i<el.children.length;i++){
+      var tag=el.children[i].tagName.toLowerCase();
+      if(dominated.indexOf(tag)!==-1)return false;
+    }
+    return true;
+  }
   function setupTexts(){
-    var textEls=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,li,a,td,th,label,strong,em,blockquote');
+    var textEls=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,td,th,label,blockquote');
     textEls.forEach(function(el){
-      // Skip editor UI, animated counters, and complex elements
+      // Skip editor UI, nav, footer, animated counters
       if(el.closest('.ae-wrap,.ae-tb,.ae-fab,.ae-ctx,.ae-handles'))return;
-      if(el.closest('.hero-stat,.stat-block,.hero-stats'))return;
-      if(el.children.length>3)return;
+      if(el.closest('nav,footer,.hero-stat,.stat-block,.hero-stats,.cookie-banner'))return;
+      // Skip elements with important children (links, buttons, lists, etc.)
+      if(!isLeafText(el))return;
       if(!el.textContent.trim())return;
       if(/^\d[\d.,]*\+?$/.test(el.textContent.trim()))return;
 
