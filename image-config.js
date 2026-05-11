@@ -36,14 +36,9 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486670/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778486669420.webp",
     "fit": "cover",
     "pos": "center",
-    "w": "280px",
-    "h": "256px",
+    "w": "244px",
+    "h": "223px",
     "mx": 14,
     "my": -14
-  },
-  "_texts": {
-    "index.html": {
-      "section:nth-of-type(4)>div>div>p": "Von der Planung bis zum Abbau — wir liefern die passende Technik und den professionellen Support."
-    }
   }
 };
