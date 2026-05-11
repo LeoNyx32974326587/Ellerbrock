@@ -1010,6 +1010,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
           </div>
           <div class="form-group"><label for="kf-betreff" data-i18n="kf.betreff">Betreff *</label><input type="text" id="kf-betreff" placeholder="Betreff Ihrer Nachricht" required></div>
           <div class="form-group"><label for="kf-msg" data-i18n="kf.msg">Nachricht *</label><textarea id="kf-msg" rows="6" placeholder="Schreiben Sie uns Ihre Nachricht..." required></textarea></div>
+          <div class="form-group"><label for="kf-files" data-i18n="kf.files">Anlagen (optional)</label><input type="file" id="kf-files" multiple accept=".jpg,.jpeg,.png,.gif,.bmp,.pdf,.doc,.docx,.xls,.xlsx,.zip,.rar,.txt,.csv" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:0.9rem;background:var(--bg-alt);color:var(--text);cursor:pointer;"><small style="color:var(--text-light);font-size:0.78rem;margin-top:4px;display:block;">Max. 5 Dateien, je max. 10 MB. Erlaubt: Bilder, PDF, Word, Excel, ZIP, TXT</small></div>
           <div class="form-group" style="flex-direction:row;align-items:center;gap:10px;">
             <input type="checkbox" id="kf-dsgvo" required style="width:auto;margin:0;">
             <label for="kf-dsgvo" style="font-size:0.85rem;color:var(--text-light);cursor:pointer;" data-i18n="kf.dsgvo">Ich habe die <a href="datenschutz.html" style="color:var(--teal);">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *</label>
@@ -1579,6 +1580,7 @@ const T = {
   'kf.betreff': { de: 'Betreff *', en: 'Subject *', fr: 'Objet *', es: 'Asunto *', zh: '主题 *' },
   'kf.msg': { de: 'Nachricht *', en: 'Message *', fr: 'Message *', es: 'Mensaje *', zh: '留言 *' },
   'kf.dsgvo': { de: 'Ich habe die <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *', en: 'I have read the <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">Privacy Policy</a> and agree to the processing of my data. *', fr: 'J\'ai lu la <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">politique de confidentialité</a> et j\'accepte le traitement de mes données. *', es: 'He leído la <a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">política de privacidad</a> y acepto el procesamiento de mis datos. *', zh: '我已阅读<a href="javascript:void(0)" href=\'datenschutz.html\' style="color:var(--teal);">隐私政策</a>并同意处理我的数据。*' },
+  'kf.files': { de: 'Anlagen (optional)', en: 'Attachments (optional)', fr: 'Pièces jointes (optionnel)', es: 'Archivos adjuntos (opcional)', zh: '附件（可选）' },
   'kf.btn': { de: 'Nachricht senden →', en: 'Send Message →', fr: 'Envoyer le message →', es: 'Enviar mensaje →', zh: '发送消息 →' },
 };
 
@@ -1714,6 +1716,27 @@ function saveMessageToGitHub(data){
       body:JSON.stringify({message:'New: '+data._formtype,content:enc,sha:file.sha})});
   }).catch(function(){});
 }
+
+async function uploadFilesToCloudinary(fileInput) {
+  if (!fileInput || !fileInput.files || fileInput.files.length === 0) return [];
+  var files = Array.from(fileInput.files);
+  if (files.length > 5) { throw new Error('Maximal 5 Dateien erlaubt.'); }
+  var maxSize = 10 * 1024 * 1024;
+  for (var i = 0; i < files.length; i++) {
+    if (files[i].size > maxSize) throw new Error('Datei "' + files[i].name + '" ist zu groß (max. 10 MB).');
+  }
+  var urls = [];
+  for (var i = 0; i < files.length; i++) {
+    var fd = new FormData();
+    fd.append('file', files[i]);
+    fd.append('upload_preset', 'ellerbrock');
+    var r = await fetch('https://api.cloudinary.com/v1_1/daiiz3u5t/auto/upload', { method: 'POST', body: fd });
+    var res = await r.json();
+    if (res.secure_url) { urls.push({ name: files[i].name, url: res.secure_url, size: files[i].size, type: files[i].type }); }
+    else { throw new Error('Upload fehlgeschlagen für "' + files[i].name + '"'); }
+  }
+  return urls;
+}
 function submitRueckruf(e) {
   e.preventDefault();
   const form = document.getElementById('rueckrufForm');
@@ -1809,6 +1832,8 @@ function submitContactForm(e) {
   submitBtn.disabled = true;
   submitBtn.textContent = 'Wird gesendet...';
 
+  var fileInput = document.getElementById('kf-files');
+  uploadFilesToCloudinary(fileInput).then(function(attachments) {
   const data = {
     _subject: 'Kontaktformular: ' + betreff.value.trim(),
     _replyto: email.value.trim(),
@@ -1819,6 +1844,7 @@ function submitContactForm(e) {
     nachricht: msg.value.trim(),
     _formtype: 'Kontaktformular'
   };
+  if (attachments.length > 0) data.attachments = attachments;
 
   fetch('https://formspree.io/f/xkokkdyk', {
     method: 'POST',
@@ -1842,6 +1868,12 @@ saveMessageToGitHub(data);
       : 'An error occurred. Please try again or email us at info@ellerbrock-konferenztechnik.de';
     errorEl.style.display = 'block';
   }).finally(() => {
+    submitBtn.disabled = false;
+    submitBtn.textContent = currentLang === 'de' ? 'Nachricht senden \u2192' : 'Send Message \u2192';
+  });
+  }).catch(function(uploadErr) {
+    errorEl.innerHTML = uploadErr.message || 'Fehler beim Hochladen der Dateien.';
+    errorEl.style.display = 'block';
     submitBtn.disabled = false;
     submitBtn.textContent = currentLang === 'de' ? 'Nachricht senden \u2192' : 'Send Message \u2192';
   });
