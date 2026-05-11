@@ -146,6 +146,14 @@
     .msg-action-delete{background:rgba(239,68,68,0.1);color:#ef4444;}
     .msg-action-delete:hover{background:rgba(239,68,68,0.2);}
     .msg-card.msg-done{opacity:0.6;}
+    .msg-card.msg-deleted{opacity:0.5;border-left:3px solid #ef4444;background:rgba(239,68,68,0.03);}
+    .msg-card.msg-deleted:hover{opacity:0.75;}
+    .msg-action-restore{background:rgba(1,86,109,0.15);color:var(--teal);}
+    .msg-action-restore:hover{background:rgba(1,86,109,0.25);}
+    .msg-action-permdelete{background:rgba(239,68,68,0.15);color:#ef4444;}
+    .msg-action-permdelete:hover{background:rgba(239,68,68,0.25);}
+    .msg-trash-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius:var(--radius);margin-bottom:16px;}
+    .msg-trash-header span{font-size:0.9rem;color:#ef4444;font-weight:600;}
     .msg-card.msg-done:hover{opacity:0.85;}
     .msg-card.msg-done .msg-card-from{text-decoration:line-through;text-decoration-color:var(--text-light);}
     .msg-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:12px;transition:all 0.2s;cursor:pointer;}
@@ -244,7 +252,7 @@
       <div class="card"><h3>CTA / Kontakt</h3><div class="edit-group"><label>Überschrift</label><input type="text" id="editCtaTitle" value="Lassen Sie uns Ihre Veranstaltung planen"></div><div class="edit-group"><label>Beschreibung</label><textarea id="editCtaSub">Unser Team berät Sie gerne — ob Miete, Kauf oder technischer Support.</textarea></div><div class="btn-row"><button class="admin-btn btn-save" onclick="saveContent()">Änderungen speichern</button><button class="admin-btn btn-secondary" onclick="exportContent()">Als Textdatei exportieren</button></div></div>
     </div>
     <div class="panel" id="panel-nachrichten">
-      <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;"><div><h1>Nachrichten</h1><p>Eingegangene Anfragen vom Kontaktformular und Rückrufservice.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="visit-time-btn active" id="msgFilterAll" onclick="filterMessages('all',this)">Alle</button><button class="visit-time-btn" onclick="filterMessages('unbearbeitet',this)">Unbearbeitet</button><button class="visit-time-btn" onclick="filterMessages('bearbeitet',this)">Bearbeitet</button><button class="visit-time-btn" onclick="filterMessages('Kontaktformular',this)">Kontaktformular</button><button class="visit-time-btn" onclick="filterMessages('Rückrufservice',this)">Rückrufservice</button></div></div>
+      <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;"><div><h1>Nachrichten</h1><p>Eingegangene Anfragen vom Kontaktformular und Rückrufservice.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="visit-time-btn active" id="msgFilterAll" onclick="filterMessages('all',this)">Alle</button><button class="visit-time-btn" onclick="filterMessages('unbearbeitet',this)">Unbearbeitet</button><button class="visit-time-btn" onclick="filterMessages('bearbeitet',this)">Bearbeitet</button><button class="visit-time-btn" onclick="filterMessages('Kontaktformular',this)">Kontaktformular</button><button class="visit-time-btn" onclick="filterMessages('Rückrufservice',this)">Rückrufservice</button><button class="visit-time-btn" onclick="filterMessages('geloescht',this)" style="color:#ef4444;">&#128465; Gelöscht</button></div></div>
       <div id="msgLoading" style="text-align:center;padding:40px;color:var(--text-light);">Nachrichten werden geladen...</div>
       <div id="msgEmpty" style="display:none;text-align:center;padding:60px 20px;"><div style="font-size:3rem;margin-bottom:12px;">📭</div><div style="color:var(--text-light);font-size:0.95rem;">Noch keine Nachrichten eingegangen.</div></div>
       <div id="msgList"></div>
@@ -342,12 +350,17 @@ function renderMessages(){
   var list=document.getElementById('msgList');
   var msgs=[];
   _messagesCache.forEach(function(m,i){m._origIdx=i;msgs.push(m);});
-  if(_msgFilter==='unbearbeitet'){msgs=msgs.filter(function(m){return !m.done;});}
-  else if(_msgFilter==='bearbeitet'){msgs=msgs.filter(function(m){return !!m.done;});}
-  else if(_msgFilter!=='all'){msgs=msgs.filter(function(m){return m._formtype===_msgFilter;});}
+  if(_msgFilter==='geloescht'){msgs=msgs.filter(function(m){return !!m.deleted;});}
+  else{
+    msgs=msgs.filter(function(m){return !m.deleted;});
+    if(_msgFilter==='unbearbeitet'){msgs=msgs.filter(function(m){return !m.done;});}
+    else if(_msgFilter==='bearbeitet'){msgs=msgs.filter(function(m){return !!m.done;});}
+    else if(_msgFilter!=='all'){msgs=msgs.filter(function(m){return m._formtype===_msgFilter;});}
+  }
   if(msgs.length===0){document.getElementById('msgEmpty').style.display='block';list.innerHTML='';return;}
   document.getElementById('msgEmpty').style.display='none';
   var html='';
+  if(_msgFilter==='geloescht'){html+='<div class="msg-trash-header"><span>&#128465; Papierkorb ('+msgs.length+' Nachrichten)</span><button class="msg-action-btn msg-action-permdelete" onclick="emptyTrash()">Papierkorb leeren</button></div>';}
   msgs.forEach(function(m){
     var oi=m._origIdx;
     var isKontakt=m._formtype==='Kontaktformular';
@@ -357,8 +370,9 @@ function renderMessages(){
     if(m.date){var d=new Date(m.date);dateStr=d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
     var preview=isKontakt?(m.betreff||m.nachricht||'Keine Nachricht'):(m.nachricht||((m.gewuenschter_tag&&m.gewuenschter_tag!=='-')?'Rückruf am '+m.gewuenschter_tag+(m.gewuenschte_uhrzeit&&m.gewuenschte_uhrzeit!=='-'?' um '+m.gewuenschte_uhrzeit:''):'Rückruf angefragt'));
     var classes='msg-card';
-    if(m.read===false)classes+=' msg-unread';
-    if(m.done)classes+=' msg-done';
+    if(m.deleted)classes+=' msg-deleted';
+    else if(m.read===false)classes+=' msg-unread';
+    if(m.done&&!m.deleted)classes+=' msg-done';
     html+='<div class="'+classes+'">';
     html+='<div class="msg-card-head"><span class="msg-card-type '+typeClass+'">'+typeLabel+'</span><div style="display:flex;align-items:center;gap:8px;">';
     if(m.done)html+='<span style="font-size:0.7rem;font-weight:600;color:var(--accent);">&#10003; Bearbeitet</span>';
@@ -366,9 +380,14 @@ function renderMessages(){
     html+='<div class="msg-card-from" onclick="showMessage('+oi+')" style="cursor:pointer;">'+(m.name||'Unbekannt')+(m.firma?' — '+m.firma:'')+'</div>';
     html+='<div class="msg-card-preview" onclick="showMessage('+oi+')" style="cursor:pointer;">'+escHtml(preview)+'</div>';
     html+='<div class="msg-card-actions">';
-    if(!m.done){html+='<button class="msg-action-btn msg-action-done" onclick="event.stopPropagation();toggleDone('+oi+',true)">&#10003; Als bearbeitet</button>';}
-    else{html+='<button class="msg-action-btn msg-action-undone" onclick="event.stopPropagation();toggleDone('+oi+',false)">&#8634; Unbearbeitet</button>';}
-    html+='<button class="msg-action-btn msg-action-delete" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005; Löschen</button>';
+    if(m.deleted){
+      html+='<button class="msg-action-btn msg-action-restore" onclick="event.stopPropagation();restoreMessage('+oi+')">&#8634; Wiederherstellen</button>';
+      html+='<button class="msg-action-btn msg-action-permdelete" onclick="event.stopPropagation();permDeleteMessage('+oi+')">&#10005; Endgültig löschen</button>';
+    }else{
+      if(!m.done){html+='<button class="msg-action-btn msg-action-done" onclick="event.stopPropagation();toggleDone('+oi+',true)">&#10003; Als bearbeitet</button>';}
+      else{html+='<button class="msg-action-btn msg-action-undone" onclick="event.stopPropagation();toggleDone('+oi+',false)">&#8634; Unbearbeitet</button>';}
+      html+='<button class="msg-action-btn msg-action-delete" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005; Löschen</button>';
+    }
     html+='</div></div>';
   });
   list.innerHTML=html;
@@ -403,9 +422,14 @@ function showMessage(idx){
   }
   html+='</div>';
   html+='<div class="btn-row" style="margin-top:16px;">';
-  if(!m.done){html+='<button class="admin-btn btn-save" onclick="toggleDone('+idx+',true);showMessage('+idx+')">&#10003; Als bearbeitet markieren</button>';}
-  else{html+='<button class="admin-btn btn-secondary" onclick="toggleDone('+idx+',false);showMessage('+idx+')">&#8634; Als unbearbeitet markieren</button>';}
-  html+='<button class="admin-btn btn-danger" onclick="deleteMessage('+idx+')">Nachricht löschen</button>';
+  if(m.deleted){
+    html+='<button class="admin-btn btn-save" onclick="restoreMessage('+idx+');renderMessages()">&#8634; Wiederherstellen</button>';
+    html+='<button class="admin-btn btn-danger" onclick="permDeleteMessage('+idx+')">Endgültig löschen</button>';
+  }else{
+    if(!m.done){html+='<button class="admin-btn btn-save" onclick="toggleDone('+idx+',true);showMessage('+idx+')">&#10003; Als bearbeitet markieren</button>';}
+    else{html+='<button class="admin-btn btn-secondary" onclick="toggleDone('+idx+',false);showMessage('+idx+')">&#8634; Als unbearbeitet markieren</button>';}
+    html+='<button class="admin-btn btn-danger" onclick="deleteMessage('+idx+')">Nachricht löschen</button>';
+  }
   html+='</div>';
   document.getElementById('msgList').innerHTML=html;
   document.getElementById('msgEmpty').style.display='none';
@@ -438,20 +462,47 @@ function toggleDone(idx,done){
 }
 function deleteMessage(idx){
   var m=_messagesCache[idx];
-  if(!confirm('Nachricht von "'+(m.name||'Unbekannt')+'" wirklich löschen?'))return;
-  _messagesCache.splice(idx,1);
+  if(!confirm('Nachricht von "'+(m.name||'Unbekannt')+'" löschen?'))return;
+  m.deleted=true;m.deletedAt=new Date().toISOString();
   saveMessagesToGitHub('Delete message');
   renderMessages();
   updateMsgBadge();
-  showToast('Nachricht gelöscht');
+  showToast('Nachricht in Papierkorb verschoben');
+}
+function restoreMessage(idx){
+  var m=_messagesCache[idx];
+  delete m.deleted;delete m.deletedAt;
+  saveMessagesToGitHub('Restore message');
+  renderMessages();
+  updateMsgBadge();
+  showToast('Nachricht wiederhergestellt');
+}
+function permDeleteMessage(idx){
+  var m=_messagesCache[idx];
+  if(!confirm('Nachricht endgültig löschen? Dies kann nicht rückgängig gemacht werden.'))return;
+  _messagesCache.splice(idx,1);
+  saveMessagesToGitHub('Permanently delete message');
+  renderMessages();
+  updateMsgBadge();
+  showToast('Nachricht endgültig gelöscht');
+}
+function emptyTrash(){
+  if(!confirm('Papierkorb leeren? Alle gelöschten Nachrichten werden endgültig entfernt.'))return;
+  _messagesCache=_messagesCache.filter(function(m){return !m.deleted;});
+  saveMessagesToGitHub('Empty trash');
+  renderMessages();
+  updateMsgBadge();
+  showToast('Papierkorb geleert');
 }
 function updateMsgBadge(){
-  var unread=_messagesCache.filter(function(m){return m.read===false;}).length;
-  var undone=_messagesCache.filter(function(m){return !m.done;}).length;
+  var active=_messagesCache.filter(function(m){return !m.deleted;});
+  var unread=active.filter(function(m){return m.read===false;}).length;
+  var undone=active.filter(function(m){return !m.done;}).length;
+  var deletedCount=_messagesCache.filter(function(m){return !!m.deleted;}).length;
   var badge=document.getElementById('msgBadge');
   if(undone>0){badge.textContent=undone;badge.style.display='inline';}
   else{badge.style.display='none';}
-  var sc=document.getElementById('statMsgCount');if(sc)sc.textContent=_messagesCache.length;
+  var sc=document.getElementById('statMsgCount');if(sc)sc.textContent=active.length;
   var su=document.getElementById('statMsgUnread');if(su){
     var parts=[];
     if(unread>0)parts.push(unread+' ungelesen');
