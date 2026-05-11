@@ -67,7 +67,7 @@ window.ELLERBROCK_IMAGES = {
   },
   "_texts": {
     "index.html": {
-      "div:nth-of-type(2)>div:nth-of-type(2)>div>div:nth-of-type(3)>div>div:nth-of-type(2)>div:nth-of-type(2)>p": "Verantwortet den operativen Bereich und die technische Leitung — von der Projektplanung bis zur Vor-Ort-Betreuung"
+      "div:nth-of-type(2)>div:nth-of-type(2)>div>div:nth-of-type(3)>div>div:nth-of-type(2)>div:nth-of-type(2)>p": ""
     }
   }
 };
