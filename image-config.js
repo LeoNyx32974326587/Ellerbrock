@@ -59,19 +59,12 @@ window.ELLERBROCK_IMAGES = {
   "_texts": {
     "index.html": {
       "div:nth-of-type(2)>div:nth-of-type(2)>div>div:nth-of-type(3)>div>div:nth-of-type(2)>div:nth-of-type(2)>p": "Verantwortet den operativen Bereich und die technische Leitung — von der Projektplanung bis zur Vor-Ort-Betreuung",
-      "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltung",
+      "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltun",
       "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div>strong": "45+",
       "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div:nth-of-type(3)>strong": "12.000+",
       "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div:nth-of-type(3)>span": "Empfänger",
       "nav>div>ul>li:nth-of-type(2)": "Produkte\n        \n           Kaufen\n           Mieten\n           Bestand\n        \n      ",
       "nav>div>ul>li": "Leistungen"
     }
-  },
-  "dolmetscheranlage-hoersprechgarnitur.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778494048/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778494047607.jpg",
-    "fit": "cover",
-    "pos": "center",
-    "w": "188px",
-    "h": "278px"
   }
 };
