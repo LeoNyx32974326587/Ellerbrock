@@ -21,7 +21,7 @@ window.ELLERBROCK_IMAGES = {
   },
   "galerie-1.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778485530/ellerbrock/galerie-1-1778485530365.webp",
-    "fit": "cover",
+    "fit": "contain",
     "pos": "center"
   }
 };
