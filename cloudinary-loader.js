@@ -25,21 +25,15 @@
       var sib=img.nextElementSibling;
       if(sib&&sib.classList&&sib.classList.contains('initials')) sib.style.display='none';
     });
-  }
-  if(window.self!==window.top)return;
-  fetch('https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/image-config.js',{
-    headers:{'Accept':'application/vnd.github.v3.raw'}
-  })
-    .then(function(r){return r.ok?r.text():null;})
-    .then(function(txt){
-      if(!txt)return;
-      try{
-        var m=txt.match(/\{[\s\S]*\}/);
-        if(m){var map=JSON.parse(m[0]);applyMap(map);}
-      }catch(e){
-        if(window.ELLERBROCK_IMAGES)applyMap(window.ELLERBROCK_IMAGES);
-      }
-    }).catch(function(){
-      if(window.ELLERBROCK_IMAGES)applyMap(window.ELLERBROCK_IMAGES);
-    });
-})();
+    // Restore new containers
+    var page=location.pathname.split('/').pop()||'index.html';
+    Object.keys(map).forEach(function(fn){
+      if(!fn.startsWith('_new_'))return;
+      var entry=map[fn];if(!entry||!entry.url)return;
+      if(entry.page&&entry.page!==page)return;
+      var div=document.createElement('div');
+      div.style.cssText='position:relative;margin:10px auto;overflow:hidden;';
+      if(entry.w)div.style.width=entry.w;
+      if(entry.h)div.style.height=entry.h;
+      var nimg=document.createElement('img');nimg.src=entry.url;
+      nimg.style.width='100%';nimg.style.height='100%';
