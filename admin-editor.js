@@ -293,6 +293,44 @@
         setupImage(img,fn,entry||{});
       });
 
+      // Setup team placeholders - click to add photo
+      document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
+        ph.style.cursor='pointer';
+        ph.title='Klicken um Foto hochzuladen';
+        ph.addEventListener('click',function(){
+          var inp=document.createElement('input');
+          inp.type='file';inp.accept='image/*';
+          inp.onchange=function(){
+            if(!inp.files||!inp.files[0])return;
+            var file=inp.files[0];
+            var name=ph.closest('.team-card').querySelector('.team-card-name');
+            var fn='team-'+((name?name.textContent:'photo').toLowerCase().replace(/[^a-z0-9]/g,'-'))+'.jpg';
+            var fd=new FormData();
+            fd.append('file',file);
+            fd.append('upload_preset','ellerbrock');
+            fd.append('public_id','ellerbrock/'+fn.replace('.jpg','')+'-'+Date.now());
+            fetch('https://api.cloudinary.com/v1_1/daiiz3u5t/image/upload',{method:'POST',body:fd})
+            .then(function(r){return r.json();})
+            .then(function(data){
+              if(!data.secure_url)return;
+              var img=document.createElement('img');
+              img.src=data.secure_url;
+              img.alt=name?name.textContent:'';
+              img.setAttribute('data-orig',fn);
+              img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';
+              var wrapper=document.createElement('div');
+              wrapper.className='team-card-img';
+              wrapper.appendChild(img);
+              ph.replaceWith(wrapper);
+              setupImage(img,fn,{url:data.secure_url,fit:'cover',pos:'center'});
+              map[fn]={url:data.secure_url,fit:'cover',pos:'center'};
+              window.parent.postMessage({type:'ae-map-update',map:map},'*');
+            });
+          };
+          inp.click();
+        });
+      });
+
       // Disable ALL navigation in preview
       document.querySelectorAll('a').forEach(function(a){
         a.setAttribute('data-href',a.getAttribute('href')||'');
