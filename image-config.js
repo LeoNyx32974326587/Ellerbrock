@@ -60,5 +60,30 @@ window.ELLERBROCK_IMAGES = {
     "index.html": {
       "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltung"
     }
+  },
+  "galerie-2.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498367/ellerbrock/galerie-2-1778498362887.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "galerie-3.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498368/ellerbrock/galerie-3-1778498367480.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "galerie-4.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498371/ellerbrock/galerie-4-1778498370907.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "galerie-5.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498374/ellerbrock/galerie-5-1778498374240.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "galerie-6.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498376/ellerbrock/galerie-6-1778498376614.jpg",
+    "fit": "cover",
+    "pos": "center"
   }
 };
