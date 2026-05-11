@@ -11,14 +11,14 @@
   css.textContent=`
     .ae-wrap{position:relative;display:inline-block;}
     .ae-handles{position:absolute;inset:0;pointer-events:none;z-index:150;border:2px solid #3b82f6;opacity:0;transition:opacity .15s;}
-    .ae-wrap:hover .ae-handles,.ae-wrap.ae-active .ae-handles{opacity:1;}
+    .ae-wrap:hover .ae-handles,.ae-wrap.ae-selected .ae-handles{opacity:1;}
     .ae-h{position:absolute;width:12px;height:12px;background:#3b82f6;border:2px solid #fff;border-radius:50%;pointer-events:all;cursor:nwse-resize;z-index:151;box-shadow:0 1px 4px rgba(0,0,0,.4);}
     .ae-h-tl{top:-6px;left:-6px;cursor:nwse-resize;}
     .ae-h-tr{top:-6px;right:-6px;cursor:nesw-resize;}
     .ae-h-bl{bottom:-6px;left:-6px;cursor:nesw-resize;}
     .ae-h-br{bottom:-6px;right:-6px;cursor:nwse-resize;}
-    .ae-toolbar{position:absolute;top:-36px;left:50%;transform:translateX(-50%);display:flex;gap:4px;background:rgba(0,0,0,.85);border-radius:8px;padding:4px 8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:160;}
-    .ae-wrap:hover .ae-toolbar,.ae-wrap.ae-active .ae-toolbar{opacity:1;pointer-events:all;}
+    .ae-toolbar{position:absolute;top:8px;right:8px;display:flex;gap:4px;background:rgba(0,0,0,.85);border-radius:8px;padding:4px 8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:160;}
+    .ae-wrap:hover .ae-toolbar,.ae-wrap.ae-selected .ae-toolbar{opacity:1;pointer-events:all;}
     .ae-btn{background:none;border:none;color:#fff;font-size:12px;cursor:pointer;padding:3px 8px;border-radius:4px;font-weight:600;}
     .ae-btn:hover{background:rgba(255,255,255,.15);}
     .ae-btn-del{color:#f87171;}
@@ -171,8 +171,13 @@
     });
     wrap.appendChild(handles);
 
-    // Move overlay
+    // Move overlay (click to select, drag to move)
     var moveEl=document.createElement('div');moveEl.className='ae-move';
+    moveEl.addEventListener('click',function(e){
+      e.stopPropagation();
+      document.querySelectorAll('.ae-wrap.ae-selected').forEach(function(w){w.classList.remove('ae-selected');});
+      wrap.classList.add('ae-selected');
+    });
     makeDraggable(moveEl,img,fn,entry);
     wrap.appendChild(moveEl);
 
@@ -322,6 +327,13 @@
       document.querySelectorAll('a').forEach(function(a){
         a.addEventListener('click',function(ev){ev.preventDefault();});
         a.style.cursor='default';
+      });
+
+      // Click on background deselects all
+      document.addEventListener('click',function(e){
+        if(!e.target.closest('.ae-wrap')&&!e.target.closest('.ae-ctx')&&!e.target.closest('.ae-add-float')){
+          document.querySelectorAll('.ae-wrap.ae-selected').forEach(function(w){w.classList.remove('ae-selected');});
+        }
       });
 
       // Add floating "+" button
