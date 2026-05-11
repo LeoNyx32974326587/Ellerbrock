@@ -68,7 +68,10 @@ window.ELLERBROCK_IMAGES = {
   "_texts": {
     "index.html": {
       "section:nth-of-type(6)>div>div>p": "Impressionen von Veranstaltungen, Technik-Setups und unserem Team im Einsatz.",
-      "section:nth-of-type(3)>div>div>h2": "Vertrauen namhafter Kunden"
+      "section:nth-of-type(3)>div>div>h2": "Vertrauen namhafter Kunden",
+      "section>div:nth-of-type(2)>div:nth-of-type(3)>div:nth-of-type(3)>strong": "8000+",
+      "section>div:nth-of-type(2)>div:nth-of-type(3)>div:nth-of-type(3)>span": "Empfänger weltweit",
+      "section:nth-of-type(3)>div>div>span": "Referenzen"
     }
   }
 };
