@@ -64,18 +64,5 @@ window.ELLERBROCK_IMAGES = {
     "page": "index.html",
     "x": 0,
     "y": 0
-  },
-  "_texts": {
-    "index.html": {
-      "section:nth-of-type(6)>div>div>p": "Impressionen von Veranstaltungen, Technik-Setups und unserem Team im Einsatz.",
-      "section:nth-of-type(3)>div>div>h2": "Vertrauen namhafter Kunden",
-      "section>div:nth-of-type(2)>div:nth-of-type(3)>div:nth-of-type(3)>strong": "12.000+",
-      "section>div:nth-of-type(2)>div:nth-of-type(3)>div:nth-of-type(3)>span": "Empfänger weltweit",
-      "section:nth-of-type(3)>div>div>span": "Referenzen",
-      "div:nth-of-type(2)>div:nth-of-type(2)>div>div:nth-of-type(3)>div>div:nth-of-type(2)>div:nth-of-type(2)>p": "Verantwortet den operativen Bereich und die technische Leitung — von der Projektplanung bis zur Vor-Ort-Betreuung",
-      "div:nth-of-type(2)>div:nth-of-type(2)>div>div>div>form>div:nth-of-type(3)>label": "Betreff *",
-      "nav>div>a": "\n      coverUpload⋯\n    ",
-      "section:nth-of-type(6)>div>div:nth-of-type(2)>a:nth-of-type(2)": "containUpload⋯"
-    }
   }
 };
