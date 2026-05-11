@@ -1990,6 +1990,8 @@ function submitContactForm(e) {
       var sib=img.nextElementSibling;
       if(sib&&sib.classList&&sib.classList.contains('initials'))sib.style.display='none';
     });
+    var page=location.pathname.split('/').pop()||'index.html';
+    if(map._texts){var pt=map._texts[page];if(pt){Object.keys(pt).forEach(function(sel){try{var el=document.querySelector(sel);if(el)el.textContent=pt[sel];}catch(e){}});}}
   }
   if(window.self!==window.top){
     var sc=document.createElement('script');sc.src='admin-editor.js';document.head.appendChild(sc);
