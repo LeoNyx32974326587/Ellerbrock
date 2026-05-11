@@ -60,6 +60,9 @@ window.ELLERBROCK_IMAGES = {
     "index.html": {
       "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltung",
       "section>div:nth-of-type(2)>p": "Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand."
+    },
+    "datenschutz.html": {
+      "div:nth-of-type(2)>div:nth-of-type(2)>div>div>h3:nth-of-type(2)": "Datenerfassung auf dieser Website"
     }
   },
   "galerie-2.jpg": {
@@ -95,5 +98,14 @@ window.ELLERBROCK_IMAGES = {
     "my": 41,
     "w": "173px",
     "h": "231px"
+  },
+  "dolmetscheranlage-hoersprechgarnitur.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778506133/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778506131852.jpg",
+    "fit": "cover",
+    "pos": "center",
+    "w": "432px",
+    "h": "195px",
+    "mx": 0,
+    "my": 0
   }
 };
