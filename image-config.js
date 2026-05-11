@@ -61,7 +61,8 @@ window.ELLERBROCK_IMAGES = {
       "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltung",
       "section>div:nth-of-type(2)>p": "Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.",
       "section:nth-of-type(4)>div>div:nth-of-type(2)>a>p": "Simultandolmetscheranlagen für mehrsprachige Konferenzen — drahtlos oder kabelgebunden, mit professionellen Dolmetscherkabinen.",
-      "section:nth-of-type(4)>div>div:nth-of-type(2)>a:nth-of-type(2)>p": "Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse."
+      "section:nth-of-type(4)>div>div:nth-of-type(2)>a:nth-of-type(2)>p": "Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse.",
+      "strong": "12.000+"
     }
   },
   "galerie-2.jpg": {
@@ -102,5 +103,10 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778506218/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778506218466.jpg",
     "fit": "cover",
     "pos": "center"
+  },
+  "_content": {
+    "hero.badge": "● Ihr Partner seit über 45 Jahren",
+    "hero.stat3": "Empfänger weltweit",
+    "about.s3": "Empfänger"
   }
 };
