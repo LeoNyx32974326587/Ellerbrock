@@ -371,14 +371,10 @@ function loadMessages(){
   document.getElementById('msgLoading').style.display='block';
   document.getElementById('msgList').innerHTML='';
   document.getElementById('msgEmpty').style.display='none';
-  var token=getGitHubToken();
-  var headers={'Accept':'application/vnd.github.v3+json'};
-  if(token)headers['Authorization']='Bearer '+token;
-  fetch('https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/messages.json?t='+Date.now(),{headers:headers,cache:'no-store'})
+  fetch('https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/messages.json?t='+Date.now(),{cache:'no-store'})
   .then(function(r){if(!r.ok)throw new Error('not found');return r.json();})
-  .then(function(file){
-    var raw=atob(file.content);
-    _messagesCache=JSON.parse(raw);
+  .then(function(msgs){
+    _messagesCache=msgs;
     renderMessages();
     updateMsgBadge();
   })
@@ -387,7 +383,7 @@ function loadMessages(){
     document.getElementById('msgEmpty').style.display='block';
   });
 }
-function refreshMessages(){if(_msgDetailOpen)return;var token=getGitHubToken();var headers={"Accept":"application/vnd.github.v3+json"};if(token)headers["Authorization"]="Bearer "+token;fetch("https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/messages.json?t="+Date.now(),{headers:headers,cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("not found");return r.json();}).then(function(file){var raw=atob(file.content);var newMsgs=JSON.parse(raw);if(JSON.stringify(newMsgs)!==JSON.stringify(_messagesCache)){_messagesCache=newMsgs;renderMessages();updateMsgBadge();}}).catch(function(){});}
+function refreshMessages(){if(_msgDetailOpen)return;fetch("https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/messages.json?t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("not found");return r.json();}).then(function(msgs){if(JSON.stringify(msgs)!==JSON.stringify(_messagesCache)){_messagesCache=msgs;renderMessages();updateMsgBadge();}}).catch(function(){});}
 function renderMessages(){_msgDetailOpen=false;
   document.getElementById('msgLoading').style.display='none';
   var list=document.getElementById('msgList');
@@ -680,9 +676,9 @@ function updateMsgBadge(){
   var token=getGitHubToken();
   var headers={'Accept':'application/vnd.github.v3+json'};
   if(token)headers['Authorization']='Bearer '+token;
-  fetch('https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/messages.json?t='+Date.now(),{headers:headers,cache:'no-store'})
+  fetch('https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/messages.json?t='+Date.now(),{cache:'no-store'})
   .then(function(r){if(!r.ok)throw new Error('x');return r.json();})
-  .then(function(file){_messagesCache=JSON.parse(atob(file.content));updateMsgBadge();})
+  .then(function(msgs){_messagesCache=msgs;updateMsgBadge();})
   .catch(function(){});
 })();
 
