@@ -439,6 +439,7 @@ function renderMessages(){_msgDetailOpen=false;
     html+='<span class="msg-card-date">'+ds+'</span></div>';
     html+='<div class="msg-card-from"><span>'+(m.name||'Unbekannt')+'</span>'+(m.firma?'<span style="font-weight:400;color:var(--text-light);font-size:0.85rem;">'+escHtml(m.firma)+'</span>':'')+'</div>';
     html+='<div class="msg-card-preview">'+escHtml(pv)+'</div>';
+    if(m.attachments&&m.attachments.length>0)html+='<div style="font-size:0.78rem;color:var(--text-light);margin-top:4px;">&#128206; '+m.attachments.length+' Anlage'+(m.attachments.length>1?'n':'')+'</div>';
     html+='</div>';
     // Action bar
     html+='<div class="msg-card-actions">';
@@ -524,6 +525,7 @@ function showMessage(idx){_msgDetailOpen=true;
     if(m.gewuenschte_uhrzeit&&m.gewuenschte_uhrzeit!=='-')html+='<div class="msg-detail-row"><div class="msg-detail-label">Uhrzeit</div><div class="msg-detail-value">'+escHtml(m.gewuenschte_uhrzeit)+'</div></div>';
     if(m.nachricht)html+='<div class="msg-detail-row"><div class="msg-detail-label">Nachricht</div><div class="msg-detail-value" style="white-space:pre-wrap;line-height:1.7;">'+escHtml(m.nachricht)+'</div></div>';
   }
+  if(m.attachments&&m.attachments.length>0){html+='<div class="msg-detail-row"><div class="msg-detail-label">Anlagen</div><div class="msg-detail-value"><div style="display:flex;flex-wrap:wrap;gap:10px;">';m.attachments.forEach(function(a){var isImg=/\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(a.name);var sizeStr=a.size?(a.size<1024?a.size+' B':a.size<1048576?Math.round(a.size/1024)+' KB':Math.round(a.size/1048576*10)/10+' MB'):'';html+='<a href="'+escHtml(a.url)+'" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-size:0.85rem;transition:border-color 0.2s;" onmouseover="this.style.borderColor=\'var(--teal)\'" onmouseout="this.style.borderColor=\'var(--border)\'">'+(isImg?'<img src="'+escHtml(a.url)+'" style="width:40px;height:40px;object-fit:cover;border-radius:4px;">':'<span style="font-size:1.4rem;">&#128206;</span>')+'<div><div style="font-weight:500;">'+escHtml(a.name)+'</div>'+(sizeStr?'<div style="font-size:0.75rem;color:var(--text-light);">'+sizeStr+'</div>':'')+'</div></a>';});html+='</div></div></div>';}
   html+='</div>';
   // Actions
   html+='<div class="msg-detail-actions">';
