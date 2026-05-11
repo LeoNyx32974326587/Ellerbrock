@@ -7,7 +7,9 @@ window.ELLERBROCK_IMAGES = {
   "team-fabian-habel.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778253650/ellerbrock/team-fabian-habel-1778253649968.webp",
     "fit": "cover",
-    "pos": "center"
+    "pos": "center",
+    "mx": 2,
+    "my": -1
   },
   "galerie-1.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778485590/ellerbrock/galerie-1-1778485590684.jpg",
