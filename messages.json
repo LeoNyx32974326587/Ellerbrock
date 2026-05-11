@@ -26,6 +26,8 @@
     "id": 1778500223479,
     "date": "2026-05-11T11:50:23.480Z",
     "read": true,
-    "done": false
+    "done": false,
+    "deleted": true,
+    "deletedAt": "2026-05-11T12:10:00.074Z"
   }
 ]
