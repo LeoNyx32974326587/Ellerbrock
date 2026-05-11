@@ -62,7 +62,7 @@ window.ELLERBROCK_IMAGES = {
       "section>div:nth-of-type(2)>p": "Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.",
       "section:nth-of-type(4)>div>div:nth-of-type(2)>a>p": "Simultandolmetscheranlagen für mehrsprachige Konferenzen — drahtlos oder kabelgebunden, mit professionellen Dolmetscherkabinen.",
       "section:nth-of-type(4)>div>div:nth-of-type(2)>a:nth-of-type(2)>p": "Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse.",
-      "strong": "45+"
+      "strong": "12,000+"
     }
   },
   "galerie-2.jpg": {
@@ -106,7 +106,7 @@ window.ELLERBROCK_IMAGES = {
   },
   "_content": {
     "hero.badge": "● Ihr Partner seit über 45 Jahren",
-    "hero.stat3": "Empfänger weltweit",
+    "hero.stat3": "Sprechstellen weltweit",
     "about.s3": "Empfänger"
   }
 };
