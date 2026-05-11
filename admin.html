@@ -153,6 +153,15 @@
     .msg-action-permdelete{background:rgba(239,68,68,0.15);color:#ef4444;}
     .msg-action-permdelete:hover{background:rgba(239,68,68,0.25);}
     .msg-card.msg-claimed{border-left:3px solid #f59e0b;}
+    .msg-card.msg-archived{opacity:0.55;border-left:3px solid #8b5cf6;}
+    .msg-card.msg-archived:hover{opacity:0.75;}
+    .msg-archived-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:6px;background:rgba(139,92,246,0.15);color:#8b5cf6;}
+    .msg-action-archive{background:rgba(139,92,246,0.15);color:#8b5cf6;}
+    .msg-action-archive:hover{background:rgba(139,92,246,0.25);}
+    .msg-action-unarchive{background:rgba(139,92,246,0.1);color:#8b5cf6;}
+    .msg-action-unarchive:hover{background:rgba(139,92,246,0.2);}
+    .msg-archive-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.15);border-radius:var(--radius);margin-bottom:16px;}
+    .msg-archive-header span{font-size:0.9rem;color:#8b5cf6;font-weight:600;}
     .msg-claimed-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:6px;background:rgba(245,158,11,0.15);color:#f59e0b;}
     .msg-action-claim{background:rgba(245,158,11,0.15);color:#f59e0b;}
     .msg-action-claim:hover{background:rgba(245,158,11,0.25);}
@@ -258,7 +267,7 @@
       <div class="card"><h3>CTA / Kontakt</h3><div class="edit-group"><label>Überschrift</label><input type="text" id="editCtaTitle" value="Lassen Sie uns Ihre Veranstaltung planen"></div><div class="edit-group"><label>Beschreibung</label><textarea id="editCtaSub">Unser Team berät Sie gerne — ob Miete, Kauf oder technischer Support.</textarea></div><div class="btn-row"><button class="admin-btn btn-save" onclick="saveContent()">Änderungen speichern</button><button class="admin-btn btn-secondary" onclick="exportContent()">Als Textdatei exportieren</button></div></div>
     </div>
     <div class="panel" id="panel-nachrichten">
-      <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;"><div><h1>Nachrichten</h1><p>Eingegangene Anfragen vom Kontaktformular und Rückrufservice.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="visit-time-btn active" id="msgFilterAll" onclick="filterMessages('all',this)">Alle</button><button class="visit-time-btn" onclick="filterMessages('unbearbeitet',this)">Unbearbeitet</button><button class="visit-time-btn" onclick="filterMessages('bearbeitet',this)">Bearbeitet</button><button class="visit-time-btn" onclick="filterMessages('Kontaktformular',this)">Kontaktformular</button><button class="visit-time-btn" onclick="filterMessages('Rückrufservice',this)">Rückrufservice</button><button class="visit-time-btn" onclick="filterMessages('geloescht',this)" style="color:#ef4444;">&#128465; Gelöscht</button></div></div>
+      <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;"><div><h1>Nachrichten</h1><p>Eingegangene Anfragen vom Kontaktformular und Rückrufservice.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="visit-time-btn active" id="msgFilterAll" onclick="filterMessages('all',this)">Alle</button><button class="visit-time-btn" onclick="filterMessages('unbearbeitet',this)">Unbearbeitet</button><button class="visit-time-btn" onclick="filterMessages('bearbeitet',this)">Bearbeitet</button><button class="visit-time-btn" onclick="filterMessages('Kontaktformular',this)">Kontaktformular</button><button class="visit-time-btn" onclick="filterMessages('Rückrufservice',this)">Rückrufservice</button><button class="visit-time-btn" onclick="filterMessages('mein-archiv',this)" style="color:#6366f1;">&#128230; Mein Archiv</button><button class="visit-time-btn" onclick="filterMessages('archiv-alle',this)" style="color:#8b5cf6;">&#128230; Archiv (Alle)</button><button class="visit-time-btn" onclick="filterMessages('geloescht',this)" style="color:#ef4444;">&#128465; Gelöscht</button></div></div>
       <div id="msgLoading" style="text-align:center;padding:40px;color:var(--text-light);">Nachrichten werden geladen...</div>
       <div id="msgEmpty" style="display:none;text-align:center;padding:60px 20px;"><div style="font-size:3rem;margin-bottom:12px;">📭</div><div style="color:var(--text-light);font-size:0.95rem;">Noch keine Nachrichten eingegangen.</div></div>
       <div id="msgList"></div>
@@ -356,9 +365,12 @@ function renderMessages(){
   var list=document.getElementById('msgList');
   var msgs=[];
   _messagesCache.forEach(function(m,i){m._origIdx=i;msgs.push(m);});
+  var _currentUser=sessionStorage.getItem('admin_name')||'Admin';
   if(_msgFilter==='geloescht'){msgs=msgs.filter(function(m){return !!m.deleted;});}
+  else if(_msgFilter==='mein-archiv'){msgs=msgs.filter(function(m){return !m.deleted&&m.archivedBy&&m.archivedBy.indexOf(_currentUser)!==-1;});}
+  else if(_msgFilter==='archiv-alle'){msgs=msgs.filter(function(m){return !m.deleted&&!!m.archivedForAll;});}
   else{
-    msgs=msgs.filter(function(m){return !m.deleted;});
+    msgs=msgs.filter(function(m){return !m.deleted&&!m.archivedForAll&&!(m.archivedBy&&m.archivedBy.indexOf(_currentUser)!==-1);});
     if(_msgFilter==='unbearbeitet'){msgs=msgs.filter(function(m){return !m.done;});}
     else if(_msgFilter==='bearbeitet'){msgs=msgs.filter(function(m){return !!m.done;});}
     else if(_msgFilter!=='all'){msgs=msgs.filter(function(m){return m._formtype===_msgFilter;});}
@@ -367,6 +379,8 @@ function renderMessages(){
   document.getElementById('msgEmpty').style.display='none';
   var html='';
   if(_msgFilter==='geloescht'){html+='<div class="msg-trash-header"><span>&#128465; Papierkorb ('+msgs.length+' Nachrichten)</span><button class="msg-action-btn msg-action-permdelete" onclick="emptyTrash()">Papierkorb leeren</button></div>';}
+  if(_msgFilter==='mein-archiv'){html+='<div class="msg-archive-header"><span>&#128230; Mein Archiv ('+msgs.length+' Nachrichten)</span><span style="font-size:0.8rem;color:var(--text-light);">Nur für dich sichtbar</span></div>';}
+  if(_msgFilter==='archiv-alle'){html+='<div class="msg-archive-header"><span>&#128230; Archiv für alle ('+msgs.length+' Nachrichten)</span><span style="font-size:0.8rem;color:var(--text-light);">Für alle Benutzer archiviert</span></div>';}
   msgs.forEach(function(m){
     var oi=m._origIdx;
     var isKontakt=m._formtype==='Kontaktformular';
@@ -380,9 +394,12 @@ function renderMessages(){
     else if(m.read===false)classes+=' msg-unread';
     if(m.done&&!m.deleted)classes+=' msg-done';
     if(m.claimedBy&&!m.deleted&&!m.done)classes+=' msg-claimed';
+    if(m.archivedForAll||(m.archivedBy&&m.archivedBy.indexOf(_currentUser)!==-1))classes+=' msg-archived';
     html+='<div class="'+classes+'">';
     html+='<div class="msg-card-head"><span class="msg-card-type '+typeClass+'">'+typeLabel+'</span><div style="display:flex;align-items:center;gap:8px;">';
     if(m.claimedBy&&!m.deleted)html+='<span class="msg-claimed-badge">&#9998; '+escHtml(m.claimedBy)+'</span>';
+    if(m.archivedForAll)html+='<span class="msg-archived-badge">&#128230; Archiviert</span>';
+    else if(m.archivedBy&&m.archivedBy.length>0)html+='<span class="msg-archived-badge">&#128230; '+m.archivedBy.length+'x archiviert</span>';
     if(m.done)html+='<span style="font-size:0.7rem;font-weight:600;color:var(--accent);">&#10003; Bearbeitet</span>';
     html+='<span class="msg-card-date">'+dateStr+'</span></div></div>';
     html+='<div class="msg-card-from" onclick="showMessage('+oi+')" style="cursor:pointer;">'+(m.name||'Unbekannt')+(m.firma?' — '+m.firma:'')+'</div>';
@@ -391,12 +408,20 @@ function renderMessages(){
     if(m.deleted){
       html+='<button class="msg-action-btn msg-action-restore" onclick="event.stopPropagation();restoreMessage('+oi+')">&#8634; Wiederherstellen</button>';
       html+='<button class="msg-action-btn msg-action-permdelete" onclick="event.stopPropagation();permDeleteMessage('+oi+')">&#10005; Endgültig löschen</button>';
+    }else if(_msgFilter==='mein-archiv'){
+      html+='<button class="msg-action-btn msg-action-unarchive" onclick="event.stopPropagation();unarchiveForMe('+oi+')">&#8634; Dearchivieren</button>';
+      html+='<button class="msg-action-btn msg-action-delete" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005; Löschen</button>';
+    }else if(_msgFilter==='archiv-alle'){
+      html+='<button class="msg-action-btn msg-action-unarchive" onclick="event.stopPropagation();unarchiveForAll('+oi+')">&#8634; Für alle dearchivieren</button>';
+      html+='<button class="msg-action-btn msg-action-delete" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005; Löschen</button>';
     }else{
       if(!m.done){
         if(!m.claimedBy){html+='<button class="msg-action-btn msg-action-claim" onclick="event.stopPropagation();claimMessage('+oi+')">&#9998; Übernehmen</button>';}
         else{html+='<button class="msg-action-btn msg-action-unclaim" onclick="event.stopPropagation();unclaimMessage('+oi+')">&#10005; Freigeben</button>';}
         html+='<button class="msg-action-btn msg-action-done" onclick="event.stopPropagation();toggleDone('+oi+',true)">&#10003; Als bearbeitet</button>';
       }else{html+='<button class="msg-action-btn msg-action-undone" onclick="event.stopPropagation();toggleDone('+oi+',false)">&#8634; Unbearbeitet</button>';}
+      html+='<button class="msg-action-btn msg-action-archive" onclick="event.stopPropagation();archiveForMe('+oi+')">&#128230; Für mich</button>';
+      html+='<button class="msg-action-btn msg-action-archive" onclick="event.stopPropagation();archiveForAll('+oi+')">&#128230; Für alle</button>';
       html+='<button class="msg-action-btn msg-action-delete" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005; Löschen</button>';
     }
     html+='</div></div>';
@@ -420,6 +445,8 @@ function showMessage(idx){
   var html='<div style="margin-bottom:20px;"><button class="admin-btn btn-secondary" onclick="renderMessages();this.parentElement.parentElement.remove();" style="margin-bottom:16px;">&larr; Zurück</button></div>';
   html+='<div class="msg-detail"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px;"><div style="display:flex;align-items:center;gap:8px;"><span class="msg-card-type '+typeClass+'" style="font-size:0.8rem;">'+typeLabel+'</span>';
   if(m.claimedBy)html+='<span class="msg-claimed-badge" style="font-size:0.78rem;">&#9998; In Bearbeitung von '+escHtml(m.claimedBy)+'</span>';
+  if(m.archivedForAll)html+='<span class="msg-archived-badge" style="font-size:0.78rem;">&#128230; Archiviert für alle'+(m.archivedForAllBy?' von '+escHtml(m.archivedForAllBy):'')+'</span>';
+  else if(m.archivedBy&&m.archivedBy.length>0)html+='<span class="msg-archived-badge" style="font-size:0.78rem;">&#128230; Archiviert von: '+escHtml(m.archivedBy.join(', '))+'</span>';
   html+='</div><span style="font-size:0.85rem;color:var(--text-light);">'+dateStr+'</span></div>';
   html+='<div class="msg-detail-row"><div class="msg-detail-label">Name</div><div class="msg-detail-value">'+(escHtml(m.name)||'—')+'</div></div>';
   if(m.firma)html+='<div class="msg-detail-row"><div class="msg-detail-label">Firma</div><div class="msg-detail-value">'+escHtml(m.firma)+'</div></div>';
@@ -444,6 +471,13 @@ function showMessage(idx){
       else{html+='<button class="admin-btn btn-secondary" onclick="unclaimMessage('+idx+');showMessage('+idx+')">&#10005; Freigeben</button>';}
       html+='<button class="admin-btn btn-save" onclick="toggleDone('+idx+',true);showMessage('+idx+')">&#10003; Als bearbeitet markieren</button>';
     }else{html+='<button class="admin-btn btn-secondary" onclick="toggleDone('+idx+',false);showMessage('+idx+')">&#8634; Als unbearbeitet markieren</button>';}
+    html+='</div><div class="btn-row" style="margin-top:8px;">';
+    var _me=sessionStorage.getItem('admin_name')||'Admin';
+    var _myArchived=m.archivedBy&&m.archivedBy.indexOf(_me)!==-1;
+    if(!_myArchived){html+='<button class="admin-btn btn-secondary" onclick="archiveForMe('+idx+');renderMessages()" style="border-color:#8b5cf6;color:#8b5cf6;">&#128230; Für mich archivieren</button>';}
+    else{html+='<button class="admin-btn btn-secondary" onclick="unarchiveForMe('+idx+');renderMessages()" style="border-color:#8b5cf6;color:#8b5cf6;">&#128230; Aus meinem Archiv</button>';}
+    if(!m.archivedForAll){html+='<button class="admin-btn btn-secondary" onclick="archiveForAll('+idx+');renderMessages()" style="border-color:#8b5cf6;color:#8b5cf6;">&#128230; Für alle archivieren</button>';}
+    else{html+='<button class="admin-btn btn-secondary" onclick="unarchiveForAll('+idx+');renderMessages()" style="border-color:#8b5cf6;color:#8b5cf6;">&#128230; Für alle dearchivieren</button>';}
     html+='<button class="admin-btn btn-danger" onclick="deleteMessage('+idx+')">Nachricht löschen</button>';
   }
   html+='</div>';
@@ -525,6 +559,37 @@ function unclaimMessage(idx){
   saveMessagesToGitHub('Unclaim message');
   renderMessages();
   showToast('Markierung entfernt');
+}
+function archiveForMe(idx){
+  var name=sessionStorage.getItem('admin_name')||'Admin';
+  var m=_messagesCache[idx];
+  if(!m.archivedBy)m.archivedBy=[];
+  if(m.archivedBy.indexOf(name)===-1)m.archivedBy.push(name);
+  saveMessagesToGitHub('Archive for '+name);
+  renderMessages();
+  showToast('Für dich archiviert');
+}
+function unarchiveForMe(idx){
+  var name=sessionStorage.getItem('admin_name')||'Admin';
+  var m=_messagesCache[idx];
+  if(m.archivedBy){m.archivedBy=m.archivedBy.filter(function(n){return n!==name;});if(m.archivedBy.length===0)delete m.archivedBy;}
+  saveMessagesToGitHub('Unarchive for '+name);
+  renderMessages();
+  showToast('Aus deinem Archiv entfernt');
+}
+function archiveForAll(idx){
+  _messagesCache[idx].archivedForAll=true;
+  _messagesCache[idx].archivedForAllBy=sessionStorage.getItem('admin_name')||'Admin';
+  saveMessagesToGitHub('Archive for all');
+  renderMessages();
+  showToast('Für alle archiviert');
+}
+function unarchiveForAll(idx){
+  delete _messagesCache[idx].archivedForAll;
+  delete _messagesCache[idx].archivedForAllBy;
+  saveMessagesToGitHub('Unarchive for all');
+  renderMessages();
+  showToast('Aus Archiv für alle entfernt');
 }
 function updateMsgBadge(){
   var active=_messagesCache.filter(function(m){return !m.deleted;});
