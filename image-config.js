@@ -69,10 +69,9 @@ window.ELLERBROCK_IMAGES = {
     "index.html": {
       "div:nth-of-type(2)>div:nth-of-type(2)>div>div:nth-of-type(3)>div>div:nth-of-type(2)>div:nth-of-type(2)>p": "Verantwortet den operativen Bereich und die technische Leitung — von der Projektplanung bis zur Vor-Ort-Betreuung",
       "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltung",
-      "nav>div>ul>li": "Leistungen",
-      "nav>div>ul>li:nth-of-type(2)": "Produkte\n        \n           Kaufen\n           Mieten\n           Bestand\n        \n      ",
-      "section>div:nth-of-type(2)>div:nth-of-type(3)>div:nth-of-type(3)>strong": "12.000+",
-      "section>div:nth-of-type(2)>div:nth-of-type(3)>div:nth-of-type(3)>span": "Empfänger weltweit"
+      "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div>strong": "45+",
+      "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div:nth-of-type(3)>strong": "12.000+",
+      "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div:nth-of-type(3)>span": "Empfänger"
     }
   }
 };
