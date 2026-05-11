@@ -28,7 +28,7 @@ window.ELLERBROCK_IMAGES = {
     "fit": "contain",
     "pos": "center",
     "mx": 1,
-    "my": 47,
+    "my": 43,
     "w": "529px",
     "h": "621px"
   },
