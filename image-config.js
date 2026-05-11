@@ -18,10 +18,10 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486070/ellerbrock/team-fabian-ellerbrock-1778486070354.jpg",
     "fit": "contain",
     "pos": "center",
-    "mx": 22,
-    "my": -8,
-    "w": "353px",
-    "h": "401px"
+    "mx": -14,
+    "my": 13,
+    "w": "233px",
+    "h": "283px"
   },
   "team-david-hintenlang.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486289/ellerbrock/team-david-hintenlang-1778486287340.jpg",
@@ -89,6 +89,10 @@ window.ELLERBROCK_IMAGES = {
   "team-jochen-stiefel.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498613/ellerbrock/team-jochen-stiefel-1778498613486.jpg",
     "fit": "cover",
-    "pos": "center"
+    "pos": "center",
+    "mx": -22,
+    "my": 41,
+    "w": "173px",
+    "h": "231px"
   }
 };
