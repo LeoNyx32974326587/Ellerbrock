@@ -210,10 +210,12 @@
   function setupTexts(){
     var textEls=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,li,a,td,th,label,strong,em,blockquote');
     textEls.forEach(function(el){
-      // Skip if inside editor UI or if element has child elements that aren't inline
+      // Skip editor UI, animated counters, and complex elements
       if(el.closest('.ae-wrap,.ae-tb,.ae-fab,.ae-ctx,.ae-handles'))return;
+      if(el.closest('.hero-stat,.stat-block,.hero-stats'))return;
       if(el.children.length>3)return;
       if(!el.textContent.trim())return;
+      if(/^\d[\d.,]*\+?$/.test(el.textContent.trim()))return;
 
       el.classList.add('ae-editable');
       el.setAttribute('contenteditable','true');
