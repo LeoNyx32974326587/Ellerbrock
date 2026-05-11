@@ -95,10 +95,10 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498613/ellerbrock/team-jochen-stiefel-1778498613486.jpg",
     "fit": "cover",
     "pos": "center",
-    "mx": 18,
-    "my": 41,
-    "w": "173px",
-    "h": "231px"
+    "mx": -42,
+    "my": -22,
+    "w": "95px",
+    "h": "182px"
   },
   "dolmetscheranlage-hoersprechgarnitur.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778506218/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778506218466.jpg",
