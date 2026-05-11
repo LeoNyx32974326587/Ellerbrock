@@ -386,9 +386,27 @@
 
     // Live image update (after upload)
     if(d.type==='admin-update-image'&&d.filename&&d.url){
+      var found=false;
       document.querySelectorAll('img[data-ae-fn]').forEach(function(img){
-        if(img.getAttribute('data-ae-fn')===d.filename){img.src=d.url;img.style.display='';}
+        if(img.getAttribute('data-ae-fn')===d.filename){img.src=d.url;img.style.display='';found=true;}
       });
+      if(!found){
+        document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
+          var hi=ph.querySelector('img[data-orig]');
+          if(hi&&hi.getAttribute('data-orig')===d.filename){
+            var card=ph.closest('.team-card');
+            var imgDiv=document.createElement('div');
+            imgDiv.className='team-card-img';
+            var img=document.createElement('img');
+            img.src=d.url;
+            img.alt=d.filename;
+            img.setAttribute('data-orig',d.filename);
+            imgDiv.appendChild(img);
+            ph.replaceWith(imgDiv);
+            setupImage(img,d.filename,{url:d.url,fit:'cover',pos:'center'});
+          }
+        });
+      }
     }
   });
 })();
