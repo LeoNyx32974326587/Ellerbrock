@@ -14,12 +14,13 @@
       img.removeAttribute('onerror'); img.onerror=null;
       img.src=url; img.style.display='';
       if(!img.getAttribute('data-orig')) img.setAttribute('data-orig', f);
-      // Apply container styles
       if(typeof entry === 'object'){
         if(entry.fit) img.style.objectFit = entry.fit;
         if(entry.pos) img.style.objectPosition = entry.pos;
-        if(entry.w) img.style.width = entry.w;
-        if(entry.h) img.style.height = entry.h;
+        if(entry.w){img.style.width = entry.w; img.style.maxWidth='none';}
+        if(entry.h){img.style.height = entry.h; img.style.maxHeight='none';}
+        if(entry.mx) img.style.marginLeft = entry.mx+'px';
+        if(entry.my) img.style.marginTop = entry.my+'px';
       }
       var sib=img.nextElementSibling;
       if(sib&&sib.classList&&sib.classList.contains('initials')) sib.style.display='none';
