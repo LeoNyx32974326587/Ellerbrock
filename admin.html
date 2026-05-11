@@ -403,7 +403,7 @@ function renderMessages(){_msgDetailOpen=false;
   else if(_msgFilter==='archiv-alle'){msgs=msgs.filter(function(m){return !m.deleted&&!!m.archivedForAll;});}
   else{
     msgs=msgs.filter(function(m){return !m.deleted&&!m.archivedForAll&&!(m.archivedBy&&m.archivedBy.length>0);});
-    if(_msgFilter==='unbearbeitet'){msgs=msgs.filter(function(m){return !m.done;});}
+    if(_msgFilter==='all'||_msgFilter==='unbearbeitet'){msgs=msgs.filter(function(m){return !m.done;});}
     else if(_msgFilter==='bearbeitet'){msgs=msgs.filter(function(m){return !!m.done;});}
   }
   // Type filter
