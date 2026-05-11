@@ -450,7 +450,7 @@ function renderMessages(){_msgDetailOpen=false;
       html+='<button class="msg-act act-red" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005; Löschen</button>';
     }else{
       if(!m.done){
-        if(m.claimedBy){html+='<button class="msg-act act-yellow" onclick="event.stopPropagation();unclaimMessage('+oi+')">&#10005; Freigeben</button>';}else{html+='<button class="msg-act act-yellow" onclick="event.stopPropagation();claimMessage('+oi+')">&#9998; Übernehmen</button>';}
+        var _cu2=sessionStorage.getItem('admin_name')||'Admin';if(m.claimedBy){if(m.claimedBy===_cu2){html+='<button class="msg-act act-yellow" onclick="event.stopPropagation();unclaimMessage('+oi+')">&#10005; Freigeben</button>';}else{html+='<span class="msg-act" style="opacity:0.6;cursor:default;pointer-events:none;">&#128274; '+escHtml(m.claimedBy)+'</span>';}}else{html+='<button class="msg-act act-yellow" onclick="event.stopPropagation();claimMessage('+oi+')">&#9998; Übernehmen</button>';}
         html+='<button class="msg-act act-green" onclick="event.stopPropagation();toggleDone('+oi+',true)">&#10003; Erledigt</button>';
       }else{
         html+='<button class="msg-act act-teal" onclick="event.stopPropagation();toggleDone('+oi+',false)">&#8634; Öffnen</button>';
@@ -532,7 +532,7 @@ function showMessage(idx){_msgDetailOpen=true;
     html+='<button class="admin-btn btn-danger" onclick="permDeleteMessage('+idx+')">Endgültig löschen</button>';
   }else{
     if(!m.done){
-      if(m.claimedBy){html+='<button class="admin-btn btn-secondary" onclick="unclaimMessage('+idx+');showMessage('+idx+')" style="border-color:#f59e0b;color:#f59e0b;">&#10005; Freigeben</button>';}else{html+='<button class="admin-btn btn-secondary" onclick="claimMessage('+idx+');showMessage('+idx+')" style="border-color:#f59e0b;color:#f59e0b;">&#9998; Übernehmen</button>';}
+      var _cu3=sessionStorage.getItem('admin_name')||'Admin';if(m.claimedBy){if(m.claimedBy===_cu3){html+='<button class="admin-btn btn-secondary" onclick="unclaimMessage('+idx+');showMessage('+idx+')" style="border-color:#f59e0b;color:#f59e0b;">&#10005; Freigeben</button>';}else{html+='<span class="admin-btn btn-secondary" style="border-color:#f59e0b;color:#f59e0b;opacity:0.6;cursor:default;">&#128274; Wird bearbeitet von '+escHtml(m.claimedBy)+'</span>';}}else{html+='<button class="admin-btn btn-secondary" onclick="claimMessage('+idx+');showMessage('+idx+')" style="border-color:#f59e0b;color:#f59e0b;">&#9998; Übernehmen</button>';}
       html+='<button class="admin-btn btn-save" onclick="toggleDone('+idx+',true);showMessage('+idx+')">&#10003; Erledigt</button>';
     }else{
       html+='<button class="admin-btn btn-secondary" onclick="toggleDone('+idx+',false);showMessage('+idx+')">&#8634; Wieder öffnen</button>';
