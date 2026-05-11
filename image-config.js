@@ -32,15 +32,6 @@ window.ELLERBROCK_IMAGES = {
     "w": "529px",
     "h": "621px"
   },
-  "dolmetscheranlage-hoersprechgarnitur.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486670/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778486669420.webp",
-    "fit": "cover",
-    "pos": "center",
-    "w": "244px",
-    "h": "223px",
-    "mx": 14,
-    "my": -14
-  },
   "_new_1778486794992": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486799/ellerbrock/_new_1778486794992-1778486798950.jpg",
     "fit": "cover",
@@ -71,7 +62,16 @@ window.ELLERBROCK_IMAGES = {
       "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltung",
       "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div>strong": "45+",
       "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div:nth-of-type(3)>strong": "12.000+",
-      "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div:nth-of-type(3)>span": "Empfänger"
+      "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div:nth-of-type(3)>span": "Empfänger",
+      "nav>div>ul>li:nth-of-type(2)": "Produkte\n        \n           Kaufen\n           Mieten\n           Bestand\n        \n      ",
+      "nav>div>ul>li": "Leistungen"
     }
+  },
+  "dolmetscheranlage-hoersprechgarnitur.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778494048/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778494047607.jpg",
+    "fit": "cover",
+    "pos": "center",
+    "w": "188px",
+    "h": "278px"
   }
 };
