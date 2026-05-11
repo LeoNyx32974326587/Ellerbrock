@@ -10,7 +10,7 @@
   var css=document.createElement('style');
   css.textContent=`
     .ae-wrap{position:relative;display:inline-block;}
-    .ae-handles{position:absolute;inset:0;pointer-events:none;z-index:150;border:2px solid #3b82f6;opacity:0;transition:opacity .15s;}
+    .ae-handles{position:absolute;top:0;left:0;pointer-events:none;z-index:150;border:2px solid #3b82f6;opacity:0;transition:opacity .15s;box-sizing:border-box;}
     .ae-wrap:hover .ae-handles,.ae-wrap.ae-selected .ae-handles{opacity:1;}
     .ae-h{position:absolute;width:12px;height:12px;background:#3b82f6;border:2px solid #fff;border-radius:50%;pointer-events:all;cursor:nwse-resize;z-index:151;box-shadow:0 1px 4px rgba(0,0,0,.4);}
     .ae-h-tl{top:-6px;left:-6px;cursor:nwse-resize;}
@@ -23,7 +23,7 @@
     .ae-btn:hover{background:rgba(255,255,255,.15);}
     .ae-btn-del{color:#f87171;}
     .ae-btn-add{color:#4ade80;}
-    .ae-move{cursor:move;position:absolute;inset:0;z-index:149;}
+    .ae-move{cursor:move;position:absolute;z-index:149;}
     .ae-add-float{position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:#3b82f6;color:#fff;font-size:28px;border:none;cursor:pointer;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;line-height:1;}
     .ae-add-float:hover{background:#2563eb;transform:scale(1.1);}
     .ae-ctx{position:absolute;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:6px 0;z-index:200;min-width:160px;box-shadow:0 8px 24px rgba(0,0,0,.4);}
@@ -34,6 +34,16 @@
     .ae-new-img img{width:100%;height:100%;object-fit:cover;}
   `;
   document.head.appendChild(css);
+
+  /* Sync handles overlay to match actual image dimensions */
+  function syncHandles(img,handles){
+    var r=img.getBoundingClientRect();
+    var pr=img.parentElement.getBoundingClientRect();
+    handles.style.width=r.width+'px';
+    handles.style.height=r.height+'px';
+    handles.style.left=(r.left-pr.left)+'px';
+    handles.style.top=(r.top-pr.top)+'px';
+  }
 
   /* ---- Helper: send update to parent ---- */
   function sendUpdate(fn,data){
@@ -81,7 +91,7 @@
   }
 
   /* ---- Make element resizable ---- */
-  function makeResizable(handleEl,wrap,img,fn,corner){
+  function makeResizable(handleEl,wrap,img,fn,corner,handlesDiv){
     handleEl.addEventListener('mousedown',function(e){
       e.preventDefault();e.stopPropagation();
       var startX=e.clientX,startY=e.clientY;
@@ -100,6 +110,7 @@
         img.style.height=nh+'px';
         img.style.maxWidth='none';
         img.style.maxHeight='none';
+        if(handlesDiv)syncHandles(img,handlesDiv);
       }
       function onUp(ev){
         document.removeEventListener('mousemove',onMove);
@@ -166,13 +177,19 @@
     var handles=document.createElement('div');handles.className='ae-handles';
     ['tl','tr','bl','br'].forEach(function(c){
       var h=document.createElement('div');h.className='ae-h ae-h-'+c;
-      makeResizable(h,wrap,img,fn,c);
+      makeResizable(h,wrap,img,fn,c,handles);
       handles.appendChild(h);
     });
     wrap.appendChild(handles);
+    img.addEventListener('load',function(){syncHandles(img,handles);});
+    setTimeout(function(){syncHandles(img,handles);},100);
+    new ResizeObserver(function(){syncHandles(img,handles);}).observe(img);
 
     // Move overlay (click to select, drag to move)
     var moveEl=document.createElement('div');moveEl.className='ae-move';
+    function syncMove(){var r=img.getBoundingClientRect();var pr=wrap.getBoundingClientRect();moveEl.style.width=r.width+'px';moveEl.style.height=r.height+'px';moveEl.style.left=(r.left-pr.left)+'px';moveEl.style.top=(r.top-pr.top)+'px';}
+    img.addEventListener('load',function(){syncMove();});setTimeout(function(){syncMove();},100);
+    new ResizeObserver(function(){syncMove();}).observe(img);
     moveEl.addEventListener('click',function(e){
       e.stopPropagation();
       document.querySelectorAll('.ae-wrap.ae-selected').forEach(function(w){w.classList.remove('ae-selected');});
