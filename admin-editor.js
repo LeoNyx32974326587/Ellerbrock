@@ -281,8 +281,9 @@
         setupImage(img,fn,entry||{});
       });
 
-      // Disable ALL navigation in preview
+      // Disable ALL navigation in preview (but not editor UI clicks)
       document.addEventListener('click',function(ev){
+        if(ev.target.closest('.ae-wrap,.ae-tb,.ae-btn,.ae-h,.ae-move,.ae-ctx'))return;
         var a=ev.target.closest('a');
         if(a){ev.preventDefault();ev.stopPropagation();}
       },true);
