@@ -37,8 +37,7 @@
     }
   }
   if(window.self!==window.top)return;
-  fetch('https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/image-config.js',{
-    headers:{'Accept':'application/vnd.github.v3.raw'}
-  })
-    .then(function(r){return r.ok?r.text():null;})
-    .the
+  // Apply immediately from cached config (includes _texts)
+  if(window.ELLERBROCK_IMAGES)applyMap(window.ELLERBROCK_IMAGES);
+  // Then fetch fresh from GitHub API for latest changes
+  fetch('https://api.github.com
