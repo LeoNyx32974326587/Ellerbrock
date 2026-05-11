@@ -356,6 +356,18 @@
       setupAddButton();
     }
 
+    // Handle image upload - update existing image src without reload
+    if(d.type==='admin-update-image'&&d.filename&&d.url){
+      var imgs=document.querySelectorAll('img');
+      imgs.forEach(function(img){
+        var orig=img.getAttribute('data-orig')||(img.getAttribute('src')||'').replace('images/','');
+        if(orig===d.filename){
+          img.src=d.url;
+          img.style.display='';
+        }
+      });
+    }
+
     // Handle uploaded image for new containers
     if(d.type==='admin-uploaded'&&d.filename&&d.url){
       var placeholder=document.querySelector('.ae-new-img');
