@@ -355,7 +355,7 @@ function renderMessages(){
     var typeLabel=isKontakt?'Kontaktformular':'Rückrufservice';
     var dateStr='';
     if(m.date){var d=new Date(m.date);dateStr=d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
-    var preview=isKontakt?(m.betreff||m.nachricht||'Keine Nachricht'):(m.gewuenschter_tag?'Rückruf am '+m.gewuenschter_tag+(m.gewuenschte_uhrzeit?' um '+m.gewuenschte_uhrzeit:''):'Rückruf angefragt');
+    var preview=isKontakt?(m.betreff||m.nachricht||'Keine Nachricht'):(m.nachricht||((m.gewuenschter_tag&&m.gewuenschter_tag!=='-')?'Rückruf am '+m.gewuenschter_tag+(m.gewuenschte_uhrzeit&&m.gewuenschte_uhrzeit!=='-'?' um '+m.gewuenschte_uhrzeit:''):'Rückruf angefragt'));
     var classes='msg-card';
     if(m.read===false)classes+=' msg-unread';
     if(m.done)classes+=' msg-done';
@@ -391,7 +391,7 @@ function showMessage(idx){
   html+='<div class="msg-detail"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;"><span class="msg-card-type '+typeClass+'" style="font-size:0.8rem;">'+typeLabel+'</span><span style="font-size:0.85rem;color:var(--text-light);">'+dateStr+'</span></div>';
   html+='<div class="msg-detail-row"><div class="msg-detail-label">Name</div><div class="msg-detail-value">'+(escHtml(m.name)||'—')+'</div></div>';
   if(m.firma)html+='<div class="msg-detail-row"><div class="msg-detail-label">Firma</div><div class="msg-detail-value">'+escHtml(m.firma)+'</div></div>';
-  if(m._replyto)html+='<div class="msg-detail-row"><div class="msg-detail-label">E-Mail</div><div class="msg-detail-value"><a href="mailto:'+escHtml(m._replyto)+'" style="color:var(--teal);text-decoration:none;">'+escHtml(m._replyto)+'</a></div></div>';
+  var displayEmail=m.email||m._replyto;if(displayEmail&&displayEmail!=='info@ellerbrock-konferenztechnik.de')html+='<div class="msg-detail-row"><div class="msg-detail-label">E-Mail</div><div class="msg-detail-value"><a href="mailto:'+escHtml(displayEmail)+'" style="color:var(--teal);text-decoration:none;">'+escHtml(displayEmail)+'</a></div></div>';
   if(m.telefon)html+='<div class="msg-detail-row"><div class="msg-detail-label">Telefon</div><div class="msg-detail-value"><a href="tel:'+escHtml(m.telefon)+'" style="color:var(--teal);text-decoration:none;">'+escHtml(m.telefon)+'</a></div></div>';
   if(isKontakt){
     if(m.betreff)html+='<div class="msg-detail-row"><div class="msg-detail-label">Betreff</div><div class="msg-detail-value">'+escHtml(m.betreff)+'</div></div>';
@@ -399,6 +399,7 @@ function showMessage(idx){
   } else {
     if(m.gewuenschter_tag)html+='<div class="msg-detail-row"><div class="msg-detail-label">Gewünschter Tag</div><div class="msg-detail-value">'+escHtml(m.gewuenschter_tag)+'</div></div>';
     if(m.gewuenschte_uhrzeit)html+='<div class="msg-detail-row"><div class="msg-detail-label">Gewünschte Uhrzeit</div><div class="msg-detail-value">'+escHtml(m.gewuenschte_uhrzeit)+'</div></div>';
+    if(m.nachricht)html+='<div class="msg-detail-row"><div class="msg-detail-label">Nachricht</div><div class="msg-detail-value" style="white-space:pre-wrap;">'+escHtml(m.nachricht)+'</div></div>';
   }
   html+='</div>';
   html+='<div class="btn-row" style="margin-top:16px;">';
