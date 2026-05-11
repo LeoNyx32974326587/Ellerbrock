@@ -1018,6 +1018,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
             <div class="form-group"><label for="cb-time" data-i18n="rueck.form.time">Gewünschte Uhrzeit</label><input type="time" id="cb-time" min="09:00" max="18:00" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-size:0.95rem;background:var(--bg);color:var(--text);"></div>
           </div>
           <div class="form-group"><label for="cb-message" data-i18n="rueck.form.msg">Kurze Nachricht (optional)</label><textarea id="cb-message" placeholder="Worum geht es? (optional)" rows="3" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-size:0.95rem;font-family:inherit;background:var(--bg);color:var(--text);resize:vertical;min-height:80px;"></textarea></div>
+          <div class="form-group"><label for="cb-files" data-i18n="rueck.form.files">Anlagen (optional)</label><input type="file" id="cb-files" multiple accept=".jpg,.jpeg,.png,.gif,.bmp,.pdf,.doc,.docx,.xls,.xlsx,.zip,.rar,.txt,.csv" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:0.9rem;background:var(--bg);color:var(--text);cursor:pointer;"><small style="color:var(--text-light);font-size:0.78rem;margin-top:4px;display:block;">Max. 5 Dateien, je max. 10 MB</small></div>
           <div id="cb-error" style="display:none;background:#fde8e8;color:#e74c3c;padding:12px;border-radius:8px;margin-bottom:12px;font-size:0.9rem;"></div>
           <div id="cb-success" style="display:none;background:#e8fde8;color:#27ae60;padding:12px;border-radius:8px;margin-bottom:12px;font-size:0.9rem;"></div>
           <button type="submit" class="form-submit" data-i18n="rueck.form.btn">Rückruf anfordern &#8594;</button>
@@ -1533,6 +1534,7 @@ const T = {
   'rueck.form.time': { de: 'Gewünschte Uhrzeit', en: 'Preferred Time', fr: 'Heure souhaitée', es: 'Hora preferida', zh: '希望回拨时间' },
   'rueck.form.email': { de: 'E-Mail (optional)', en: 'Email (optional)', fr: 'E-mail (facultatif)', es: 'Correo electrónico (opcional)', zh: '电子邮件（可选）' },
   'rueck.form.msg': { de: 'Kurze Nachricht (optional)', en: 'Short Message (optional)', fr: 'Court message (facultatif)', es: 'Mensaje breve (opcional)', zh: '简短留言（可选）' },
+  'rueck.form.files': { de: 'Anlagen (optional)', en: 'Attachments (optional)', fr: 'Pièces jointes (optionnel)', es: 'Archivos adjuntos (opcional)', zh: '附件（可选）' },
   'rueck.form.btn': { de: 'Rückruf anfordern →', en: 'Request Callback →', fr: 'Demander un rappel →', es: 'Solicitar devolución de llamada →', zh: '请求回拨 →' },
   // Impressum
   'ol.imp.h1': { de: 'Impressum', en: 'Legal Notice', fr: 'Mentions légales', es: 'Aviso legal', zh: '法律声明' },
@@ -1720,6 +1722,27 @@ function saveMessageToGitHub(data){
       body:JSON.stringify({message:'New: '+data._formtype,content:enc,sha:file.sha})});
   }).catch(function(){});
 }
+
+async function uploadFilesToCloudinary(fileInput) {
+  if (!fileInput || !fileInput.files || fileInput.files.length === 0) return [];
+  var files = Array.from(fileInput.files);
+  if (files.length > 5) { throw new Error('Maximal 5 Dateien erlaubt.'); }
+  var maxSize = 10 * 1024 * 1024;
+  for (var i = 0; i < files.length; i++) {
+    if (files[i].size > maxSize) throw new Error('Datei "' + files[i].name + '" ist zu groß (max. 10 MB).');
+  }
+  var urls = [];
+  for (var i = 0; i < files.length; i++) {
+    var fd = new FormData();
+    fd.append('file', files[i]);
+    fd.append('upload_preset', 'ellerbrock');
+    var r = await fetch('https://api.cloudinary.com/v1_1/daiiz3u5t/auto/upload', { method: 'POST', body: fd });
+    var res = await r.json();
+    if (res.secure_url) { urls.push({ name: files[i].name, url: res.secure_url, size: files[i].size, type: files[i].type }); }
+    else { throw new Error('Upload fehlgeschlagen für "' + files[i].name + '"'); }
+  }
+  return urls;
+}
 function submitRueckruf(e) {
   e.preventDefault();
   const form = document.getElementById('rueckrufForm');
@@ -1749,6 +1772,8 @@ function submitRueckruf(e) {
   submitBtn.disabled = true;
   submitBtn.textContent = 'Wird gesendet...';
 
+  var fileInput = document.getElementById('cb-files');
+  uploadFilesToCloudinary(fileInput).then(function(attachments) {
   const data = {
     _subject: 'Rückrufservice: ' + name.value.trim(),
     _replyto: email.value.trim() || 'info@ellerbrock-konferenztechnik.de',
@@ -1760,6 +1785,7 @@ function submitRueckruf(e) {
     nachricht: message.value.trim() || '',
     _formtype: 'Rückrufservice'
   };
+  if (attachments.length > 0) data.attachments = attachments;
 
   fetch('https://formspree.io/f/xkokkdyk', {
     method: 'POST',
@@ -1779,6 +1805,12 @@ saveMessageToGitHub(data);
     errorEl.innerHTML = 'Leider ist ein Fehler aufgetreten. Bitte rufen Sie uns direkt an unter +49 6207 9224-0';
     errorEl.style.display = 'block';
   }).finally(() => {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Rückruf anfordern \u2192';
+  });
+  }).catch(function(uploadErr) {
+    errorEl.innerHTML = uploadErr.message || 'Fehler beim Hochladen der Dateien.';
+    errorEl.style.display = 'block';
     submitBtn.disabled = false;
     submitBtn.textContent = 'Rückruf anfordern \u2192';
   });
