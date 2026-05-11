@@ -136,6 +136,21 @@
     .quick-link { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; color: var(--text); transition: all 0.2s; }
     .quick-link:hover { border-color: var(--teal); color: white; transform: translateY(-2px); }
     .quick-link-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .msg-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:12px;transition:all 0.2s;cursor:pointer;}
+    .msg-card:hover{border-color:var(--teal);transform:translateY(-1px);}
+    .msg-card.msg-unread{border-left:3px solid var(--accent);}
+    .msg-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+    .msg-card-type{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:3px 10px;border-radius:6px;}
+    .msg-type-kontakt{background:rgba(1,86,109,0.15);color:var(--teal);}
+    .msg-type-rueckruf{background:rgba(78,177,67,0.15);color:var(--accent);}
+    .msg-card-date{font-size:0.78rem;color:var(--text-light);}
+    .msg-card-from{font-size:0.95rem;font-weight:600;color:white;margin-bottom:4px;}
+    .msg-card-preview{font-size:0.85rem;color:var(--text-light);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+    .msg-detail{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px;}
+    .msg-detail-row{display:flex;padding:10px 0;border-bottom:1px solid var(--border);font-size:0.88rem;}
+    .msg-detail-row:last-child{border-bottom:none;}
+    .msg-detail-label{width:160px;color:var(--text-light);font-weight:600;flex-shrink:0;}
+    .msg-detail-value{color:white;flex:1;word-break:break-word;}
     .toast { position: fixed; bottom: 32px; right: 32px; padding: 14px 24px; background: var(--accent); color: white; border-radius: 10px; font-size: 0.88rem; font-weight: 600; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 9999; box-shadow: 0 8px 24px rgba(78,177,67,0.3); }
     .toast.show { transform: translateY(0); opacity: 1; }
     .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border); }
@@ -182,6 +197,7 @@
       <button class="sidebar-link active" onclick="showPanel('dashboard', this)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</button>
       <button class="sidebar-link" onclick="showPanel('galerie', this);renderGalleryPanel(activeGalleryCat)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> Editor</button>
       <button class="sidebar-link" onclick="showPanel('inhalte', this)"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Inhalte</button>
+      <button class="sidebar-link" onclick="showPanel('nachrichten', this);loadMessages()"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Nachrichten <span id="msgBadge" style="background:var(--accent);color:white;font-size:0.65rem;font-weight:700;padding:1px 6px;border-radius:10px;margin-left:auto;display:none;">0</span></button>
       <button class="sidebar-link" onclick="showPanel('seiten', this)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Seiten</button>
       <button class="sidebar-link" onclick="showPanel('settings', this)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg> Einstellungen</button>
     </nav>
@@ -197,7 +213,7 @@
         <div class="stat-card"><div class="stat-card-label">Aufrufe gesamt</div><div class="stat-card-value" id="statTotalViews">0</div><div class="stat-card-sub" id="statTodayViews">Heute: 0</div></div>
         <div class="stat-card"><div class="stat-card-label">HTML-Seiten</div><div class="stat-card-value">22</div><div class="stat-card-sub">Alle aktiv</div></div>
         <div class="stat-card"><div class="stat-card-label">Sprachen</div><div class="stat-card-value">5</div><div class="stat-card-sub">DE, EN, FR, ES, ZH</div></div>
-        <div class="stat-card"><div class="stat-card-label">Standorte</div><div class="stat-card-value">3</div><div class="stat-card-sub">Abtsteinach, Berlin, Bonn</div></div>
+        <div class="stat-card" style="cursor:pointer;" onclick="showPanel('nachrichten',document.querySelectorAll('.sidebar-link')[3]);loadMessages()"><div class="stat-card-label">Nachrichten</div><div class="stat-card-value" id="statMsgCount">0</div><div class="stat-card-sub" id="statMsgUnread">Laden...</div></div>
       </div>
       <div class="card"><h3>Seitenaufrufe</h3><div class="visit-time-range"><button class="visit-time-btn active" onclick="renderVisitChart('all', this)">Gesamt</button><button class="visit-time-btn" onclick="renderVisitChart('today', this)">Heute</button><button class="visit-time-btn" onclick="renderVisitChart('7d', this)">7 Tage</button><button class="visit-time-btn" onclick="renderVisitChart('30d', this)">30 Tage</button></div><div id="visitChart"></div><p style="font-size:0.78rem;color:var(--text-light);margin-top:12px;margin-bottom:0;">Tracking via localStorage.</p></div>
       
@@ -214,6 +230,12 @@
       <div class="card"><h3>Hero-Bereich</h3><div class="edit-group"><label>Badge-Text</label><input type="text" id="editBadge" value="Ihr Partner seit über 45 Jahren"></div><div class="edit-group"><label>Überschrift</label><input type="text" id="editTitle" value="Professionelle Konferenztechnik für Ihre Veranstaltung"></div><div class="edit-group"><label>Beschreibung</label><textarea id="editDesc">Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.</textarea></div></div>
       <div class="card"><h3>Über-uns-Bereich</h3><div class="edit-group"><label>Überschrift</label><input type="text" id="editAboutTitle" value="Erfahrung trifft Innovation"></div><div class="edit-group"><label>Text Absatz 1</label><textarea id="editAboutP1">Seit 1978 ist Ellerbrock Konferenztechnik einer der führenden Anbieter für professionelle Konferenztechnik in Deutschland.</textarea></div><div class="edit-group"><label>Text Absatz 2</label><textarea id="editAboutP2">Wir bieten Ihnen nicht nur hochwertige Technik zur Miete und zum Kauf, sondern auch einen umfassenden Service.</textarea></div></div>
       <div class="card"><h3>CTA / Kontakt</h3><div class="edit-group"><label>Überschrift</label><input type="text" id="editCtaTitle" value="Lassen Sie uns Ihre Veranstaltung planen"></div><div class="edit-group"><label>Beschreibung</label><textarea id="editCtaSub">Unser Team berät Sie gerne — ob Miete, Kauf oder technischer Support.</textarea></div><div class="btn-row"><button class="admin-btn btn-save" onclick="saveContent()">Änderungen speichern</button><button class="admin-btn btn-secondary" onclick="exportContent()">Als Textdatei exportieren</button></div></div>
+    </div>
+    <div class="panel" id="panel-nachrichten">
+      <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;"><div><h1>Nachrichten</h1><p>Eingegangene Anfragen vom Kontaktformular und Rückrufservice.</p></div><div style="display:flex;gap:8px;"><button class="visit-time-btn active" id="msgFilterAll" onclick="filterMessages('all',this)">Alle</button><button class="visit-time-btn" onclick="filterMessages('Kontaktformular',this)">Kontaktformular</button><button class="visit-time-btn" onclick="filterMessages('Rückrufservice',this)">Rückrufservice</button></div></div>
+      <div id="msgLoading" style="text-align:center;padding:40px;color:var(--text-light);">Nachrichten werden geladen...</div>
+      <div id="msgEmpty" style="display:none;text-align:center;padding:60px 20px;"><div style="font-size:3rem;margin-bottom:12px;">📭</div><div style="color:var(--text-light);font-size:0.95rem;">Noch keine Nachrichten eingegangen.</div></div>
+      <div id="msgList"></div>
     </div>
     <div class="panel" id="panel-seiten"><div class="admin-header"><h1>Seiten-Übersicht</h1><p>Alle 22 HTML-Seiten der Website im Überblick.</p></div><div class="card"><ul class="page-list" id="pageList"></ul></div></div>
     <div class="panel" id="panel-settings">
@@ -236,7 +258,7 @@ var currentUserRole='admin';var currentUserName='';
 async function handleLogin(e){e.preventDefault();var user=document.getElementById('loginUser').value.trim().toLowerCase();var pass=document.getElementById('loginPass').value;var uHash=await sha256(user);var pHash=await sha256(pass);if(uHash===U_HASH&&pHash===P_HASH){currentUserRole='admin';currentUserName='Admin';loginSuccess();return false;}try{var r=await fetch('https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/admin-auth.json?t='+Date.now(),{headers:{'Accept':'application/vnd.github.v3.raw'},cache:'no-store'});if(r.ok){var remote=await r.json();if(remote.uHash&&remote.pHash&&uHash===remote.uHash&&pHash===remote.pHash){currentUserRole='admin';currentUserName=remote.name||'Admin';loginSuccess();return false;}if(remote.users){for(var i=0;i<remote.users.length;i++){if(remote.users[i].uHash===uHash&&remote.users[i].pHash===pHash){currentUserRole=remote.users[i].role;currentUserName=remote.users[i].name;loginSuccess();return false;}}}}}catch(ex){}var users=getUsers();for(var i=0;i<users.length;i++){if(users[i].uHash===uHash&&users[i].pHash===pHash){currentUserRole=users[i].role;currentUserName=users[i].name;loginSuccess();return false;}}document.getElementById('loginError').style.display='block';document.getElementById('loginPass').value='';setTimeout(function(){document.getElementById('loginError').style.display='none';},3000);return false;}
 function loginSuccess(){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('adminDashboard').classList.add('active');sessionStorage.setItem('admin_auth','1');sessionStorage.setItem('admin_role',currentUserRole);sessionStorage.setItem('admin_name',currentUserName);updateUserDisplay();applyRoleRestrictions();}
 function updateUserDisplay(){var name=sessionStorage.getItem('admin_name')||'Fabian';var role=sessionStorage.getItem('admin_role')||'admin';var initials=name.split(' ').map(function(w){return w[0]}).join('').toUpperCase().substring(0,2);document.querySelector('.sidebar-avatar').textContent=initials;document.querySelector('.sidebar-user-info span').textContent=name;document.querySelector('.sidebar-user-info small').textContent=role==='admin'?'Administrator':'Editor';}
-function applyRoleRestrictions(){var role=sessionStorage.getItem('admin_role')||'admin';if(role==='editor'){var settingsBtn=document.querySelectorAll('.sidebar-link')[4];if(settingsBtn)settingsBtn.style.display='none';}}
+function applyRoleRestrictions(){var role=sessionStorage.getItem('admin_role')||'admin';if(role==='editor'){var settingsBtn=document.querySelectorAll('.sidebar-link')[5];if(settingsBtn)settingsBtn.style.display='none';}}
 if(sessionStorage.getItem('admin_auth')==='1'){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('adminDashboard').classList.add('active');updateUserDisplay();applyRoleRestrictions();}
 function logout(){sessionStorage.removeItem('admin_auth');document.getElementById('adminDashboard').classList.remove('active');document.getElementById('loginScreen').classList.remove('hidden');document.getElementById('loginUser').value='';document.getElementById('loginPass').value='';}
 function showPanel(id,btn){document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});document.querySelectorAll('.sidebar-link').forEach(function(l){l.classList.remove('active')});document.getElementById('panel-'+id).classList.add('active');if(btn)btn.classList.add('active');}
@@ -282,6 +304,117 @@ function getVisitData(){var raw=localStorage.getItem('site_visits');return raw?J
 function calcStats(range){var data=getVisitData();var now=new Date();var today=now.toISOString().split('T')[0];var totals={};var grandTotal=0;var todayTotal=0;Object.keys(data).forEach(function(page){var entries=data[page];if(!Array.isArray(entries)){entries=[];}var count=0;entries.forEach(function(dateStr){var dominated=true;if(range==='today'){dominated=(dateStr===today);}else if(range==='7d'){var d=new Date(dateStr);var diff=(now-d)/86400000;dominated=diff<=7;}else if(range==='30d'){var d2=new Date(dateStr);var diff2=(now-d2)/86400000;dominated=diff2<=30;}if(dominated)count++;if(dateStr===today)todayTotal++;});if(count>0)totals[page]=count;grandTotal+=entries.length;});return{totals:totals,grandTotal:grandTotal,todayTotal:todayTotal};}
 function renderVisitChart(range,btn){if(btn){document.querySelectorAll('.visit-time-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');}var stats=calcStats(range);var container=document.getElementById('visitChart');document.getElementById('statTotalViews').textContent=stats.grandTotal;document.getElementById('statTodayViews').textContent='Heute: '+stats.todayTotal;var sorted=Object.keys(stats.totals).sort(function(a,b){return stats.totals[b]-stats.totals[a];});var max=sorted.length>0?stats.totals[sorted[0]]:1;if(sorted.length===0){container.innerHTML='<div style="text-align:center;padding:32px 0;color:var(--text-light);font-size:0.88rem;">Noch keine Aufrufe'+(range!=='all'?' in diesem Zeitraum':'')+' erfasst.</div>';return;}var html='';sorted.forEach(function(page){var label=PAGE_NAMES[page]||page;var count=stats.totals[page];var pct=Math.round((count/max)*100);html+='<div class="visit-bar-row"><div class="visit-bar-label" title="'+page+'">'+label+'</div><div class="visit-bar-track"><div class="visit-bar-fill" style="width:'+pct+'%"></div></div><div class="visit-bar-count">'+count+'</div></div>';});container.innerHTML=html;}
 renderVisitChart('all',null);
+var _messagesCache=[];var _msgFilter='all';
+function loadMessages(){
+  document.getElementById('msgLoading').style.display='block';
+  document.getElementById('msgList').innerHTML='';
+  document.getElementById('msgEmpty').style.display='none';
+  var token=getGitHubToken();
+  var headers={'Accept':'application/vnd.github.v3+json'};
+  if(token)headers['Authorization']='Bearer '+token;
+  fetch('https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/messages.json?t='+Date.now(),{headers:headers,cache:'no-store'})
+  .then(function(r){if(!r.ok)throw new Error('not found');return r.json();})
+  .then(function(file){
+    var raw=atob(file.content);
+    _messagesCache=JSON.parse(raw);
+    renderMessages();
+    updateMsgBadge();
+  })
+  .catch(function(){
+    document.getElementById('msgLoading').style.display='none';
+    document.getElementById('msgEmpty').style.display='block';
+  });
+}
+function renderMessages(){
+  document.getElementById('msgLoading').style.display='none';
+  var list=document.getElementById('msgList');
+  var msgs=_messagesCache;
+  if(_msgFilter!=='all'){msgs=msgs.filter(function(m){return m._formtype===_msgFilter;});}
+  if(msgs.length===0){document.getElementById('msgEmpty').style.display='block';list.innerHTML='';return;}
+  document.getElementById('msgEmpty').style.display='none';
+  var html='';
+  msgs.forEach(function(m,i){
+    var isKontakt=m._formtype==='Kontaktformular';
+    var typeClass=isKontakt?'msg-type-kontakt':'msg-type-rueckruf';
+    var typeLabel=isKontakt?'Kontaktformular':'Rückrufservice';
+    var dateStr='';
+    if(m.date){var d=new Date(m.date);dateStr=d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+    var preview=isKontakt?(m.betreff||m.nachricht||'Keine Nachricht'):(m.gewuenschter_tag?'Rückruf am '+m.gewuenschter_tag+(m.gewuenschte_uhrzeit?' um '+m.gewuenschte_uhrzeit:''):'Rückruf angefragt');
+    var unread=m.read===false?' msg-unread':'';
+    html+='<div class="msg-card'+unread+'" onclick="showMessage('+i+')">';
+    html+='<div class="msg-card-head"><span class="msg-card-type '+typeClass+'">'+typeLabel+'</span><span class="msg-card-date">'+dateStr+'</span></div>';
+    html+='<div class="msg-card-from">'+(m.name||'Unbekannt')+(m.firma?' — '+m.firma:'')+'</div>';
+    html+='<div class="msg-card-preview">'+escHtml(preview)+'</div>';
+    html+='</div>';
+  });
+  list.innerHTML=html;
+}
+function escHtml(s){if(!s)return '';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function filterMessages(f,btn){
+  _msgFilter=f;
+  document.querySelectorAll('#panel-nachrichten .visit-time-btn').forEach(function(b){b.classList.remove('active')});
+  if(btn)btn.classList.add('active');
+  renderMessages();
+}
+function showMessage(idx){
+  var m=_messagesCache[idx];if(!m)return;
+  var isKontakt=m._formtype==='Kontaktformular';
+  var typeClass=isKontakt?'msg-type-kontakt':'msg-type-rueckruf';
+  var typeLabel=isKontakt?'Kontaktformular':'Rückrufservice';
+  var dateStr='';
+  if(m.date){var d=new Date(m.date);dateStr=d.toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+  var html='<div style="margin-bottom:20px;"><button class="admin-btn btn-secondary" onclick="renderMessages();this.parentElement.parentElement.remove();" style="margin-bottom:16px;">&larr; Zurück</button></div>';
+  html+='<div class="msg-detail"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;"><span class="msg-card-type '+typeClass+'" style="font-size:0.8rem;">'+typeLabel+'</span><span style="font-size:0.85rem;color:var(--text-light);">'+dateStr+'</span></div>';
+  html+='<div class="msg-detail-row"><div class="msg-detail-label">Name</div><div class="msg-detail-value">'+(escHtml(m.name)||'—')+'</div></div>';
+  if(m.firma)html+='<div class="msg-detail-row"><div class="msg-detail-label">Firma</div><div class="msg-detail-value">'+escHtml(m.firma)+'</div></div>';
+  if(m._replyto)html+='<div class="msg-detail-row"><div class="msg-detail-label">E-Mail</div><div class="msg-detail-value"><a href="mailto:'+escHtml(m._replyto)+'" style="color:var(--teal);text-decoration:none;">'+escHtml(m._replyto)+'</a></div></div>';
+  if(m.telefon)html+='<div class="msg-detail-row"><div class="msg-detail-label">Telefon</div><div class="msg-detail-value"><a href="tel:'+escHtml(m.telefon)+'" style="color:var(--teal);text-decoration:none;">'+escHtml(m.telefon)+'</a></div></div>';
+  if(isKontakt){
+    if(m.betreff)html+='<div class="msg-detail-row"><div class="msg-detail-label">Betreff</div><div class="msg-detail-value">'+escHtml(m.betreff)+'</div></div>';
+    if(m.nachricht)html+='<div class="msg-detail-row"><div class="msg-detail-label">Nachricht</div><div class="msg-detail-value" style="white-space:pre-wrap;">'+escHtml(m.nachricht)+'</div></div>';
+  } else {
+    if(m.gewuenschter_tag)html+='<div class="msg-detail-row"><div class="msg-detail-label">Gewünschter Tag</div><div class="msg-detail-value">'+escHtml(m.gewuenschter_tag)+'</div></div>';
+    if(m.gewuenschte_uhrzeit)html+='<div class="msg-detail-row"><div class="msg-detail-label">Gewünschte Uhrzeit</div><div class="msg-detail-value">'+escHtml(m.gewuenschte_uhrzeit)+'</div></div>';
+  }
+  html+='</div>';
+  document.getElementById('msgList').innerHTML=html;
+  document.getElementById('msgEmpty').style.display='none';
+  // Mark as read
+  if(m.read===false){m.read=true;markMessageRead(idx);}
+}
+function markMessageRead(idx){
+  var token=getGitHubToken();if(!token)return;
+  var apiUrl='https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/messages.json';
+  var headers={'Authorization':'Bearer '+token,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};
+  fetch(apiUrl+'?t='+Date.now(),{headers:headers,cache:'no-store'})
+  .then(function(r){return r.json();})
+  .then(function(file){
+    var raw=atob(file.content);
+    var msgs=JSON.parse(raw);
+    if(msgs[idx])msgs[idx].read=true;
+    var enc=btoa(unescape(encodeURIComponent(JSON.stringify(msgs,null,2))));
+    return fetch(apiUrl,{method:'PUT',headers:headers,body:JSON.stringify({message:'Mark read',content:enc,sha:file.sha})});
+  }).then(function(){updateMsgBadge();}).catch(function(){});
+}
+function updateMsgBadge(){
+  var unread=_messagesCache.filter(function(m){return m.read===false;}).length;
+  var badge=document.getElementById('msgBadge');
+  if(unread>0){badge.textContent=unread;badge.style.display='inline';}
+  else{badge.style.display='none';}
+  var sc=document.getElementById('statMsgCount');if(sc)sc.textContent=_messagesCache.length;
+  var su=document.getElementById('statMsgUnread');if(su)su.textContent=unread>0?unread+' ungelesen':'Keine neuen';
+}
+// Load badge count on page load
+(function(){
+  var token=getGitHubToken();
+  var headers={'Accept':'application/vnd.github.v3+json'};
+  if(token)headers['Authorization']='Bearer '+token;
+  fetch('https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/messages.json?t='+Date.now(),{headers:headers,cache:'no-store'})
+  .then(function(r){if(!r.ok)throw new Error('x');return r.json();})
+  .then(function(file){_messagesCache=JSON.parse(atob(file.content));updateMsgBadge();})
+  .catch(function(){});
+})();
+
 </script>
 </body>
-</html> 
+</html>
