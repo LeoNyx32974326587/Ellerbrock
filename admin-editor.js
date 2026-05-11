@@ -281,10 +281,15 @@
         setupImage(img,fn,entry||{});
       });
 
-      // Disable links
+      // Disable ALL navigation in preview
+      document.addEventListener('click',function(ev){
+        var a=ev.target.closest('a');
+        if(a){ev.preventDefault();ev.stopPropagation();}
+      },true);
       document.querySelectorAll('a').forEach(function(a){
-        a.addEventListener('click',function(ev){if(!a.getAttribute('contenteditable'))ev.preventDefault();});
+        a.removeAttribute('target');
         a.style.cursor='default';
+        a.style.pointerEvents='auto';
       });
 
       // Deselect on background click
