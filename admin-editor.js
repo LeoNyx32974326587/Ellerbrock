@@ -9,7 +9,7 @@
   /* ---- CSS ---- */
   var css=document.createElement('style');
   css.textContent=`
-    .ae-wrap{position:relative;display:inline-block;}
+    .ae-wrap{position:relative;display:inline-block;overflow:visible;}
     .ae-handles{position:absolute;top:0;left:0;pointer-events:none;z-index:150;border:2px solid #3b82f6;opacity:0;transition:opacity .15s;box-sizing:border-box;}
     .ae-wrap:hover .ae-handles,.ae-wrap.ae-selected .ae-handles{opacity:1;}
     .ae-h{position:absolute;width:12px;height:12px;background:#3b82f6;border:2px solid #fff;border-radius:50%;pointer-events:all;cursor:nwse-resize;z-index:151;box-shadow:0 1px 4px rgba(0,0,0,.4);}
@@ -37,12 +37,12 @@
 
   /* Sync handles overlay to match actual image dimensions */
   function syncHandles(img,handles){
-    var r=img.getBoundingClientRect();
-    var pr=img.parentElement.getBoundingClientRect();
-    handles.style.width=r.width+'px';
-    handles.style.height=r.height+'px';
-    handles.style.left=(r.left-pr.left)+'px';
-    handles.style.top=(r.top-pr.top)+'px';
+    var ml=parseInt(img.style.marginLeft)||0;
+    var mt=parseInt(img.style.marginTop)||0;
+    handles.style.width=img.offsetWidth+'px';
+    handles.style.height=img.offsetHeight+'px';
+    handles.style.left=ml+'px';
+    handles.style.top=mt+'px';
   }
 
   /* ---- Helper: send update to parent ---- */
@@ -186,7 +186,7 @@
 
     // Move overlay (click to select, drag to move)
     var moveEl=document.createElement('div');moveEl.className='ae-move';
-    function syncMove(){var r=img.getBoundingClientRect();var pr=wrap.getBoundingClientRect();moveEl.style.width=r.width+'px';moveEl.style.height=r.height+'px';moveEl.style.left=(r.left-pr.left)+'px';moveEl.style.top=(r.top-pr.top)+'px';}
+    function syncMove(){var ml=parseInt(img.style.marginLeft)||0;var mt=parseInt(img.style.marginTop)||0;moveEl.style.width=img.offsetWidth+'px';moveEl.style.height=img.offsetHeight+'px';moveEl.style.left=ml+'px';moveEl.style.top=mt+'px';}
     img.addEventListener('load',function(){syncMove();});setTimeout(function(){syncMove();},100);
     new ResizeObserver(function(){syncMove();}).observe(img);
     moveEl.addEventListener('click',function(e){
