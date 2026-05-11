@@ -21,12 +21,14 @@ window.ELLERBROCK_IMAGES = {
   },
   "team-david-hintenlang.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486289/ellerbrock/team-david-hintenlang-1778486287340.jpg",
-    "fit": "cover",
-    "pos": "center"
+    "fit": "contain",
+    "pos": "center",
+    "mx": 2,
+    "my": 54
   },
   "dolmetscheranlage-hoersprechgarnitur.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486670/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778486669420.webp",
-    "fit": "fill",
+    "fit": "cover",
     "pos": "center",
     "w": "331px",
     "h": "306px",
