@@ -219,12 +219,53 @@
     .page-link:hover { color: var(--accent); }
     @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 768px) {
-      .admin-sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); }
-      .sidebar-nav { display: flex; padding: 0 12px; overflow-x: auto; gap: 4px; }
-      .admin-main { margin-left: 0; }
-      .stats-grid { grid-template-columns: 1fr 1fr; }
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .admin-sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); padding: 12px 0; }
+      .sidebar-logo { padding: 0 16px 12px; margin-bottom: 8px; }
+      .sidebar-nav { display: flex; padding: 0 8px; overflow-x: auto; gap: 2px; flex-wrap: nowrap; }
+      .sidebar-link { padding: 8px 12px; font-size: 0.78rem; gap: 6px; white-space: nowrap; flex-shrink: 0; }
+      .sidebar-link svg { width: 16px; height: 16px; }
+      .sidebar-bottom { display: none; }
+      .admin-main { margin-left: 0; padding: 16px; }
+      .admin-header h1 { font-size: 1.3rem; }
+      .admin-header p { font-size: 0.82rem; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .stat-card { padding: 16px; }
+      .stat-card-value { font-size: 1.4rem; }
+      .card { padding: 18px; margin-bottom: 14px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
       .quick-links { grid-template-columns: 1fr; }
+      .msg-tabs { flex-wrap: nowrap; overflow-x: auto; }
+      .msg-tab { padding: 8px 6px; font-size: 0.72rem; }
+      .msg-card-body { padding: 14px 16px 10px; }
+      .msg-card-from { font-size: 0.88rem; }
+      .msg-card-preview { font-size: 0.8rem; }
+      .msg-card-actions { flex-wrap: wrap; }
+      .msg-act { padding: 8px 4px; font-size: 0.7rem; }
+      .msg-detail-header { padding: 16px; }
+      .msg-detail-body { padding: 0 16px; }
+      .msg-detail-row { flex-direction: column; gap: 4px; }
+      .msg-detail-label { width: auto; }
+      .msg-detail-actions { padding: 14px 16px; flex-wrap: wrap; }
+      .msg-detail-actions .admin-btn { font-size: 0.78rem; padding: 8px 14px; }
+      .site-preview-iframe { height: 50vh; }
+      .view-toggle { flex-shrink: 0; }
+      .edit-group input, .edit-group textarea { font-size: 0.85rem; padding: 10px 12px; }
+      .btn-row { flex-wrap: wrap; }
+      .admin-btn { padding: 8px 14px; font-size: 0.8rem; }
+      .setting-row { flex-direction: column; gap: 10px; align-items: flex-start; }
+      .visit-bar-label { width: 100px; font-size: 0.75rem; }
+      #msgTypeFilter { gap: 4px; }
+      #msgTypeFilter .visit-time-btn { padding: 5px 10px; font-size: 0.72rem; }
+      .login-box { padding: 32px 24px; margin: 16px; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .stat-card { padding: 14px; }
+      .admin-header { margin-bottom: 20px; }
+      .admin-header h1 { font-size: 1.15rem; }
+      .msg-card-actions { gap: 0; }
+      .msg-act { flex: 1; min-width: 0; }
     }
   </style>
 </head>
@@ -269,7 +310,7 @@
       <div class="card"><h3>Schnellzugriff</h3><div class="quick-links"><a href="index.html" target="_blank" class="quick-link"><div class="quick-link-icon" style="background:rgba(1,86,109,0.15);color:var(--teal);">&#127968;</div><div><strong>Website ansehen</strong><br><small style="color:var(--text-light);">Startseite in neuem Tab</small></div></a><a href="https://www.instagram.com/ellerbrockkonferenztechnik/" target="_blank" class="quick-link"><div class="quick-link-icon" style="background:rgba(131,58,180,0.15);color:#833ab4;">&#128247;</div><div><strong>Instagram</strong><br><small style="color:var(--text-light);">Social Media</small></div></a><a href="https://www.youtube.com/@ellerbrockkonferenztechnik" target="_blank" class="quick-link"><div class="quick-link-icon" style="background:rgba(255,0,0,0.12);color:#ff0000;">&#9654;</div><div><strong>YouTube</strong><br><small style="color:var(--text-light);">Kanal</small></div></a><a href="https://192.168.150.233:8443/login" target="_blank" class="quick-link"><div class="quick-link-icon" style="background:rgba(78,177,67,0.12);color:var(--accent);">&#128187;</div><div><strong>Rentable</strong><br><small style="color:var(--text-light);">Verwaltung</small></div></a></div></div>
     </div>
     <div class="panel" id="panel-galerie">
-      <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;"><div><h1>Editor</h1><p>Bilder und Inhalte bearbeiten, dann auf "Veröffentlichen" klicken.</p></div><div style="display:flex;gap:8px;align-items:flex-start;"><button onclick="publishToGitHub()" style="background:#4eb143;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">&#10003; Veröffentlichen</button><div class="view-toggle"><button class="view-toggle-btn active" onclick="switchGalleryView('preview', this)">Vorschau</button><button class="view-toggle-btn" onclick="switchGalleryView('grid', this)">Alle Bilder</button></div></div></div>
+      <div class="admin-header" style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;"><div><h1>Editor</h1><p>Bilder und Inhalte bearbeiten, dann auf "Veröffentlichen" klicken.</p></div><div style="display:flex;gap:8px;align-items:flex-start;"><button onclick="publishToGitHub()" style="background:#4eb143;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">&#10003; Veröffentlichen</button><div class="view-toggle"><button class="view-toggle-btn active" onclick="switchGalleryView('preview', this)">Vorschau</button><button class="view-toggle-btn" onclick="switchGalleryView('grid', this)">Alle Bilder</button></div></div></div>
       <div id="galleryViewPreview"><div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;" id="previewPageSelector"></div><div class="card" style="padding:0;overflow:hidden;"><div class="site-preview"><div class="site-preview-bar"><div class="site-preview-dot" style="background:#ff5f57;"></div><div class="site-preview-dot" style="background:#ffbd2e;"></div><div class="site-preview-dot" style="background:#28c840;"></div><div class="site-preview-url" id="previewUrlBar">ellerbrock-konferenztechnik.de</div></div><iframe id="previewFrame" class="site-preview-iframe" src=""></iframe></div></div><input type="file" id="iframeUploadInput" accept="image/*" style="display:none"></div>
       <div id="galleryViewGrid" style="display:none;"><div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;" id="galleryCategoryFilter"></div><div id="galleryContainer"></div></div>
       <div class="card" style="margin-top:12px;"><p style="font-size:0.82rem;color:var(--text-light);margin-bottom:0;">Bilder werden zu Cloudinary hochgeladen und sind sofort fuer alle Besucher auf allen Geraeten sichtbar.</p></div>
