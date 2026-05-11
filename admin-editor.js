@@ -281,16 +281,12 @@
         setupImage(img,fn,entry||{});
       });
 
-      // Disable ALL navigation in preview (but not editor UI clicks)
-      document.addEventListener('click',function(ev){
-        if(ev.target.closest('.ae-wrap,.ae-tb,.ae-btn,.ae-h,.ae-move,.ae-ctx'))return;
-        var a=ev.target.closest('a');
-        if(a){ev.preventDefault();ev.stopPropagation();}
-      },true);
+      // Disable ALL navigation in preview
       document.querySelectorAll('a').forEach(function(a){
+        a.setAttribute('data-href',a.getAttribute('href')||'');
+        a.removeAttribute('href');
         a.removeAttribute('target');
         a.style.cursor='default';
-        a.style.pointerEvents='auto';
       });
 
       // Deselect on background click
