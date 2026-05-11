@@ -64,10 +64,5 @@ window.ELLERBROCK_IMAGES = {
     "page": "index.html",
     "x": 0,
     "y": 0
-  },
-  "_texts": {
-    "index.html": {
-      "div:nth-of-type(2)>div:nth-of-type(2)>div>div:nth-of-type(3)>div>div:nth-of-type(2)>div:nth-of-type(2)>p": ""
-    }
   }
 };
