@@ -228,7 +228,7 @@
 <div class="toast" id="toast"></div>
 <script>
 var U_HASH='33f1ac9818eb1eb88c0156eada16bae1fc00fb98e89645aab3c084a86f66bc63';
-var P_HASH='a59faff57ffff144573f8d002204a2f044c6cf8d6aa5700a4ce61707d8f8b589';
+var P_HASH='24b2fc3c2dd62c4258914f097cccc674fe815a53822af862ea931333be9a475c';
 async function sha256(str){var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');}
 function getUsers(){var stored=localStorage.getItem('admin_users');return stored?JSON.parse(stored):[];}
 function saveUsers(users){localStorage.setItem('admin_users',JSON.stringify(users));}
