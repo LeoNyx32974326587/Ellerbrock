@@ -26,12 +26,12 @@ window.ELLERBROCK_IMAGES = {
   },
   "dolmetscheranlage-hoersprechgarnitur.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486670/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778486669420.webp",
-    "fit": "contain",
+    "fit": "fill",
     "pos": "center",
-    "w": "260px",
-    "h": "657px",
-    "mx": 4,
-    "my": -198
+    "w": "331px",
+    "h": "306px",
+    "mx": 14,
+    "my": -14
   },
   "_new_1778486794992": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486799/ellerbrock/_new_1778486794992-1778486798950.jpg",
