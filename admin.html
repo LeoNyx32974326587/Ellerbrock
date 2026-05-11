@@ -366,7 +366,7 @@ function getVisitData(){var raw=localStorage.getItem('site_visits');return raw?J
 function calcStats(range){var data=getVisitData();var now=new Date();var today=now.toISOString().split('T')[0];var totals={};var grandTotal=0;var todayTotal=0;Object.keys(data).forEach(function(page){var entries=data[page];if(!Array.isArray(entries)){entries=[];}var count=0;entries.forEach(function(dateStr){var dominated=true;if(range==='today'){dominated=(dateStr===today);}else if(range==='7d'){var d=new Date(dateStr);var diff=(now-d)/86400000;dominated=diff<=7;}else if(range==='30d'){var d2=new Date(dateStr);var diff2=(now-d2)/86400000;dominated=diff2<=30;}if(dominated)count++;if(dateStr===today)todayTotal++;});if(count>0)totals[page]=count;grandTotal+=entries.length;});return{totals:totals,grandTotal:grandTotal,todayTotal:todayTotal};}
 function renderVisitChart(range,btn){if(btn){document.querySelectorAll('.visit-time-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');}var stats=calcStats(range);var container=document.getElementById('visitChart');document.getElementById('statTotalViews').textContent=stats.grandTotal;document.getElementById('statTodayViews').textContent='Heute: '+stats.todayTotal;var sorted=Object.keys(stats.totals).sort(function(a,b){return stats.totals[b]-stats.totals[a];});var max=sorted.length>0?stats.totals[sorted[0]]:1;if(sorted.length===0){container.innerHTML='<div style="text-align:center;padding:32px 0;color:var(--text-light);font-size:0.88rem;">Noch keine Aufrufe'+(range!=='all'?' in diesem Zeitraum':'')+' erfasst.</div>';return;}var html='';sorted.forEach(function(page){var label=PAGE_NAMES[page]||page;var count=stats.totals[page];var pct=Math.round((count/max)*100);html+='<div class="visit-bar-row"><div class="visit-bar-label" title="'+page+'">'+label+'</div><div class="visit-bar-track"><div class="visit-bar-fill" style="width:'+pct+'%"></div></div><div class="visit-bar-count">'+count+'</div></div>';});container.innerHTML=html;}
 renderVisitChart('all',null);
-var _messagesCache=[];var _msgFilter='all';var _msgRefreshTimer=null;
+var _messagesCache=[];var _msgFilter='all';var _msgRefreshTimer=null;var _msgDetailOpen=false;
 function loadMessages(){
   document.getElementById('msgLoading').style.display='block';
   document.getElementById('msgList').innerHTML='';
@@ -387,8 +387,8 @@ function loadMessages(){
     document.getElementById('msgEmpty').style.display='block';
   });
 }
-function refreshMessages(){var token=getGitHubToken();var headers={"Accept":"application/vnd.github.v3+json"};if(token)headers["Authorization"]="Bearer "+token;fetch("https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/messages.json?t="+Date.now(),{headers:headers,cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("not found");return r.json();}).then(function(file){var raw=atob(file.content);var newMsgs=JSON.parse(raw);if(JSON.stringify(newMsgs)!==JSON.stringify(_messagesCache)){_messagesCache=newMsgs;renderMessages();updateMsgBadge();}}).catch(function(){});}
-function renderMessages(){
+function refreshMessages(){if(_msgDetailOpen)return;var token=getGitHubToken();var headers={"Accept":"application/vnd.github.v3+json"};if(token)headers["Authorization"]="Bearer "+token;fetch("https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/messages.json?t="+Date.now(),{headers:headers,cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("not found");return r.json();}).then(function(file){var raw=atob(file.content);var newMsgs=JSON.parse(raw);if(JSON.stringify(newMsgs)!==JSON.stringify(_messagesCache)){_messagesCache=newMsgs;renderMessages();updateMsgBadge();}}).catch(function(){});}
+function renderMessages(){_msgDetailOpen=false;
   document.getElementById('msgLoading').style.display='none';
   var list=document.getElementById('msgList');
   var msgs=[];
@@ -495,7 +495,7 @@ function setTypeFilter(f,btn){
   if(btn)btn.classList.add('active');
   renderMessages();
 }
-function showMessage(idx){
+function showMessage(idx){_msgDetailOpen=true;
   var m=_messagesCache[idx];if(!m)return;
   var isK=m._formtype==='Kontaktformular';
   var tc=isK?'msg-type-kontakt':'msg-type-rueckruf';
