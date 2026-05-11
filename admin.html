@@ -452,7 +452,7 @@ function renderMessages(){_msgDetailOpen=false;
       }else{
         html+='<button class="msg-act act-teal" onclick="event.stopPropagation();toggleDone('+oi+',false)">&#8634; Öffnen</button>';
       }
-      html+='<button class="msg-act act-red" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005;</button>';
+      if(!m.claimedBy||m.claimedBy===_cu2){html+='<button class="msg-act act-red" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005;</button>';}
     }
     html+='</div></div>';
   });
