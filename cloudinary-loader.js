@@ -25,7 +25,6 @@
       var sib=img.nextElementSibling;
       if(sib&&sib.classList&&sib.classList.contains('initials')) sib.style.display='none';
     });
-    // Apply saved text changes
     var page=location.pathname.split('/').pop()||'index.html';
     if(map._texts){
       var pageTexts=map._texts[page];
@@ -35,9 +34,17 @@
         });
       }
     }
+    if(map._content){
+      Object.keys(map._content).forEach(function(key){
+        document.querySelectorAll('[data-i18n="'+key+'"]').forEach(function(el){
+          el.textContent=map._content[key];
+        });
+      });
+    }
   }
-  if(window.self!==window.top)return;
-  // Apply immediately from cached config (includes _texts)
-  if(window.ELLERBROCK_IMAGES)applyMap(window.ELLERBROCK_IMAGES);
-  // Then fetch fresh from GitHub API for latest changes
-  fetch('https://api.github.com
+  if(window.self!==window.top){
+    var sc=document.createElement('script');sc.src='admin-editor.js';document.head.appendChild(sc);
+    return;
+  }
+  if(window.ELLERBROCK_IMAGES) applyMap(window.ELLERBROCK_IMAGES);
+})();
