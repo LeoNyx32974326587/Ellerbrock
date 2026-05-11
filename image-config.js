@@ -58,17 +58,18 @@ window.ELLERBROCK_IMAGES = {
   },
   "_texts": {
     "index.html": {
-      "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltung"
+      "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltung",
+      "section>div:nth-of-type(2)>p": "Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand."
     }
   },
   "galerie-2.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498367/ellerbrock/galerie-2-1778498362887.jpg",
-    "fit": "cover",
+    "fit": "fill",
     "pos": "center"
   },
   "galerie-3.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498368/ellerbrock/galerie-3-1778498367480.jpg",
-    "fit": "cover",
+    "fit": "fill",
     "pos": "center"
   },
   "galerie-4.jpg": {
