@@ -152,6 +152,12 @@
     .msg-action-restore:hover{background:rgba(1,86,109,0.25);}
     .msg-action-permdelete{background:rgba(239,68,68,0.15);color:#ef4444;}
     .msg-action-permdelete:hover{background:rgba(239,68,68,0.25);}
+    .msg-card.msg-claimed{border-left:3px solid #f59e0b;}
+    .msg-claimed-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:6px;background:rgba(245,158,11,0.15);color:#f59e0b;}
+    .msg-action-claim{background:rgba(245,158,11,0.15);color:#f59e0b;}
+    .msg-action-claim:hover{background:rgba(245,158,11,0.25);}
+    .msg-action-unclaim{background:rgba(245,158,11,0.1);color:#f59e0b;}
+    .msg-action-unclaim:hover{background:rgba(245,158,11,0.2);}
     .msg-trash-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius:var(--radius);margin-bottom:16px;}
     .msg-trash-header span{font-size:0.9rem;color:#ef4444;font-weight:600;}
     .msg-card.msg-done:hover{opacity:0.85;}
@@ -373,8 +379,10 @@ function renderMessages(){
     if(m.deleted)classes+=' msg-deleted';
     else if(m.read===false)classes+=' msg-unread';
     if(m.done&&!m.deleted)classes+=' msg-done';
+    if(m.claimedBy&&!m.deleted&&!m.done)classes+=' msg-claimed';
     html+='<div class="'+classes+'">';
     html+='<div class="msg-card-head"><span class="msg-card-type '+typeClass+'">'+typeLabel+'</span><div style="display:flex;align-items:center;gap:8px;">';
+    if(m.claimedBy&&!m.deleted)html+='<span class="msg-claimed-badge">&#9998; '+escHtml(m.claimedBy)+'</span>';
     if(m.done)html+='<span style="font-size:0.7rem;font-weight:600;color:var(--accent);">&#10003; Bearbeitet</span>';
     html+='<span class="msg-card-date">'+dateStr+'</span></div></div>';
     html+='<div class="msg-card-from" onclick="showMessage('+oi+')" style="cursor:pointer;">'+(m.name||'Unbekannt')+(m.firma?' — '+m.firma:'')+'</div>';
@@ -384,8 +392,11 @@ function renderMessages(){
       html+='<button class="msg-action-btn msg-action-restore" onclick="event.stopPropagation();restoreMessage('+oi+')">&#8634; Wiederherstellen</button>';
       html+='<button class="msg-action-btn msg-action-permdelete" onclick="event.stopPropagation();permDeleteMessage('+oi+')">&#10005; Endgültig löschen</button>';
     }else{
-      if(!m.done){html+='<button class="msg-action-btn msg-action-done" onclick="event.stopPropagation();toggleDone('+oi+',true)">&#10003; Als bearbeitet</button>';}
-      else{html+='<button class="msg-action-btn msg-action-undone" onclick="event.stopPropagation();toggleDone('+oi+',false)">&#8634; Unbearbeitet</button>';}
+      if(!m.done){
+        if(!m.claimedBy){html+='<button class="msg-action-btn msg-action-claim" onclick="event.stopPropagation();claimMessage('+oi+')">&#9998; Übernehmen</button>';}
+        else{html+='<button class="msg-action-btn msg-action-unclaim" onclick="event.stopPropagation();unclaimMessage('+oi+')">&#10005; Freigeben</button>';}
+        html+='<button class="msg-action-btn msg-action-done" onclick="event.stopPropagation();toggleDone('+oi+',true)">&#10003; Als bearbeitet</button>';
+      }else{html+='<button class="msg-action-btn msg-action-undone" onclick="event.stopPropagation();toggleDone('+oi+',false)">&#8634; Unbearbeitet</button>';}
       html+='<button class="msg-action-btn msg-action-delete" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005; Löschen</button>';
     }
     html+='</div></div>';
@@ -407,7 +418,9 @@ function showMessage(idx){
   var dateStr='';
   if(m.date){var d=new Date(m.date);dateStr=d.toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});}
   var html='<div style="margin-bottom:20px;"><button class="admin-btn btn-secondary" onclick="renderMessages();this.parentElement.parentElement.remove();" style="margin-bottom:16px;">&larr; Zurück</button></div>';
-  html+='<div class="msg-detail"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;"><span class="msg-card-type '+typeClass+'" style="font-size:0.8rem;">'+typeLabel+'</span><span style="font-size:0.85rem;color:var(--text-light);">'+dateStr+'</span></div>';
+  html+='<div class="msg-detail"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px;"><div style="display:flex;align-items:center;gap:8px;"><span class="msg-card-type '+typeClass+'" style="font-size:0.8rem;">'+typeLabel+'</span>';
+  if(m.claimedBy)html+='<span class="msg-claimed-badge" style="font-size:0.78rem;">&#9998; In Bearbeitung von '+escHtml(m.claimedBy)+'</span>';
+  html+='</div><span style="font-size:0.85rem;color:var(--text-light);">'+dateStr+'</span></div>';
   html+='<div class="msg-detail-row"><div class="msg-detail-label">Name</div><div class="msg-detail-value">'+(escHtml(m.name)||'—')+'</div></div>';
   if(m.firma)html+='<div class="msg-detail-row"><div class="msg-detail-label">Firma</div><div class="msg-detail-value">'+escHtml(m.firma)+'</div></div>';
   var displayEmail=m.email||m._replyto;if(displayEmail&&displayEmail!=='info@ellerbrock-konferenztechnik.de')html+='<div class="msg-detail-row"><div class="msg-detail-label">E-Mail</div><div class="msg-detail-value"><a href="mailto:'+escHtml(displayEmail)+'" style="color:var(--teal);text-decoration:none;">'+escHtml(displayEmail)+'</a></div></div>';
@@ -426,8 +439,11 @@ function showMessage(idx){
     html+='<button class="admin-btn btn-save" onclick="restoreMessage('+idx+');renderMessages()">&#8634; Wiederherstellen</button>';
     html+='<button class="admin-btn btn-danger" onclick="permDeleteMessage('+idx+')">Endgültig löschen</button>';
   }else{
-    if(!m.done){html+='<button class="admin-btn btn-save" onclick="toggleDone('+idx+',true);showMessage('+idx+')">&#10003; Als bearbeitet markieren</button>';}
-    else{html+='<button class="admin-btn btn-secondary" onclick="toggleDone('+idx+',false);showMessage('+idx+')">&#8634; Als unbearbeitet markieren</button>';}
+    if(!m.done){
+      if(!m.claimedBy){html+='<button class="admin-btn btn-secondary" onclick="claimMessage('+idx+');showMessage('+idx+')" style="border-color:#f59e0b;color:#f59e0b;">&#9998; Übernehmen</button>';}
+      else{html+='<button class="admin-btn btn-secondary" onclick="unclaimMessage('+idx+');showMessage('+idx+')">&#10005; Freigeben</button>';}
+      html+='<button class="admin-btn btn-save" onclick="toggleDone('+idx+',true);showMessage('+idx+')">&#10003; Als bearbeitet markieren</button>';
+    }else{html+='<button class="admin-btn btn-secondary" onclick="toggleDone('+idx+',false);showMessage('+idx+')">&#8634; Als unbearbeitet markieren</button>';}
     html+='<button class="admin-btn btn-danger" onclick="deleteMessage('+idx+')">Nachricht löschen</button>';
   }
   html+='</div>';
@@ -455,6 +471,7 @@ function markMessageRead(idx){
 }
 function toggleDone(idx,done){
   _messagesCache[idx].done=done;
+  if(done){delete _messagesCache[idx].claimedBy;delete _messagesCache[idx].claimedAt;}
   saveMessagesToGitHub(done?'Mark done':'Mark undone');
   updateMsgBadge();
   renderMessages();
@@ -493,6 +510,21 @@ function emptyTrash(){
   renderMessages();
   updateMsgBadge();
   showToast('Papierkorb geleert');
+}
+function claimMessage(idx){
+  var name=sessionStorage.getItem('admin_name')||'Admin';
+  _messagesCache[idx].claimedBy=name;
+  _messagesCache[idx].claimedAt=new Date().toISOString();
+  saveMessagesToGitHub('Claim: '+name);
+  renderMessages();
+  showToast('Nachricht als "In Bearbeitung von '+name+'" markiert');
+}
+function unclaimMessage(idx){
+  delete _messagesCache[idx].claimedBy;
+  delete _messagesCache[idx].claimedAt;
+  saveMessagesToGitHub('Unclaim message');
+  renderMessages();
+  showToast('Markierung entfernt');
 }
 function updateMsgBadge(){
   var active=_messagesCache.filter(function(m){return !m.deleted;});
