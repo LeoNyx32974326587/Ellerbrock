@@ -118,9 +118,10 @@ body.dark .form-group input:focus, body.dark .form-group textarea:focus { border
 .nav-sub li a:hover { background: var(--bg-alt); color: var(--teal); }
 .nav-sub li a svg { width: 16px; height: 16px; stroke: var(--teal); fill: none; stroke-width: 2; flex-shrink: 0; }
 @media (max-width: 930px) {
-  .nav-has-dropdown > a::after { display: none; }
-  .nav-has-dropdown > a { font-weight: 600; color: var(--teal); pointer-events: none; }
-  .nav-has-dropdown.open .nav-sub, .nav-sub { position: static; transform: none; opacity: 1; visibility: visible; pointer-events: auto; box-shadow: none; border: none; border-radius: 0; padding: 0 0 0 12px; min-width: auto; background: transparent; }
+  .nav-has-dropdown > a { pointer-events: auto; cursor: pointer; }
+  .nav-has-dropdown > a::after { transition: transform 0.2s; }
+  .nav-sub { position: static!important; transform: none!important; min-width: auto; background: transparent; box-shadow: none; border: none; border-radius: 0; padding: 0 0 0 12px; opacity: 0; visibility: hidden; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, opacity 0.2s ease, visibility 0.2s; pointer-events: none; }
+  .nav-has-dropdown.open .nav-sub { opacity: 1; visibility: visible; max-height: 500px; pointer-events: auto; }
   .nav-sub li a { padding: 8px 14px; margin: 0; }
 }
 /* ===== LANGUAGE DROPDOWN ===== */
