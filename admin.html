@@ -341,14 +341,15 @@ var PREVIEW_PAGES=[{file:'index.html',label:'Startseite'},{file:'dolmetscheranla
 var pendingUploadFilename=null;
 function renderPreview(pageFile){currentPreviewPage=pageFile||'index.html';var selHtml='';PREVIEW_PAGES.forEach(function(p){selHtml+='<button class="visit-time-btn'+(currentPreviewPage===p.file?' active':'')+'" onclick="renderPreview(\''+p.file+'\')">'+p.label+'</button>';});document.getElementById('previewPageSelector').innerHTML=selHtml;document.getElementById('previewUrlBar').textContent='ellerbrock-konferenztechnik.de/'+(currentPreviewPage==='index.html'?'':currentPreviewPage);var frame=document.getElementById('previewFrame');frame.src=currentPreviewPage;frame.onload=function(){var imgMap=getImageMap();frame.contentWindow.postMessage({type:'admin-init',map:imgMap,page:currentPreviewPage},'*');try{var fd=frame.contentDocument||frame.contentWindow.document;
 var st=fd.createElement('style');
-st.textContent='*,*::before,*::after{animation:none!important;animation-delay:0s!important;transition:none!important;scroll-behavior:auto!important;}.fade-up,.fade-left,.fade-right,.fade-down{opacity:1!important;transform:none!important;}.preloader{display:none!important;}.cookie-banner{display:none!important;}a[href]{pointer-events:none;}.ae-wrap,.ae-wrap *,.ae-tb,.ae-tb *,.ae-btn,.ae-fab,.ae-fab *,.ae-ctx,.ae-ctx *,.ae-h,.ae-move,.ae-new-container{pointer-events:auto!important;}[contenteditable]{outline:2px dashed rgba(1,86,109,0.4)!important;outline-offset:2px;cursor:text!important;pointer-events:auto!important;}[contenteditable]:focus{outline:2px solid var(--teal,#01566d)!important;background:rgba(1,86,109,0.05)!important;}[contenteditable]:hover{outline:2px dashed rgba(78,177,67,0.6)!important;}';
+st.textContent='*,*::before,*::after{animation:none!important;animation-delay:0s!important;transition:none!important;scroll-behavior:auto!important;}.fade-up,.fade-left,.fade-right,.fade-down{opacity:1!important;transform:none!important;}.preloader{display:none!important;}.cookie-banner{display:none!important;}[contenteditable]{outline:2px dashed rgba(1,86,109,0.4)!important;outline-offset:2px;cursor:text!important;}[contenteditable]:focus{outline:2px solid #01566d!important;background:rgba(1,86,109,0.05)!important;}[contenteditable]:hover{outline:2px dashed rgba(78,177,67,0.6)!important;}';
 fd.head.appendChild(st);
 var pl=fd.querySelector('.preloader');if(pl)pl.remove();
 fd.querySelectorAll('.fade-up,.fade-left,.fade-right,.fade-down').forEach(function(el){el.classList.add('visible');});
-fd.querySelectorAll('a[href]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();},{capture:true});});
+fd.querySelectorAll('a[href]').forEach(function(a){a.addEventListener('click',function(e){if(e.target.closest('.ae-wrap,.ae-tb,.ae-fab,.ae-ctx,.ae-new-container'))return;e.preventDefault();},{capture:false});});
 var editSels='h1,h2,h3,p,.hero-badge,.section-title,.section-subtitle,.about-text,.hero-stat span,.hero-stat strong,.stat-block span,.stat-block strong,.about-feature span,[data-i18n]';
 fd.querySelectorAll(editSels).forEach(function(el){
   if(el.querySelector('img,iframe,video,svg'))return;
+  if(el.closest('.ae-wrap,.ae-tb,.ae-fab'))return;
   el.setAttribute('contenteditable','true');
   el.addEventListener('blur',function(){
     var key=el.getAttribute('data-i18n');
