@@ -11,7 +11,7 @@ window.ELLERBROCK_IMAGES = {
   },
   "galerie-1.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778485590/ellerbrock/galerie-1-1778485590684.jpg",
-    "fit": "contain",
+    "fit": "fill",
     "pos": "center"
   },
   "team-fabian-ellerbrock.jpg": {
@@ -59,7 +59,7 @@ window.ELLERBROCK_IMAGES = {
   "_texts": {
     "index.html": {
       "div:nth-of-type(2)>div:nth-of-type(2)>div>div:nth-of-type(3)>div>div:nth-of-type(2)>div:nth-of-type(2)>p": "Verantwortet den operativen Bereich und die technische Leitung — von der Projektplanung bis zur Vor-Ort-Betreuung",
-      "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltun",
+      "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltung",
       "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div>strong": "45+",
       "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div:nth-of-type(3)>strong": "12.000+",
       "section:nth-of-type(5)>div>div>div:nth-of-type(2)>div>div>div:nth-of-type(3)>span": "Empfänger",
