@@ -190,10 +190,6 @@
       showCtx(r.left,r.bottom+4,[
         {label:'Bild löschen',action:function(){msg({type:'admin-delete',filename:fn});}},
         '---',
-        {label:'Container löschen',action:function(){
-          if(confirm('Container komplett entfernen?')){msg({type:'admin-delete-container',filename:fn});wrap.remove();}
-        }},
-        '---',
         {label:'Zurücksetzen',action:function(){
           img.style.width='';img.style.height='';img.style.marginLeft='';img.style.marginTop='';
           img.style.objectFit='';img.style.objectPosition='';img.style.maxWidth='';img.style.maxHeight='';
@@ -262,75 +258,6 @@
     return path.join('>');
   }
 
-  /* ---- Create new image container ---- */
-  function createNewContainer(afterEl,id){
-    var div=document.createElement('div');
-    div.className='ae-new-container';
-    div.style.width='300px';div.style.height='200px';
-    div.innerHTML='<span style="color:#64748b;font-size:14px;pointer-events:none;">+ Bild hochladen</span>';
-    div.addEventListener('click',function(){msg({type:'admin-upload',filename:id});});
-
-    if(afterEl&&afterEl.parentElement){
-      afterEl.parentElement.insertBefore(div,afterEl.nextSibling);
-    }else{
-      document.body.appendChild(div);
-    }
-
-    div.setAttribute('data-ae-fn',id);
-    msg({type:'admin-new-container',filename:id,page:currentPage});
-    return div;
-  }
-
-  /* ---- Restore saved new containers from config ---- */
-  function restoreNewContainers(){
-    Object.keys(map).forEach(function(fn){
-      if(!fn.startsWith('_new_'))return;
-      var entry=map[fn];
-      if(!entry||!entry.url)return;
-      if(entry.page&&entry.page!==currentPage)return;
-
-      // Create a container and insert at end of body (or a specific section)
-      var div=document.createElement('div');
-      div.className='ae-new-container';
-      div.style.width=(entry.w||'300px');div.style.height=(entry.h||'200px');
-      div.style.border='none';div.style.background='none';
-      var img=document.createElement('img');
-      img.src=entry.url;
-      div.appendChild(img);
-      document.body.insertBefore(div,document.body.querySelector('footer')||null);
-
-      setupImage(img,fn,entry);
-    });
-  }
-
-  /* ---- FAB Buttons ---- */
-  function setupFAB(){
-    var fab=document.createElement('div');fab.className='ae-fab';
-
-    // Add image button
-    var addImg=document.createElement('button');addImg.className='ae-fab-btn';
-    addImg.style.background='#3b82f6';addImg.textContent='+';addImg.title='Neues Bild hinzufügen';
-    var adding=false;
-    addImg.addEventListener('click',function(){
-      if(adding){adding=false;addImg.style.background='#3b82f6';addImg.textContent='+';document.body.style.cursor='';return;}
-      adding=true;addImg.style.background='#f59e0b';addImg.textContent='✖';
-      document.body.style.cursor='crosshair';
-    });
-    fab.appendChild(addImg);
-
-    document.addEventListener('click',function(e){
-      if(!adding)return;
-      if(e.target.closest('.ae-fab'))return;
-      e.preventDefault();e.stopPropagation();
-      adding=false;addImg.style.background='#3b82f6';addImg.textContent='+';document.body.style.cursor='';
-      var target=document.elementFromPoint(e.clientX,e.clientY);
-      var id='_new_'+Date.now();
-      createNewContainer(target,id);
-    },true);
-
-    document.body.appendChild(fab);
-  }
-
   /* ---- Message Handler ---- */
   window.addEventListener('message',function(e){
     var d=e.data;if(!d)return;
@@ -351,9 +278,6 @@
         setupImage(img,fn,entry||{});
       });
 
-      // Restore custom containers
-      restoreNewContainers();
-
       // Make text editable
       setupTexts();
 
@@ -368,8 +292,6 @@
         if(!e.target.closest('.ae-wrap,.ae-ctx,.ae-fab')){deselect();}
       });
 
-      // FAB buttons
-      setupFAB();
     }
 
     // Live image update (after upload)
@@ -377,13 +299,7 @@
       document.querySelectorAll('img[data-ae-fn]').forEach(function(img){
         if(img.getAttribute('data-ae-fn')===d.filename){img.src=d.url;img.style.display='';}
       });
-      // Also update new container placeholders
-      document.querySelectorAll('.ae-new-container[data-ae-fn="'+d.filename+'"]').forEach(function(div){
-        div.innerHTML='';div.style.border='none';div.style.background='none';
-        var img=document.createElement('img');img.src=d.url;
-        div.appendChild(img);
-        setupImage(img,d.filename,{url:d.url,fit:'cover',pos:'center'});
-      });
     }
   });
 })();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
