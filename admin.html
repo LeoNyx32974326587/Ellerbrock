@@ -547,16 +547,24 @@ function showMessage(idx){_msgDetailOpen=true;
   document.getElementById('msgEmpty').style.display='none';
   if(m.read===false){m.read=true;markMessageRead(idx);}
 }
+function _safeBase64(str){
+  var bytes=new TextEncoder().encode(str);
+  var bin='';for(var i=0;i<bytes.length;i++)bin+=String.fromCharCode(bytes[i]);
+  var chunk=8192,result='';
+  for(var i=0;i<bin.length;i+=chunk)result+=btoa(bin.substring(i,i+chunk));
+  return result;
+}
 function saveMessagesToGitHub(commitMsg){
   var token=getGitHubToken();if(!token)return Promise.resolve();
+  if(!_messagesCache){return Promise.resolve();}
   var apiUrl='https://api.github.com/repos/LeoNyx32974326587/Ellerbrock/contents/messages.json';
   var headers={'Authorization':'Bearer '+token,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};
-  // Clean _origIdx before saving
   var clean=_messagesCache.map(function(m){var c=Object.assign({},m);delete c._origIdx;return c;});
+  var jsonStr=JSON.stringify(clean);
   return fetch(apiUrl+'?t='+Date.now(),{headers:headers,cache:'no-store'})
   .then(function(r){return r.json();})
   .then(function(file){
-    var enc=btoa(unescape(encodeURIComponent(JSON.stringify(clean,null,2))));
+    var enc=btoa(unescape(encodeURIComponent(jsonStr)));
     return fetch(apiUrl,{method:'PUT',headers:headers,body:JSON.stringify({message:commitMsg||'Update messages',content:enc,sha:file.sha})});
   }).then(function(){updateMsgBadge();}).catch(function(e){showToast('Speicherfehler: '+e.message);});
 }
