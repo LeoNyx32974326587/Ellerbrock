@@ -455,6 +455,7 @@ function renderMessages(){_msgDetailOpen=false;
       if(!m.done){
         var _cu2=sessionStorage.getItem('admin_name')||'Admin';if(m.claimedBy){if(m.claimedBy===_cu2){html+='<button class="msg-act act-yellow" onclick="event.stopPropagation();unclaimMessage('+oi+')">&#10005; Freigeben</button>';}else{html+='<span class="msg-act" style="opacity:0.6;cursor:default;pointer-events:none;">&#128274; '+escHtml(m.claimedBy)+'</span>';}}else{html+='<button class="msg-act act-yellow" onclick="event.stopPropagation();claimMessage('+oi+')">&#9998; Übernehmen</button>';}
         if(!m.claimedBy||m.claimedBy===_cu2){html+='<button class="msg-act act-green" onclick="event.stopPropagation();toggleDone('+oi+',true)">&#10003; Erledigt</button>';}
+        if(!m.claimedBy||m.claimedBy===_cu2){html+='<button class="msg-act act-red" onclick="event.stopPropagation();deleteMessage('+oi+')">&#10005;</button>';}
       }else{
         html+='<button class="msg-act act-teal" onclick="event.stopPropagation();toggleDone('+oi+',false)">&#8634; Öffnen</button>';
         html+='<div style="position:relative;display:inline-block;" class="archiv-act-wrap"><button class="msg-act act-purple" onclick="event.stopPropagation();toggleCardArchivMenu(this,'+oi+')">&#128230; Archiv &#9660;</button></div>';
