@@ -16,8 +16,12 @@ window.ELLERBROCK_IMAGES = {
   },
   "team-fabian-ellerbrock.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486070/ellerbrock/team-fabian-ellerbrock-1778486070354.jpg",
-    "fit": "cover",
-    "pos": "center"
+    "fit": "contain",
+    "pos": "center",
+    "mx": 22,
+    "my": -8,
+    "w": "353px",
+    "h": "401px"
   },
   "team-david-hintenlang.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486289/ellerbrock/team-david-hintenlang-1778486287340.jpg",
