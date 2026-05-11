@@ -1845,11 +1845,14 @@ function submitContactForm(e) {
     _formtype: 'Kontaktformular'
   };
   if (attachments.length > 0) data.attachments = attachments;
+  var formspreeData = Object.assign({}, data);
+  delete formspreeData.attachments;
+  if (attachments.length > 0) formspreeData.anlagen = attachments.map(function(a){ return a.name; }).join(', ');
 
   fetch('https://formspree.io/f/xkokkdyk', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify(formspreeData)
   }).then(r => r.json()).then(result => {
     if (result.ok || result.next) {
       successEl.textContent = currentLang === 'de'
