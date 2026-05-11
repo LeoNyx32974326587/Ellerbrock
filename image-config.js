@@ -40,5 +40,35 @@ window.ELLERBROCK_IMAGES = {
     "h": "223px",
     "mx": 14,
     "my": -14
+  },
+  "_new_1778486794992": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486799/ellerbrock/_new_1778486794992-1778486798950.jpg",
+    "fit": "cover",
+    "pos": "center",
+    "page": "index.html",
+    "x": 834,
+    "y": 845
+  },
+  "_new_1778486828174": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486835/ellerbrock/_new_1778486828174-1778486834908.jpg",
+    "fit": "cover",
+    "pos": "center",
+    "page": "index.html",
+    "x": 1138,
+    "y": 984
+  },
+  "_new_1778490593754": {
+    "url": "",
+    "fit": "cover",
+    "pos": "center",
+    "page": "index.html",
+    "x": 0,
+    "y": 0
+  },
+  "_texts": {
+    "index.html": {
+      "section:nth-of-type(6)>div>div>p": "Impressionen von Veranstaltungen, Technik-Setups und unserem Team im Einsatz.",
+      "section:nth-of-type(3)>div>div>h2": "Vertrauen namhafter Kunden"
+    }
   }
 };
