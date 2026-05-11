@@ -118,10 +118,10 @@ body.dark .form-group input:focus { border-color: var(--teal); background: var(-
 .nav-sub li a:hover { background: var(--bg-alt); color: var(--teal); }
 .nav-sub li a svg { width: 16px; height: 16px; stroke: var(--teal); fill: none; stroke-width: 2; flex-shrink: 0; }
 @media (max-width: 930px) {
-  .nav-has-dropdown > a { display: none; }
-  .nav-has-dropdown.open .nav-sub, .nav-sub { position: static; transform: none; opacity: 1; visibility: visible; pointer-events: auto; box-shadow: none; border: none; border-radius: 0; padding: 0; min-width: auto; background: transparent; }
-  .nav-sub li a { padding: 10px 14px; margin: 0; font-size: 0.92rem; }
-  .nav-sub li a svg { display: none; }
+  .nav-has-dropdown > a::after { display: none; }
+  .nav-has-dropdown > a { font-weight: 600; color: var(--teal); pointer-events: none; }
+  .nav-has-dropdown.open .nav-sub, .nav-sub { position: static; transform: none; opacity: 1; visibility: visible; pointer-events: auto; box-shadow: none; border: none; border-radius: 0; padding: 0 0 0 12px; min-width: auto; background: transparent; }
+  .nav-sub li a { padding: 8px 14px; margin: 0; }
 }
 /* ===== LANGUAGE DROPDOWN ===== */
 .lang-dropdown { position: relative; }
