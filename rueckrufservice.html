@@ -95,8 +95,8 @@ body.dark .footer { background: #010409; }
 body.dark .contact-card, body.dark .sub-card, body.dark .produkt-item,
 body.dark .download-item, body.dark .team-card, body.dark .callback-form { background: var(--bg-alt); border-color: var(--border); }
 body.dark body.dark .content-images img, body.dark .img-gallery img { border-color: var(--border); }
-body.dark .form-group input { background: #1c2128; border-color: var(--border); color: var(--text); }
-body.dark .form-group input:focus { border-color: var(--teal); background: var(--bg-alt); }
+body.dark .form-group input, body.dark .form-group textarea { background: #1c2128; border-color: var(--border); color: var(--text); }
+body.dark .form-group input:focus, body.dark .form-group textarea:focus { border-color: var(--teal); background: var(--bg-alt); }
 body.dark .nav-links.active { background: var(--bg); border-color: var(--border); }
 
 /* ===== TOOLBAR TOGGLES ===== */
@@ -1012,10 +1012,12 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
         <form id="rueckrufForm" onsubmit="submitRueckruf(event);">
           <div class="form-group"><label for="cb-name" data-i18n="rueck.form.name">Name *</label><input type="text" id="cb-name" placeholder="Ihr Name" required></div>
           <div class="form-group"><label for="cb-phone" data-i18n="rueck.form.phone">Telefonnummer *</label><input type="tel" id="cb-phone" placeholder="Ihre Telefonnummer" required></div>
+          <div class="form-group"><label for="cb-email" data-i18n="rueck.form.email">E-Mail (optional)</label><input type="email" id="cb-email" placeholder="Ihre E-Mail-Adresse"></div>
           <div class="form-row">
             <div class="form-group"><label for="cb-day" data-i18n="rueck.form.day">Gewünschter Tag</label><select id="cb-day" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-size:0.95rem;background:var(--bg);color:var(--text);"><option value="">-- Bitte wählen --</option><option value="Montag">Montag</option><option value="Dienstag">Dienstag</option><option value="Mittwoch">Mittwoch</option><option value="Donnerstag">Donnerstag</option><option value="Freitag">Freitag</option></select></div>
             <div class="form-group"><label for="cb-time" data-i18n="rueck.form.time">Gewünschte Uhrzeit</label><input type="time" id="cb-time" min="09:00" max="18:00" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-size:0.95rem;background:var(--bg);color:var(--text);"></div>
           </div>
+          <div class="form-group"><label for="cb-message" data-i18n="rueck.form.msg">Kurze Nachricht (optional)</label><textarea id="cb-message" placeholder="Worum geht es? (optional)" rows="3" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:8px;font-size:0.95rem;font-family:inherit;background:var(--bg);color:var(--text);resize:vertical;min-height:80px;"></textarea></div>
           <div id="cb-error" style="display:none;background:#fde8e8;color:#e74c3c;padding:12px;border-radius:8px;margin-bottom:12px;font-size:0.9rem;"></div>
           <div id="cb-success" style="display:none;background:#e8fde8;color:#27ae60;padding:12px;border-radius:8px;margin-bottom:12px;font-size:0.9rem;"></div>
           <button type="submit" class="form-submit" data-i18n="rueck.form.btn">Rückruf anfordern &#8594;</button>
@@ -1529,6 +1531,8 @@ const T = {
   'rueck.form.phone': { de: 'Telefonnummer *', en: 'Phone Number *', fr: 'Numéro de téléphone *', es: 'Número de teléfono *', zh: '电话号码 *' },
   'rueck.form.day': { de: 'Gewünschter Tag', en: 'Preferred Day', fr: 'Jour souhaité', es: 'Día preferido', zh: '希望回拨日期' },
   'rueck.form.time': { de: 'Gewünschte Uhrzeit', en: 'Preferred Time', fr: 'Heure souhaitée', es: 'Hora preferida', zh: '希望回拨时间' },
+  'rueck.form.email': { de: 'E-Mail (optional)', en: 'Email (optional)', fr: 'E-mail (facultatif)', es: 'Correo electrónico (opcional)', zh: '电子邮件（可选）' },
+  'rueck.form.msg': { de: 'Kurze Nachricht (optional)', en: 'Short Message (optional)', fr: 'Court message (facultatif)', es: 'Mensaje breve (opcional)', zh: '简短留言（可选）' },
   'rueck.form.btn': { de: 'Rückruf anfordern →', en: 'Request Callback →', fr: 'Demander un rappel →', es: 'Solicitar devolución de llamada →', zh: '请求回拨 →' },
   // Impressum
   'ol.imp.h1': { de: 'Impressum', en: 'Legal Notice', fr: 'Mentions légales', es: 'Aviso legal', zh: '法律声明' },
@@ -1728,6 +1732,8 @@ function submitRueckruf(e) {
   const phone = document.getElementById('cb-phone');
   const day = document.getElementById('cb-day');
   const time = document.getElementById('cb-time');
+  const email = document.getElementById('cb-email');
+  const message = document.getElementById('cb-message');
 
   let errors = [];
   if (!name.value.trim()) errors.push('Bitte geben Sie Ihren Namen ein.');
@@ -1745,11 +1751,13 @@ function submitRueckruf(e) {
 
   const data = {
     _subject: 'Rückrufservice: ' + name.value.trim(),
-    _replyto: 'info@ellerbrock-konferenztechnik.de',
+    _replyto: email.value.trim() || 'info@ellerbrock-konferenztechnik.de',
     name: name.value.trim(),
     telefon: phone.value.trim(),
+    email: email.value.trim() || '',
     gewuenschter_tag: day.value.trim() || '-',
     gewuenschte_uhrzeit: time.value.trim() || '-',
+    nachricht: message.value.trim() || '',
     _formtype: 'Rückrufservice'
   };
 
