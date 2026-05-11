@@ -284,8 +284,7 @@
     <div class="panel" id="panel-nachrichten">
       <div class="admin-header"><h1>Nachrichten</h1><p>Eingegangene Anfragen vom Kontaktformular und Rückrufservice.</p></div>
       <div class="msg-tabs" id="msgTabs">
-        <button class="msg-tab active" onclick="filterMessages('all',this)">Posteingang</button>
-        <button class="msg-tab" onclick="filterMessages('unbearbeitet',this)">Offen</button>
+        <button class="msg-tab active" onclick="filterMessages('unbearbeitet',this)">Offen</button>
         <button class="msg-tab" onclick="filterMessages('bearbeitet',this)">Erledigt</button>
         <div style="position:relative;display:contents;" id="archivTabWrap"><button class="msg-tab" onclick="toggleArchivDropdown(event)">Archiv <span style="font-size:0.6em;">&#9660;</span></button><div id="archivDropdown" style="display:none;position:absolute;top:100%;left:0;margin-top:4px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);z-index:100;min-width:180px;overflow:hidden;"><button style="display:block;width:100%;text-align:left;padding:10px 16px;border:none;background:none;cursor:pointer;font-size:0.88rem;color:var(--text);transition:background 0.15s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'" onclick="filterMessages('mein-archiv',document.querySelector('#archivTabWrap .msg-tab'));closeArchivDropdown()">&#128100; Mein Archiv</button><button style="display:block;width:100%;text-align:left;padding:10px 16px;border:none;background:none;cursor:pointer;font-size:0.88rem;color:var(--text);border-top:1px solid var(--border);transition:background 0.15s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'" onclick="filterMessages('archiv-alle',document.querySelector('#archivTabWrap .msg-tab'));closeArchivDropdown()">&#127760; Archiv für alle</button></div></div>
         <button class="msg-tab" onclick="filterMessages('geloescht',this)">Papierkorb</button>
@@ -366,7 +365,7 @@ function getVisitData(){var raw=localStorage.getItem('site_visits');return raw?J
 function calcStats(range){var data=getVisitData();var now=new Date();var today=now.toISOString().split('T')[0];var totals={};var grandTotal=0;var todayTotal=0;Object.keys(data).forEach(function(page){var entries=data[page];if(!Array.isArray(entries)){entries=[];}var count=0;entries.forEach(function(dateStr){var dominated=true;if(range==='today'){dominated=(dateStr===today);}else if(range==='7d'){var d=new Date(dateStr);var diff=(now-d)/86400000;dominated=diff<=7;}else if(range==='30d'){var d2=new Date(dateStr);var diff2=(now-d2)/86400000;dominated=diff2<=30;}if(dominated)count++;if(dateStr===today)todayTotal++;});if(count>0)totals[page]=count;grandTotal+=entries.length;});return{totals:totals,grandTotal:grandTotal,todayTotal:todayTotal};}
 function renderVisitChart(range,btn){if(btn){document.querySelectorAll('.visit-time-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');}var stats=calcStats(range);var container=document.getElementById('visitChart');document.getElementById('statTotalViews').textContent=stats.grandTotal;document.getElementById('statTodayViews').textContent='Heute: '+stats.todayTotal;var sorted=Object.keys(stats.totals).sort(function(a,b){return stats.totals[b]-stats.totals[a];});var max=sorted.length>0?stats.totals[sorted[0]]:1;if(sorted.length===0){container.innerHTML='<div style="text-align:center;padding:32px 0;color:var(--text-light);font-size:0.88rem;">Noch keine Aufrufe'+(range!=='all'?' in diesem Zeitraum':'')+' erfasst.</div>';return;}var html='';sorted.forEach(function(page){var label=PAGE_NAMES[page]||page;var count=stats.totals[page];var pct=Math.round((count/max)*100);html+='<div class="visit-bar-row"><div class="visit-bar-label" title="'+page+'">'+label+'</div><div class="visit-bar-track"><div class="visit-bar-fill" style="width:'+pct+'%"></div></div><div class="visit-bar-count">'+count+'</div></div>';});container.innerHTML=html;}
 renderVisitChart('all',null);
-var _messagesCache=[];var _msgFilter='all';var _msgRefreshTimer=null;var _msgDetailOpen=false;var _msgSaving=false;
+var _messagesCache=[];var _msgFilter='unbearbeitet';var _msgRefreshTimer=null;var _msgDetailOpen=false;var _msgSaving=false;
 function _fetchMessages(cb){
   var token=getGitHubToken();
   var headers={'Accept':'application/vnd.github.v3+json'};
@@ -478,11 +477,10 @@ function updateTabBadges(){
     var old=tab.querySelector('.msg-tab-badge');if(old)old.remove();
     if(count>0){var b=document.createElement('span');b.className='msg-tab-badge '+cls;b.textContent=count;tab.appendChild(b);}
   }
-  if(tabs[0])setBadge(tabs[0],active.length,'msg-tab-muted');
-  if(tabs[1])setBadge(tabs[1],open,'msg-tab-count');
-  if(tabs[2])setBadge(tabs[2],done,'msg-tab-muted');
-  var arcTotal=myArc+allArc;if(tabs[3])setBadge(tabs[3],arcTotal,'msg-tab-muted');
-  if(tabs[4])setBadge(tabs[4],trash,'msg-tab-muted');
+  if(tabs[0])setBadge(tabs[0],open,'msg-tab-count');
+  if(tabs[1])setBadge(tabs[1],done,'msg-tab-muted');
+  var arcTotal=myArc+allArc;if(tabs[2])setBadge(tabs[2],arcTotal,'msg-tab-muted');
+  if(tabs[3])setBadge(tabs[3],trash,'msg-tab-muted');
 }
 function escHtml(s){if(!s)return '';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 var _msgTypeFilter='all';
