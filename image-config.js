@@ -30,7 +30,8 @@ window.ELLERBROCK_IMAGES = {
       "section>div:nth-of-type(2)>p": "Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.",
       "section:nth-of-type(4)>div>div:nth-of-type(2)>a>p": "Simultandolmetscheranlagen für mehrsprachige Konferenzen — drahtlos oder kabelgebunden, mit professionellen Dolmetscherkabinen.",
       "section:nth-of-type(4)>div>div:nth-of-type(2)>a:nth-of-type(2)>p": "Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse.",
-      "div.about-card>div.about-card-inner>div.stat-block:nth-of-type(3)>strong:nth-of-type(1)": "12.000+"
+      "div.about-card>div.about-card-inner>div.stat-block:nth-of-type(3)>strong:nth-of-type(1)": "12.000+",
+      "div.container:nth-of-type(2)>div.hero-stats:nth-of-type(3)>div.hero-stat:nth-of-type(3)>strong:nth-of-type(1)": "12.000+"
     },
     "dolmetscheranlagen.html": {
       "div.content-block>div.content-grid>div.content-text>p.ae-editable": "Moderne Simultandolmetscheranlagen bestehen aus schallisolierten Dolmetscherkabinen, einer Zentraleinheit, einem Dolmetscherpult und drahtlosen Empfängereinheiten für die Konferenzteilnehmer. Wir setzen auf digitale Infrarot-Übertragungssysteme und drahtlose Dolmetschertechnik der Hersteller Sennheiser und Bosch.",
@@ -71,7 +72,7 @@ window.ELLERBROCK_IMAGES = {
   },
   "_content": {
     "hero.badge": "● Ihr Partner seit über 45 Jahren",
-    "hero.stat3": "Sprechstellen weltweit",
+    "hero.stat3": "Empfänger weltweit",
     "about.s3": "Empfänger"
   },
   "_team": [
