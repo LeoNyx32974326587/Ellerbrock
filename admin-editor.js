@@ -266,7 +266,7 @@
     return true;
   }
   function setupTexts(){
-    var textEls=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,td,th,label,blockquote');
+    var textEls=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,td,th,label,blockquote,.team-card-name,.team-card-role');
     textEls.forEach(function(el){
       if(el.closest('.ae-wrap,.ae-tb,.ae-fab,.ae-ctx,.ae-handles,.ae-team-tb'))return;
       if(el.closest('nav,footer,.hero-stat,.stat-block,.hero-stats,.cookie-banner'))return;
@@ -418,3 +418,4 @@
     }
   });
 })();
+
