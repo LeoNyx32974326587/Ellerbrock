@@ -421,11 +421,13 @@ function previewImage(input,previewId,filename){if(input.files&&input.files[0]){
 function resetImage(filename,previewId){if(!confirm('Bild "'+filename+'" löschen und auf Original zurücksetzen?'))return;var map=getImageMap();delete map[filename];saveImageMap(map);document.getElementById(previewId).src='images/'+filename;showToast(filename+' auf Original zurückgesetzt.');renderGalleryPanel(activeGalleryCat);renderPreview(currentPreviewPage);}
 renderGalleryPanel('all');
 /* ── Team Management ── */
-var TEAM_DEPTS=['Büro & Verwaltung','Technik','Versand & Logistik','Fuhrpark','Auszubildende'];
+var TEAM_DEPTS=['Geschäftsleitung','Büro & Verwaltung','Technik','Versand & Logistik','Fuhrpark','Auszubildende'];
 function getTeamData(){
   var raw=localStorage.getItem('team_data');
   if(raw)return JSON.parse(raw);
   return [
+    {name:'Fabian Ellerbrock',role:'Geschäftsführer',dept:'Geschäftsleitung',photo:'',desc:''},
+    {name:'David Hintenlang',role:'Geschäftsführer',dept:'Geschäftsleitung',photo:'',desc:''},
     {name:'Manuel Straßer',role:'Buchhaltung',dept:'Büro & Verwaltung',photo:'',desc:''},
     {name:'Florian Sauer',role:'Kundenbetreuung',dept:'Büro & Verwaltung',photo:'',desc:''},
     {name:'Sascha Stegemann',role:'Kundenbetreuung',dept:'Büro & Verwaltung',photo:'',desc:''},
@@ -1058,14 +1060,4 @@ function updateMsgBadge(){
 // Load badge count on page load
 (function(){
   var token=getGitHubToken();
-  var headers={'Accept':'application/vnd.github.v3+json'};
-  if(token)headers['Authorization']='Bearer '+token;
-  _fetchMessages(function(msgs){if(msgs){_messagesCache=msgs;updateMsgBadge();}});
-})();
-
-</script>
-</body>
-</html>
-
-
-
+  var headers=
