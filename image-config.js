@@ -275,14 +275,14 @@ window.ELLERBROCK_IMAGES = {
       "role": "Geschäftsführung",
       "dept": "Geschäftsleitung",
       "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778581454/ellerbrock/team-fabian-ellerbrock-1778581453363.jpg",
-      "desc": ""
+      "desc": "Leitet das Unternehmen in zweiter Generation und verantwortet die strategische Ausrichtung sowie den Ausbau der bundesweiten Standorte."
     },
     {
       "name": "David Hintenlang",
       "role": "Geschäftsführung",
       "dept": "Geschäftsleitung",
       "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778581447/ellerbrock/team-david-hintenlang-1778581445714.jpg",
-      "desc": ""
+      "desc": "Verantwortet den operativen Bereich und die technische Leitung — von der Projektplanung bis zur Vor-Ort-Betreuung."
     }
   ],
   "team-manuel-strasser.jpg": {
