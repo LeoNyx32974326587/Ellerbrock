@@ -390,5 +390,17 @@ window.ELLERBROCK_IMAGES = {
     "pos": "center",
     "w": "417px",
     "h": "276px"
+  },
+  "diskussionsanlage-02.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778584800/ellerbrock/diskussionsanlage-02-1778584799300.heic",
+    "fit": "cover",
+    "pos": "center",
+    "mx": 0,
+    "my": 0
+  },
+  "produkte-beschallung-1.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778584900/ellerbrock/produkte-beschallung-1-1778584896822.heic",
+    "fit": "cover",
+    "pos": "center"
   }
 };
