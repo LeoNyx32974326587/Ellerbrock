@@ -222,4 +222,21 @@
     return;
   }
   if(window.ELLERBROCK_IMAGES) applyMap(window.ELLERBROCK_IMAGES);
+
+  // Bind popups to Geschäftsleitung cards with data-gl-desc
+  document.querySelectorAll('.team-card[data-gl-desc]').forEach(function(card){
+    card.style.cursor='pointer';
+    card.addEventListener('click',function(){
+      var nameEl=card.querySelector('.team-card-name');
+      var roleEl=card.querySelector('.team-card-role');
+      var imgEl=card.querySelector('.team-card-img img');
+      var member={
+        name:nameEl?nameEl.textContent:'',
+        role:roleEl?roleEl.textContent:'',
+        desc:card.getAttribute('data-gl-desc'),
+        photo:imgEl?imgEl.src:''
+      };
+      showTeamPopup(member,window.ELLERBROCK_IMAGES||{});
+    });
+  });
 })();
