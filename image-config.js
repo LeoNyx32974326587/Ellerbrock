@@ -95,8 +95,8 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498613/ellerbrock/team-jochen-stiefel-1778498613486.jpg",
     "fit": "cover",
     "pos": "center",
-    "mx": -42,
-    "my": -22,
+    "mx": -55,
+    "my": -7,
     "w": "95px",
     "h": "182px"
   },
