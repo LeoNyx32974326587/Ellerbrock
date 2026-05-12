@@ -211,4 +211,15 @@
     // Hide empty page image containers, show ones with loaded images
     document.querySelectorAll('.page-img-row, .page-img-half').forEach(function(row){
       var children=row.querySelectorAll('.page-img-placeholder');
-      var anyVisi
+      var anyVisible=false;
+      children.forEach(function(c){if(c.style.display!=='none')anyVisible=true;});
+      if(!anyVisible)row.style.display='none';
+    });
+
+    if(window.self!==window.top){
+    if(window.ELLERBROCK_IMAGES) applyMap(window.ELLERBROCK_IMAGES);
+    var sc=document.createElement('script');sc.src='admin-editor.js';document.head.appendChild(sc);
+    return;
+  }
+  if(window.ELLERBROCK_IMAGES) applyMap(window.ELLERBROCK_IMAGES);
+})();
