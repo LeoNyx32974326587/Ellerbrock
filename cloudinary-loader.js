@@ -79,6 +79,7 @@
 
     document.querySelectorAll('img[data-orig], img[src^="images/"]').forEach(function(img){
       var f = img.getAttribute('data-orig') || img.getAttribute('src').replace('images/','');
+      if(!img.getAttribute('data-orig')) img.setAttribute('data-orig', f);
       var entry = map[f];
       if(!entry) return;
       var url = typeof entry === 'string' ? entry : entry.url;
@@ -86,7 +87,6 @@
       img.removeAttribute('onerror'); img.onerror=null;
       img.src=url; img.style.display='';
       var _pip=img.closest('.page-img-placeholder');if(_pip)_pip.style.display='';
-      if(!img.getAttribute('data-orig')) img.setAttribute('data-orig', f);
       var isTeamImg = !!(img.closest('.team-card-img') || img.closest('.team-card'));
       if(typeof entry === 'object'){
         if(entry.fit) img.style.objectFit = entry.fit;
