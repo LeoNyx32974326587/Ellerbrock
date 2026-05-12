@@ -81,18 +81,6 @@ window.ELLERBROCK_IMAGES = {
   },
   "_team": [
     {
-      "name": "Fabian Ellerbrock",
-      "role": "Geschäftsführer",
-      "dept": "Geschäftsleitung",
-      "photo": ""
-    },
-    {
-      "name": "David Hintenlang",
-      "role": "Geschäftsführer",
-      "dept": "Geschäftsleitung",
-      "photo": ""
-    },
-    {
       "name": "Manuel Straßer",
       "role": "Buchhaltung",
       "dept": "Büro & Verwaltung",
@@ -357,4 +345,13 @@ window.ELLERBROCK_IMAGES = {
     "pos": "center"
   },
   "team-irfan-mohammad-kahloon.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580728/ellerbrock/team-irfan-mohammad-kahloon
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580728/ellerbrock/team-irfan-mohammad-kahloon-1778580727687.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-ludwig-aupperle.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580781/ellerbrock/team-ludwig-aupperle-1778580780644.jpg",
+    "fit": "cover",
+    "pos": "center"
+  }
+};
