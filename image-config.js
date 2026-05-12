@@ -15,12 +15,12 @@ window.ELLERBROCK_IMAGES = {
     "pos": "center"
   },
   "team-fabian-ellerbrock.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486070/ellerbrock/team-fabian-ellerbrock-1778486070354.jpg",
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778581454/ellerbrock/team-fabian-ellerbrock-1778581453363.jpg",
     "fit": "cover",
     "pos": "center"
   },
   "team-david-hintenlang.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486289/ellerbrock/team-david-hintenlang-1778486287340.jpg",
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778581447/ellerbrock/team-david-hintenlang-1778581445714.jpg",
     "fit": "cover",
     "pos": "center"
   },
@@ -268,6 +268,20 @@ window.ELLERBROCK_IMAGES = {
       "role": "Büro",
       "dept": "Büro & Verwaltung",
       "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580345/ellerbrock/team-jochen-klug-1778580343597.jpg",
+      "desc": ""
+    },
+    {
+      "name": "Fabian Ellerbrock",
+      "role": "Geschäftsführung",
+      "dept": "Geschäftsleitung",
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778581454/ellerbrock/team-fabian-ellerbrock-1778581453363.jpg",
+      "desc": ""
+    },
+    {
+      "name": "David Hintenlang",
+      "role": "Geschäftsführung",
+      "dept": "Geschäftsleitung",
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778581447/ellerbrock/team-david-hintenlang-1778581445714.jpg",
       "desc": ""
     }
   ],
