@@ -100,5 +100,20 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778574583/ellerbrock/team-daniel-talarico-1778574582436.jpg",
     "fit": "cover",
     "pos": "center center"
+  },
+  "team-sebastian-huster.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778574648/ellerbrock/team-sebastian-huster-1778574647935.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-manuel-strasser.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778574675/ellerbrock/team-manuel-strasser-1778574674145.jpg",
+    "fit": "cover",
+    "pos": "center top"
+  },
+  "team-florian-sauer.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778574683/ellerbrock/team-florian-sauer-1778574683702.jpg",
+    "fit": "cover",
+    "pos": "center center"
   }
 };
