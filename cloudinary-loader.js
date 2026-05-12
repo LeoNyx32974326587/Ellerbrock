@@ -79,6 +79,7 @@
       if(!url) return;
       img.removeAttribute('onerror'); img.onerror=null;
       img.src=url; img.style.display='';
+      var _pip=img.closest('.page-img-placeholder');if(_pip)_pip.style.display='';
       if(!img.getAttribute('data-orig')) img.setAttribute('data-orig', f);
       var isTeamImg = !!(img.closest('.team-card-img') || img.closest('.team-card'));
       if(typeof entry === 'object'){
@@ -200,7 +201,16 @@
     }
   }
 
-  if(window.self!==window.top){
+
+    // Hide empty page image containers, show ones with loaded images
+    document.querySelectorAll('.page-img-row, .page-img-half').forEach(function(row){
+      var children=row.querySelectorAll('.page-img-placeholder');
+      var anyVisible=false;
+      children.forEach(function(c){if(c.style.display!=='none')anyVisible=true;});
+      if(!anyVisible)row.style.display='none';
+    });
+
+    if(window.self!==window.top){
     if(window.ELLERBROCK_IMAGES) applyMap(window.ELLERBROCK_IMAGES);
     var sc=document.createElement('script');sc.src='admin-editor.js';document.head.appendChild(sc);
     return;
