@@ -963,6 +963,22 @@ body.dark .cursor-glow { background: radial-gradient(circle, rgba(77,184,212,0.0
   
 /* ===== SUBPAGE STYLES ===== */
 .subpage { display: block; position: relative; top: 0; left: 0; right: 0; min-height: 100vh; background: var(--bg); padding-top: 72px; }
+
+/* Page image placeholders */
+.page-img-placeholder { border-radius: var(--radius); overflow: hidden; margin: 32px 0; }
+.page-img-placeholder img { width: 100%; height: auto; display: block; object-fit: cover; border-radius: var(--radius); min-height: 200px; background: var(--bg-alt); }
+.page-img-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 32px 0; }
+.page-img-row .page-img-placeholder { margin: 0; }
+.page-img-row .page-img-placeholder img { height: 240px; }
+.page-img-half { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; margin: 32px 0; }
+.page-img-half > div:first-child { }
+.page-img-half .page-img-placeholder { margin: 0; }
+.page-img-half .page-img-placeholder img { height: 300px; }
+@media (max-width: 768px) {
+  .page-img-half { grid-template-columns: 1fr; }
+  .page-img-row { grid-template-columns: 1fr; }
+  .page-img-row .page-img-placeholder img { height: 200px; }
+}
 </style>
 </head>
 
@@ -1026,6 +1042,8 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
 <div class="subpage" id="page-datenschutz">
 <div class="overlay-hero"><div class="overlay-hero-bg"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1600&q=80&auto=format" alt="" loading="eager"></div><div class="container overlay-hero-content"><h1 data-i18n="ol.ds.h1">Datenschutzerklärung</h1><p data-i18n="ol.ds.p">Informationen zum Datenschutz gemäß DSGVO</p></div></div>
   <div class="overlay-content"><div class="container">
+    <div class="page-img-placeholder"><img src="images/datenschutz-header-1.jpg" data-orig="datenschutz-header-1.jpg" alt="Datenschutz bei Ellerbrock" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+
     <div class="legal-content fade-up">
       <h2 data-i18n="ds.allg.h">1. Datenschutz auf einen Blick</h2>
       <h3 data-i18n="ds.allg.sub">Allgemeine Hinweise</h3>
