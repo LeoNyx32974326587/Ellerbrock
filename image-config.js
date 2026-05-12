@@ -140,7 +140,8 @@ window.ELLERBROCK_IMAGES = {
       "name": "Daniel Talarico",
       "role": "Techniker",
       "dept": "Technik",
-      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576295/ellerbrock/team-daniel-talarico-1778576294848.jpg"
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576295/ellerbrock/team-daniel-talarico-1778576294848.jpg",
+      "desc": "Freut sich über Catering"
     },
     {
       "name": "John-Christopher Neff",
