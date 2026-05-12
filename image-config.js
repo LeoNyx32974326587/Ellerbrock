@@ -303,6 +303,13 @@ window.ELLERBROCK_IMAGES = {
       "dept": "Versand & Logistik",
       "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778587378/ellerbrock/team-franzi-1778587376458.jpg",
       "desc": ""
+    },
+    {
+      "name": "Tobi",
+      "role": "Auszubildener",
+      "dept": "Auszubildende",
+      "photo": "",
+      "desc": ""
     }
   ],
   "team-manuel-strasser.jpg": {
