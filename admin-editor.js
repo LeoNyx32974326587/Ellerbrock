@@ -224,12 +224,21 @@
       currentPage=d.page||'';
       setupTexts();
 
-      document.querySelectorAll('img[src^="images/"]').forEach(function(img){
-        var fn=img.getAttribute('src').replace('images/','');
+      // Find ALL images: both unloaded (src=images/) and already loaded by cloudinary-loader (data-orig)
+      document.querySelectorAll('img[data-orig], img[src^="images/"]').forEach(function(img){
+        if(img.closest('.ae-wrap'))return; // already wrapped
+        var fn=img.getAttribute('data-orig')||img.getAttribute('src').replace('images/','');
+        if(!fn||fn.indexOf('/')!==-1)return; // skip external URLs
         var entry=map[fn];
         var url=(typeof entry==='object')?(entry&&entry.url):entry;
         img.removeAttribute('onerror');img.onerror=null;
-        if(url){img.src=url;img.style.display='';}
+        if(url){
+          img.src=url;img.style.display='';
+        }else{
+          // No entry in admin map = image was deleted, reset to placeholder
+          img.src='images/'+fn;
+        }
+        if(!img.getAttribute('data-orig'))img.setAttribute('data-orig',fn);
         var nx=img.nextElementSibling;
         if(nx&&nx.classList&&nx.classList.contains('initials'))nx.style.display='none';
         setupImage(img,fn,entry||{});
