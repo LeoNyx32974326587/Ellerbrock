@@ -78,7 +78,7 @@ window.ELLERBROCK_IMAGES = {
       "role": "Buchhaltung",
       "dept": "Büro & Verwaltung",
       "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576279/ellerbrock/team-manuel-strasser-1778576276380.jpg",
-      "desc": "ist seit 15 Jahren bei uns in der Buchhaltung tätig"
+      "desc": "in der Buchhaltung tätig"
     },
     {
       "name": "Florian Sauer",
