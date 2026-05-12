@@ -15,13 +15,18 @@
       img.removeAttribute('onerror'); img.onerror=null;
       img.src=url; img.style.display='';
       if(!img.getAttribute('data-orig')) img.setAttribute('data-orig', f);
+      // Check if this is a team card image (inside .team-card-img or .team-card)
+      var isTeamImg = !!(img.closest('.team-card-img') || img.closest('.team-card'));
       if(typeof entry === 'object'){
         if(entry.fit) img.style.objectFit = entry.fit;
         if(entry.pos) img.style.objectPosition = entry.pos;
-        if(entry.w){img.style.width = entry.w; img.style.maxWidth='none';}
-        if(entry.h){img.style.height = entry.h; img.style.maxHeight='none';}
-        if(entry.mx) img.style.marginLeft = entry.mx+'px';
-        if(entry.my) img.style.marginTop = entry.my+'px';
+        // Only apply size/margin for non-team images
+        if(!isTeamImg){
+          if(entry.w){img.style.width = entry.w; img.style.maxWidth='none';}
+          if(entry.h){img.style.height = entry.h; img.style.maxHeight='none';}
+          if(entry.mx) img.style.marginLeft = entry.mx+'px';
+          if(entry.my) img.style.marginTop = entry.my+'px';
+        }
       }
       var sib=img.nextElementSibling;
       if(sib&&sib.classList&&sib.classList.contains('initials')) sib.style.display='none';
@@ -55,6 +60,7 @@
       var img=document.createElement('img');
       img.src=url;img.alt=nameEl.textContent;
       img.setAttribute('data-orig',fn);
+      // For team images: only apply fit and pos, not size/margin
       if(typeof entry==='object'){
         if(entry.fit)img.style.objectFit=entry.fit;
         if(entry.pos)img.style.objectPosition=entry.pos;
