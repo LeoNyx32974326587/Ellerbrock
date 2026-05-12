@@ -30,6 +30,12 @@ window.ELLERBROCK_IMAGES = {
       "section>div:nth-of-type(2)>p": "Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.",
       "section:nth-of-type(4)>div>div:nth-of-type(2)>a>p": "Simultandolmetscheranlagen für mehrsprachige Konferenzen — drahtlos oder kabelgebunden, mit professionellen Dolmetscherkabinen.",
       "section:nth-of-type(4)>div>div:nth-of-type(2)>a:nth-of-type(2)>p": "Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse."
+    },
+    "dolmetscheranlagen.html": {
+      "div.content-block>div.content-grid>div.content-text>p.ae-editable": "Moderne Simultandolmetscheranlagen bestehen aus schallisolierten Dolmetscherkabinen, einer Zentraleinheit, einem Dolmetscherpult und drahtlosen Empfängereinheiten für die Konferenzteilnehmer. Wir setzen auf digitale Infrarot-Übertragungssysteme und drahtlose Dolmetschertechnik der Hersteller Sennheiser und Bosch.",
+      "div>div:nth-of-type(2)>div>div>div>div>p": "Moderne Simultandolmetscheranlagen bestehen aus schallisolierten Dolmetscherkabinen, einer Zentraleinheit, einem Dolmetscherpult und drahtlosen Empfängereinheiten für die Konferenzteilnehmer. Wir setzen auf digitale Infrarot-Übertragungssysteme und drahtlose Dolmetschertechnik der Hersteller Sennheiser und Bosch.",
+      "div.overlay-content:nth-of-type(2)>div.container>div.content-block:nth-of-type(3)>h2.ae-editable": "Dolmetscherdienst",
+      "div>div:nth-of-type(2)>div>div:nth-of-type(3)>h2": "Dolmetscherdienst"
     }
   },
   "galerie-2.jpg": {
@@ -281,8 +287,13 @@ window.ELLERBROCK_IMAGES = {
     "fit": "cover",
     "pos": "center"
   },
-  "dolmetscherkabine-aufgebaut.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778578593/ellerbrock/dolmetscherkabine-aufgebaut-1778578592579.jpg",
+  "dolmetscherdienst.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778578385/ellerbrock/dolmetscherdienst-1778578384763.jpg",
+    "fit": "contain",
+    "pos": "center"
+  },
+  "dolmetscherkabine-audipack-9300.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778578744/ellerbrock/dolmetscherkabine-audipack-9300-1778578743700.jpg",
     "fit": "cover",
     "pos": "center"
   }
