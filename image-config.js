@@ -99,10 +99,10 @@ window.ELLERBROCK_IMAGES = {
     },
     {
       "name": "Jörg Raphael",
-      "role": "Techniker",
+      "role": "Grafiker & Techniker",
       "dept": "Technik",
       "photo": "",
-      "desc": "Grafiker. Erstellt seit 2014 professionelle Abstimmfolien nach Kundenvorgaben und Corporate Design."
+      "desc": "Erstellt seit 2014 professionelle Abstimmfolien nach Kundenvorgaben und Corporate Design."
     },
     {
       "name": "Fabian Habel",
