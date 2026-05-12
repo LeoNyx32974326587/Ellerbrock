@@ -235,7 +235,7 @@ window.ELLERBROCK_IMAGES = {
       "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580371/ellerbrock/team-oezkan-bozkurt-1778580369926.jpg"
     },
     {
-      "name": "Dennis",
+      "name": "Denis Schneider",
       "role": "Versand",
       "dept": "Versand & Logistik",
       "photo": ""
