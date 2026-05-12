@@ -963,6 +963,22 @@ body.dark .cursor-glow { background: radial-gradient(circle, rgba(77,184,212,0.0
   
 /* ===== SUBPAGE STYLES ===== */
 .subpage { display: block; position: relative; top: 0; left: 0; right: 0; min-height: 100vh; background: var(--bg); padding-top: 72px; }
+
+/* Page image placeholders */
+.page-img-placeholder { border-radius: var(--radius); overflow: hidden; margin: 32px 0; }
+.page-img-placeholder img { width: 100%; height: auto; display: block; object-fit: cover; border-radius: var(--radius); min-height: 200px; background: var(--bg-alt); }
+.page-img-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 32px 0; }
+.page-img-row .page-img-placeholder { margin: 0; }
+.page-img-row .page-img-placeholder img { height: 240px; }
+.page-img-half { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; margin: 32px 0; }
+.page-img-half > div:first-child { }
+.page-img-half .page-img-placeholder { margin: 0; }
+.page-img-half .page-img-placeholder img { height: 300px; }
+@media (max-width: 768px) {
+  .page-img-half { grid-template-columns: 1fr; }
+  .page-img-row { grid-template-columns: 1fr; }
+  .page-img-row .page-img-placeholder img { height: 200px; }
+}
 </style>
 </head>
 
@@ -1030,6 +1046,8 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
       <h2>Dolmetschersysteme</h2>
       <div class="produkte-grid">
         <div class="produkt-item"><div class="produkt-dot"></div><span>Bosch Digital Congress Network (DCN)</span></div>
+    <div style="margin:-20px 0 44px;"><div class="page-img-placeholder"><img src="images/produkte-dolmetscher-1.jpg" data-orig="produkte-dolmetscher-1.jpg" alt="Dolmetscherkabinen im Einsatz" loading="lazy" onerror="this.parentElement.style.display='none'"></div></div>
+
         <div class="produkt-item"><div class="produkt-dot"></div><span>Beyerdynamic SIS Dolmetschersystem</span></div>
         <div class="produkt-item"><div class="produkt-dot"></div><span>Televic Confidea Wireless</span></div>
         <div class="produkt-item"><div class="produkt-dot"></div><span>Audipack Silent 9300 Kabinen</span></div>
@@ -1074,6 +1092,8 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
       <h2>Beschallungstechnik</h2>
       <div class="produkte-grid">
         <div class="produkt-item"><div class="produkt-dot"></div><span>Sennheiser Evolution Wireless</span></div>
+    <div style="margin:-20px 0 44px;"><div class="page-img-placeholder"><img src="images/produkte-beschallung-1.jpg" data-orig="produkte-beschallung-1.jpg" alt="Professionelle Beschallungstechnik" loading="lazy" onerror="this.parentElement.style.display='none'"></div></div>
+
         <div class="produkt-item"><div class="produkt-dot"></div><span>Shure Funkmikrofonsysteme</span></div>
         <div class="produkt-item"><div class="produkt-dot"></div><span>JBL Aktivlautsprecher</span></div>
         <div class="produkt-item"><div class="produkt-dot"></div><span>d&b audiotechnik Systeme</span></div>
@@ -1087,6 +1107,8 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
       <h2>Videotechnik & Präsentation</h2>
       <div class="produkte-grid">
         <div class="produkt-item"><div class="produkt-dot"></div><span>Panasonic / Epson Projektoren</span></div>
+    <div style="margin:-20px 0 44px;"><div class="page-img-placeholder"><img src="images/produkte-video-1.jpg" data-orig="produkte-video-1.jpg" alt="Video- und Präsentationstechnik" loading="lazy" onerror="this.parentElement.style.display='none'"></div></div>
+
         <div class="produkt-item"><div class="produkt-dot"></div><span>Christie Großbild-Projektoren</span></div>
         <div class="produkt-item"><div class="produkt-dot"></div><span>Samsung / LG LED-Displays</span></div>
         <div class="produkt-item"><div class="produkt-dot"></div><span>Barco ClickShare & weConnect</span></div>
