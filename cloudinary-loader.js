@@ -6,11 +6,71 @@
     img.setAttribute('data-orig', img.getAttribute('src').replace('images/',''));
   });
 
+  /* ---- Team Popup ---- */
+  function injectTeamPopup(){
+    if(document.getElementById('teamPopupOverlay'))return;
+    var css=document.createElement('style');
+    css.textContent=[
+      '.team-popup-overlay{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;padding:20px;}',
+      '.team-popup-overlay.visible{opacity:1;pointer-events:auto;}',
+      '.team-popup{background:white;border-radius:20px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden;transform:translateY(20px) scale(0.97);transition:transform 0.3s cubic-bezier(.4,0,.2,1);}',
+      '.team-popup-overlay.visible .team-popup{transform:translateY(0) scale(1);}',
+      '.team-popup-photo{width:100%;aspect-ratio:1;overflow:hidden;background:linear-gradient(135deg,var(--teal,#01566d),var(--primary,#003366));display:flex;align-items:center;justify-content:center;}',
+      '.team-popup-photo img{width:100%;height:100%;object-fit:cover;}',
+      '.team-popup-photo .popup-initials{font-size:4rem;font-weight:800;color:white;}',
+      '.team-popup-body{padding:28px 24px 24px;text-align:center;}',
+      '.team-popup-name{font-size:1.25rem;font-weight:700;color:#1a1a2e;margin-bottom:4px;}',
+      '.team-popup-role{font-size:0.9rem;color:#01566d;font-weight:600;margin-bottom:16px;}',
+      '.team-popup-desc{font-size:0.9rem;color:#555;line-height:1.7;text-align:left;padding:16px;background:#f8f9fa;border-radius:12px;margin-bottom:16px;}',
+      '.team-popup-close{display:inline-flex;align-items:center;justify-content:center;padding:10px 28px;border-radius:10px;border:none;background:#f0f0f0;color:#333;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.2s;}',
+      '.team-popup-close:hover{background:#e0e0e0;}',
+      '@media(max-width:480px){.team-popup{max-width:calc(100vw - 40px);}.team-popup-body{padding:20px 16px 16px;}}'
+    ].join('\n');
+    document.head.appendChild(css);
+
+    var overlay=document.createElement('div');
+    overlay.className='team-popup-overlay';
+    overlay.id='teamPopupOverlay';
+    overlay.innerHTML='<div class="team-popup" id="teamPopup"></div>';
+    overlay.addEventListener('click',function(e){
+      if(e.target===overlay)closeTeamPopup();
+    });
+    document.body.appendChild(overlay);
+  }
+
+  function showTeamPopup(member,map){
+    injectTeamPopup();
+    var fn='team-'+slugify(member.name)+'.jpg';
+    var imgEntry=map[fn];
+    var photoUrl=member.photo||(imgEntry?(typeof imgEntry==='string'?imgEntry:imgEntry.url):'');
+    var popup=document.getElementById('teamPopup');
+    var html='';
+    html+='<div class="team-popup-photo">';
+    if(photoUrl){html+='<img src="'+photoUrl+'" alt="'+member.name+'">';}
+    else{html+='<span class="popup-initials">'+getInitials(member.name)+'</span>';}
+    html+='</div>';
+    html+='<div class="team-popup-body">';
+    html+='<div class="team-popup-name">'+member.name+'</div>';
+    html+='<div class="team-popup-role">'+member.role+'</div>';
+    if(member.desc)html+='<div class="team-popup-desc">'+member.desc+'</div>';
+    html+='<button class="team-popup-close" onclick="document.getElementById(\'teamPopupOverlay\').classList.remove(\'visible\')">Schließen</button>';
+    html+='</div>';
+    popup.innerHTML=html;
+    document.getElementById('teamPopupOverlay').classList.add('visible');
+  }
+
+  function closeTeamPopup(){
+    var o=document.getElementById('teamPopupOverlay');
+    if(o)o.classList.remove('visible');
+  }
+
+  // Escape key closes popup
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeTeamPopup();});
+
   function applyMap(map){
     if(!map||typeof map!=='object')return;
     if(Object.keys(map).length===0)return;
 
-    // Apply image replacements
     document.querySelectorAll('img[data-orig], img[src^="images/"]').forEach(function(img){
       var f = img.getAttribute('data-orig') || img.getAttribute('src').replace('images/','');
       var entry = map[f];
@@ -35,7 +95,6 @@
       if(sib&&sib.classList&&sib.classList.contains('initials')) sib.style.display='none';
     });
 
-    // Apply text overrides
     var page=location.pathname.split('/').pop()||'index.html';
     if(map._texts){
       var pageTexts=map._texts[page];
@@ -53,19 +112,12 @@
       });
     }
 
-    // Dynamic team rendering from _team data
+    // Dynamic team rendering
     if(map._team&&map._team.length>0){
       var teamSection=document.querySelector('.team-section .container');
       if(teamSection){
-        // Keep header elements
-        var label=teamSection.querySelector('.section-label');
-        var title=teamSection.querySelector('.section-title');
         var subtitle=teamSection.querySelector('.section-subtitle');
-
-        // Remove old department divs
         teamSection.querySelectorAll('.team-dept').forEach(function(d){d.remove();});
-
-        // Update subtitle count
         if(subtitle)subtitle.textContent='Über '+map._team.length+' engagierte Mitarbeiter sorgen dafür, dass Ihre Veranstaltung perfekt wird.';
 
         var depts=['Büro & Verwaltung','Technik','Versand & Logistik','Fuhrpark','Auszubildende'];
@@ -86,6 +138,11 @@
           members.forEach(function(m){
             var card=document.createElement('div');
             card.className='team-card fade-up visible';
+            // Make clickable if has description
+            if(m.desc){
+              card.style.cursor='pointer';
+              card.addEventListener('click',function(){showTeamPopup(m,map);});
+            }
 
             var fn='team-'+slugify(m.name)+'.jpg';
             var imgEntry=map[fn];
@@ -95,9 +152,7 @@
               var imgDiv=document.createElement('div');
               imgDiv.className='team-card-img';
               var img=document.createElement('img');
-              img.src=photoUrl;
-              img.alt=m.name;
-              img.setAttribute('data-orig',fn);
+              img.src=photoUrl;img.alt=m.name;img.setAttribute('data-orig',fn);
               imgDiv.appendChild(img);
               card.appendChild(imgDiv);
             }else{
@@ -126,7 +181,6 @@
         });
       }
     }else{
-      // Fallback: replace placeholders with uploaded images (legacy support)
       document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
         var nameEl=ph.closest('.team-card')&&ph.closest('.team-card').querySelector('.team-card-name');
         if(!nameEl)return;
@@ -138,12 +192,8 @@
         var imgDiv=document.createElement('div');
         imgDiv.className='team-card-img';
         var img=document.createElement('img');
-        img.src=url;img.alt=nameEl.textContent;
-        img.setAttribute('data-orig',fn);
-        if(typeof entry==='object'){
-          if(entry.fit)img.style.objectFit=entry.fit;
-          if(entry.pos)img.style.objectPosition=entry.pos;
-        }
+        img.src=url;img.alt=nameEl.textContent;img.setAttribute('data-orig',fn);
+        if(typeof entry==='object'){if(entry.fit)img.style.objectFit=entry.fit;if(entry.pos)img.style.objectPosition=entry.pos;}
         imgDiv.appendChild(img);
         ph.replaceWith(imgDiv);
       });
