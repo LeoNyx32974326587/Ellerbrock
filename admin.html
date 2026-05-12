@@ -230,6 +230,7 @@
     .tm-input:focus{outline:none;border-color:var(--teal);}
     .tm-input-name{width:180px;font-weight:600;}
     .tm-input-role{width:160px;}
+    .tm-input-desc{flex:1;min-width:200px;font-size:0.84rem;color:var(--text-light);}
     .tm-select{padding:8px 12px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.85rem;font-family:inherit;cursor:pointer;}
     .tm-select:focus{outline:none;border-color:var(--teal);}
     .tm-actions{display:flex;gap:6px;flex-shrink:0;}
@@ -425,36 +426,36 @@ function getTeamData(){
   var raw=localStorage.getItem('team_data');
   if(raw)return JSON.parse(raw);
   return [
-    {name:'Manuel Straßer',role:'Buchhaltung',dept:'Büro & Verwaltung',photo:''},
-    {name:'Florian Sauer',role:'Kundenbetreuung',dept:'Büro & Verwaltung',photo:''},
-    {name:'Sascha Stegemann',role:'Kundenbetreuung',dept:'Büro & Verwaltung',photo:''},
-    {name:'Jochen Stiefel',role:'Büro',dept:'Büro & Verwaltung',photo:''},
-    {name:'Jörg Raphael',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Fabian Habel',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Julius Lampert',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Nicolas Cristobal Wolf',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Sebastian Huster',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Daniel Talarico',role:'Techniker',dept:'Technik',photo:''},
-    {name:'John-Christopher Neff',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Abdullatief Latuf Alkhlf',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Christian Bühler',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Raman Khzem',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Ali Hamza',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Reiner Neumann',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Irfan Mohammad Kahloon',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Waldemar Kornilov',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Gianluca Kastl',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Muneeb',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Max',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Frank Gerlinger',role:'Techniker',dept:'Technik',photo:''},
-    {name:'Özkan Bozkurt',role:'Versand',dept:'Versand & Logistik',photo:''},
-    {name:'Dennis',role:'Versand',dept:'Versand & Logistik',photo:''},
-    {name:'Ludwig Aupperle',role:'Versand',dept:'Versand & Logistik',photo:''},
-    {name:'Vincent Kirste',role:'Fuhrpark',dept:'Fuhrpark',photo:''},
-    {name:'Keanu Vigil',role:'Auszubildender',dept:'Auszubildende',photo:''},
-    {name:'Bastian Häcker',role:'Auszubildender',dept:'Auszubildende',photo:''},
-    {name:'Leon-Luca Lauterbach',role:'Auszubildender',dept:'Auszubildende',photo:''},
-    {name:'Henri Kaiser',role:'Auszubildender',dept:'Auszubildende',photo:''}
+    {name:'Manuel Straßer',role:'Buchhaltung',dept:'Büro & Verwaltung',photo:'',desc:''},
+    {name:'Florian Sauer',role:'Kundenbetreuung',dept:'Büro & Verwaltung',photo:'',desc:''},
+    {name:'Sascha Stegemann',role:'Kundenbetreuung',dept:'Büro & Verwaltung',photo:'',desc:''},
+    {name:'Jochen Stiefel',role:'Büro',dept:'Büro & Verwaltung',photo:'',desc:''},
+    {name:'Jörg Raphael',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Fabian Habel',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Julius Lampert',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Nicolas Cristobal Wolf',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Sebastian Huster',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Daniel Talarico',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'John-Christopher Neff',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Abdullatief Latuf Alkhlf',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Christian Bühler',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Raman Khzem',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Ali Hamza',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Reiner Neumann',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Irfan Mohammad Kahloon',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Waldemar Kornilov',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Gianluca Kastl',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Muneeb',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Max',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Frank Gerlinger',role:'Techniker',dept:'Technik',photo:'',desc:''},
+    {name:'Özkan Bozkurt',role:'Versand',dept:'Versand & Logistik',photo:'',desc:''},
+    {name:'Dennis',role:'Versand',dept:'Versand & Logistik',photo:'',desc:''},
+    {name:'Ludwig Aupperle',role:'Versand',dept:'Versand & Logistik',photo:'',desc:''},
+    {name:'Vincent Kirste',role:'Fuhrpark',dept:'Fuhrpark',photo:'',desc:''},
+    {name:'Keanu Vigil',role:'Auszubildender',dept:'Auszubildende',photo:'',desc:''},
+    {name:'Bastian Häcker',role:'Auszubildender',dept:'Auszubildende',photo:'',desc:''},
+    {name:'Leon-Luca Lauterbach',role:'Auszubildender',dept:'Auszubildende',photo:'',desc:''},
+    {name:'Henri Kaiser',role:'Auszubildender',dept:'Auszubildende',photo:'',desc:''}
   ];
 }
 function saveTeamData(team){localStorage.setItem('team_data',JSON.stringify(team));localStorage.setItem('team_dirty','1');}
@@ -490,6 +491,8 @@ function renderTeamPanel(){
       html+='<div class="tm-info">';
       html+='<input class="tm-input tm-input-name" value="'+esc+'" data-idx="'+i+'" data-field="name" placeholder="Name">';
       html+='<input class="tm-input tm-input-role" value="'+escR+'" data-idx="'+i+'" data-field="role" placeholder="Rolle">';
+      var escD=(m.desc||'').replace(/"/g,'&quot;');
+      html+='<input class="tm-input tm-input-desc" value="'+escD+'" data-idx="'+i+'" data-field="desc" placeholder="Beschreibung (optional)">';
       html+='<select class="tm-select" data-idx="'+i+'" data-field="dept">';
       TEAM_DEPTS.forEach(function(d){html+='<option value="'+d+'"'+(m.dept===d?' selected':'')+'>'+d+'</option>';});
       html+='</select>';
@@ -531,7 +534,7 @@ function addTeamMember(dept){
   if(!name||!name.trim())return;
   var role=prompt('Rolle/Position:','Mitarbeiter');
   if(role===null)return;
-  team.push({name:name.trim(),role:role||'Mitarbeiter',dept:dept,photo:''});
+  team.push({name:name.trim(),role:role||'Mitarbeiter',dept:dept,photo:'',desc:''});
   saveTeamData(team);
   renderTeamPanel();
   showToast(name.trim()+' hinzugefügt.');
@@ -629,7 +632,9 @@ async function publishTeamHTML(team){
         }else{
           teamHtml+='<div class="team-card-placeholder">'+initials+'</div>';
         }
-        teamHtml+='<div class="team-card-info"><div class="team-card-name">'+m.name+'</div><div class="team-card-role">'+m.role+'</div></div></div>';
+        teamHtml+='<div class="team-card-info"><div class="team-card-name">'+m.name+'</div><div class="team-card-role">'+m.role+'</div>';
+        if(m.desc)teamHtml+='<div class="team-card-desc">'+m.desc+'</div>';
+        teamHtml+='</div></div>';
       });
       teamHtml+='</div></div>';
     });
@@ -1047,4 +1052,5 @@ function updateMsgBadge(){
 </script>
 </body>
 </html>
+
 
