@@ -648,10 +648,6 @@ body.dark .about-card {
 body.dark .services::before { background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); }
 
 /* ===== HOVER LIFT FOR GALLERY ===== */
-.galerie-item { transition: transform 0.4s cubic-bezier(.4,0,.2,1), box-shadow 0.4s ease; }
-.galerie-item:hover { transform: scale(1.04) translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); z-index: 2; }
-.galerie-item:hover img { transform: none; }
-
 /* ===== PULSE GLOW ON CTA BUTTONS ===== */
 .btn-primary {
   position: relative; overflow: hidden;
@@ -855,12 +851,6 @@ body.dark .cursor-glow { background: radial-gradient(circle, rgba(77,184,212,0.0
   .services-grid .service-card:first-child .service-link { color: rgba(255,255,255,0.8); }
   .services-grid .service-card:first-child::before { background: linear-gradient(90deg, rgba(255,255,255,0.4), var(--accent)); }
 }
-
-/* ===== PARALLAX GALLERY ===== */
-.galerie-grid {
-  gap: 12px;
-}
-.galerie-item:hover { transform: scale(1.04) translateY(-4px); }
 
 /* ===== ENHANCED CTA ===== */
 .cta-section {
@@ -1163,13 +1153,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
         </div>
       </div>
     </div>
-
-    <!-- Galerie -->
-    <div class="content-block fade-up">
-      <h2 data-i18n="ted.galerie.h">Bildergalerie</h2>
-</div>
-
-  </div></div>
+</div></div>
   <div class="overlay-cta"><div class="container"><h2 class="section-title" style="color:white;" data-i18n="cta.title">Lassen Sie uns Ihre Veranstaltung planen</h2><p class="section-subtitle" style="color:rgba(255,255,255,0.6);margin-bottom:40px;" data-i18n="cta.sub">Unser Team berät Sie gerne.</p><div class="cta-buttons"><a href="kontaktformular.html" class="btn btn-primary" data-i18n="cta.form">&#9993; Kontaktformular</a><a href="rueckrufservice.html" class="btn btn-primary" style="background:var(--teal);" data-i18n="cta.rueckruf">&#9742; Rückrufservice</a><a href="mailto:info@ellerbrock-konferenztechnik.de" class="btn btn-outline" data-i18n="cta.email">&#9993; E-Mail senden</a><a href="tel:+496207922400" class="btn btn-outline" data-i18n="cta.phone">&#9742; +49 6207 9224-0</a></div></div></div>
 </div>
 
@@ -1686,10 +1670,7 @@ const T = {
   'ted.role.joerg': { de: 'Grafiker', en: 'Graphic Designer', fr: 'Graphiste', es: 'Diseñador gráfico', zh: '平面设计师' },
   'ted.role.fabian': { de: 'Konferenztechniker', en: 'Conference Technician', fr: 'Technicien de conférence', es: 'Técnico de conferencias', zh: '会议技术员' },
   'ted.role.vladimir': { de: 'Konferenz- & Tontechniker', en: 'Conference & Audio Tech', fr: 'Technicien conférence & son', es: 'Técnico conferencia & sonido', zh: '会议与音响技术员' },
-
-  'ted.galerie.h': { de: 'Bildergalerie', en: 'Image Gallery', fr: 'Galerie d\'images', es: 'Galería de imágenes', zh: '图片库' },
-
-  'ol.fuehr.h1': { de: 'Personen- und Führungsanlagen', en: 'Tour Guide Systems', fr: 'Systèmes de guidage', es: 'Sistemas de guía', zh: '导览系统' },
+'ol.fuehr.h1': { de: 'Personen- und Führungsanlagen', en: 'Tour Guide Systems', fr: 'Systèmes de guidage', es: 'Sistemas de guía', zh: '导览系统' },
   'ol.fuehr.p': { de: 'Tourguide-Systeme für Werksführungen, Stadtführungen und Flüsterdolmetschen', en: 'Tour guide systems for factory tours, city tours and whispered interpreting', fr: 'Systèmes de guidage pour visites d\'usines, visites de villes et interprétation chuchotée', es: 'Sistemas de guía para visitas a fábricas, visitas turísticas e interpretación susurrada', zh: '导览系统，适用于工厂参观、城市观光和耳语翻译' },
   'ol.disk.h1': { de: 'Diskussionsanlagen', en: 'Discussion Systems', fr: 'Systèmes de discussion', es: 'Sistemas de discusión', zh: '讨论系统' },
   'ol.disk.p': { de: 'Kabellose und kabelgebundene Systeme für professionelle Konferenzen', en: 'Wireless and wired systems for professional conferences', fr: 'Systèmes sans fil et câblés pour conférences professionnelles', es: 'Sistemas inalámbricos y por cable para conferencias profesionales', zh: '适用于专业会议的无线和有线系统' },
