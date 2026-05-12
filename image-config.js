@@ -30,6 +30,12 @@ window.ELLERBROCK_IMAGES = {
       "section>div:nth-of-type(2)>p": "Dolmetscheranlagen, Ted-Abstimmsysteme, Führungsanlagen und Medientechnik — Vermietung, Verkauf und Full-Service-Support aus einer Hand.",
       "section:nth-of-type(4)>div>div:nth-of-type(2)>a>p": "Simultandolmetscheranlagen für mehrsprachige Konferenzen — drahtlos oder kabelgebunden, mit professionellen Dolmetscherkabinen.",
       "section:nth-of-type(4)>div>div:nth-of-type(2)>a:nth-of-type(2)>p": "Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse."
+    },
+    "dolmetscheranlagen.html": {
+      "div.content-block>div.content-grid>div.content-text>p.ae-editable": "Moderne Simultandolmetscheranlagen bestehen aus schallisolierten Dolmetscherkabinen, einer Zentraleinheit, einem Dolmetscherpult und drahtlosen Empfängereinheiten für die Konferenzteilnehmer. Wir setzen auf digitale Infrarot-Übertragungssysteme und drahtlose Dolmetschertechnik der Hersteller Sennheiser und Bosch.",
+      "div>div:nth-of-type(2)>div>div>div>div>p": "Moderne Simultandolmetscheranlagen bestehen aus schallisolierten Dolmetscherkabinen, einer Zentraleinheit, einem Dolmetscherpult und drahtlosen Empfängereinheiten für die Konferenzteilnehmer. Wir setzen auf digitale Infrarot-Übertragungssysteme und drahtlose Dolmetschertechnik der Hersteller Sennheiser und Bosch.",
+      "div.overlay-content:nth-of-type(2)>div.container>div.content-block:nth-of-type(3)>h2.ae-editable": "Dolmetscherdienst",
+      "div>div:nth-of-type(2)>div>div:nth-of-type(3)>h2": "Dolmetscherdienst"
     }
   },
   "galerie-2.jpg": {
@@ -59,6 +65,11 @@ window.ELLERBROCK_IMAGES = {
   },
   "team-jochen-stiefel.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498613/ellerbrock/team-jochen-stiefel-1778498613486.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "dolmetscheranlage-hoersprechgarnitur.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778506218/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778506218466.jpg",
     "fit": "cover",
     "pos": "center"
   },
@@ -274,6 +285,11 @@ window.ELLERBROCK_IMAGES = {
   "team-leon-luca-lauterbach.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576300/ellerbrock/team-leon-luca-lauterbach-1778576300048.jpg",
     "fit": "cover",
+    "pos": "center"
+  },
+  "dolmetscherdienst.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778578385/ellerbrock/dolmetscherdienst-1778578384763.jpg",
+    "fit": "contain",
     "pos": "center"
   }
 };
