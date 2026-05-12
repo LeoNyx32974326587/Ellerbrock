@@ -1,4 +1,4 @@
-/* Ellerbrock Admin Visual Editor v2 */
+/* Ellerbrock Admin Visual Editor v3 */
 (function(){
   if(window.self===window.top)return;
 
@@ -32,7 +32,10 @@
     '.ae-editable:focus{box-shadow:0 0 0 2px #3b82f6;}',
     '.ae-new-container{position:relative;margin:10px auto;border:2px dashed #3b82f6;border-radius:8px;overflow:hidden;background:rgba(59,130,246,0.05);display:flex;align-items:center;justify-content:center;cursor:pointer;min-height:100px;}',
     '.ae-new-container:hover{background:rgba(59,130,246,0.1);}',
-    '.ae-new-container img{width:100%;height:100%;object-fit:cover;}'
+    '.ae-new-container img{width:100%;height:100%;object-fit:cover;}',
+    /* Team card image toolbar - simpler, no resize/move */
+    '.ae-team-tb{position:absolute;top:6px;right:6px;display:flex;gap:4px;background:rgba(0,0,0,.85);border-radius:8px;padding:4px 8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:160;}',
+    '.team-card-img:hover .ae-team-tb{opacity:1;pointer-events:all;}'
   ].join('\n');
   document.head.appendChild(css);
 
@@ -127,7 +130,7 @@
     });
   }
 
-  /* ---- Setup Image with Editor Controls ---- */
+  /* ---- Setup Image with Editor Controls (for non-team images) ---- */
   function setupImage(img,fn,entry){
     var url=(typeof entry==='object')?(entry&&entry.url):entry;
     var p=img.parentElement;if(!p)return;
@@ -135,7 +138,6 @@
     var wrap=document.createElement('div');wrap.className='ae-wrap';
     p.insertBefore(wrap,img);wrap.appendChild(img);
 
-    // Apply saved styles
     if(typeof entry==='object'){
       if(entry.fit)img.style.objectFit=entry.fit;
       if(entry.pos)img.style.objectPosition=entry.pos;
@@ -145,7 +147,6 @@
       if(entry.my)img.style.marginTop=entry.my+'px';
     }
 
-    // Handles
     var hd=document.createElement('div');hd.className='ae-handles';
     ['tl','tr','bl','br'].forEach(function(c){
       var dot=document.createElement('div');dot.className='ae-h ae-h-'+c;
@@ -154,18 +155,15 @@
     });
     wrap.appendChild(hd);
 
-    // Move overlay
     var mv=document.createElement('div');mv.className='ae-move';
     setupMove(mv,img,fn,function(){syncRect(img,hd);syncRect(img,mv);});
     wrap.appendChild(mv);
 
-    // Sync on load
     function doSync(){syncRect(img,hd);syncRect(img,mv);}
     img.addEventListener('load',doSync);
     setTimeout(doSync,50);setTimeout(doSync,200);
     if(window.ResizeObserver)new ResizeObserver(doSync).observe(img);
 
-    // Toolbar
     var tb=document.createElement('div');tb.className='ae-tb';
     var fitBtn=document.createElement('button');fitBtn.className='ae-btn';
     fitBtn.textContent=(typeof entry==='object'&&entry.fit)||'cover';
@@ -202,9 +200,60 @@
     tb.appendChild(moreBtn);
     wrap.appendChild(tb);
 
-    // Store ref for image updates
     img.setAttribute('data-ae-fn',fn);
     return wrap;
+  }
+
+  /* ---- Setup Team Card Image (simpler: only fit/pos + upload, no resize/move) ---- */
+  function setupTeamImage(img,fn,entry){
+    img.setAttribute('data-ae-fn',fn);
+    // Make parent team-card-img relative for toolbar positioning
+    var container=img.closest('.team-card-img');
+    if(container)container.style.position='relative';
+
+    // Apply only fit and pos
+    if(typeof entry==='object'){
+      if(entry.fit)img.style.objectFit=entry.fit;
+      if(entry.pos)img.style.objectPosition=entry.pos;
+    }
+
+    // Simple toolbar: fit toggle, position, upload
+    var tb=document.createElement('div');tb.className='ae-team-tb';
+
+    var fitBtn=document.createElement('button');fitBtn.className='ae-btn';
+    fitBtn.textContent=(typeof entry==='object'&&entry.fit)||'cover';
+    fitBtn.addEventListener('click',function(ev){
+      ev.stopPropagation();
+      var fits=['cover','contain','fill','none'];
+      var i=fits.indexOf(img.style.objectFit||'cover');
+      var next=fits[(i+1)%fits.length];
+      img.style.objectFit=next;fitBtn.textContent=next;
+      msg({type:'admin-settings',filename:fn,fit:next});
+    });
+    tb.appendChild(fitBtn);
+
+    var posBtn=document.createElement('button');posBtn.className='ae-btn';
+    posBtn.textContent='Pos';posBtn.style.color='#93c5fd';
+    posBtn.addEventListener('click',function(ev){
+      ev.stopPropagation();
+      var r=posBtn.getBoundingClientRect();
+      showCtx(r.left,r.bottom+4,[
+        {label:'Oben',action:function(){img.style.objectPosition='center top';msg({type:'admin-settings',filename:fn,pos:'center top'});}},
+        {label:'Mitte',action:function(){img.style.objectPosition='center center';msg({type:'admin-settings',filename:fn,pos:'center center'});}},
+        {label:'Unten',action:function(){img.style.objectPosition='center bottom';msg({type:'admin-settings',filename:fn,pos:'center bottom'});}},
+        '---',
+        {label:'Links',action:function(){img.style.objectPosition='left center';msg({type:'admin-settings',filename:fn,pos:'left center'});}},
+        {label:'Rechts',action:function(){img.style.objectPosition='right center';msg({type:'admin-settings',filename:fn,pos:'right center'});}}
+      ]);
+    });
+    tb.appendChild(posBtn);
+
+    var upBtn=document.createElement('button');upBtn.className='ae-btn';
+    upBtn.textContent='Ersetzen';upBtn.style.color='#4ade80';
+    upBtn.addEventListener('click',function(ev){ev.stopPropagation();msg({type:'admin-upload',filename:fn});});
+    tb.appendChild(upBtn);
+
+    if(container)container.appendChild(tb);
   }
 
   /* ---- Make text elements editable ---- */
@@ -219,7 +268,7 @@
   function setupTexts(){
     var textEls=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,td,th,label,blockquote');
     textEls.forEach(function(el){
-      if(el.closest('.ae-wrap,.ae-tb,.ae-fab,.ae-ctx,.ae-handles'))return;
+      if(el.closest('.ae-wrap,.ae-tb,.ae-fab,.ae-ctx,.ae-handles,.ae-team-tb'))return;
       if(el.closest('nav,footer,.hero-stat,.stat-block,.hero-stats,.cookie-banner'))return;
       if(!isLeafText(el))return;
       if(!el.textContent.trim())return;
@@ -271,10 +320,9 @@
       map=d.map||{};
       currentPage=d.page||'';
 
-      // Make text editable BEFORE image setup
       setupTexts();
 
-      // Setup existing images
+      // Setup existing images - separate handling for team vs non-team
       document.querySelectorAll('img[src^="images/"]').forEach(function(img){
         var fn=img.getAttribute('src').replace('images/','');
         var entry=map[fn];
@@ -283,39 +331,40 @@
         if(url){img.src=url;img.style.display='';}
         var nx=img.nextElementSibling;
         if(nx&&nx.classList&&nx.classList.contains('initials'))nx.style.display='none';
-        setupImage(img,fn,entry||{});
+
+        // Check if this is a team card image
+        if(img.closest('.team-card-img')||img.closest('.team-card')){
+          setupTeamImage(img,fn,entry||{});
+        }else{
+          setupImage(img,fn,entry||{});
+        }
       });
 
-      // Setup team placeholders - click to upload via parent postMessage
+      // Setup team placeholders - click to upload
       document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
         var nameEl=ph.closest('.team-card').querySelector('.team-card-name');
         var personName=nameEl?slugify(nameEl.textContent):'team-member';
         var fn='team-'+personName+'.jpg';
 
-        // Check if this person already has an image in the map
+        // Check if image exists in map
         var entry=map[fn];
         if(entry){
           var url=typeof entry==='string'?entry:entry.url;
           if(url){
-            // Replace placeholder with actual image
             var imgDiv=document.createElement('div');
             imgDiv.className='team-card-img';
             var img=document.createElement('img');
             img.src=url;
             img.alt=nameEl?nameEl.textContent:'';
             img.setAttribute('data-orig',fn);
-            if(typeof entry==='object'){
-              if(entry.fit)img.style.objectFit=entry.fit;
-              if(entry.pos)img.style.objectPosition=entry.pos;
-            }
+            img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';
             imgDiv.appendChild(img);
             ph.replaceWith(imgDiv);
-            setupImage(img,fn,entry);
-            return; // skip click handler - already has image
+            setupTeamImage(img,fn,entry);
+            return;
           }
         }
 
-        // No image yet - set up upload click
         ph.style.cursor='pointer';
         ph.title='Klicken um Bild hochzuladen';
         ph.addEventListener('click',function(e){
@@ -325,7 +374,7 @@
         });
       });
 
-      // Disable ALL navigation in preview
+      // Disable navigation in preview
       document.querySelectorAll('a').forEach(function(a){
         a.setAttribute('data-href',a.getAttribute('href')||'');
         a.removeAttribute('href');
@@ -333,59 +382,36 @@
         a.style.cursor='default';
       });
 
-      // Deselect on background click
       document.addEventListener('click',function(e){
-        if(!e.target.closest('.ae-wrap,.ae-ctx,.ae-fab')){deselect();}
+        if(!e.target.closest('.ae-wrap,.ae-ctx,.ae-fab,.ae-team-tb')){deselect();}
       });
     }
 
-    // Live image update (after upload from parent)
+    // Live image update after upload
     if(d.type==='admin-update-image'&&d.filename&&d.url){
       var found=false;
       // Update existing editor-wrapped images
       document.querySelectorAll('img[data-ae-fn]').forEach(function(img){
         if(img.getAttribute('data-ae-fn')===d.filename){img.src=d.url;img.style.display='';found=true;}
       });
-      // If not found, check team placeholders
+      // Check team placeholders
       if(!found){
         document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
           var nameEl=ph.closest('.team-card')&&ph.closest('.team-card').querySelector('.team-card-name');
           if(!nameEl)return;
           var expectedFn='team-'+slugify(nameEl.textContent)+'.jpg';
           if(expectedFn===d.filename){
-            var card=ph.closest('.team-card');
             var imgDiv=document.createElement('div');
             imgDiv.className='team-card-img';
             var img=document.createElement('img');
             img.src=d.url;
             img.alt=nameEl.textContent;
             img.setAttribute('data-orig',d.filename);
+            img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';
             imgDiv.appendChild(img);
             ph.replaceWith(imgDiv);
-            setupImage(img,d.filename,{url:d.url,fit:'cover',pos:'center'});
+            setupTeamImage(img,d.filename,{url:d.url,fit:'cover',pos:'center'});
             found=true;
-          }
-        });
-      }
-      // Also check hidden imgs with data-orig
-      if(!found){
-        document.querySelectorAll('img[data-orig]').forEach(function(img){
-          if(img.getAttribute('data-orig')===d.filename&&img.style.display==='none'){
-            // This was a hidden placeholder img - replace the parent placeholder
-            var ph=img.closest('.team-card-placeholder');
-            if(ph){
-              var card=ph.closest('.team-card');
-              var nameEl=card&&card.querySelector('.team-card-name');
-              var imgDiv=document.createElement('div');
-              imgDiv.className='team-card-img';
-              var newImg=document.createElement('img');
-              newImg.src=d.url;
-              newImg.alt=nameEl?nameEl.textContent:d.filename;
-              newImg.setAttribute('data-orig',d.filename);
-              imgDiv.appendChild(newImg);
-              ph.replaceWith(imgDiv);
-              setupImage(newImg,d.filename,{url:d.url,fit:'cover',pos:'center'});
-            }
           }
         });
       }
