@@ -94,8 +94,7 @@ body.dark .stat-block { background: #1c2128; }
 body.dark .footer { background: #010409; }
 body.dark .contact-card, body.dark .sub-card, body.dark .produkt-item,
 body.dark .download-item, body.dark .team-card, body.dark .callback-form { background: var(--bg-alt); border-color: var(--border); }
-body.dark body.dark .content-images img, body.dark .img-gallery img { border-color: var(--border); }
-body.dark .form-group input { background: #1c2128; border-color: var(--border); color: var(--text); }
+body.dark body.dark .content-images img, body.dark body.dark .form-group input { background: #1c2128; border-color: var(--border); color: var(--text); }
 body.dark .form-group input:focus { border-color: var(--teal); background: var(--bg-alt); }
 @media (max-width: 930px) { @media (max-width: 930px) { body.dark .nav-links.active { background: var(--bg); border-color: var(--border); } } }
 
@@ -340,9 +339,6 @@ body.dark .brand-item:hover { filter: grayscale(0%) brightness(1.5); }
 .content-text p { font-size: 0.95rem; color: var(--text); line-height: 1.85; margin-bottom: 16px; }
 .content-images { display: flex; flex-direction: column; gap: 16px; }
 .content-images img { width: 100%; border-radius: 10px; border: 1px solid var(--border); }
-.img-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 32px; }
-.img-gallery img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); transition: var(--transition); }
-.img-gallery img:hover { transform: scale(1.03); box-shadow: var(--shadow); }
 .feature-list { list-style: none; margin: 24px 0; }
 .feature-list li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; font-size: 0.95rem; color: var(--text); }
 .feature-list .dot { width: 8px; height: 8px; min-width: 8px; border-radius: 50%; background: var(--accent); margin-top: 7px; }
@@ -1049,10 +1045,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
         <div class="content-images">
           <img src="images/ted-votingsystem-01.jpg" alt="Ted-Abstimmanlage">
         </div>
-      <div class="img-gallery">
-        <img src="images/ted-votingsystem-02.jpg" alt="Ted-Voting System">
-      </div>
-      </div>
+</div>
     </div>
 
     <!-- IVS Lite System -->
@@ -1072,10 +1065,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
         <div class="content-images">
           <img src="images/ted-votingsystem-03.jpg" alt="IVS Lite Keypad">
         </div>
-      <div class="img-gallery">
-        <img src="images/ted-votingsystem-04.jpg" alt="IVS Lite System">
-      </div>
-      </div>
+</div>
     </div>
 
     <!-- Online-Abstimmung -->
@@ -1096,10 +1086,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
         <div class="content-images">
           <img src="images/ted-votingsystem-05.jpg" alt="Online-Abstimmung Ergebnisse">
         </div>
-      <div class="img-gallery">
-        <img src="images/ted-votingsystem-06.jpg" alt="Online Voting">
-      </div>
-      </div>
+</div>
     </div>
 
     <!-- IVS Konferenztool -->
@@ -1180,15 +1167,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
     <!-- Galerie -->
     <div class="content-block fade-up">
       <h2 data-i18n="ted.galerie.h">Bildergalerie</h2>
-      <div class="img-gallery">
-        <img src="images/ted-votingsystem-03.jpg" alt="Ted-Abstimmgeräte">
-        <img src="images/ted-votingsystem-05.jpg" alt="Ergebnisfolie">
-        <img src="images/ted-votingsystem-06.jpg" alt="Veranstaltung mit Ted">
-        <img src="images/ted-votingsystem-07.jpg" alt="Transportkoffer">
-        <img src="images/ted-votingsystem-04.jpg" alt="Ted Detail">
-        <img src="images/ted-votingsystem-08.jpg" alt="Basestation">
-      </div>
-    </div>
+</div>
 
   </div></div>
   <div class="overlay-cta"><div class="container"><h2 class="section-title" style="color:white;" data-i18n="cta.title">Lassen Sie uns Ihre Veranstaltung planen</h2><p class="section-subtitle" style="color:rgba(255,255,255,0.6);margin-bottom:40px;" data-i18n="cta.sub">Unser Team berät Sie gerne.</p><div class="cta-buttons"><a href="kontaktformular.html" class="btn btn-primary" data-i18n="cta.form">&#9993; Kontaktformular</a><a href="rueckrufservice.html" class="btn btn-primary" style="background:var(--teal);" data-i18n="cta.rueckruf">&#9742; Rückrufservice</a><a href="mailto:info@ellerbrock-konferenztechnik.de" class="btn btn-outline" data-i18n="cta.email">&#9993; E-Mail senden</a><a href="tel:+496207922400" class="btn btn-outline" data-i18n="cta.phone">&#9742; +49 6207 9224-0</a></div></div></div>
