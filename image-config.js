@@ -7,9 +7,7 @@ window.ELLERBROCK_IMAGES = {
   "team-fabian-habel.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778253650/ellerbrock/team-fabian-habel-1778253649968.webp",
     "fit": "cover",
-    "pos": "center",
-    "mx": 2,
-    "my": -1
+    "pos": "center"
   },
   "galerie-1.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778485590/ellerbrock/galerie-1-1778485590684.jpg",
@@ -18,21 +16,13 @@ window.ELLERBROCK_IMAGES = {
   },
   "team-fabian-ellerbrock.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486070/ellerbrock/team-fabian-ellerbrock-1778486070354.jpg",
-    "fit": "contain",
-    "pos": "center",
-    "mx": -14,
-    "my": 13,
-    "w": "233px",
-    "h": "283px"
+    "fit": "cover",
+    "pos": "center"
   },
   "team-david-hintenlang.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486289/ellerbrock/team-david-hintenlang-1778486287340.jpg",
-    "fit": "contain",
-    "pos": "center",
-    "mx": 1,
-    "my": 43,
-    "w": "529px",
-    "h": "621px"
+    "fit": "cover",
+    "pos": "center"
   },
   "_new_1778486794992": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486799/ellerbrock/_new_1778486794992-1778486798950.jpg",
@@ -94,11 +84,7 @@ window.ELLERBROCK_IMAGES = {
   "team-jochen-stiefel.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778498613/ellerbrock/team-jochen-stiefel-1778498613486.jpg",
     "fit": "cover",
-    "pos": "center",
-    "mx": -55,
-    "my": -7,
-    "w": "95px",
-    "h": "182px"
+    "pos": "center"
   },
   "dolmetscheranlage-hoersprechgarnitur.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778506218/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778506218466.jpg",
@@ -109,12 +95,5 @@ window.ELLERBROCK_IMAGES = {
     "hero.badge": "● Ihr Partner seit über 45 Jahren",
     "hero.stat3": "Sprechstellen weltweit",
     "about.s3": "Empfänger"
-  },
-  "team-daniel-talarico.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778574090/ellerbrock/team-daniel-talarico-1778574088174.jpg",
-    "fit": "cover",
-    "pos": "center",
-    "mx": -1,
-    "my": -16
   }
 };
