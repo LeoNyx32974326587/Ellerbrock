@@ -47,6 +47,9 @@ window.ELLERBROCK_IMAGES = {
     },
     "ueber-uns.html": {
       "div>div:nth-of-type(2)>div>div:nth-of-type(4)>div>div:nth-of-type(3)>h4": "Weltweite Lieferung"
+    },
+    "beschallungstechnik.html": {
+      "div>div>div:nth-of-type(2)>h1": "Beschallungs- und Mikrofontechnik"
     }
   },
   "galerie-2.jpg": {
@@ -86,7 +89,8 @@ window.ELLERBROCK_IMAGES = {
     "ted.lite.f4": "Lizenzbasiert je nach Anzahl der Abstimmgeräte",
     "nav.kontakt": "Kontakt",
     "ueber.leist.liefer": "Weltweite Lieferung",
-    "ol.disk.h1": "Diskussionsanlagen"
+    "ol.disk.h1": "Diskussionsanlagen",
+    "ol.besch.h1": "Beschallungs- und Mikrofontechnik"
   },
   "_team": [
     {
@@ -292,6 +296,13 @@ window.ELLERBROCK_IMAGES = {
       "dept": "Geschäftsleitung",
       "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778581447/ellerbrock/team-david-hintenlang-1778581445714.jpg",
       "desc": "Verantwortet den operativen Bereich und die technische Leitung — von der Projektplanung bis zur Vor-Ort-Betreuung."
+    },
+    {
+      "name": "Franzi",
+      "role": "Versand",
+      "dept": "Versand & Logistik",
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778587378/ellerbrock/team-franzi-1778587376458.jpg",
+      "desc": ""
     }
   ],
   "team-manuel-strasser.jpg": {
@@ -400,6 +411,16 @@ window.ELLERBROCK_IMAGES = {
   },
   "produkte-beschallung-1.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778584900/ellerbrock/produkte-beschallung-1-1778584896822.heic",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "beschallungstechnik-01.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778585944/ellerbrock/beschallungstechnik-01-1778585944190.heic",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-franzi.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778587378/ellerbrock/team-franzi-1778587376458.jpg",
     "fit": "cover",
     "pos": "center"
   }
