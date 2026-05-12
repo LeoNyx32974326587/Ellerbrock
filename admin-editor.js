@@ -8,7 +8,8 @@
   var _pendingFn=null;
   var _fileInput=document.createElement('input');
   _fileInput.type='file';_fileInput.accept='image/*';_fileInput.style.display='none';
-  document.body.appendChild(_fileInput);
+  var _fileInputReady=false;
+  function ensureFileInput(){if(!_fileInputReady&&document.body){document.body.appendChild(_fileInput);_fileInputReady=true;}}
   _fileInput.addEventListener('change',function(){
     if(!this.files||!this.files[0]||!_pendingFn)return;
     var file=this.files[0],fn=_pendingFn;
@@ -172,7 +173,7 @@
 
     var upBtn=document.createElement('button');upBtn.className='ae-btn';
     upBtn.textContent=url?'Ersetzen':'Upload';upBtn.style.color='#4ade80';
-    upBtn.addEventListener('click',function(ev){ev.stopPropagation();_pendingFn=fn;_fileInput.click();});
+    upBtn.addEventListener('click',function(ev){ev.stopPropagation();_pendingFn=fn;ensureFileInput();_fileInput.click();});
     tb.appendChild(upBtn);
 
     var delBtn=document.createElement('button');delBtn.className='ae-btn';
