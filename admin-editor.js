@@ -3,6 +3,31 @@
   if(window.self===window.top)return;
 
   var map={},currentPage='',selectedWrap=null;
+  var CLOUDINARY_URL='https://api.cloudinary.com/v1_1/daiiz3u5t/image/upload';
+  var UPLOAD_PRESET='ellerbrock';
+  var _pendingFn=null;
+  var _fileInput=document.createElement('input');
+  _fileInput.type='file';_fileInput.accept='image/*';_fileInput.style.display='none';
+  document.body.appendChild(_fileInput);
+  _fileInput.addEventListener('change',function(){
+    if(!this.files||!this.files[0]||!_pendingFn)return;
+    var file=this.files[0],fn=_pendingFn;
+    if(file.size>10*1024*1024){alert('Max 10 MB');return;}
+    var fd=new FormData();
+    fd.append('file',file);
+    fd.append('upload_preset',UPLOAD_PRESET);
+    fd.append('public_id','ellerbrock/'+fn.replace('.jpg','').replace('.png','').replace('.webp','')+'-'+Date.now());
+    fetch(CLOUDINARY_URL,{method:'POST',body:fd})
+      .then(function(r){return r.json();})
+      .then(function(data){
+        if(data.secure_url){
+          var img=document.querySelector('img[data-ae-fn="'+fn+'"]');
+          if(img){img.src=data.secure_url;img.style.display='';}
+          msg({type:'admin-uploaded',filename:fn,url:data.secure_url});
+        }
+      }).catch(function(err){alert('Upload fehlgeschlagen: '+err.message);});
+    this.value='';_pendingFn=null;
+  });
 
   var css=document.createElement('style');
   css.textContent=[
@@ -147,7 +172,7 @@
 
     var upBtn=document.createElement('button');upBtn.className='ae-btn';
     upBtn.textContent=url?'Ersetzen':'Upload';upBtn.style.color='#4ade80';
-    upBtn.addEventListener('click',function(ev){ev.stopPropagation();msg({type:'admin-upload',filename:fn});});
+    upBtn.addEventListener('click',function(ev){ev.stopPropagation();_pendingFn=fn;_fileInput.click();});
     tb.appendChild(upBtn);
 
     var delBtn=document.createElement('button');delBtn.className='ae-btn';
