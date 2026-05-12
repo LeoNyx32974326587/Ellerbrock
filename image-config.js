@@ -107,12 +107,6 @@ window.ELLERBROCK_IMAGES = {
       "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576284/ellerbrock/team-florian-sauer-1778576283361.jpg"
     },
     {
-      "name": "Sascha Stegemann",
-      "role": "Kundenbetreuung",
-      "dept": "Büro & Verwaltung",
-      "photo": ""
-    },
-    {
       "name": "Jochen Stiefel",
       "role": "Büro",
       "dept": "Büro & Verwaltung",
