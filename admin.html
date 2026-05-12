@@ -503,8 +503,17 @@ function renderTeamPanel(){
     html+='<button class="tm-add" onclick="addTeamMember(\''+dept.replace(/'/g,"\\'")+'\')">+ Mitarbeiter hinzufügen</button>';
   });
   document.getElementById('teamContainer').innerHTML=html;
-  // Attach change listeners
-  document.querySelectorAll('#teamContainer .tm-input, #teamContainer .tm-select').forEach(function(el){
+  // Attach input listeners (input event fires immediately, not just on blur)
+  var _teamSaveTimer=null;
+  document.querySelectorAll('#teamContainer .tm-input').forEach(function(el){
+    el.addEventListener('input',function(){
+      var idx=parseInt(el.getAttribute('data-idx'));
+      var field=el.getAttribute('data-field');
+      var team=getTeamData();
+      if(team[idx]){team[idx][field]=el.value;saveTeamData(team);}
+    });
+  });
+  document.querySelectorAll('#teamContainer .tm-select').forEach(function(el){
     el.addEventListener('change',function(){
       var idx=parseInt(el.getAttribute('data-idx'));
       var field=el.getAttribute('data-field');
@@ -592,7 +601,7 @@ async function publishTeam(){
   await publishToGitHub();
   // Also update ueber-uns.html with new team data
   await publishTeamHTML(team);
-  localStorage.removeItem('team_dirty');
+  localStorage.setItem('team_dirty_published',Date.now().toString());localStorage.removeItem('team_dirty');
 }
 async function publishTeamHTML(team){
   var token=getGitHubToken();
@@ -649,6 +658,9 @@ async function publishTeamHTML(team){
 }
 // Sync team data from server on load
 function syncTeamFromServer(){
+  if(localStorage.getItem('team_dirty'))return;
+  var pubTs=parseInt(localStorage.getItem('team_dirty_published')||'0');
+  if(pubTs&&(Date.now()-pubTs<120000))return;
   var url='https://raw.githubusercontent.com/LeoNyx32974326587/Ellerbrock/main/image-config.js?t='+Date.now();
   fetch(url,{cache:'no-store'}).then(function(r){return r.ok?r.text():null;}).then(function(text){
     if(!text)return;
@@ -656,8 +668,9 @@ function syncTeamFromServer(){
       var match=text.match(/window\.ELLERBROCK_IMAGES\s*=\s*(\{[\s\S]*\});/);
       if(match){
         var serverMap=JSON.parse(match[1]);
-        if(serverMap._team&&!localStorage.getItem('team_dirty')){
+        if(serverMap._team){
           localStorage.setItem('team_data',JSON.stringify(serverMap._team));
+          localStorage.removeItem('team_dirty_published');
         }
       }
     }catch(e){}
