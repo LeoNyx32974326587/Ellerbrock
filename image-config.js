@@ -109,5 +109,12 @@ window.ELLERBROCK_IMAGES = {
     "hero.badge": "● Ihr Partner seit über 45 Jahren",
     "hero.stat3": "Sprechstellen weltweit",
     "about.s3": "Empfänger"
+  },
+  "team-daniel-talarico.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778574090/ellerbrock/team-daniel-talarico-1778574088174.jpg",
+    "fit": "cover",
+    "pos": "center",
+    "mx": -1,
+    "my": -17
   }
 };
