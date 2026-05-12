@@ -11,23 +11,30 @@
   var _fileInputReady=false;
   function ensureFileInput(){if(!_fileInputReady&&document.body){document.body.appendChild(_fileInput);_fileInputReady=true;}}
   _fileInput.addEventListener('change',function(){
-    if(!this.files||!this.files[0]||!_pendingFn)return;
+    console.log('[AE] file change, files:', this.files?this.files.length:0, 'pending:', _pendingFn);
+    if(!this.files||!this.files[0]||!_pendingFn){console.log('[AE] abort: no file or no pending');return;}
     var file=this.files[0],fn=_pendingFn;
+    _pendingFn=null;
     if(file.size>10*1024*1024){alert('Max 10 MB');return;}
+    console.log('[AE] uploading',fn,'size:',file.size);
     var fd=new FormData();
     fd.append('file',file);
     fd.append('upload_preset',UPLOAD_PRESET);
     fd.append('public_id','ellerbrock/'+fn.replace('.jpg','').replace('.png','').replace('.webp','')+'-'+Date.now());
     fetch(CLOUDINARY_URL,{method:'POST',body:fd})
-      .then(function(r){return r.json();})
+      .then(function(r){console.log('[AE] cloudinary status:',r.status);return r.json();})
       .then(function(data){
+        console.log('[AE] cloudinary response:',data.secure_url||data.error);
         if(data.secure_url){
           var img=document.querySelector('img[data-ae-fn="'+fn+'"]');
+          console.log('[AE] found img for',fn,':',!!img);
           if(img){img.src=data.secure_url;img.style.display='';}
           msg({type:'admin-uploaded',filename:fn,url:data.secure_url});
+        }else{
+          console.error('[AE] upload error:',data.error);
         }
-      }).catch(function(err){alert('Upload fehlgeschlagen: '+err.message);});
-    this.value='';_pendingFn=null;
+      }).catch(function(err){console.error('[AE] fetch error:',err);alert('Upload fehlgeschlagen: '+err.message);});
+    this.value='';
   });
 
   var css=document.createElement('style');
@@ -173,7 +180,7 @@
 
     var upBtn=document.createElement('button');upBtn.className='ae-btn';
     upBtn.textContent=url?'Ersetzen':'Upload';upBtn.style.color='#4ade80';
-    upBtn.addEventListener('click',function(ev){ev.stopPropagation();_pendingFn=fn;ensureFileInput();_fileInput.click();});
+    upBtn.addEventListener('click',function(ev){ev.stopPropagation();console.log('[AE] upload click for:',fn);_pendingFn=fn;ensureFileInput();_fileInput.click();});
     tb.appendChild(upBtn);
 
     var delBtn=document.createElement('button');delBtn.className='ae-btn';
