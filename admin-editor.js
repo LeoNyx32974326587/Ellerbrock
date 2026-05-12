@@ -54,6 +54,7 @@
     wrap.classList.add('ae-sel');
     selectedWrap=wrap;
   }
+  function slugify(s){return s.trim().toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');}
 
   /* ---- Context Menu ---- */
   function showCtx(x,y,items){
@@ -208,7 +209,6 @@
 
   /* ---- Make text elements editable ---- */
   function isLeafText(el){
-    // Only allow editing on elements that are truly text-only (no important children)
     var dominated=['a','button','img','ul','ol','div','nav','section','form','input','select','iframe','table','svg'];
     for(var i=0;i<el.children.length;i++){
       var tag=el.children[i].tagName.toLowerCase();
@@ -219,10 +219,8 @@
   function setupTexts(){
     var textEls=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,td,th,label,blockquote');
     textEls.forEach(function(el){
-      // Skip editor UI, nav, footer, animated counters
       if(el.closest('.ae-wrap,.ae-tb,.ae-fab,.ae-ctx,.ae-handles'))return;
       if(el.closest('nav,footer,.hero-stat,.stat-block,.hero-stats,.cookie-banner'))return;
-      // Skip elements with important children (links, buttons, lists, etc.)
       if(!isLeafText(el))return;
       if(!el.textContent.trim())return;
       if(/^\d[\d.,]*\+?$/.test(el.textContent.trim()))return;
@@ -231,24 +229,20 @@
       el.setAttribute('contenteditable','true');
       el.setAttribute('spellcheck','false');
 
-      // Generate a unique selector for this element
       var sel=getSelector(el);
       el.setAttribute('data-ae-sel',sel);
 
-      // Apply saved text if exists
       var savedTexts=map._texts||{};
       var pageTexts=savedTexts[currentPage]||{};
       if(pageTexts[sel]!==undefined){
         el.textContent=pageTexts[sel];
       }
 
-      // Save on blur
       el.addEventListener('blur',function(){
         var text=el.textContent;
         msg({type:'admin-text',page:currentPage,selector:sel,text:text});
       });
 
-      // Prevent Enter from creating divs
       el.addEventListener('keydown',function(ev){
         if(ev.key==='Enter'){ev.preventDefault();el.blur();}
       });
@@ -256,7 +250,6 @@
   }
 
   function getSelector(el){
-    // Build a simple path selector
     var path=[];
     var node=el;
     while(node&&node!==document.body){
@@ -278,10 +271,10 @@
       map=d.map||{};
       currentPage=d.page||'';
 
-      // Make text editable BEFORE image setup (so selectors match unmodified DOM)
+      // Make text editable BEFORE image setup
       setupTexts();
 
-      // Setup existing images (adds ae-wrap divs which change DOM structure)
+      // Setup existing images
       document.querySelectorAll('img[src^="images/"]').forEach(function(img){
         var fn=img.getAttribute('src').replace('images/','');
         var entry=map[fn];
@@ -295,77 +288,40 @@
 
       // Setup team placeholders - click to upload via parent postMessage
       document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
+        var nameEl=ph.closest('.team-card').querySelector('.team-card-name');
+        var personName=nameEl?slugify(nameEl.textContent):'team-member';
+        var fn='team-'+personName+'.jpg';
+
+        // Check if this person already has an image in the map
+        var entry=map[fn];
+        if(entry){
+          var url=typeof entry==='string'?entry:entry.url;
+          if(url){
+            // Replace placeholder with actual image
+            var imgDiv=document.createElement('div');
+            imgDiv.className='team-card-img';
+            var img=document.createElement('img');
+            img.src=url;
+            img.alt=nameEl?nameEl.textContent:'';
+            img.setAttribute('data-orig',fn);
+            if(typeof entry==='object'){
+              if(entry.fit)img.style.objectFit=entry.fit;
+              if(entry.pos)img.style.objectPosition=entry.pos;
+            }
+            imgDiv.appendChild(img);
+            ph.replaceWith(imgDiv);
+            setupImage(img,fn,entry);
+            return; // skip click handler - already has image
+          }
+        }
+
+        // No image yet - set up upload click
         ph.style.cursor='pointer';
         ph.title='Klicken um Bild hochzuladen';
-        var nameEl=ph.closest('.team-card').querySelector('.team-card-name');
-        var personName=nameEl?(function(s){return s.trim().toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');})(nameEl.textContent):'team-member';
-        var fn='team-'+personName+'.jpg';
-        // Create a hidden img so the existing upload system can find it
-        var hiddenImg=document.createElement('img');
-        hiddenImg.src='images/'+fn;
-        hiddenImg.setAttribute('data-orig',fn);
-        hiddenImg.style.display='none';
-        ph.appendChild(hiddenImg);
         ph.addEventListener('click',function(e){
+          e.preventDefault();
           e.stopPropagation();
           window.parent.postMessage({type:'admin-upload',filename:fn},'*');
-        });
-        // Listen for when parent sends back the uploaded image
-        window.addEventListener('message',function(msg){
-          if(msg.data&&msg.data.type==='admin-init'){
-            var m=msg.data.map||{};
-            if(m[fn]&&m[fn].url){
-              var card=ph.closest('.team-card');
-              if(!card||!card.contains(ph))return;
-              var imgDiv=document.createElement('div');
-              imgDiv.className='team-card-img';
-              var img=document.createElement('img');
-              img.src=m[fn].url;
-              img.alt=nameEl?nameEl.textContent:'';
-              img.setAttribute('data-orig',fn);
-              imgDiv.appendChild(img);
-              ph.replaceWith(imgDiv);
-              setupImage(img,fn,m[fn]);
-            }
-          }
-        });
-      });
-
-      // Setup team placeholders - click to add photo
-      document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
-        ph.style.cursor='pointer';
-        ph.title='Klicken um Foto hochzuladen';
-        ph.addEventListener('click',function(){
-          var inp=document.createElement('input');
-          inp.type='file';inp.accept='image/*';
-          inp.onchange=function(){
-            if(!inp.files||!inp.files[0])return;
-            var file=inp.files[0];
-            var name=ph.closest('.team-card').querySelector('.team-card-name');
-            var fn='team-'+((name?name.textContent:'photo').toLowerCase().replace(/[^a-z0-9]/g,'-'))+'.jpg';
-            var fd=new FormData();
-            fd.append('file',file);
-            fd.append('upload_preset','ellerbrock');
-            fd.append('public_id','ellerbrock/'+fn.replace('.jpg','')+'-'+Date.now());
-            fetch('https://api.cloudinary.com/v1_1/daiiz3u5t/image/upload',{method:'POST',body:fd})
-            .then(function(r){return r.json();})
-            .then(function(data){
-              if(!data.secure_url)return;
-              var img=document.createElement('img');
-              img.src=data.secure_url;
-              img.alt=name?name.textContent:'';
-              img.setAttribute('data-orig',fn);
-              img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';
-              var wrapper=document.createElement('div');
-              wrapper.className='team-card-img';
-              wrapper.appendChild(img);
-              ph.replaceWith(wrapper);
-              setupImage(img,fn,{url:data.secure_url,fit:'cover',pos:'center'});
-              map[fn]={url:data.secure_url,fit:'cover',pos:'center'};
-              window.parent.postMessage({type:'ae-map-update',map:map},'*');
-            });
-          };
-          inp.click();
         });
       });
 
@@ -381,29 +337,55 @@
       document.addEventListener('click',function(e){
         if(!e.target.closest('.ae-wrap,.ae-ctx,.ae-fab')){deselect();}
       });
-
     }
 
-    // Live image update (after upload)
+    // Live image update (after upload from parent)
     if(d.type==='admin-update-image'&&d.filename&&d.url){
       var found=false;
+      // Update existing editor-wrapped images
       document.querySelectorAll('img[data-ae-fn]').forEach(function(img){
         if(img.getAttribute('data-ae-fn')===d.filename){img.src=d.url;img.style.display='';found=true;}
       });
+      // If not found, check team placeholders
       if(!found){
         document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
-          var hi=ph.querySelector('img[data-orig]');
-          if(hi&&hi.getAttribute('data-orig')===d.filename){
+          var nameEl=ph.closest('.team-card')&&ph.closest('.team-card').querySelector('.team-card-name');
+          if(!nameEl)return;
+          var expectedFn='team-'+slugify(nameEl.textContent)+'.jpg';
+          if(expectedFn===d.filename){
             var card=ph.closest('.team-card');
             var imgDiv=document.createElement('div');
             imgDiv.className='team-card-img';
             var img=document.createElement('img');
             img.src=d.url;
-            img.alt=d.filename;
+            img.alt=nameEl.textContent;
             img.setAttribute('data-orig',d.filename);
             imgDiv.appendChild(img);
             ph.replaceWith(imgDiv);
             setupImage(img,d.filename,{url:d.url,fit:'cover',pos:'center'});
+            found=true;
+          }
+        });
+      }
+      // Also check hidden imgs with data-orig
+      if(!found){
+        document.querySelectorAll('img[data-orig]').forEach(function(img){
+          if(img.getAttribute('data-orig')===d.filename&&img.style.display==='none'){
+            // This was a hidden placeholder img - replace the parent placeholder
+            var ph=img.closest('.team-card-placeholder');
+            if(ph){
+              var card=ph.closest('.team-card');
+              var nameEl=card&&card.querySelector('.team-card-name');
+              var imgDiv=document.createElement('div');
+              imgDiv.className='team-card-img';
+              var newImg=document.createElement('img');
+              newImg.src=d.url;
+              newImg.alt=nameEl?nameEl.textContent:d.filename;
+              newImg.setAttribute('data-orig',d.filename);
+              imgDiv.appendChild(newImg);
+              ph.replaceWith(imgDiv);
+              setupImage(newImg,d.filename,{url:d.url,fit:'cover',pos:'center'});
+            }
           }
         });
       }
