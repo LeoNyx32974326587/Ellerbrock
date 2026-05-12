@@ -1,4 +1,5 @@
 (function(){
+  function slugify(s){return s.trim().toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');}
   document.querySelectorAll('img[src^="images/"]').forEach(function(img){
     img.setAttribute('data-orig', img.getAttribute('src').replace('images/',''));
   });
@@ -44,8 +45,7 @@
     document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
       var nameEl=ph.closest('.team-card')&&ph.closest('.team-card').querySelector('.team-card-name');
       if(!nameEl)return;
-      var pn=nameEl.textContent.trim().toLowerCase().replace(/[^a-z0-9]/g,'-');
-      var fn='team-'+pn+'.jpg';
+      var fn='team-'+slugify(nameEl.textContent)+'.jpg';
       var entry=map[fn];
       if(!entry)return;
       var url=typeof entry==='string'?entry:entry.url;
@@ -64,6 +64,7 @@
     });
   }
   if(window.self!==window.top){
+    if(window.ELLERBROCK_IMAGES) applyMap(window.ELLERBROCK_IMAGES);
     var sc=document.createElement('script');sc.src='admin-editor.js';document.head.appendChild(sc);
     return;
   }
