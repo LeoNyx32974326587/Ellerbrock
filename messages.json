@@ -1,16 +1,1 @@
-[
-  {
-    "_subject": "Rückrufservice: Fabian Ellerbrock",
-    "_replyto": "fabian.ellerbrock@test.de",
-    "name": "Fabian Ellerbrock",
-    "telefon": "062079354677536",
-    "email": "fabian.ellerbrock@test.de",
-    "gewuenschter_tag": "Montag",
-    "gewuenschte_uhrzeit": "16:32",
-    "nachricht": "fdfdfdf",
-    "_formtype": "Rückrufservice",
-    "id": 1778589038937,
-    "date": "2026-05-12T12:30:38.937Z",
-    "read": false
-  }
-]
+[{"_subject":"Rückrufservice: Fabian Ellerbrock","_replyto":"fabian.ellerbrock@test.de","name":"Fabian Ellerbrock","telefon":"062079354677536","email":"fabian.ellerbrock@test.de","gewuenschter_tag":"Montag","gewuenschte_uhrzeit":"16:32","nachricht":"fdfdfdf","_formtype":"Rückrufservice","id":1778589038937,"date":"2026-05-12T12:30:38.937Z","read":true}]
