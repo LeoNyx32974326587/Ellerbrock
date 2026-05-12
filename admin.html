@@ -613,7 +613,7 @@ async function publishTeamHTML(team){
     if(!getRes.ok)return;
     var fileData=await getRes.json();
     var sha=fileData.sha;
-    var content=atob(fileData.content.replace(/\n/g,''));
+    var content=decodeURIComponent(escape(atob(fileData.content.replace(/\n/g,''))));
     // Find the team section and rebuild it
     var startMarker='<section class="team-section"';
     var endMarker='</section>';
