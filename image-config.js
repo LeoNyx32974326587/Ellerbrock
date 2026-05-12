@@ -262,6 +262,13 @@ window.ELLERBROCK_IMAGES = {
       "role": "Auszubildender",
       "dept": "Auszubildende",
       "photo": ""
+    },
+    {
+      "name": "Jochen Klug",
+      "role": "Büro",
+      "dept": "Büro & Verwaltung",
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580345/ellerbrock/team-jochen-klug-1778580343597.jpg",
+      "desc": ""
     }
   ],
   "team-manuel-strasser.jpg": {
@@ -316,5 +323,10 @@ window.ELLERBROCK_IMAGES = {
     "pos": "center",
     "mx": -6,
     "my": -5
+  },
+  "team-jochen-klug.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580345/ellerbrock/team-jochen-klug-1778580343597.jpg",
+    "fit": "cover",
+    "pos": "center"
   }
 };
