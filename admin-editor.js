@@ -179,7 +179,7 @@
     return true;
   }
   function setupTexts(){
-    var textEls=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,td,th,label,blockquote');
+    var textEls=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,td,th,label,blockquote,div[data-i18n]');
     textEls.forEach(function(el){
       if(el.closest('.ae-wrap,.ae-tb,.ae-fab,.ae-ctx,.ae-handles'))return;
       if(el.closest('nav,footer,.hero-stat,.stat-block,.hero-stats,.cookie-banner'))return;
@@ -187,7 +187,7 @@
       if(el.closest('.team-card'))return;
       if(!isLeafText(el))return;
       if(!el.textContent.trim())return;
-      if(/^\d[\d.,]*\+?$/.test(el.textContent.trim()))return;
+      if(/^\d[\d.,]*\+?$/.test(el.textContent.trim())&&!el.hasAttribute('data-i18n'))return;
 
       el.classList.add('ae-editable');
       el.setAttribute('contenteditable','true');
