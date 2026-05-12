@@ -125,7 +125,7 @@
       if(teamSection){
         var subtitle=teamSection.querySelector('.section-subtitle');
         teamSection.querySelectorAll('.team-dept').forEach(function(d){d.remove();});
-        if(subtitle)subtitle.textContent='Über '+map._team.length+' engagierte Mitarbeiter sorgen dafür, dass Ihre Veranstaltung perfekt wird.';
+        if(subtitle)subtitle.textContent='Über 59 engagierte Mitarbeiter sorgen dafür, dass Ihre Veranstaltung perfekt wird.';
 
         var depts=['Büro & Verwaltung','Technik','Versand & Logistik','Fuhrpark','Auszubildende'];
         depts.forEach(function(dept){
