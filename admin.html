@@ -553,9 +553,10 @@ function uploadTeamPhoto(idx){
   _teamPhotoIdx=idx;
   document.getElementById('teamPhotoInput').click();
 }
-document.addEventListener('DOMContentLoaded',function(){
+(function(){
   var inp=document.getElementById('teamPhotoInput');
-  if(inp)inp.addEventListener('change',function(){
+  if(!inp)return;
+  inp.addEventListener('change',function(){
     if(!this.files||!this.files[0]||_teamPhotoIdx===null)return;
     var file=this.files[0];
     var idx=_teamPhotoIdx;
@@ -582,7 +583,7 @@ document.addEventListener('DOMContentLoaded',function(){
     }).catch(function(err){showToast('Upload fehlgeschlagen: '+err.message);});
     this.value='';_teamPhotoIdx=null;
   });
-});
+})();
 async function publishTeam(){
   var team=getTeamData();
   var map=getImageMap();
@@ -1052,5 +1053,6 @@ function updateMsgBadge(){
 </script>
 </body>
 </html>
+
 
 
