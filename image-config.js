@@ -24,30 +24,6 @@ window.ELLERBROCK_IMAGES = {
     "fit": "cover",
     "pos": "center"
   },
-  "_new_1778486794992": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486799/ellerbrock/_new_1778486794992-1778486798950.jpg",
-    "fit": "cover",
-    "pos": "center",
-    "page": "index.html",
-    "x": 834,
-    "y": 845
-  },
-  "_new_1778486828174": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778486835/ellerbrock/_new_1778486828174-1778486834908.jpg",
-    "fit": "cover",
-    "pos": "center",
-    "page": "index.html",
-    "x": 1138,
-    "y": 984
-  },
-  "_new_1778490593754": {
-    "url": "",
-    "fit": "cover",
-    "pos": "center",
-    "page": "index.html",
-    "x": 0,
-    "y": 0
-  },
   "_texts": {
     "index.html": {
       "section>div:nth-of-type(2)>h1": "Professionelle Konferenztechnik für Ihre Veranstaltung",
@@ -96,29 +72,36 @@ window.ELLERBROCK_IMAGES = {
     "hero.stat3": "Sprechstellen weltweit",
     "about.s3": "Empfänger"
   },
-  "team-daniel-talarico.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778574583/ellerbrock/team-daniel-talarico-1778574582436.jpg",
-    "fit": "cover",
-    "pos": "center center"
-  },
-  "team-sebastian-huster.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778574648/ellerbrock/team-sebastian-huster-1778574647935.jpg",
-    "fit": "cover",
-    "pos": "center"
-  },
-  "team-manuel-strasser.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778574675/ellerbrock/team-manuel-strasser-1778574674145.jpg",
-    "fit": "cover",
-    "pos": "center top"
-  },
-  "team-florian-sauer.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778574683/ellerbrock/team-florian-sauer-1778574683702.jpg",
-    "fit": "cover",
-    "pos": "center center"
-  },
-  "team-leon-luca-lauterbach.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778575156/ellerbrock/team-leon-luca-lauterbach-1778575151816.jpg",
-    "fit": "cover",
-    "pos": "center center"
-  }
+  "_team": [
+    {"name":"Manuel Straßer","role":"Buchhaltung","dept":"Büro & Verwaltung","photo":""},
+    {"name":"Florian Sauer","role":"Kundenbetreuung","dept":"Büro & Verwaltung","photo":""},
+    {"name":"Sascha Stegemann","role":"Kundenbetreuung","dept":"Büro & Verwaltung","photo":""},
+    {"name":"Jochen Stiefel","role":"Büro","dept":"Büro & Verwaltung","photo":""},
+    {"name":"Jörg Raphael","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Fabian Habel","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Julius Lampert","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Nicolas Cristobal Wolf","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Sebastian Huster","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Daniel Talarico","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"John-Christopher Neff","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Abdullatief Latuf Alkhlf","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Christian Bühler","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Raman Khzem","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Ali Hamza","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Reiner Neumann","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Irfan Mohammad Kahloon","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Waldemar Kornilov","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Gianluca Kastl","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Muneeb","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Max","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Frank Gerlinger","role":"Techniker","dept":"Technik","photo":""},
+    {"name":"Özkan Bozkurt","role":"Versand","dept":"Versand & Logistik","photo":""},
+    {"name":"Dennis","role":"Versand","dept":"Versand & Logistik","photo":""},
+    {"name":"Ludwig Aupperle","role":"Versand","dept":"Versand & Logistik","photo":""},
+    {"name":"Vincent Kirste","role":"Fuhrpark","dept":"Fuhrpark","photo":""},
+    {"name":"Keanu Vigil","role":"Auszubildender","dept":"Auszubildende","photo":""},
+    {"name":"Bastian Häcker","role":"Auszubildender","dept":"Auszubildende","photo":""},
+    {"name":"Leon-Luca Lauterbach","role":"Auszubildender","dept":"Auszubildende","photo":""},
+    {"name":"Henri Kaiser","role":"Auszubildender","dept":"Auszubildende","photo":""}
+  ]
 };
