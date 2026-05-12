@@ -1060,4 +1060,14 @@ function updateMsgBadge(){
 // Load badge count on page load
 (function(){
   var token=getGitHubToken();
-  var headers=
+  var headers={'Accept':'application/vnd.github.v3+json'};
+  if(token)headers['Authorization']='Bearer '+token;
+  _fetchMessages(function(msgs){if(msgs){_messagesCache=msgs;updateMsgBadge();}});
+})();
+
+</script>
+</body>
+</html>
+
+
+
