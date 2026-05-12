@@ -37,6 +37,9 @@ window.ELLERBROCK_IMAGES = {
       "div>div:nth-of-type(2)>div>div>div>div>p": "Moderne Simultandolmetscheranlagen bestehen aus schallisolierten Dolmetscherkabinen, einer Zentraleinheit, einem Dolmetscherpult und drahtlosen Empfängereinheiten für die Konferenzteilnehmer. Wir setzen auf digitale Infrarot-Übertragungssysteme und drahtlose Dolmetschertechnik der Hersteller Sennheiser und Bosch.",
       "div.overlay-content:nth-of-type(2)>div.container>div.content-block:nth-of-type(3)>h2.ae-editable": "Dolmetscherdienst",
       "div>div:nth-of-type(2)>div>div:nth-of-type(3)>h2": "Dolmetscherdienst"
+    },
+    "ted.html": {
+      "div>div:nth-of-type(2)>div>div:nth-of-type(2)>div>div>ul>li:nth-of-type(4)>span:nth-of-type(2)": "Lizenzbasiert je nach Anzahl der Abstimmgeräte"
     }
   },
   "galerie-2.jpg": {
@@ -72,7 +75,8 @@ window.ELLERBROCK_IMAGES = {
   "_content": {
     "hero.badge": "● Ihr Partner seit über 45 Jahren",
     "hero.stat3": "Sprechstellen weltweit",
-    "about.s3": "Empfänger"
+    "about.s3": "Empfänger",
+    "ted.lite.f4": "Lizenzbasiert je nach Anzahl der Abstimmgeräte"
   },
   "_team": [
     {
@@ -293,14 +297,16 @@ window.ELLERBROCK_IMAGES = {
     "fit": "cover",
     "pos": "center",
     "w": "314px",
-    "h": "275px"
+    "h": "275px",
+    "mx": 211,
+    "my": -119
   },
   "ted-votingsystem-02.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778579347/ellerbrock/ted-votingsystem-02-1778579346719.jpg",
     "fit": "fill",
     "pos": "center",
-    "mx": 0,
-    "my": -53
+    "mx": 644,
+    "my": -175
   },
   "ted-votingsystem-03.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778579444/ellerbrock/ted-votingsystem-03-1778579443802.jpg",
@@ -315,8 +321,8 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778579490/ellerbrock/ted-votingsystem-04-1778579489497.jpg",
     "fit": "cover",
     "pos": "center",
-    "mx": 2,
-    "my": -72
+    "mx": 665,
+    "my": -259
   },
   "ted-votingsystem-06.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778579575/ellerbrock/ted-votingsystem-06-1778579572979.jpg",
