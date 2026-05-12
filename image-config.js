@@ -73,35 +73,185 @@ window.ELLERBROCK_IMAGES = {
     "about.s3": "Empfänger"
   },
   "_team": [
-    {"name":"Manuel Straßer","role":"Buchhaltung","dept":"Büro & Verwaltung","photo":""},
-    {"name":"Florian Sauer","role":"Kundenbetreuung","dept":"Büro & Verwaltung","photo":""},
-    {"name":"Sascha Stegemann","role":"Kundenbetreuung","dept":"Büro & Verwaltung","photo":""},
-    {"name":"Jochen Stiefel","role":"Büro","dept":"Büro & Verwaltung","photo":""},
-    {"name":"Jörg Raphael","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Fabian Habel","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Julius Lampert","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Nicolas Cristobal Wolf","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Sebastian Huster","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Daniel Talarico","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"John-Christopher Neff","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Abdullatief Latuf Alkhlf","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Christian Bühler","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Raman Khzem","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Ali Hamza","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Reiner Neumann","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Irfan Mohammad Kahloon","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Waldemar Kornilov","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Gianluca Kastl","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Muneeb","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Max","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Frank Gerlinger","role":"Techniker","dept":"Technik","photo":""},
-    {"name":"Özkan Bozkurt","role":"Versand","dept":"Versand & Logistik","photo":""},
-    {"name":"Dennis","role":"Versand","dept":"Versand & Logistik","photo":""},
-    {"name":"Ludwig Aupperle","role":"Versand","dept":"Versand & Logistik","photo":""},
-    {"name":"Vincent Kirste","role":"Fuhrpark","dept":"Fuhrpark","photo":""},
-    {"name":"Keanu Vigil","role":"Auszubildender","dept":"Auszubildende","photo":""},
-    {"name":"Bastian Häcker","role":"Auszubildender","dept":"Auszubildende","photo":""},
-    {"name":"Leon-Luca Lauterbach","role":"Auszubildender","dept":"Auszubildende","photo":""},
-    {"name":"Henri Kaiser","role":"Auszubildender","dept":"Auszubildende","photo":""}
+    {
+      "name": "Manuel Straßer",
+      "role": "Buchhaltung",
+      "dept": "Büro & Verwaltung",
+      "photo": ""
+    },
+    {
+      "name": "Florian Sauer",
+      "role": "Kundenbetreuung",
+      "dept": "Büro & Verwaltung",
+      "photo": ""
+    },
+    {
+      "name": "Sascha Stegemann",
+      "role": "Kundenbetreuung",
+      "dept": "Büro & Verwaltung",
+      "photo": ""
+    },
+    {
+      "name": "Jochen Stiefel",
+      "role": "Büro",
+      "dept": "Büro & Verwaltung",
+      "photo": ""
+    },
+    {
+      "name": "Jörg Raphael",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Fabian Habel",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Julius Lampert",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Nicolas Cristobal Wolf",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Sebastian Huster",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Daniel Talarico",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "John-Christopher Neff",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Abdullatief Latuf Alkhlf",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Christian Bühler",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Raman Khzem",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Ali Hamza",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Reiner Neumann",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Irfan Mohammad Kahloon",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Waldemar Kornilov",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Gianluca Kastl",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Muneeb",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Max",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Frank Gerlinger",
+      "role": "Techniker",
+      "dept": "Technik",
+      "photo": ""
+    },
+    {
+      "name": "Özkan Bozkurt",
+      "role": "Versand",
+      "dept": "Versand & Logistik",
+      "photo": ""
+    },
+    {
+      "name": "Dennis",
+      "role": "Versand",
+      "dept": "Versand & Logistik",
+      "photo": ""
+    },
+    {
+      "name": "Ludwig Aupperle",
+      "role": "Versand",
+      "dept": "Versand & Logistik",
+      "photo": ""
+    },
+    {
+      "name": "Vincent Kirste",
+      "role": "Fuhrpark",
+      "dept": "Fuhrpark",
+      "photo": ""
+    },
+    {
+      "name": "Keanu Vigil",
+      "role": "Auszubildender",
+      "dept": "Auszubildende",
+      "photo": ""
+    },
+    {
+      "name": "Bastian Häcker",
+      "role": "Auszubildender",
+      "dept": "Auszubildende",
+      "photo": ""
+    },
+    {
+      "name": "Leon-Luca Lauterbach",
+      "role": "Auszubildender",
+      "dept": "Auszubildende",
+      "photo": ""
+    },
+    {
+      "name": "Henri Kaiser",
+      "role": "Auszubildender",
+      "dept": "Auszubildende",
+      "photo": ""
+    }
   ]
 };
