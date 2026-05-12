@@ -31,16 +31,22 @@ window.ELLERBROCK_IMAGES = {
       "section:nth-of-type(4)>div>div:nth-of-type(2)>a>p": "Simultandolmetscheranlagen für mehrsprachige Konferenzen — drahtlos oder kabelgebunden, mit professionellen Dolmetscherkabinen.",
       "section:nth-of-type(4)>div>div:nth-of-type(2)>a:nth-of-type(2)>p": "Interaktive Voting-Systeme für Live-Abstimmungen, Wahlen und Feedback — einfach zu bedienen, sofortige Ergebnisse.",
       "div.about-card>div.about-card-inner>div.stat-block:nth-of-type(3)>strong:nth-of-type(1)": "12.000+",
-      "div.container:nth-of-type(2)>div.hero-stats:nth-of-type(3)>div.hero-stat:nth-of-type(3)>strong:nth-of-type(1)": "12.000+"
+      "div.container:nth-of-type(2)>div.hero-stats:nth-of-type(3)>div.hero-stat:nth-of-type(3)>strong:nth-of-type(1)": "12.000+",
+      "div>div>div:nth-of-type(2)>h1": "Diskussionsanlagen"
     },
     "dolmetscheranlagen.html": {
       "div.content-block>div.content-grid>div.content-text>p.ae-editable": "Moderne Simultandolmetscheranlagen bestehen aus schallisolierten Dolmetscherkabinen, einer Zentraleinheit, einem Dolmetscherpult und drahtlosen Empfängereinheiten für die Konferenzteilnehmer. Wir setzen auf digitale Infrarot-Übertragungssysteme und drahtlose Dolmetschertechnik der Hersteller Sennheiser und Bosch.",
       "div>div:nth-of-type(2)>div>div>div>div>p": "Moderne Simultandolmetscheranlagen bestehen aus schallisolierten Dolmetscherkabinen, einer Zentraleinheit, einem Dolmetscherpult und drahtlosen Empfängereinheiten für die Konferenzteilnehmer. Wir setzen auf digitale Infrarot-Übertragungssysteme und drahtlose Dolmetschertechnik der Hersteller Sennheiser und Bosch.",
       "div.overlay-content:nth-of-type(2)>div.container>div.content-block:nth-of-type(3)>h2.ae-editable": "Dolmetscherdienst",
-      "div>div:nth-of-type(2)>div>div:nth-of-type(3)>h2": "Dolmetscherdienst"
+      "div>div:nth-of-type(2)>div>div:nth-of-type(3)>h2": "Dolmetscherdienst",
+      "div.overlay-content:nth-of-type(2)>div.container>div.content-block:nth-of-type(2)>h2.ae-editable": "Dolmetscherkabinen",
+      "div>div:nth-of-type(2)>div>div:nth-of-type(2)>h2": "Dolmetscherkabinen"
     },
     "ted.html": {
       "div>div:nth-of-type(2)>div>div:nth-of-type(2)>div>div>ul>li:nth-of-type(4)>span:nth-of-type(2)": "Lizenzbasiert je nach Anzahl der Abstimmgeräte"
+    },
+    "ueber-uns.html": {
+      "div>div:nth-of-type(2)>div>div:nth-of-type(4)>div>div:nth-of-type(3)>h4": "Weltweite Lieferung"
     }
   },
   "galerie-2.jpg": {
@@ -77,7 +83,10 @@ window.ELLERBROCK_IMAGES = {
     "hero.badge": "● Ihr Partner seit über 45 Jahren",
     "hero.stat3": "Empfänger weltweit",
     "about.s3": "Empfänger",
-    "ted.lite.f4": "Lizenzbasiert je nach Anzahl der Abstimmgeräte"
+    "ted.lite.f4": "Lizenzbasiert je nach Anzahl der Abstimmgeräte",
+    "nav.kontakt": "Kontakt",
+    "ueber.leist.liefer": "Weltweite Lieferung",
+    "ol.disk.h1": "Diskussionsanlagen"
   },
   "_team": [
     {
@@ -367,5 +376,19 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580781/ellerbrock/team-ludwig-aupperle-1778580780644.jpg",
     "fit": "cover",
     "pos": "center"
+  },
+  "dolmetscheranlage-hoersprechgarnitur.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778584675/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778584674610.jpg",
+    "fit": "cover",
+    "pos": "center",
+    "w": "426px",
+    "h": "274px"
+  },
+  "dolmetscherkabine-audipack-9300.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778584696/ellerbrock/dolmetscherkabine-audipack-9300-1778584695620.jpg",
+    "fit": "cover",
+    "pos": "center",
+    "w": "417px",
+    "h": "276px"
   }
 };
