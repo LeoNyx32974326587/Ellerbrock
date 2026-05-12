@@ -637,10 +637,6 @@ body.dark .about-card {
 body.dark .services::before { background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); }
 
 /* ===== HOVER LIFT FOR GALLERY ===== */
-.galerie-item { transition: transform 0.4s cubic-bezier(.4,0,.2,1), box-shadow 0.4s ease; }
-.galerie-item:hover { transform: scale(1.04) translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); z-index: 2; }
-.galerie-item:hover img { transform: none; }
-
 /* ===== PULSE GLOW ON CTA BUTTONS ===== */
 .btn-primary {
   position: relative; overflow: hidden;
@@ -844,12 +840,6 @@ body.dark .cursor-glow { background: radial-gradient(circle, rgba(77,184,212,0.0
   .services-grid .service-card:first-child .service-link { color: rgba(255,255,255,0.8); }
   .services-grid .service-card:first-child::before { background: linear-gradient(90deg, rgba(255,255,255,0.4), var(--accent)); }
 }
-
-/* ===== PARALLAX GALLERY ===== */
-.galerie-grid {
-  gap: 12px;
-}
-.galerie-item:hover { transform: scale(1.04) translateY(-4px); }
 
 /* ===== ENHANCED CTA ===== */
 .cta-section {
