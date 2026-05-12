@@ -1042,31 +1042,125 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
 <div class="subpage" id="page-kontakt">
 <div class="overlay-hero"><div class="overlay-hero-bg"><img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&q=80&auto=format" alt="" loading="eager"></div><div class="container overlay-hero-content"><h1 data-i18n="ol.kon.h1">Kontakt</h1><p data-i18n="ol.kon.p">Wir beraten Sie gerne — persönlich, telefonisch oder per E-Mail</p></div></div>
   <div class="overlay-content"><div class="container">
-    <div class="contact-grid fade-up">
-      <div class="contact-card">
-        <h3 data-i18n="kon.hq">Niederlassung Abtsteinach (Hauptsitz)</h3>
-        <ul class="contact-info">
-          <li><span class="label">Adresse</span> Löhrbacher Str. 38, 69518 Abtsteinach</li>
-          <li><span class="label">Tel</span> <a href="tel:+496207922400">+49 6207 9224-0</a></li>
-          <li><span class="label">Fax</span> +49 6207 9224-29</li>
-          <li><span class="label">E-Mail</span> <a href="mailto:info@ellerbrock-konferenztechnik.de">info@ellerbrock-konferenztechnik.de</a></li>
+
+    <!-- Modernized Contact Cards -->
+    <div class="contact-grid fade-up" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; margin-bottom: 60px;">
+
+      <div class="contact-card" style="border-radius:16px; padding:32px; border:1px solid var(--border); background:var(--bg); box-shadow:0 4px 20px rgba(0,0,0,0.08); transition:transform 0.3s,box-shadow 0.3s;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;">
+          <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--teal));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="22" height="22" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <h3 style="font-size:1.1rem;font-weight:700;color:var(--primary);margin:0;" data-i18n="kon.hq">Niederlassung Abtsteinach</h3>
+            <span style="font-size:0.78rem;color:var(--teal);font-weight:600;">Hauptsitz</span>
+          </div>
+        </div>
+        <ul class="contact-info" style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+          <li style="display:flex;align-items:center;gap:10px;font-size:0.92rem;color:var(--text);">
+            <svg width="16" height="16" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" transform="scale(0.72)"/><circle cx="8" cy="7.2" r="2.16"/></svg>
+            L\u00f6hrbacher Str. 38, 69518 Abtsteinach
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:0.92rem;">
+            <svg width="16" height="16" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" transform="scale(0.68)"/></svg>
+            <a href="tel:+496207922400" style="color:var(--teal);">+49 6207 9224-0</a>
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:0.92rem;">
+            <svg width="16" height="16" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" transform="scale(0.68)"/><polyline points="15.3 4.08 8.16 9.52 1.02 4.08" transform="scale(0.68)"/></svg>
+            <a href="mailto:info@ellerbrock-konferenztechnik.de" style="color:var(--teal);">info@ellerbrock-konferenztechnik.de</a>
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text-light);">
+            <svg width="16" height="16" fill="none" stroke="var(--text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1.36" y="1.36" width="13.6" height="13.6" rx="1.36" transform="scale(0.68) translate(3,3)"/></svg>
+            Fax: +49 6207 9224-29
+          </li>
         </ul>
       </div>
-      <div class="contact-card">
-        <h3 data-i18n="kon.ber">Niederlassung Berlin</h3>
-        <ul class="contact-info">
-          <li><span class="label">Adresse</span> Wackenbergstraße 84-88, 13156 Berlin</li>
-          <li><span class="label">Tel</span> <a href="tel:+493076767317">+49 30 76767317-0</a></li>
-          <li><span class="label">Fax</span> +49 30 76767317-15</li>
-          <li><span class="label">E-Mail</span> <a href="mailto:berlin@ellerbrock.biz">berlin@ellerbrock.biz</a></li>
+
+      <div class="contact-card" style="border-radius:16px; padding:32px; border:1px solid var(--border); background:var(--bg); box-shadow:0 4px 20px rgba(0,0,0,0.08); transition:transform 0.3s,box-shadow 0.3s;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;">
+          <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--teal));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="22" height="22" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <h3 style="font-size:1.1rem;font-weight:700;color:var(--primary);margin:0;" data-i18n="kon.ber">Niederlassung Berlin</h3>
+          </div>
+        </div>
+        <ul class="contact-info" style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+          <li style="display:flex;align-items:center;gap:10px;font-size:0.92rem;color:var(--text);">
+            <svg width="16" height="16" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" transform="scale(0.72)"/><circle cx="8" cy="7.2" r="2.16"/></svg>
+            Wackenbergstra\u00dfe 84-88, 13156 Berlin
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:0.92rem;">
+            <svg width="16" height="16" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" transform="scale(0.68)"/></svg>
+            <a href="tel:+493076767317" style="color:var(--teal);">+49 30 76767317-0</a>
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:0.92rem;">
+            <svg width="16" height="16" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" transform="scale(0.68)"/><polyline points="15.3 4.08 8.16 9.52 1.02 4.08" transform="scale(0.68)"/></svg>
+            <a href="mailto:berlin@ellerbrock.biz" style="color:var(--teal);">berlin@ellerbrock.biz</a>
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text-light);">
+            <svg width="16" height="16" fill="none" stroke="var(--text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1.36" y="1.36" width="13.6" height="13.6" rx="1.36" transform="scale(0.68) translate(3,3)"/></svg>
+            Fax: +49 30 76767317-15
+          </li>
         </ul>
       </div>
+
+      <div class="contact-card" style="border-radius:16px; padding:32px; border:1px solid var(--border); background:var(--bg); box-shadow:0 4px 20px rgba(0,0,0,0.08); transition:transform 0.3s,box-shadow 0.3s;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;">
+          <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--teal));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="22" height="22" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <h3 style="font-size:1.1rem;font-weight:700;color:var(--primary);margin:0;" data-i18n="kon.bonn">Niederlassung Bonn</h3>
+          </div>
+        </div>
+        <ul class="contact-info" style="list-style:none;display:flex;flex-direction:column;gap:12px;">
+          <li style="display:flex;align-items:center;gap:10px;font-size:0.92rem;color:var(--text);">
+            <svg width="16" height="16" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" transform="scale(0.72)"/><circle cx="8" cy="7.2" r="2.16"/></svg>
+            Heussallee 38, 53113 Bonn
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:0.92rem;">
+            <svg width="16" height="16" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" transform="scale(0.68)"/></svg>
+            <a href="tel:+492289109750" style="color:var(--teal);">+49 228 9109-750</a>
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;font-size:0.92rem;">
+            <svg width="16" height="16" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" transform="scale(0.68)"/><polyline points="15.3 4.08 8.16 9.52 1.02 4.08" transform="scale(0.68)"/></svg>
+            <a href="mailto:bonn@ellerbrock.biz" style="color:var(--teal);">bonn@ellerbrock.biz</a>
+          </li>
+        </ul>
+      </div>
+
     </div>
-    <div         <div class="page-img-placeholder fade-up" style="margin-bottom:40px;"><img src="images/kontakt-buero-1.jpg" data-orig="kontakt-buero-1.jpg" alt="Ellerbrock Hauptsitz" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
 
-</div>
+    <!-- Embedded Contact Form -->
+    <div class="fade-up" style="max-width:720px;margin:0 auto 60px;">
+      <div style="text-align:center;margin-bottom:32px;">
+        <span class="section-label" data-i18n="kon.form.label">Schreiben Sie uns</span>
+        <h2 class="section-title" data-i18n="kon.form.title">Kontaktformular</h2>
+        <p class="section-subtitle" data-i18n="kon.form.sub">Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+      </div>
+      <form id="contactForm" onsubmit="submitContactForm(event);" novalidate style="background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:36px;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-group"><label for="kf-name" data-i18n="kf.name" style="font-size:0.88rem;font-weight:600;color:var(--text);margin-bottom:6px;display:block;">Name *</label><input type="text" id="kf-name" placeholder="Ihr Name" required style="width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:0.92rem;background:var(--bg-alt);color:var(--text);font-family:inherit;transition:border-color 0.2s;outline:none;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'"></div>
+          <div class="form-group"><label for="kf-firma" data-i18n="kf.firma" style="font-size:0.88rem;font-weight:600;color:var(--text);margin-bottom:6px;display:block;">Firma</label><input type="text" id="kf-firma" placeholder="Ihre Firma" style="width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:0.92rem;background:var(--bg-alt);color:var(--text);font-family:inherit;transition:border-color 0.2s;outline:none;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">
+          <div class="form-group"><label for="kf-email" data-i18n="kf.email" style="font-size:0.88rem;font-weight:600;color:var(--text);margin-bottom:6px;display:block;">E-Mail *</label><input type="email" id="kf-email" placeholder="Ihre E-Mail-Adresse" required style="width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:0.92rem;background:var(--bg-alt);color:var(--text);font-family:inherit;transition:border-color 0.2s;outline:none;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'"></div>
+          <div class="form-group"><label for="kf-phone" data-i18n="kf.phone" style="font-size:0.88rem;font-weight:600;color:var(--text);margin-bottom:6px;display:block;">Telefon</label><input type="tel" id="kf-phone" placeholder="Ihre Telefonnummer" style="width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:0.92rem;background:var(--bg-alt);color:var(--text);font-family:inherit;transition:border-color 0.2s;outline:none;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'"></div>
+        </div>
+        <div class="form-group" style="margin-top:16px;"><label for="kf-betreff" data-i18n="kf.betreff" style="font-size:0.88rem;font-weight:600;color:var(--text);margin-bottom:6px;display:block;">Betreff *</label><input type="text" id="kf-betreff" placeholder="Betreff Ihrer Nachricht" required style="width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:0.92rem;background:var(--bg-alt);color:var(--text);font-family:inherit;transition:border-color 0.2s;outline:none;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'"></div>
+        <div class="form-group" style="margin-top:16px;"><label for="kf-msg" data-i18n="kf.msg" style="font-size:0.88rem;font-weight:600;color:var(--text);margin-bottom:6px;display:block;">Nachricht *</label><textarea id="kf-msg" rows="5" placeholder="Schreiben Sie uns Ihre Nachricht..." required style="width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:0.92rem;background:var(--bg-alt);color:var(--text);font-family:inherit;resize:vertical;transition:border-color 0.2s;outline:none;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'"></textarea></div>
+        <div style="margin-top:16px;display:flex;align-items:flex-start;gap:10px;">
+          <input type="checkbox" id="kf-dsgvo" required style="width:auto;margin-top:3px;accent-color:var(--teal);">
+          <label for="kf-dsgvo" style="font-size:0.82rem;color:var(--text-light);cursor:pointer;line-height:1.5;" data-i18n="kf.dsgvo">Ich habe die <a href="datenschutz.html" style="color:var(--teal);">Datenschutzerkl\u00e4rung</a> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *</label>
+        </div>
+        <div id="kf-error" style="color:#e74c3c;font-size:0.9rem;margin-top:12px;display:none;"></div>
+        <div id="kf-success" style="color:var(--accent);font-size:0.9rem;margin-top:12px;display:none;"></div>
+        <button type="submit" class="btn btn-primary" style="margin-top:20px;width:100%;padding:14px;font-size:1rem;border-radius:12px;border:none;cursor:pointer;font-family:inherit;font-weight:600;" data-i18n="kf.btn">Nachricht senden &#8594;</button>
+      </form>
+    </div>
 
-
+</div></div>
 
 <section class="cta-section">
   <div class="container fade-up">
@@ -1992,5 +2086,73 @@ function submitContactForm(e) {
   </div>
 </div>
 
+
+<script>
+function submitContactForm(e) {
+  e.preventDefault();
+  var form = document.getElementById('contactForm');
+  var errorEl = document.getElementById('kf-error');
+  var successEl = document.getElementById('kf-success');
+  errorEl.style.display = 'none';
+  successEl.style.display = 'none';
+
+  var name = document.getElementById('kf-name');
+  var email = document.getElementById('kf-email');
+  var betreff = document.getElementById('kf-betreff');
+  var msg = document.getElementById('kf-msg');
+  var dsgvo = document.getElementById('kf-dsgvo');
+  var firma = document.getElementById('kf-firma');
+  var phone = document.getElementById('kf-phone');
+
+  var errors = [];
+  if (!name.value.trim()) errors.push('Bitte geben Sie Ihren Namen ein.');
+  if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) errors.push('Bitte geben Sie eine g\u00fcltige E-Mail-Adresse ein.');
+  if (!betreff.value.trim()) errors.push('Bitte geben Sie einen Betreff ein.');
+  if (!msg.value.trim()) errors.push('Bitte geben Sie eine Nachricht ein.');
+  if (!dsgvo.checked) errors.push('Bitte best\u00e4tigen Sie die Datenschutzerkl\u00e4rung.');
+
+  if (errors.length) {
+    errorEl.innerHTML = errors.join('<br>');
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  var submitBtn = form.querySelector('button[type=submit]');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Wird gesendet...';
+
+  var data = {
+    _subject: 'Kontaktformular: ' + betreff.value.trim(),
+    _replyto: email.value.trim(),
+    name: name.value.trim(),
+    firma: firma.value.trim() || '-',
+    telefon: phone.value.trim() || '-',
+    betreff: betreff.value.trim(),
+    nachricht: msg.value.trim()
+  };
+
+  fetch('https://formspree.io/f/xkokkdyk', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(function(r){ return r.json(); }).then(function(result) {
+    if (result.ok || result.next) {
+      successEl.textContent = 'Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.';
+      successEl.style.display = 'block';
+      form.reset();
+    } else {
+      errorEl.textContent = 'Fehler beim Senden. Bitte versuchen Sie es erneut.';
+      errorEl.style.display = 'block';
+    }
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Nachricht senden \u2192';
+  }).catch(function() {
+    errorEl.textContent = 'Netzwerkfehler. Bitte versuchen Sie es sp\u00e4ter erneut.';
+    errorEl.style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Nachricht senden \u2192';
+  });
+}
+</script>
 </body>
 </html>
