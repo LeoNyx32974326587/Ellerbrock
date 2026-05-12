@@ -960,7 +960,23 @@ body.dark .cursor-glow { background: radial-gradient(circle, rgba(77,184,212,0.0
   .overlay-hero { padding: 32px 0; }
   .section-title { font-size: 1.3rem; }
 }
-  </style>
+  
+/* Page image placeholders */
+.page-img-placeholder { border-radius: var(--radius); overflow: hidden; margin: 32px 0; }
+.page-img-placeholder img { width: 100%; height: auto; display: block; object-fit: cover; border-radius: var(--radius); min-height: 200px; background: var(--bg-alt); }
+.page-img-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 32px 0; }
+.page-img-row .page-img-placeholder { margin: 0; }
+.page-img-row .page-img-placeholder img { height: 240px; }
+.page-img-half { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; margin: 32px 0; }
+.page-img-half > div:first-child { }
+.page-img-half .page-img-placeholder { margin: 0; }
+.page-img-half .page-img-placeholder img { height: 300px; }
+@media (max-width: 768px) {
+  .page-img-half { grid-template-columns: 1fr; }
+  .page-img-row { grid-template-columns: 1fr; }
+  .page-img-row .page-img-placeholder img { height: 200px; }
+}
+</style>
 </head>
 <body>
 
@@ -1143,6 +1159,8 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
     </div>
   </div>
 </section>
+<div class="container" style="padding-top:20px;padding-bottom:20px;"><div class="page-img-row"><div class="page-img-placeholder"><img src="images/index-services-1.jpg" data-orig="index-services-1.jpg" alt="Konferenztechnik im Einsatz" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="page-img-placeholder"><img src="images/index-services-2.jpg" data-orig="index-services-2.jpg" alt="Professionelle Veranstaltungstechnik" loading="lazy" onerror="this.parentElement.style.display='none'"></div></div></div>
+
 
 <!-- ========== ÜBER UNS ========== -->
 <section class="about" id="ueber-uns">
@@ -1200,6 +1218,7 @@ setTimeout(function(){var p=document.getElementById('preloader');if(p){p.classLi
 </section>
 
 <!-- ========== CTA ========== -->
+<div class="container" style="padding:40px 24px;"><div class="page-img-row"><div class="page-img-placeholder"><img src="images/index-cta-1.jpg" data-orig="index-cta-1.jpg" alt="Ellerbrock Team im Einsatz" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="page-img-placeholder"><img src="images/index-cta-2.jpg" data-orig="index-cta-2.jpg" alt="Konferenz Setup" loading="lazy" onerror="this.parentElement.style.display='none'"></div><div class="page-img-placeholder"><img src="images/index-cta-3.jpg" data-orig="index-cta-3.jpg" alt="Veranstaltungstechnik" loading="lazy" onerror="this.parentElement.style.display='none'"></div></div></div>
 <section class="cta-section" id="kontakt">
   <div class="container fade-up">
     <span class="section-label" style="color:rgba(255,255,255,0.5);" data-i18n="cta.label">Kontakt</span>
