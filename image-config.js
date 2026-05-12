@@ -115,5 +115,10 @@ window.ELLERBROCK_IMAGES = {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778574683/ellerbrock/team-florian-sauer-1778574683702.jpg",
     "fit": "cover",
     "pos": "center center"
+  },
+  "team-leon-luca-lauterbach.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778575156/ellerbrock/team-leon-luca-lauterbach-1778575151816.jpg",
+    "fit": "cover",
+    "pos": "center center"
   }
 };
