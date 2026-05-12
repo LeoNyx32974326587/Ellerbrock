@@ -252,6 +252,13 @@ window.ELLERBROCK_IMAGES = {
       "role": "Auszubildender",
       "dept": "Auszubildende",
       "photo": ""
+    },
+    {
+      "name": "Oliver kaan",
+      "role": "Mitarbeiter",
+      "dept": "Büro & Verwaltung",
+      "photo": "",
+      "desc": ""
     }
   ],
   "team-manuel-strasser.jpg": {
