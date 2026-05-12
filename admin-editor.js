@@ -298,7 +298,7 @@
         ph.style.cursor='pointer';
         ph.title='Klicken um Bild hochzuladen';
         var nameEl=ph.closest('.team-card').querySelector('.team-card-name');
-        var personName=nameEl?nameEl.textContent.trim().toLowerCase().replace(/[^a-z0-9]/g,'-'):'team-member';
+        var personName=nameEl?(function(s){return s.trim().toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');})(nameEl.textContent):'team-member';
         var fn='team-'+personName+'.jpg';
         // Create a hidden img so the existing upload system can find it
         var hiddenImg=document.createElement('img');
