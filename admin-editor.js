@@ -1,10 +1,9 @@
-/* Ellerbrock Admin Visual Editor v3 */
+/* Ellerbrock Admin Visual Editor v4 - Team editing moved to Admin Panel */
 (function(){
   if(window.self===window.top)return;
 
   var map={},currentPage='',selectedWrap=null;
 
-  /* ---- Styles ---- */
   var css=document.createElement('style');
   css.textContent=[
     '.preloader,.scroll-progress,.grain-overlay,.cursor-glow,.ticker-banner{display:none!important;}',
@@ -32,14 +31,10 @@
     '.ae-editable:focus{box-shadow:0 0 0 2px #3b82f6;}',
     '.ae-new-container{position:relative;margin:10px auto;border:2px dashed #3b82f6;border-radius:8px;overflow:hidden;background:rgba(59,130,246,0.05);display:flex;align-items:center;justify-content:center;cursor:pointer;min-height:100px;}',
     '.ae-new-container:hover{background:rgba(59,130,246,0.1);}',
-    '.ae-new-container img{width:100%;height:100%;object-fit:cover;}',
-    /* Team card image toolbar - simpler, no resize/move */
-    '.ae-team-tb{position:absolute;top:6px;right:6px;display:flex;gap:4px;background:rgba(0,0,0,.85);border-radius:8px;padding:4px 8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:160;}',
-    '.team-card-img:hover .ae-team-tb{opacity:1;pointer-events:all;}'
+    '.ae-new-container img{width:100%;height:100%;object-fit:cover;}'
   ].join('\n');
   document.head.appendChild(css);
 
-  /* ---- Helpers ---- */
   function msg(data){window.parent.postMessage(data,'*');}
   function syncRect(img,el){
     var ml=parseInt(img.style.marginLeft)||0;
@@ -49,17 +44,9 @@
     el.style.left=ml+'px';
     el.style.top=mt+'px';
   }
-  function deselect(){
-    if(selectedWrap){selectedWrap.classList.remove('ae-sel');selectedWrap=null;}
-  }
-  function select(wrap){
-    deselect();
-    wrap.classList.add('ae-sel');
-    selectedWrap=wrap;
-  }
-  function slugify(s){return s.trim().toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');}
+  function deselect(){if(selectedWrap){selectedWrap.classList.remove('ae-sel');selectedWrap=null;}}
+  function select(wrap){deselect();wrap.classList.add('ae-sel');selectedWrap=wrap;}
 
-  /* ---- Context Menu ---- */
   function showCtx(x,y,items){
     closeCtx();
     var m=document.createElement('div');m.className='ae-ctx';m.id='ae-ctx';
@@ -78,32 +65,20 @@
   }
   function closeCtx(){var m=document.getElementById('ae-ctx');if(m)m.remove();}
 
-  /* ---- Drag to Move ---- */
   function setupMove(moveEl,img,fn,syncFn){
     var sx,sy,ox,oy;
     moveEl.addEventListener('mousedown',function(e){
       e.preventDefault();e.stopPropagation();
       sx=e.clientX;sy=e.clientY;
-      ox=parseInt(img.style.marginLeft)||0;
-      oy=parseInt(img.style.marginTop)||0;
+      ox=parseInt(img.style.marginLeft)||0;oy=parseInt(img.style.marginTop)||0;
       select(moveEl.closest('.ae-wrap'));
-      function onM(ev){
-        img.style.marginLeft=(ox+ev.clientX-sx)+'px';
-        img.style.marginTop=(oy+ev.clientY-sy)+'px';
-        if(syncFn)syncFn();
-      }
-      function onU(ev){
-        document.removeEventListener('mousemove',onM);
-        document.removeEventListener('mouseup',onU);
-        msg({type:'admin-settings',filename:fn,mx:parseInt(img.style.marginLeft)||0,my:parseInt(img.style.marginTop)||0});
-      }
-      document.addEventListener('mousemove',onM);
-      document.addEventListener('mouseup',onU);
+      function onM(ev){img.style.marginLeft=(ox+ev.clientX-sx)+'px';img.style.marginTop=(oy+ev.clientY-sy)+'px';if(syncFn)syncFn();}
+      function onU(){document.removeEventListener('mousemove',onM);document.removeEventListener('mouseup',onU);msg({type:'admin-settings',filename:fn,mx:parseInt(img.style.marginLeft)||0,my:parseInt(img.style.marginTop)||0});}
+      document.addEventListener('mousemove',onM);document.addEventListener('mouseup',onU);
     });
     moveEl.addEventListener('click',function(e){e.stopPropagation();select(moveEl.closest('.ae-wrap'));});
   }
 
-  /* ---- Corner Resize ---- */
   function setupResize(h,img,fn,corner,syncFn){
     h.addEventListener('mousedown',function(e){
       e.preventDefault();e.stopPropagation();
@@ -111,29 +86,22 @@
       select(h.closest('.ae-wrap'));
       function onM(ev){
         var dx=ev.clientX-sx,dy=ev.clientY-sy,nw=ow,nh=oh;
-        if(corner==='br'){nw=ow+dx;nh=oh+dy;}
-        else if(corner==='bl'){nw=ow-dx;nh=oh+dy;}
-        else if(corner==='tr'){nw=ow+dx;nh=oh-dy;}
-        else if(corner==='tl'){nw=ow-dx;nh=oh-dy;}
+        if(corner==='br'){nw=ow+dx;nh=oh+dy;}else if(corner==='bl'){nw=ow-dx;nh=oh+dy;}
+        else if(corner==='tr'){nw=ow+dx;nh=oh-dy;}else if(corner==='tl'){nw=ow-dx;nh=oh-dy;}
         if(nw<40)nw=40;if(nh<40)nh=40;
-        img.style.width=nw+'px';img.style.height=nh+'px';
-        img.style.maxWidth='none';img.style.maxHeight='none';
+        img.style.width=nw+'px';img.style.height=nh+'px';img.style.maxWidth='none';img.style.maxHeight='none';
         if(syncFn)syncFn();
       }
-      function onU(){
-        document.removeEventListener('mousemove',onM);
-        document.removeEventListener('mouseup',onU);
-        msg({type:'admin-settings',filename:fn,w:img.style.width,h:img.style.height});
-      }
-      document.addEventListener('mousemove',onM);
-      document.addEventListener('mouseup',onU);
+      function onU(){document.removeEventListener('mousemove',onM);document.removeEventListener('mouseup',onU);msg({type:'admin-settings',filename:fn,w:img.style.width,h:img.style.height});}
+      document.addEventListener('mousemove',onM);document.addEventListener('mouseup',onU);
     });
   }
 
-  /* ---- Setup Image with Editor Controls (for non-team images) ---- */
   function setupImage(img,fn,entry){
     var url=(typeof entry==='object')?(entry&&entry.url):entry;
     var p=img.parentElement;if(!p)return;
+    // Skip team card images - managed in admin panel
+    if(img.closest('.team-card-img')||img.closest('.team-card'))return;
 
     var wrap=document.createElement('div');wrap.className='ae-wrap';
     p.insertBefore(wrap,img);wrap.appendChild(img);
@@ -199,64 +167,10 @@
     });
     tb.appendChild(moreBtn);
     wrap.appendChild(tb);
-
     img.setAttribute('data-ae-fn',fn);
     return wrap;
   }
 
-  /* ---- Setup Team Card Image (simpler: only fit/pos + upload, no resize/move) ---- */
-  function setupTeamImage(img,fn,entry){
-    img.setAttribute('data-ae-fn',fn);
-    // Make parent team-card-img relative for toolbar positioning
-    var container=img.closest('.team-card-img');
-    if(container)container.style.position='relative';
-
-    // Apply only fit and pos
-    if(typeof entry==='object'){
-      if(entry.fit)img.style.objectFit=entry.fit;
-      if(entry.pos)img.style.objectPosition=entry.pos;
-    }
-
-    // Simple toolbar: fit toggle, position, upload
-    var tb=document.createElement('div');tb.className='ae-team-tb';
-
-    var fitBtn=document.createElement('button');fitBtn.className='ae-btn';
-    fitBtn.textContent=(typeof entry==='object'&&entry.fit)||'cover';
-    fitBtn.addEventListener('click',function(ev){
-      ev.stopPropagation();
-      var fits=['cover','contain','fill','none'];
-      var i=fits.indexOf(img.style.objectFit||'cover');
-      var next=fits[(i+1)%fits.length];
-      img.style.objectFit=next;fitBtn.textContent=next;
-      msg({type:'admin-settings',filename:fn,fit:next});
-    });
-    tb.appendChild(fitBtn);
-
-    var posBtn=document.createElement('button');posBtn.className='ae-btn';
-    posBtn.textContent='Pos';posBtn.style.color='#93c5fd';
-    posBtn.addEventListener('click',function(ev){
-      ev.stopPropagation();
-      var r=posBtn.getBoundingClientRect();
-      showCtx(r.left,r.bottom+4,[
-        {label:'Oben',action:function(){img.style.objectPosition='center top';msg({type:'admin-settings',filename:fn,pos:'center top'});}},
-        {label:'Mitte',action:function(){img.style.objectPosition='center center';msg({type:'admin-settings',filename:fn,pos:'center center'});}},
-        {label:'Unten',action:function(){img.style.objectPosition='center bottom';msg({type:'admin-settings',filename:fn,pos:'center bottom'});}},
-        '---',
-        {label:'Links',action:function(){img.style.objectPosition='left center';msg({type:'admin-settings',filename:fn,pos:'left center'});}},
-        {label:'Rechts',action:function(){img.style.objectPosition='right center';msg({type:'admin-settings',filename:fn,pos:'right center'});}}
-      ]);
-    });
-    tb.appendChild(posBtn);
-
-    var upBtn=document.createElement('button');upBtn.className='ae-btn';
-    upBtn.textContent='Ersetzen';upBtn.style.color='#4ade80';
-    upBtn.addEventListener('click',function(ev){ev.stopPropagation();msg({type:'admin-upload',filename:fn});});
-    tb.appendChild(upBtn);
-
-    if(container)container.appendChild(tb);
-  }
-
-  /* ---- Make text elements editable ---- */
   function isLeafText(el){
     var dominated=['a','button','img','ul','ol','div','nav','section','form','input','select','iframe','table','svg'];
     for(var i=0;i<el.children.length;i++){
@@ -266,10 +180,12 @@
     return true;
   }
   function setupTexts(){
-    var textEls=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,td,th,label,blockquote,.team-card-name,.team-card-role');
+    var textEls=document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,td,th,label,blockquote');
     textEls.forEach(function(el){
-      if(el.closest('.ae-wrap,.ae-tb,.ae-fab,.ae-ctx,.ae-handles,.ae-team-tb'))return;
+      if(el.closest('.ae-wrap,.ae-tb,.ae-fab,.ae-ctx,.ae-handles'))return;
       if(el.closest('nav,footer,.hero-stat,.stat-block,.hero-stats,.cookie-banner'))return;
+      // Skip team cards - managed in admin panel
+      if(el.closest('.team-card'))return;
       if(!isLeafText(el))return;
       if(!el.textContent.trim())return;
       if(/^\d[\d.,]*\+?$/.test(el.textContent.trim()))return;
@@ -283,28 +199,17 @@
 
       var savedTexts=map._texts||{};
       var pageTexts=savedTexts[currentPage]||{};
-      if(pageTexts[sel]!==undefined){
-        el.textContent=pageTexts[sel];
-      }
+      if(pageTexts[sel]!==undefined)el.textContent=pageTexts[sel];
 
-      el.addEventListener('blur',function(){
-        var text=el.textContent;
-        msg({type:'admin-text',page:currentPage,selector:sel,text:text});
-      });
-
-      el.addEventListener('keydown',function(ev){
-        if(ev.key==='Enter'){ev.preventDefault();el.blur();}
-      });
+      el.addEventListener('blur',function(){msg({type:'admin-text',page:currentPage,selector:sel,text:el.textContent});});
+      el.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();el.blur();}});
     });
   }
 
   function getSelector(el){
-    var path=[];
-    var node=el;
+    var path=[];var node=el;
     while(node&&node!==document.body){
-      var tag=node.tagName.toLowerCase();
-      var idx=0;
-      var sib=node.previousElementSibling;
+      var tag=node.tagName.toLowerCase();var idx=0;var sib=node.previousElementSibling;
       while(sib){if(sib.tagName===node.tagName)idx++;sib=sib.previousElementSibling;}
       path.unshift(tag+(idx>0?':nth-of-type('+(idx+1)+')':''));
       node=node.parentElement;
@@ -312,17 +217,14 @@
     return path.join('>');
   }
 
-  /* ---- Message Handler ---- */
   window.addEventListener('message',function(e){
     var d=e.data;if(!d)return;
 
     if(d.type==='admin-init'){
       map=d.map||{};
       currentPage=d.page||'';
-
       setupTexts();
 
-      // Setup existing images - separate handling for team vs non-team
       document.querySelectorAll('img[src^="images/"]').forEach(function(img){
         var fn=img.getAttribute('src').replace('images/','');
         var entry=map[fn];
@@ -331,91 +233,23 @@
         if(url){img.src=url;img.style.display='';}
         var nx=img.nextElementSibling;
         if(nx&&nx.classList&&nx.classList.contains('initials'))nx.style.display='none';
-
-        // Check if this is a team card image
-        if(img.closest('.team-card-img')||img.closest('.team-card')){
-          setupTeamImage(img,fn,entry||{});
-        }else{
-          setupImage(img,fn,entry||{});
-        }
+        setupImage(img,fn,entry||{});
       });
 
-      // Setup team placeholders - click to upload
-      document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
-        var nameEl=ph.closest('.team-card').querySelector('.team-card-name');
-        var personName=nameEl?slugify(nameEl.textContent):'team-member';
-        var fn='team-'+personName+'.jpg';
-
-        // Check if image exists in map
-        var entry=map[fn];
-        if(entry){
-          var url=typeof entry==='string'?entry:entry.url;
-          if(url){
-            var imgDiv=document.createElement('div');
-            imgDiv.className='team-card-img';
-            var img=document.createElement('img');
-            img.src=url;
-            img.alt=nameEl?nameEl.textContent:'';
-            img.setAttribute('data-orig',fn);
-            img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';
-            imgDiv.appendChild(img);
-            ph.replaceWith(imgDiv);
-            setupTeamImage(img,fn,entry);
-            return;
-          }
-        }
-
-        ph.style.cursor='pointer';
-        ph.title='Klicken um Bild hochzuladen';
-        ph.addEventListener('click',function(e){
-          e.preventDefault();
-          e.stopPropagation();
-          window.parent.postMessage({type:'admin-upload',filename:fn},'*');
-        });
-      });
-
-      // Disable navigation in preview
       document.querySelectorAll('a').forEach(function(a){
         a.setAttribute('data-href',a.getAttribute('href')||'');
-        a.removeAttribute('href');
-        a.removeAttribute('target');
-        a.style.cursor='default';
+        a.removeAttribute('href');a.removeAttribute('target');a.style.cursor='default';
       });
 
       document.addEventListener('click',function(e){
-        if(!e.target.closest('.ae-wrap,.ae-ctx,.ae-fab,.ae-team-tb')){deselect();}
+        if(!e.target.closest('.ae-wrap,.ae-ctx,.ae-fab'))deselect();
       });
     }
 
-    // Live image update after upload
     if(d.type==='admin-update-image'&&d.filename&&d.url){
-      var found=false;
-      // Update existing editor-wrapped images
       document.querySelectorAll('img[data-ae-fn]').forEach(function(img){
-        if(img.getAttribute('data-ae-fn')===d.filename){img.src=d.url;img.style.display='';found=true;}
+        if(img.getAttribute('data-ae-fn')===d.filename){img.src=d.url;img.style.display='';}
       });
-      // Check team placeholders
-      if(!found){
-        document.querySelectorAll('.team-card-placeholder').forEach(function(ph){
-          var nameEl=ph.closest('.team-card')&&ph.closest('.team-card').querySelector('.team-card-name');
-          if(!nameEl)return;
-          var expectedFn='team-'+slugify(nameEl.textContent)+'.jpg';
-          if(expectedFn===d.filename){
-            var imgDiv=document.createElement('div');
-            imgDiv.className='team-card-img';
-            var img=document.createElement('img');
-            img.src=d.url;
-            img.alt=nameEl.textContent;
-            img.setAttribute('data-orig',d.filename);
-            img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';
-            imgDiv.appendChild(img);
-            ph.replaceWith(imgDiv);
-            setupTeamImage(img,d.filename,{url:d.url,fit:'cover',pos:'center'});
-            found=true;
-          }
-        });
-      }
     }
   });
 })();
-
