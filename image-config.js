@@ -62,11 +62,6 @@ window.ELLERBROCK_IMAGES = {
     "fit": "cover",
     "pos": "center"
   },
-  "dolmetscheranlage-hoersprechgarnitur.jpg": {
-    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778506218/ellerbrock/dolmetscheranlage-hoersprechgarnitur-1778506218466.jpg",
-    "fit": "cover",
-    "pos": "center"
-  },
   "_content": {
     "hero.badge": "● Ihr Partner seit über 45 Jahren",
     "hero.stat3": "Sprechstellen weltweit",
