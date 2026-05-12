@@ -317,5 +317,12 @@ window.ELLERBROCK_IMAGES = {
     "pos": "center",
     "mx": 2,
     "my": -72
+  },
+  "ted-votingsystem-06.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778579575/ellerbrock/ted-votingsystem-06-1778579572979.jpg",
+    "fit": "cover",
+    "pos": "center",
+    "mx": 51,
+    "my": -65
   }
 };
