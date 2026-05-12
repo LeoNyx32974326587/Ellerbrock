@@ -122,7 +122,7 @@ window.ELLERBROCK_IMAGES = {
       "name": "Julius Lampert",
       "role": "Techniker",
       "dept": "Technik",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580580/ellerbrock/team-julius-lampert-1778580579883.jpg"
     },
     {
       "name": "Nicolas Cristobal Wolf",
@@ -183,13 +183,13 @@ window.ELLERBROCK_IMAGES = {
       "name": "Irfan Mohammad Kahloon",
       "role": "Techniker",
       "dept": "Technik",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580728/ellerbrock/team-irfan-mohammad-kahloon-1778580727687.jpg"
     },
     {
       "name": "Waldemar Kornilov",
       "role": "Techniker",
       "dept": "Technik",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580661/ellerbrock/team-waldemar-kornilov-1778580660148.jpg"
     },
     {
       "name": "Gianluca Kastl",
@@ -219,7 +219,7 @@ window.ELLERBROCK_IMAGES = {
       "name": "Özkan Bozkurt",
       "role": "Versand",
       "dept": "Versand & Logistik",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580371/ellerbrock/team-oezkan-bozkurt-1778580369926.jpg"
     },
     {
       "name": "Dennis",
@@ -231,7 +231,7 @@ window.ELLERBROCK_IMAGES = {
       "name": "Ludwig Aupperle",
       "role": "Versand",
       "dept": "Versand & Logistik",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580781/ellerbrock/team-ludwig-aupperle-1778580780644.jpg"
     },
     {
       "name": "Vincent Kirste",
@@ -326,6 +326,31 @@ window.ELLERBROCK_IMAGES = {
   },
   "team-jochen-klug.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580345/ellerbrock/team-jochen-klug-1778580343597.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-oezkan-bozkurt.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580371/ellerbrock/team-oezkan-bozkurt-1778580369926.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-julius-lampert.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580580/ellerbrock/team-julius-lampert-1778580579883.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-waldemar-kornilov.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580661/ellerbrock/team-waldemar-kornilov-1778580660148.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-irfan-mohammad-kahloon.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580728/ellerbrock/team-irfan-mohammad-kahloon-1778580727687.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-ludwig-aupperle.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778580781/ellerbrock/team-ludwig-aupperle-1778580780644.jpg",
     "fit": "cover",
     "pos": "center"
   }
