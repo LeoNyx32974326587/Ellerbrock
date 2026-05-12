@@ -77,13 +77,13 @@ window.ELLERBROCK_IMAGES = {
       "name": "Manuel Straßer",
       "role": "Buchhaltung",
       "dept": "Büro & Verwaltung",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576279/ellerbrock/team-manuel-strasser-1778576276380.jpg"
     },
     {
       "name": "Florian Sauer",
       "role": "Kundenbetreuung",
       "dept": "Büro & Verwaltung",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576284/ellerbrock/team-florian-sauer-1778576283361.jpg"
     },
     {
       "name": "Sascha Stegemann",
@@ -125,13 +125,13 @@ window.ELLERBROCK_IMAGES = {
       "name": "Sebastian Huster",
       "role": "Techniker",
       "dept": "Technik",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576291/ellerbrock/team-sebastian-huster-1778576291048.jpg"
     },
     {
       "name": "Daniel Talarico",
       "role": "Techniker",
       "dept": "Technik",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576295/ellerbrock/team-daniel-talarico-1778576294848.jpg"
     },
     {
       "name": "John-Christopher Neff",
@@ -245,7 +245,7 @@ window.ELLERBROCK_IMAGES = {
       "name": "Leon-Luca Lauterbach",
       "role": "Auszubildender",
       "dept": "Auszubildende",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576300/ellerbrock/team-leon-luca-lauterbach-1778576300048.jpg"
     },
     {
       "name": "Henri Kaiser",
@@ -253,5 +253,30 @@ window.ELLERBROCK_IMAGES = {
       "dept": "Auszubildende",
       "photo": ""
     }
-  ]
+  ],
+  "team-manuel-strasser.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576279/ellerbrock/team-manuel-strasser-1778576276380.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-florian-sauer.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576284/ellerbrock/team-florian-sauer-1778576283361.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-sebastian-huster.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576291/ellerbrock/team-sebastian-huster-1778576291048.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-daniel-talarico.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576295/ellerbrock/team-daniel-talarico-1778576294848.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-leon-luca-lauterbach.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778576300/ellerbrock/team-leon-luca-lauterbach-1778576300048.jpg",
+    "fit": "cover",
+    "pos": "center"
+  }
 };
