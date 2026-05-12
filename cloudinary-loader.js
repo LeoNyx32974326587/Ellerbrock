@@ -227,9 +227,9 @@
   document.querySelectorAll('.team-card[data-gl-desc]').forEach(function(card){
     card.style.cursor='pointer';
     card.addEventListener('click',function(){
-      var nameEl=card.querySelector('.team-card-name');
-      var roleEl=card.querySelector('.team-card-role');
-      var imgEl=card.querySelector('.team-card-img img');
+      var nameEl=card.querySelector('.team-card-name')||card.querySelector('h4');
+      var roleEl=card.querySelector('.team-card-role')||card.querySelector('.team-role');
+      var imgEl=card.querySelector('.team-card-img img')||card.querySelector('.team-avatar img');
       var member={
         name:nameEl?nameEl.textContent:'',
         role:roleEl?roleEl.textContent:'',
