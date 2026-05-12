@@ -115,6 +115,6 @@ window.ELLERBROCK_IMAGES = {
     "fit": "cover",
     "pos": "center",
     "mx": -1,
-    "my": -17
+    "my": 5
   }
 };
