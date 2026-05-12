@@ -202,7 +202,7 @@ window.ELLERBROCK_IMAGES = {
       "name": "Gianluca Kastl",
       "role": "Techniker",
       "dept": "Technik",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778597337/ellerbrock/team-gianluca-kastl-1778597336195.jpg"
     },
     {
       "name": "Muneeb",
@@ -211,10 +211,10 @@ window.ELLERBROCK_IMAGES = {
       "photo": ""
     },
     {
-      "name": "Max",
+      "name": "Max Hamann",
       "role": "Techniker",
       "dept": "Technik",
-      "photo": ""
+      "photo": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778597346/ellerbrock/team-max-hamann-1778597344178.jpg"
     },
     {
       "name": "Frank Gerlinger",
@@ -422,6 +422,16 @@ window.ELLERBROCK_IMAGES = {
   },
   "team-franzi.jpg": {
     "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778587378/ellerbrock/team-franzi-1778587376458.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-gianluca-kastl.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778597337/ellerbrock/team-gianluca-kastl-1778597336195.jpg",
+    "fit": "cover",
+    "pos": "center"
+  },
+  "team-max-hamann.jpg": {
+    "url": "https://res.cloudinary.com/daiiz3u5t/image/upload/v1778597346/ellerbrock/team-max-hamann-1778597344178.jpg",
     "fit": "cover",
     "pos": "center"
   }
