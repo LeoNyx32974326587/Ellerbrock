@@ -150,22 +150,21 @@
     upBtn.addEventListener('click',function(ev){ev.stopPropagation();msg({type:'admin-upload',filename:fn});});
     tb.appendChild(upBtn);
 
-    var moreBtn=document.createElement('button');moreBtn.className='ae-btn';moreBtn.textContent='⋯';
-    moreBtn.addEventListener('click',function(ev){
+    var delBtn=document.createElement('button');delBtn.className='ae-btn';
+    delBtn.textContent='✕';delBtn.style.color='#f87171';delBtn.title='Bild löschen';
+    delBtn.addEventListener('click',function(ev){ev.stopPropagation();msg({type:'admin-delete',filename:fn});});
+    tb.appendChild(delBtn);
+
+    var resetBtn=document.createElement('button');resetBtn.className='ae-btn';
+    resetBtn.textContent='↺';resetBtn.title='Zurücksetzen';
+    resetBtn.addEventListener('click',function(ev){
       ev.stopPropagation();
-      var r=moreBtn.getBoundingClientRect();
-      showCtx(r.left,r.bottom+4,[
-        {label:'Bild löschen',action:function(){msg({type:'admin-delete',filename:fn});}},
-        '---',
-        {label:'Zurücksetzen',action:function(){
-          img.style.width='';img.style.height='';img.style.marginLeft='';img.style.marginTop='';
-          img.style.objectFit='';img.style.objectPosition='';img.style.maxWidth='';img.style.maxHeight='';
-          msg({type:'admin-settings',filename:fn,fit:'cover',pos:'center',w:'',h:'',mx:0,my:0});
-          doSync();
-        }}
-      ]);
+      img.style.width='';img.style.height='';img.style.marginLeft='';img.style.marginTop='';
+      img.style.objectFit='';img.style.objectPosition='';img.style.maxWidth='';img.style.maxHeight='';
+      msg({type:'admin-settings',filename:fn,fit:'cover',pos:'center',w:'',h:'',mx:0,my:0});
+      doSync();
     });
-    tb.appendChild(moreBtn);
+    tb.appendChild(resetBtn);
     wrap.appendChild(tb);
     img.setAttribute('data-ae-fn',fn);
     return wrap;
